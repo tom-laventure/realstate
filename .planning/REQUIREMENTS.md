@@ -98,15 +98,15 @@
 
 ## Traceability
 
-| Requirement | Phase |
-|-------------|-------|
-| SEC-01 through SEC-08 | Phase 1: Security Foundation |
-| PERF-01 through PERF-03 | Phase 1: Security Foundation |
-| DEBT-01 through DEBT-07 | Phase 1: Security Foundation |
-| TEST-01 through TEST-09 | Phase 2: Test Suite |
-| ONB-01 through ONB-03 | Phase 3: Onboarding Fixes |
-| AUTH-01 through AUTH-04 | Phase 4: Google OAuth |
-| CAL-01 through CAL-07 | Phase 5: Calendar Sync |
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| SEC-01 through SEC-08 | Phase 1: Security Foundation | Pending |
+| PERF-01 through PERF-03 | Phase 1: Security Foundation | Pending |
+| DEBT-01 through DEBT-07 | Phase 1: Security Foundation | Pending |
+| TEST-01 through TEST-09 | Phase 2: Test Suite | Pending |
+| ONB-01 through ONB-03 | Phase 3: Onboarding Fixes | Pending |
+| AUTH-01 through AUTH-04 | Phase 4: Google OAuth | Pending |
+| CAL-01 through CAL-07 | Phase 5: Calendar Sync | Pending |
 
 ---
 
