@@ -3,9 +3,9 @@
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
 > Decisions are captured in CONTEXT.md — this log preserves the alternatives considered.
 
-**Date:** 2026-04-30 (updated 2026-05-01)
+**Date:** 2026-04-30 (updated 2026-05-01, updated 2026-04-30)
 **Phase:** 1-security-foundation
-**Areas discussed:** CORS in dev, Rate limit store, 403 interceptor logic, DEBT-04 scope, RBAC pattern (user-initiated follow-up), 429 response body, DomainsController auth level, Admin::BaseController scope, InvitationsController exceptions, Rack::Attack IP key
+**Areas discussed:** CORS in dev, Rate limit store, 403 interceptor logic, DEBT-04 scope, RBAC pattern (user-initiated follow-up), 429 response body, DomainsController auth level, Admin::BaseController scope, InvitationsController exceptions, Rack::Attack IP key, solid_cache setup mechanics, Pagination concern cleanup scope
 
 ---
 
@@ -210,6 +210,34 @@ All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PE
 
 **User's choice:** `req.ip`
 **Notes:** User asked for clarification on the issue. Explained that REMOTE_ADDR behind a proxy is the proxy IP — 5 attempts from anyone trips the throttle for all users. `req.ip` reads X-Forwarded-For to get the real client IP.
+
+---
+
+---
+
+## solid_cache Setup Mechanics (Update Session 2026-04-30)
+
+**Context:** D-07 captured the intent (add gem + configure Rails.cache) but not the setup path. solid_cache requires a migration to create its backing table, same as solid_queue.
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| rails solid_cache:install:migrations | Gem installer generates migration automatically; same pattern as solid_queue | ✓ |
+| Manual migration | Write create_solid_cache_entries by hand | |
+
+**User's choice:** `rails solid_cache:install:migrations` then `rails db:migrate`
+
+---
+
+## Pagination Concern Cleanup Scope (Update Session 2026-04-30)
+
+**Finding:** DEBT-07 requirement says "remove unused paginate lambda." Code audit confirmed that all 5 methods in the Pagination concern (`per_page`, `page_no`, `paginate_offset`, `default_per_page`, `paginate`) are unused — every controller computes per_page inline.
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Lambda only | Remove just the `paginate` lambda as specified | |
+| Entire concern | Remove Pagination concern + include from ApplicationController | ✓ |
+
+**User's choice:** Remove the entire Pagination concern
 
 ---
 

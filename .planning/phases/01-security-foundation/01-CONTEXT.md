@@ -52,9 +52,17 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
   - `skip_before_action :authenticate_cognito_user!, only: [:validate_token]` — `validate_token` is a public endpoint (called by anonymous invitees from an email link); it must remain unauthenticated.
   - `accept_invitation` and `decline_invitation` still require a valid Cognito JWT (they use `Current.user` to create `BrokerageMembership`) — only `require_admin!` is skipped for those two.
 
+### solid_cache Setup Mechanics (SEC-04 / D-07 supplement)
+
+- **D-16:** solid_cache setup path: add `gem "solid_cache"` to Gemfile → run `rails solid_cache:install:migrations` (generates the migration automatically, same pattern as `solid_queue` which produced `20260404180731_create_solid_queue_tables.rb`) → run `rails db:migrate` → configure `config/initializers/solid_cache.rb` to set `Rails.cache` and wire `Rack::Attack.cache.store = Rails.cache`.
+
+### Pagination Concern Cleanup Scope (DEBT-07)
+
+- **D-17:** Remove the **entire** `Pagination` concern (`backend/app/controllers/concerns/pagination.rb`) and its `include Pagination` from `ApplicationController`. All helpers (`per_page`, `page_no`, `paginate_offset`, `default_per_page`, `paginate` lambda) are confirmed unused — every controller computes `per_page` inline via `params[:per_page].to_i`. Full removal is safe and cleaner than removing the lambda alone.
+
 ### Claude's Discretion
 
-- All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PERF-03, DEBT-01, DEBT-02, DEBT-03, DEBT-05, DEBT-06, DEBT-07) are fully specified in REQUIREMENTS.md with no meaningful ambiguity. Claude implements them as documented.
+- All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PERF-03, DEBT-01, DEBT-02, DEBT-03, DEBT-05, DEBT-06) are fully specified in REQUIREMENTS.md with no meaningful ambiguity. Claude implements them as documented.
 
 </decisions>
 
@@ -127,3 +135,4 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 *Phase: 1-Security Foundation*
 *Context gathered: 2026-04-30*
 *Context updated: 2026-05-01 — D-14 added (InvitationsController skip_before_action exceptions); D-15 added (Rack::Attack req.ip throttle key)*
+*Context updated: 2026-04-30 — D-16 added (solid_cache install:migrations setup path); D-17 added (DEBT-07 scope expanded to full Pagination concern removal)*
