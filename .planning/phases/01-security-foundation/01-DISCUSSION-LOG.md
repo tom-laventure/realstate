@@ -301,6 +301,41 @@ All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PE
 
 ---
 
+## BaseController Namespace Correction (Update Session 2026-05-01 #2)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| V1::Admin::BaseController | Matches directory path for Rails autoloading | ✓ |
+| Admin::BaseController | Shorter but mismatches file path | |
+
+**User's choice:** `V1::Admin::BaseController` — D-01 corrected
+
+---
+
+## DEBT-02 Rename Strategy (Update Session 2026-05-01 #2)
+
+**Context:** User develops on macOS (case-insensitive filesystem) — single `git mv usersAminView usersAdminView` silently no-ops.
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Two-step git mv (via temp name) | macOS-safe; works on Linux too | ✓ |
+| Single git mv | Fails silently on macOS | |
+
+**User's choice:** Two-step rename — D-21 added
+
+---
+
+## DEBT-03 Enum Type (Update Session 2026-05-01 #2)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| String enum, no migration | Column already string; add enum declaration only | ✓ |
+| Integer enum with migration | Type change + data migration required | |
+
+**User's choice:** String enum — D-22 added
+
+---
+
 ## Deferred Ideas
 
 - `strata_fees_numeric` migration — excluded from DEBT-04; noted for a future tech debt phase

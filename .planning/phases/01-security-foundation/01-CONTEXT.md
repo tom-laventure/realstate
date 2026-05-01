@@ -15,7 +15,7 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 ### RBAC Enforcement (SEC-01)
 
-- **D-01:** Create `app/controllers/v1/admin/base_controller.rb` as `Admin::BaseController < ApplicationController`. All 13 existing admin controllers inherit from it — 9 top-level (`activity`, `board_credentials`, `boards`, `brokerages`, `domains`, `estates`, `groups`, `invitations`, `users`) and 4 nested under `v1/admin/group/` (`estates`, `filter_sets`, `invitations`, `users`).
+- **D-01:** Create `app/controllers/v1/admin/base_controller.rb` as `V1::Admin::BaseController < ApplicationController` — the class name must match the directory path for Rails autoloading. All 13 existing admin controllers inherit from it — 9 top-level (`activity`, `board_credentials`, `boards`, `brokerages`, `domains`, `estates`, `groups`, `invitations`, `users`) and 4 nested under `v1/admin/group/` (`estates`, `filter_sets`, `invitations`, `users`).
 - **D-02:** `require_admin!` is the default `before_action` on `Admin::BaseController`. Checks that `BrokerageMembership` role is `owner` or `admin`; returns `{ error: { code: "forbidden", message: "..." } }` with HTTP 403 for any other role.
 - **D-03:** `require_owner!` is also defined on `Admin::BaseController` (owner only). Used by stricter endpoints.
 - **D-04:** `BrokeragesController` endpoints (update, destroy) use `require_owner!` — brokerage-wide settings are owner-only. `DomainsController` also uses `require_owner!` for all write actions (create, destroy) — domain configuration is brokerage structural config at the same sensitivity level. All other existing admin controllers use the default `require_admin!` inherited from the base.
@@ -69,9 +69,17 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 - **D-20:** solid_cache uses the **same PostgreSQL database** as the app. No separate database entry in `database.yml` is added. The `rails solid_cache:install:migrations` migration creates cache tables in the main DB schema alongside the existing SolidQueue tables. One connection pool, zero ops overhead.
 
+### Directory Rename Strategy (DEBT-02)
+
+- **D-21:** The `usersAminView` → `usersAdminView` rename uses a two-step `git mv`: first rename to an intermediate temp name (`usersAminViewTemp`), then rename to the final target (`usersAdminView`). Required because macOS filesystems are case-insensitive — a single `git mv usersAminView usersAdminView` silently no-ops and leaves the directory unchanged in the index.
+
+### BrokerageBoardCredential Status Enum (DEBT-03)
+
+- **D-22:** Add `enum :status, { active: "active", invalid: "invalid" }` to `BrokerageBoardCredential`. The column is already a `string` type — no migration needed. Replaces the current string inclusion validation.
+
 ### Claude's Discretion
 
-- All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PERF-03, DEBT-02, DEBT-03, DEBT-05, DEBT-06) are fully specified in REQUIREMENTS.md with no meaningful ambiguity. Claude implements them as documented.
+- All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PERF-03, DEBT-05, DEBT-06) are fully specified in REQUIREMENTS.md with no meaningful ambiguity. Claude implements them as documented.
 
 </decisions>
 
@@ -146,3 +154,4 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 *Context updated: 2026-05-01 — D-14 added (InvitationsController skip_before_action exceptions); D-15 added (Rack::Attack req.ip throttle key)*
 *Context updated: 2026-04-30 — D-16 added (solid_cache install:migrations setup path); D-17 added (DEBT-07 scope expanded to full Pagination concern removal)*
 *Context updated: 2026-05-01 — D-06 updated (two dev seed domains: localhost + gregoryrealtor.realstate.local); D-18 added (ESLint no-console error severity, allow warn+error); D-19 added (test file override for no-console); D-20 added (solid_cache same DB as app)*
+*Context updated: 2026-05-01 — D-01 corrected (V1::Admin::BaseController, not Admin::BaseController); D-21 added (DEBT-02 two-step git mv for macOS); D-22 added (DEBT-03 string enum, no migration)*
