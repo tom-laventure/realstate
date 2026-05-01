@@ -3,9 +3,9 @@
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
 > Decisions are captured in CONTEXT.md — this log preserves the alternatives considered.
 
-**Date:** 2026-04-30
+**Date:** 2026-04-30 (updated 2026-04-30)
 **Phase:** 1-security-foundation
-**Areas discussed:** CORS in dev, Rate limit store, 403 interceptor logic, DEBT-04 scope, RBAC pattern (user-initiated follow-up)
+**Areas discussed:** CORS in dev, Rate limit store, 403 interceptor logic, DEBT-04 scope, RBAC pattern (user-initiated follow-up), 429 response body, DomainsController auth level, Admin::BaseController scope
 
 ---
 
@@ -123,7 +123,51 @@ All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PE
 
 ---
 
+---
+
+## 429 Response Body (Update Session)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| JSON envelope | `{ error: { code: "rate_limited", message: "..." } }` with Content-Type: application/json | ✓ |
+| Plain text default | Rack::Attack default "Throttled" | |
+
+**User's choice:** JSON envelope
+
+**Frontend handling:**
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Inline form error | Sign-in component catches 429 and shows inline message | ✓ |
+| Global toast via interceptor | Axios interceptor handles all 429s | |
+
+**User's choice:** Inline form error — Axios interceptor unchanged
+
+---
+
+## DomainsController Auth Level (Update Session)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Owner-only | require_owner! — same level as BrokeragesController | ✓ |
+| Admin-accessible | require_admin! (default) | |
+
+**User's choice:** Owner-only — domain config is brokerage structural config
+
+---
+
+## Admin::BaseController Scope (Update Session)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| All 13 controllers | Top-level (9) + v1/admin/group/ (4) | ✓ |
+| Top-level only (9) | Skip the 4 group-nested controllers | |
+
+**User's choice:** All 13 — no gaps in enforcement
+
+---
+
 ## Deferred Ideas
 
 - `strata_fees_numeric` migration — excluded from DEBT-04; noted for a future tech debt phase
-- Owner-only guards beyond BrokeragesController — `require_owner!` ready but not applied until those controllers are built
+- Owner-only guards beyond BrokeragesController and DomainsController — `require_owner!` ready but not applied until those controllers are built

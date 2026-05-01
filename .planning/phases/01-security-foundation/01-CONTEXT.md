@@ -15,10 +15,10 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 ### RBAC Enforcement (SEC-01)
 
-- **D-01:** Create `app/controllers/v1/admin/base_controller.rb` as `Admin::BaseController < ApplicationController`. All existing admin controllers inherit from it.
+- **D-01:** Create `app/controllers/v1/admin/base_controller.rb` as `Admin::BaseController < ApplicationController`. All 13 existing admin controllers inherit from it — 9 top-level (`activity`, `board_credentials`, `boards`, `brokerages`, `domains`, `estates`, `groups`, `invitations`, `users`) and 4 nested under `v1/admin/group/` (`estates`, `filter_sets`, `invitations`, `users`).
 - **D-02:** `require_admin!` is the default `before_action` on `Admin::BaseController`. Checks that `BrokerageMembership` role is `owner` or `admin`; returns `{ error: { code: "forbidden", message: "..." } }` with HTTP 403 for any other role.
 - **D-03:** `require_owner!` is also defined on `Admin::BaseController` (owner only). Used by stricter endpoints.
-- **D-04:** `BrokeragesController` endpoints (update, destroy) use `require_owner!` — brokerage-wide settings are owner-only. All other existing admin controllers use the default `require_admin!` inherited from the base.
+- **D-04:** `BrokeragesController` endpoints (update, destroy) use `require_owner!` — brokerage-wide settings are owner-only. `DomainsController` also uses `require_owner!` for all write actions (create, destroy) — domain configuration is brokerage structural config at the same sensitivity level. All other existing admin controllers use the default `require_admin!` inherited from the base.
 
 ### CORS Dynamic Proc (SEC-03)
 
@@ -38,6 +38,11 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 ### DEBT-04 Scope
 
 - **D-11:** DEBT-04 is price-only: switch `GroupEstatesQuery` price range filtering and sorting to use `listing_details.price_numeric` (column already exists). No `strata_fees_numeric` migration in this phase — strata fees remain as-is.
+
+### Rate Limiting Response (SEC-04)
+
+- **D-12:** Rack::Attack returns a JSON body on 429: `{ error: { code: "rate_limited", message: "Too many login attempts. Try again later." } }` with `Content-Type: application/json`. Configured via `Rack::Attack.throttled_responder`.
+- **D-13:** The sign-in component catches the 429 error and displays it as an inline form error ("Too many attempts, try again shortly."). The Axios interceptor does NOT add a 429 branch — the error bubbles up to the component.
 
 ### Claude's Discretion
 
@@ -112,3 +117,4 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 *Phase: 1-Security Foundation*
 *Context gathered: 2026-04-30*
+*Context updated: 2026-04-30 — D-01 expanded to all 13 controllers; D-04 extended to DomainsController; D-12/D-13 added for 429 response format*
