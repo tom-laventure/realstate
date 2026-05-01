@@ -3,9 +3,9 @@
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
 > Decisions are captured in CONTEXT.md — this log preserves the alternatives considered.
 
-**Date:** 2026-04-30 (updated 2026-04-30)
+**Date:** 2026-04-30 (updated 2026-05-01)
 **Phase:** 1-security-foundation
-**Areas discussed:** CORS in dev, Rate limit store, 403 interceptor logic, DEBT-04 scope, RBAC pattern (user-initiated follow-up), 429 response body, DomainsController auth level, Admin::BaseController scope
+**Areas discussed:** CORS in dev, Rate limit store, 403 interceptor logic, DEBT-04 scope, RBAC pattern (user-initiated follow-up), 429 response body, DomainsController auth level, Admin::BaseController scope, InvitationsController exceptions, Rack::Attack IP key
 
 ---
 
@@ -164,6 +164,52 @@ All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PE
 | Top-level only (9) | Skip the 4 group-nested controllers | |
 
 **User's choice:** All 13 — no gaps in enforcement
+
+---
+
+---
+
+## InvitationsController Exceptions (Update Session 2026-05-01)
+
+**Finding:** `accept_invitation`, `decline_invitation`, and `validate_token` are called by invitees before they have a brokerage membership. If `Admin::BaseController` applies `require_admin!` to all actions, these three would receive 403 — breaking invitation acceptance entirely.
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Skip all 3 (accept, decline, validate_token) | validate_token is public; accept+decline are pre-membership | ✓ |
+| Skip only accept + decline | validate_token would gain require_admin! accidentally — breaks anonymous invitees | |
+| Move to a separate controller | Extract to V1::InviteeActionsController; cleaner but more refactoring | |
+
+**User's choice:** Skip all 3 with `skip_before_action :require_admin!, only: [...]`
+
+**validate_token authentication:**
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Keep public (no Cognito auth) | validate_token is called by anonymous invitees from email link | ✓ |
+| Require Cognito JWT | Would break anonymous invitee flow | |
+
+**User's choice:** validate_token skips both `require_admin!` and `authenticate_cognito_user!`
+
+**accept_invitation / decline_invitation Cognito auth:**
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Still require JWT | Actions use Current.user to create BrokerageMembership | ✓ |
+| Make fully public | Would allow unauthenticated membership creation — security hole | |
+
+**User's choice:** Yes, still require Cognito JWT — only `require_admin!` skipped
+
+---
+
+## Rack::Attack IP Key (Update Session 2026-05-01)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| req.ip (proxy-aware) | Reads X-Forwarded-For; correct when behind Nginx/load balancer | ✓ |
+| req.env["REMOTE_ADDR"] | Raw socket IP; if behind proxy, all users share same counter | |
+
+**User's choice:** `req.ip`
+**Notes:** User asked for clarification on the issue. Explained that REMOTE_ADDR behind a proxy is the proxy IP — 5 attempts from anyone trips the throttle for all users. `req.ip` reads X-Forwarded-For to get the real client IP.
 
 ---
 

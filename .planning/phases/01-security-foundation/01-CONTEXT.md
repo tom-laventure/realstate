@@ -29,6 +29,7 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 - **D-07:** Add `rack-attack` and `solid_cache` gems. Configure `solid_cache` as `Rails.cache`; set `Rack::Attack.cache.store = Rails.cache` for shared cross-Puma-worker counting backed by PostgreSQL.
 - **D-08:** Throttle: 5 requests per 20 seconds on `POST /v1/sessions`, keyed by IP. Exceeding the limit returns 429.
+- **D-15:** Throttle key uses `req.ip` (proxy-aware — reads `X-Forwarded-For`), NOT `req.env["REMOTE_ADDR"]`. Behind Nginx or a load balancer, `REMOTE_ADDR` is the proxy IP; all users share one counter and 5 total attempts locks everyone out.
 
 ### Frontend 403 Handling (SEC-08)
 
@@ -43,6 +44,13 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 - **D-12:** Rack::Attack returns a JSON body on 429: `{ error: { code: "rate_limited", message: "Too many login attempts. Try again later." } }` with `Content-Type: application/json`. Configured via `Rack::Attack.throttled_responder`.
 - **D-13:** The sign-in component catches the 429 error and displays it as an inline form error ("Too many attempts, try again shortly."). The Axios interceptor does NOT add a 429 branch — the error bubbles up to the component.
+
+### InvitationsController Action Exceptions (SEC-01 / SEC-06)
+
+- **D-14:** `InvitationsController` adds two `skip_before_action` declarations after inheriting `Admin::BaseController`:
+  - `skip_before_action :require_admin!, only: [:accept_invitation, :decline_invitation, :validate_token]` — these three actions are called by invitees who have no brokerage membership yet; `require_admin!` would block them with 403.
+  - `skip_before_action :authenticate_cognito_user!, only: [:validate_token]` — `validate_token` is a public endpoint (called by anonymous invitees from an email link); it must remain unauthenticated.
+  - `accept_invitation` and `decline_invitation` still require a valid Cognito JWT (they use `Current.user` to create `BrokerageMembership`) — only `require_admin!` is skipped for those two.
 
 ### Claude's Discretion
 
@@ -70,6 +78,7 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 - `backend/app/queries/group_estates_query.rb` — DEBT-04 target: lines 119–150 use `CAST(price AS REAL)`
 - `frontend/src/assets/axios/axios.ts` — Axios interceptor for SEC-08 (403 handling)
 - `frontend/src/components/common/form/signIn/signIn.tsx` — SEC-02 target (hardcoded credentials at lines 49, 68)
+- `backend/app/controllers/v1/admin/invitations_controller.rb` — D-14: add skip_before_action for accept_invitation, decline_invitation, validate_token
 
 </canonical_refs>
 
@@ -117,4 +126,4 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 *Phase: 1-Security Foundation*
 *Context gathered: 2026-04-30*
-*Context updated: 2026-04-30 — D-01 expanded to all 13 controllers; D-04 extended to DomainsController; D-12/D-13 added for 429 response format*
+*Context updated: 2026-05-01 — D-14 added (InvitationsController skip_before_action exceptions); D-15 added (Rack::Attack req.ip throttle key)*
