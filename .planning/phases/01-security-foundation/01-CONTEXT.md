@@ -23,7 +23,7 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 ### CORS Dynamic Proc (SEC-03)
 
 - **D-05:** The `origins` proc extracts the host from the `Origin` header (strips scheme and port) and checks it against `BrokerageDomain.exists?(host: extracted_host)`.
-- **D-06:** A `BrokerageDomain` seed record with `host: 'localhost'` is added to `db/seeds/` so the proc works in dev without bypassing validation. The proc is uniform across all environments — no dev-only bypass logic.
+- **D-06:** Two `BrokerageDomain` seed records are added to `db/seeds/` on the existing seeded test brokerage: `host: 'localhost'` AND `host: 'gregoryrealtor.realstate.local'`. After `db:seed`, both dev origins pass the CORS proc without manual intervention. The proc is uniform across all environments — no dev-only bypass logic.
 
 ### Rate Limiting (SEC-04)
 
@@ -60,9 +60,18 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 - **D-17:** Remove the **entire** `Pagination` concern (`backend/app/controllers/concerns/pagination.rb`) and its `include Pagination` from `ApplicationController`. All helpers (`per_page`, `page_no`, `paginate_offset`, `default_per_page`, `paginate` lambda) are confirmed unused — every controller computes `per_page` inline via `params[:per_page].to_i`. Full removal is safe and cleaner than removing the lambda alone.
 
+### ESLint no-console Rule (DEBT-01)
+
+- **D-18:** ESLint `no-console` rule set to `"error"` with `{ allow: ["warn", "error"] }` — blocks `console.log` (the debug noise), allows deliberate `console.warn` and `console.error`. CI fails on any `console.log` in production source files.
+- **D-19:** ESLint config adds an override for `**/*.test.*` and `**/*.spec.*` patterns that disables the `no-console` rule — console output is useful when debugging failing tests and should not break CI.
+
+### solid_cache Database Isolation (D-07 supplement)
+
+- **D-20:** solid_cache uses the **same PostgreSQL database** as the app. No separate database entry in `database.yml` is added. The `rails solid_cache:install:migrations` migration creates cache tables in the main DB schema alongside the existing SolidQueue tables. One connection pool, zero ops overhead.
+
 ### Claude's Discretion
 
-- All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PERF-03, DEBT-01, DEBT-02, DEBT-03, DEBT-05, DEBT-06) are fully specified in REQUIREMENTS.md with no meaningful ambiguity. Claude implements them as documented.
+- All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PERF-03, DEBT-02, DEBT-03, DEBT-05, DEBT-06) are fully specified in REQUIREMENTS.md with no meaningful ambiguity. Claude implements them as documented.
 
 </decisions>
 
@@ -136,3 +145,4 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 *Context gathered: 2026-04-30*
 *Context updated: 2026-05-01 — D-14 added (InvitationsController skip_before_action exceptions); D-15 added (Rack::Attack req.ip throttle key)*
 *Context updated: 2026-04-30 — D-16 added (solid_cache install:migrations setup path); D-17 added (DEBT-07 scope expanded to full Pagination concern removal)*
+*Context updated: 2026-05-01 — D-06 updated (two dev seed domains: localhost + gregoryrealtor.realstate.local); D-18 added (ESLint no-console error severity, allow warn+error); D-19 added (test file override for no-console); D-20 added (solid_cache same DB as app)*

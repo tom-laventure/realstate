@@ -241,6 +241,66 @@ All remaining requirements (SEC-02, SEC-05, SEC-06, SEC-07, PERF-01, PERF-02, PE
 
 ---
 
+## ESLint no-console Rule (Update Session 2026-05-01)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| error (CI-breaking) | Fails CI on any console.log in production source | ✓ |
+| warn (non-blocking) | Flags but doesn't fail CI | |
+
+**User's choice:** `"error"` severity
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Block only console.log | `{ allow: ["warn", "error"] }` | ✓ |
+| Block all console methods | No allow list | |
+
+**User's choice:** `{ allow: ["warn", "error"] }` — debug noise blocked, deliberate error reporting allowed
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Exclude test files | Override for *.test.* / *.spec.* | ✓ |
+| Apply everywhere | Strictest consistency | |
+
+**User's choice:** Exclude test files via ESLint override
+
+---
+
+## solid_cache Database Isolation (Update Session 2026-05-01)
+
+**Context:** solid_cache in Phase 1 is only used for Rack::Attack shared counters across Puma workers.
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Same DB as app | Tables in main schema; no extra database.yml | ✓ |
+| Separate cache database | Isolated; more config; can wipe independently | |
+
+**User's choice:** Same PostgreSQL database — consistent with SolidQueue; no ops overhead
+
+---
+
+## CORS Origin in Dev — gregoryrealtor.realstate.local (Update Session 2026-05-01)
+
+**Finding:** User has a hosts file redirect pointing `gregoryrealtor.realstate.local` to 127.0.0.1 for local brokerage management testing. Browser sends `Origin: http://gregoryrealtor.realstate.local:3000`. After port stripping the proc checks `BrokerageDomain.exists?(host: 'gregoryrealtor.realstate.local')`.
+
+**Problem:** After `db:reset + db:seed`, this domain record doesn't exist — user recreates it manually. Phase 1 CORS proc would make this worse (currently wildcard passes everything).
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Add to dev seeds | Seed creates BrokerageDomain on existing test brokerage | ✓ |
+| Keep recreating manually | No seed change; user runs wizard or inserts manually | |
+
+**User's choice:** Add to dev seeds (D-06 updated)
+
+| Option | Description | Selected |
+|--------|-------------|----------|
+| Domain on existing seeded brokerage | One extra seed row; simplest | ✓ |
+| Dedicated 'Gregory Realtor' brokerage | More realistic isolation | |
+
+**User's choice:** Domain on existing seeded test brokerage
+
+---
+
 ## Deferred Ideas
 
 - `strata_fees_numeric` migration — excluded from DEBT-04; noted for a future tech debt phase
