@@ -44,7 +44,7 @@
 
 ### Test Suite
 
-- [ ] **TEST-01**: Backend test infrastructure: `factory_bot_rails` + `shoulda-matchers` installed; `AuthHelper` module mints JWTs via `TokenService.issue(user)`; `Current.reset` teardown in `ActiveSupport::TestCase` prevents `CurrentAttributes` leakage between tests
+- [x] **TEST-01**: Backend test infrastructure: `factory_bot_rails` + `shoulda-matchers` installed; `AuthHelper` module mints JWTs via `TokenService.issue(user)`; `Current.reset` teardown in `ActiveSupport::TestCase` prevents `CurrentAttributes` leakage between tests
 - [ ] **TEST-02**: Integration test confirms a user from Brokerage A cannot access Brokerage B data — requests with Brokerage B `Host` header and Brokerage A JWT return 403 or 404
 - [ ] **TEST-03**: Integration test confirms agent/client roles receive 403 on all `/v1/admin/**` endpoints; owner/admin roles receive 200
 - [ ] **TEST-04**: Integration test confirms `FilterSetsController#create` correctly moves estates and destroys previous filter set estates scoped to the correct group

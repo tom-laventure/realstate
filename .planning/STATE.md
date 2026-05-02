@@ -9,8 +9,8 @@ progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 13
-  completed_plans: 7
-  percent: 20
+  completed_plans: 8
+  percent: 22
 ---
 
 # Project State
@@ -24,12 +24,12 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 2 of 5 (Test Suite) — PLANNED, ready to execute
-Plan: 0 of 6 complete
-Status: Ready to execute — 6 plans in 2 waves
-Last activity: 2026-05-02 — Phase 2 planned. 9/9 requirements covered (TEST-01 through TEST-09). All plans verified.
+Phase: 2 of 5 (Test Suite) — IN PROGRESS
+Plan: 1 of 6 complete
+Status: Executing — Plan 02-01 complete, 5 plans remaining
+Last activity: 2026-05-02 — Phase 2 Plan 01 complete. Backend test infrastructure: factory_bot_rails 6.5, shoulda-matchers 7.0, test_helper.rb with AuthHelper, 10 factory files.
 
-Progress: [██░░░░░░░░] 20% (1/5 phases)
+Progress: [██░░░░░░░░] 22% (1/5 phases, 8/13 plans)
 
 ## Performance Metrics
 
@@ -81,6 +81,8 @@ Recent decisions affecting current work:
 - 01-06: D-21: router.navigate('/') used instead of window.location.href for generic 403 redirect — preserves React tree so toast renders
 - 01-06: D-22: Generic 403 branch comes AFTER no-access 403 branch — no-access redirect takes priority when next_step field is present
 - 01-06: D-23: No clearToken() call on generic 403 — authorization failure does not invalidate identity; user stays logged in
+- 02-01: Factory traits use do..end blocks — Ruby 4.0 raises SyntaxError on inline brace syntax after bare method call (trait :owner { role { 'owner' } } is ambiguous)
+- 02-01: AuthHelper resets Current in ensure block — guards against JWT-minting side effects leaking into assertion phase
 
 ### Pending Todos
 
@@ -102,6 +104,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-02T01:35:42Z
-Stopped at: Completed 01-06-PLAN.md
+Last session: 2026-05-02T23:36:12Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None
