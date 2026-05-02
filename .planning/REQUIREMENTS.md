@@ -56,8 +56,8 @@
 
 ### Performance
 
-- [ ] **PERF-01**: `EstateLike` N+1 eliminated — both estates index actions (dashboard + admin) bulk-compute `liked_ge_ids = EstateLike.where(user_id:, group_estate_id:).pluck(:group_estate_id).to_set` and pass it as `instance_options`
-- [ ] **PERF-02**: `EstateEventSerializer` N+1 eliminated — event query scope includes `.includes(rsvps: :user)` before serialization
+- [x] **PERF-01**: `EstateLike` N+1 eliminated — both estates index actions (dashboard + admin) bulk-compute `liked_ge_ids = EstateLike.where(user_id:, group_estate_id:).pluck(:group_estate_id).to_set` and pass it as `instance_options`
+- [x] **PERF-02**: `EstateEventSerializer` N+1 eliminated — event query scope includes `.includes(rsvps: :user)` before serialization
 - [x] **PERF-03**: All 6 uncapped controllers enforce `per_page = [per_page.to_i, 100].min` before passing to Pagy
 
 ### Tech Debt
@@ -65,7 +65,7 @@
 - [ ] **DEBT-01**: All `console.log` statements removed from production source files; ESLint `no-console` rule added to prevent regression
 - [ ] **DEBT-02**: `frontend/src/components/view/admin/usersAminView/` renamed to `usersAdminView`; all imports updated
 - [x] **DEBT-03**: `BrokerageBoardCredential` has an `enum :status, { active: "active", invalid: "invalid" }` declaration (replaces string inclusion validation)
-- [ ] **DEBT-04**: `GroupEstatesQuery` price range filtering and sorting uses `listing_details.price_numeric` decimal column (eliminates `CAST(... AS REAL)` workaround)
+- [x] **DEBT-04**: `GroupEstatesQuery` price range filtering and sorting uses `listing_details.price_numeric` decimal column (eliminates `CAST(... AS REAL)` workaround)
 - [ ] **DEBT-05**: Dead `FilterByPopup` component deleted (imports non-existent `framer-motion`)
 - [x] **DEBT-06**: Brokerage domain resolution log in `BrokerageAuth` lowered from `info` to `debug`
 - [x] **DEBT-07**: Unused `paginate` lambda removed from `Pagination` concern
@@ -101,7 +101,7 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | SEC-01 through SEC-08 | Phase 1: Security Foundation | Pending |
-| PERF-01 through PERF-03 | Phase 1: Security Foundation | Pending |
+| PERF-01 through PERF-03 | Phase 1: Security Foundation | Complete |
 | DEBT-01 through DEBT-07 | Phase 1: Security Foundation | Pending |
 | TEST-01 through TEST-09 | Phase 2: Test Suite | Pending |
 | ONB-01 through ONB-03 | Phase 3: Onboarding Fixes | Pending |

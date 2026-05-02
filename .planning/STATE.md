@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-05-02T01:28:46.823Z"
-last_activity: 2026-05-02
+stopped_at: Completed 01-05-PLAN.md
+last_updated: "2026-05-01T00:10:00Z"
+last_activity: 2026-05-01
 progress:
   total_phases: 5
   completed_phases: 0
@@ -26,19 +26,19 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 1 of 5 (Security Foundation)
-Plan: 4 of 7 in current phase
+Plan: 5 of 7 in current phase
 Status: Ready to execute
-Last activity: 2026-05-02
+Last activity: 2026-05-01
 
-Progress: [██████░░░░] 57%
+Progress: [███████░░░] 71%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 2
-- Average duration: 2.5 min
-- Total execution time: 5 min
+- Total plans completed: 5
+- Average duration: 6 min
+- Total execution time: 30 min
 
 **By Phase:**
 
@@ -76,6 +76,9 @@ Recent decisions affecting current work:
 - [Phase ?]: D-15: Rails 7.1 enum positional API uses prefix: (no underscore), not _prefix:
 - [Phase ?]: D-16: BrokerageBoardCredential enum uses prefix: :credential to namespace predicates (credential_active?, credential_invalid?) — avoids conflict with AR built-in invalid?
 - [Phase ?]: D-17: Pagination concern deleted — ApplicationController is now empty; all pagination via Pagy::Backend in BaseController
+- 01-05: D-18: liked_ge_ids bulk-computed via EstateLike.where(user_id:, group_estate_id:).pluck.to_set — matches rejected_ge_ids pattern; passed in instance_options to serializer
+- 01-05: D-19: price sort uses price_numeric NULLS LAST only — secondary list_price fallback removed; price_numeric is the canonical decimal field
+- 01-05: D-20: filter_by_price_per_sqft CAST(price AS REAL) left unchanged — that is a computed ratio (price/sqft) not covered by DEBT-04 scope
 
 ### Pending Todos
 
@@ -97,6 +100,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-02T01:28:46.811Z
-Stopped at: Completed 01-03-PLAN.md
+Last session: 2026-05-01T00:10:00Z
+Stopped at: Completed 01-05-PLAN.md
 Resume file: None

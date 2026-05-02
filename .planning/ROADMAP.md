@@ -37,7 +37,7 @@ Plans:
 - [x] 01-02-PLAN.md — Create V1::Admin::BaseController, update all 13 admin controllers to inherit it
 - [x] 01-03-PLAN.md — Replace CORS wildcard with BrokerageDomain proc, create rack_attack.rb initializer, add dev seeds
 - [x] 01-04-PLAN.md — Fix SEC-05/06/07 bugs, add DEBT-03 enum, lower DEBT-06 log level, remove DEBT-07 Pagination concern
-- [ ] 01-05-PLAN.md — Fix PERF-01 EstateLike N+1, verify PERF-02, cap per_page on 7 controllers (PERF-03), migrate DEBT-04 price_numeric
+- [x] 01-05-PLAN.md — Fix PERF-01 EstateLike N+1, verify PERF-02, cap per_page on 7 controllers (PERF-03), migrate DEBT-04 price_numeric
 - [ ] 01-06-PLAN.md — Remove SEC-02 hardcoded credentials, add SEC-08 Axios 403 handler with toast
 - [ ] 01-07-PLAN.md — Remove DEBT-01 console.logs + ESLint rule, rename DEBT-02 usersAminView, delete DEBT-05 FilterByPopup
 
@@ -91,7 +91,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Foundation | 4/7 | In Progress|  |
+| 1. Security Foundation | 5/7 | In Progress|  |
 | 2. Test Suite | 0/TBD | Not started | - |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
