@@ -54,7 +54,7 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Install factory_bot_rails + shoulda-matchers, create test_helper.rb with AuthHelper + Current.reset, build 10 factory files
-- [ ] 02-02-PLAN.md — Tenant isolation test (TEST-02) + admin authorization tests for all 4 roles (TEST-03)
+- [x] 02-02-PLAN.md — Tenant isolation test (TEST-02) + admin authorization tests for all 4 roles (TEST-03)
 - [ ] 02-03-PLAN.md — Add rating sort to GroupEstatesQuery, FilterSets cross-group safety test (TEST-04), price+rating query tests (TEST-05)
 - [ ] 02-04-PLAN.md — InvitationsController accept_token + validate_token integration tests (TEST-06)
 - [x] 02-05-PLAN.md — Install Vitest + MSW + testing-library, create vitest.config.ts + renderWithProviders + MSW server setup (TEST-07)
@@ -100,7 +100,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
-| 2. Test Suite | 5/6 | In progress | - |
+| 2. Test Suite | 3/6 | In Progress|  |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |
