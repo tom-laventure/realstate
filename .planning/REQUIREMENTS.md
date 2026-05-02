@@ -14,9 +14,9 @@
 - [ ] **SEC-02**: User can sign in without test credentials pre-filled — remove `defaultValue` email and password from sign-in component
 - [ ] **SEC-03**: CORS origin check uses a dynamic proc that validates `request.host` against `BrokerageDomain` records — supports unlimited dynamic subdomains and custom domains without a hardcoded allowlist
 - [ ] **SEC-04**: `POST /v1/sessions` is rate-limited via `rack-attack` with a shared-store-aware counter (PostgreSQL-backed or Redis) to prevent brute-force across Puma workers
-- [ ] **SEC-05**: Dead `Group#order_estates`, `estates_ordered_by_avg_rating`, `estates_ordered_by_user_rating`, `estates_ordered_by_created_at` methods are removed (eliminate SQL injection risk from unparameterized string interpolation)
-- [ ] **SEC-06**: `InvitationsController` no longer crashes on create or accept — `current_user` calls replaced with `Current.user` throughout
-- [ ] **SEC-07**: `FilterSetsController#create` estate cleanup is group-scoped: `GroupEstate.where(group: @group, group_filter_set_id: previous_active_id)` prevents cross-group deletion
+- [x] **SEC-05**: Dead `Group#order_estates`, `estates_ordered_by_avg_rating`, `estates_ordered_by_user_rating`, `estates_ordered_by_created_at` methods are removed (eliminate SQL injection risk from unparameterized string interpolation)
+- [x] **SEC-06**: `InvitationsController` no longer crashes on create or accept — `current_user` calls replaced with `Current.user` throughout
+- [x] **SEC-07**: `FilterSetsController#create` estate cleanup is group-scoped: `GroupEstate.where(group: @group, group_filter_set_id: previous_active_id)` prevents cross-group deletion
 - [ ] **SEC-08**: Axios interceptor handles 403 responses by redirecting to the dashboard and showing an access-denied toast — it does not log out the user (401 continues to logout as before)
 
 ### Google OAuth (Social Login)
@@ -58,17 +58,17 @@
 
 - [ ] **PERF-01**: `EstateLike` N+1 eliminated — both estates index actions (dashboard + admin) bulk-compute `liked_ge_ids = EstateLike.where(user_id:, group_estate_id:).pluck(:group_estate_id).to_set` and pass it as `instance_options`
 - [ ] **PERF-02**: `EstateEventSerializer` N+1 eliminated — event query scope includes `.includes(rsvps: :user)` before serialization
-- [ ] **PERF-03**: All 6 uncapped controllers enforce `per_page = [per_page.to_i, 100].min` before passing to Pagy
+- [x] **PERF-03**: All 6 uncapped controllers enforce `per_page = [per_page.to_i, 100].min` before passing to Pagy
 
 ### Tech Debt
 
 - [ ] **DEBT-01**: All `console.log` statements removed from production source files; ESLint `no-console` rule added to prevent regression
 - [ ] **DEBT-02**: `frontend/src/components/view/admin/usersAminView/` renamed to `usersAdminView`; all imports updated
-- [ ] **DEBT-03**: `BrokerageBoardCredential` has an `enum :status, { active: "active", invalid: "invalid" }` declaration (replaces string inclusion validation)
+- [x] **DEBT-03**: `BrokerageBoardCredential` has an `enum :status, { active: "active", invalid: "invalid" }` declaration (replaces string inclusion validation)
 - [ ] **DEBT-04**: `GroupEstatesQuery` price range filtering and sorting uses `listing_details.price_numeric` decimal column (eliminates `CAST(... AS REAL)` workaround)
 - [ ] **DEBT-05**: Dead `FilterByPopup` component deleted (imports non-existent `framer-motion`)
-- [ ] **DEBT-06**: Brokerage domain resolution log in `BrokerageAuth` lowered from `info` to `debug`
-- [ ] **DEBT-07**: Unused `paginate` lambda removed from `Pagination` concern
+- [x] **DEBT-06**: Brokerage domain resolution log in `BrokerageAuth` lowered from `info` to `debug`
+- [x] **DEBT-07**: Unused `paginate` lambda removed from `Pagination` concern
 
 ---
 

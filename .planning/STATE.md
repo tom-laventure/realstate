@@ -2,15 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-last_updated: "2026-05-01T00:00:00.000Z"
-last_activity: 2026-05-01 — Phase 1 execution started (Wave 1: rack-attack + solid_cache setup)
+status: executing
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-05-02T01:28:46.823Z"
+last_activity: 2026-05-02
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 7
-  completed_plans: 0
-  percent: 0
+  completed_plans: 4
+  percent: 57
 ---
 
 # Project State
@@ -25,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 1 of 5 (Security Foundation)
-Plan: 3 of 7 in current phase
-Status: In progress — Plan 01-03 complete, Wave 2 continues with 01-04
-Last activity: 2026-05-02 — Plan 01-03 complete (CORS wildcard removed, rack_attack.rb created, dev domain seeds added)
+Plan: 4 of 7 in current phase
+Status: Ready to execute
+Last activity: 2026-05-02
 
-Progress: [███░░░░░░░] 43% (3/7 plans in Phase 1)
+Progress: [██████░░░░] 57%
 
 ## Performance Metrics
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - 01-03: CORS proc uses BrokerageDomain.exists?(domain:) — column is domain not host (D-05)
 - 01-03: rack-attack throttle uses req.ip (X-Forwarded-For aware) not req.env["REMOTE_ADDR"] (D-15)
 - 01-03: Dev domain seeds use insert_all with unique_by: :domain for idempotency (D-06)
+- [Phase ?]: D-15: Rails 7.1 enum positional API uses prefix: (no underscore), not _prefix:
+- [Phase ?]: D-16: BrokerageBoardCredential enum uses prefix: :credential to namespace predicates (credential_active?, credential_invalid?) — avoids conflict with AR built-in invalid?
+- [Phase ?]: D-17: Pagination concern deleted — ApplicationController is now empty; all pagination via Pagy::Backend in BaseController
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-02T01:21:27Z
+Last session: 2026-05-02T01:28:46.811Z
 Stopped at: Completed 01-03-PLAN.md
 Resume file: None
