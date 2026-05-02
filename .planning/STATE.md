@@ -9,8 +9,8 @@ progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 13
-  completed_plans: 8
-  percent: 22
+  completed_plans: 9
+  percent: 25
 ---
 
 # Project State
@@ -25,9 +25,9 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 2 of 5 (Test Suite) — IN PROGRESS
-Plan: 1 of 6 complete
-Status: Executing — Plan 02-01 complete, 5 plans remaining
-Last activity: 2026-05-02 — Phase 2 Plan 01 complete. Backend test infrastructure: factory_bot_rails 6.5, shoulda-matchers 7.0, test_helper.rb with AuthHelper, 10 factory files.
+Plan: 5 of 6 complete
+Status: Executing — Plan 02-05 complete, 1 plan remaining
+Last activity: 2026-05-02 — Phase 2 Plan 05 complete. Frontend test infrastructure: Vitest 4.1.5 + MSW 2.x + jsdom, vitest.config.ts, renderWithProviders helper, MSW server lifecycle.
 
 Progress: [██░░░░░░░░] 22% (1/5 phases, 8/13 plans)
 
@@ -83,6 +83,9 @@ Recent decisions affecting current work:
 - 01-06: D-23: No clearToken() call on generic 403 — authorization failure does not invalidate identity; user stays logged in
 - 02-01: Factory traits use do..end blocks — Ruby 4.0 raises SyntaxError on inline brace syntax after bare method call (trait :owner { role { 'owner' } } is ambiguous)
 - 02-01: AuthHelper resets Current in ensure block — guards against JWT-minting side effects leaking into assertion phase
+- 02-05: "type": "module" added to frontend/package.json — required for Vitest 4.x ESM compatibility (std-env is ESM-only; omitting it causes ERR_REQUIRE_ESM on startup)
+- 02-05: passWithNoTests: true in vitest.config.ts — Vitest 4.x exits 1 on empty suite; plan requires exit 0 before any test files exist
+- 02-05: MSW onUnhandledRequest: 'warn' chosen over 'error' during initial infrastructure setup; switch to 'error' once all test requests are handled
 
 ### Pending Todos
 
@@ -104,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-02T23:36:12Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-05-02T23:42:00Z
+Stopped at: Completed 02-05-PLAN.md
 Resume file: None

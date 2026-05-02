@@ -57,7 +57,7 @@ Plans:
 - [ ] 02-02-PLAN.md — Tenant isolation test (TEST-02) + admin authorization tests for all 4 roles (TEST-03)
 - [ ] 02-03-PLAN.md — Add rating sort to GroupEstatesQuery, FilterSets cross-group safety test (TEST-04), price+rating query tests (TEST-05)
 - [ ] 02-04-PLAN.md — InvitationsController accept_token + validate_token integration tests (TEST-06)
-- [ ] 02-05-PLAN.md — Install Vitest + MSW + testing-library, create vitest.config.ts + renderWithProviders + MSW server setup (TEST-07)
+- [x] 02-05-PLAN.md — Install Vitest + MSW + testing-library, create vitest.config.ts + renderWithProviders + MSW server setup (TEST-07)
 - [ ] 02-06-PLAN.md — GoogleSignInButton component (minimal skeleton) + ProtectedRoute/RequireRole/GoogleSignInButton tests (TEST-08, TEST-09)
 
 ### Phase 3: Onboarding Fixes
@@ -100,7 +100,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
-| 2. Test Suite | 1/6 | In progress | - |
+| 2. Test Suite | 5/6 | In progress | - |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |

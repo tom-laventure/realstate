@@ -50,7 +50,7 @@
 - [ ] **TEST-04**: Integration test confirms `FilterSetsController#create` correctly moves estates and destroys previous filter set estates scoped to the correct group
 - [ ] **TEST-05**: Integration tests confirm `GroupEstatesQuery` price range filtering, sort by price, and sort by rating return correct record sets
 - [ ] **TEST-06**: Integration test confirms `InvitationsController#create` and `#accept_invitation` succeed without crashing (covers the `Current.user` fix)
-- [ ] **TEST-07**: Frontend test infrastructure: Vitest + jsdom + MSW installed; `renderWithProviders` helper wraps components in a fresh `QueryClientProvider` per test; MSW server configured with `beforeAll`/`afterEach`/`afterAll` lifecycle
+- [x] **TEST-07**: Frontend test infrastructure: Vitest + jsdom + MSW installed; `renderWithProviders` helper wraps components in a fresh `QueryClientProvider` per test; MSW server configured with `beforeAll`/`afterEach`/`afterAll` lifecycle
 - [ ] **TEST-08**: Frontend tests confirm `ProtectedRoute` redirects unauthenticated users to login; `RequireRole` hides restricted UI from non-matching roles
 - [ ] **TEST-09**: Frontend tests confirm the Google OAuth login flow: "Sign in with Google" click calls `signInWithRedirect`; Hub `signInWithRedirect` event triggers session exchange with mocked `fetchAuthSession`
 
