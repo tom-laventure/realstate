@@ -2,14 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-05-01T07:29:31.947Z"
-last_activity: 2026-04-30 — Roadmap created; all 41 v1 requirements mapped across 5 phases
+status: in_progress
+last_updated: "2026-05-01T00:00:00.000Z"
+last_activity: 2026-05-01 — Phase 1 execution started (Wave 1: rack-attack + solid_cache setup)
 progress:
   total_phases: 5
   completed_phases: 0
-  total_plans: 0
+  total_plans: 7
   completed_plans: 0
   percent: 0
 ---
@@ -26,19 +25,19 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 1 of 5 (Security Foundation)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-04-30 — Roadmap created; all 41 v1 requirements mapped across 5 phases
+Plan: 1 of 7 in current phase
+Status: In progress — Plan 01-01 complete, Wave 1 ready for 01-02
+Last activity: 2026-05-02 — Plan 01-01 complete (rack-attack + solid_cache installed, Rails.cache = SolidCache)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 14% (1/7 plans in Phase 1)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 3 min
+- Total execution time: 3 min
 
 **By Phase:**
 
@@ -63,6 +62,9 @@ Recent decisions affecting current work:
 - Roadmap: Google OAuth ships atomically — PreSignUp Lambda and "Sign in with Google" button must land in the same phase; never button without Lambda
 - Roadmap: Fixed intermediary callback URL strategy required for Phase 4 — multi-tenant subdomain conflict must be designed before planning begins
 - Roadmap: Phase 5 provider event ID storage model (columns on EstateDate vs. join table) and EstateDate timezone column existence must be resolved at Phase 5 planning time
+- 01-01: cache_store set in environment files (not initializers) — rack_attack.rb loads before solid_cache.rb alphabetically; environment files guarantee correct store before any initializer runs
+- 01-01: solid_cache:install:migrations used (not solid_cache:install) — avoids creating unwanted config/cache.yml
+- 01-01: solid_cache uses same PostgreSQL DB as app (no separate database.yml entry)
 
 ### Pending Todos
 
@@ -84,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-01T05:26:39.280Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-security-foundation/01-CONTEXT.md
+Last session: 2026-05-02T01:14:02Z
+Stopped at: Completed 01-01-PLAN.md
+Resume file: None

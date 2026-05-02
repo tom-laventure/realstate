@@ -30,7 +30,16 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A 403 response from the API causes the frontend to redirect to the dashboard and show an access-denied toast; the user remains logged in
   4. Sending more than the configured request count to `POST /v1/sessions` within the rate-limit window returns 429 responses consistently across Puma workers
   5. All 6 previously uncapped controllers reject `per_page` values above 100 and enforce the cap silently
-**Plans**: TBD
+**Plans**: 7 plans
+
+Plans:
+- [x] 01-01-PLAN.md — Install rack-attack + solid_cache gems, run migrations, set config.cache_store in environments
+- [ ] 01-02-PLAN.md — Create V1::Admin::BaseController, update all 13 admin controllers to inherit it
+- [ ] 01-03-PLAN.md — Replace CORS wildcard with BrokerageDomain proc, create rack_attack.rb initializer, add dev seeds
+- [ ] 01-04-PLAN.md — Fix SEC-05/06/07 bugs, add DEBT-03 enum, lower DEBT-06 log level, remove DEBT-07 Pagination concern
+- [ ] 01-05-PLAN.md — Fix PERF-01 EstateLike N+1, verify PERF-02, cap per_page on 7 controllers (PERF-03), migrate DEBT-04 price_numeric
+- [ ] 01-06-PLAN.md — Remove SEC-02 hardcoded credentials, add SEC-08 Axios 403 handler with toast
+- [ ] 01-07-PLAN.md — Remove DEBT-01 console.logs + ESLint rule, rename DEBT-02 usersAminView, delete DEBT-05 FilterByPopup
 
 ### Phase 2: Test Suite
 **Goal**: Backend and frontend test infrastructure exists; the highest-risk paths from Phase 1 are covered by passing automated tests
@@ -82,7 +91,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Foundation | 0/TBD | Not started | - |
+| 1. Security Foundation | 1/7 | In progress | - |
 | 2. Test Suite | 0/TBD | Not started | - |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |

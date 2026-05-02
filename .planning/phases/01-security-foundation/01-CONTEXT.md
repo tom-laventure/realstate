@@ -22,7 +22,7 @@ Close all documented security issues, crashes, N+1 performance bugs, and tech de
 
 ### CORS Dynamic Proc (SEC-03)
 
-- **D-05:** The `origins` proc extracts the host from the `Origin` header (strips scheme and port) and checks it against `BrokerageDomain.exists?(host: extracted_host)`.
+- **D-05:** The `origins` proc extracts the host from the `Origin` header (strips scheme and port) and checks it against `BrokerageDomain.exists?(domain: extracted_host)`. **Note:** the schema column is `domain`, not `host` — research confirmed this.
 - **D-06:** Two `BrokerageDomain` seed records are added to `db/seeds/` on the existing seeded test brokerage: `host: 'localhost'` AND `host: 'gregoryrealtor.realstate.local'`. After `db:seed`, both dev origins pass the CORS proc without manual intervention. The proc is uniform across all environments — no dev-only bypass logic.
 
 ### Rate Limiting (SEC-04)
