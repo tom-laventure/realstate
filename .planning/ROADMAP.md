@@ -50,7 +50,15 @@ Plans:
   2. The admin authorization test suite confirms agent and client roles are rejected from all `/v1/admin/**` endpoints and owner/admin roles are accepted
   3. `npm run test` runs without errors; `ProtectedRoute` redirects unauthenticated users to login and `RequireRole` hides restricted UI from non-matching roles in the test suite
   4. The Google OAuth test confirms "Sign in with Google" click calls `signInWithRedirect` and the Hub event triggers session exchange with a mocked `fetchAuthSession`
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Install factory_bot_rails + shoulda-matchers, create test_helper.rb with AuthHelper + Current.reset, build 10 factory files
+- [ ] 02-02-PLAN.md — Tenant isolation test (TEST-02) + admin authorization tests for all 4 roles (TEST-03)
+- [ ] 02-03-PLAN.md — Add rating sort to GroupEstatesQuery, FilterSets cross-group safety test (TEST-04), price+rating query tests (TEST-05)
+- [ ] 02-04-PLAN.md — InvitationsController accept_token + validate_token integration tests (TEST-06)
+- [ ] 02-05-PLAN.md — Install Vitest + MSW + testing-library, create vitest.config.ts + renderWithProviders + MSW server setup (TEST-07)
+- [ ] 02-06-PLAN.md — GoogleSignInButton component (minimal skeleton) + ProtectedRoute/RequireRole/GoogleSignInButton tests (TEST-08, TEST-09)
 
 ### Phase 3: Onboarding Fixes
 **Goal**: A new brokerage owner can complete domain setup without errors, and a new invitee lands on their brokerage workspace after accepting an invitation
@@ -91,8 +99,8 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Foundation | 6/7 | In Progress|  |
-| 2. Test Suite | 0/TBD | Not started | - |
+| 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
+| 2. Test Suite | 0/6 | Not started | - |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |
