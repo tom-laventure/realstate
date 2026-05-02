@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Install rack-attack + solid_cache gems, run migrations, set config.cache_store in environments
-- [ ] 01-02-PLAN.md — Create V1::Admin::BaseController, update all 13 admin controllers to inherit it
+- [x] 01-02-PLAN.md — Create V1::Admin::BaseController, update all 13 admin controllers to inherit it
 - [ ] 01-03-PLAN.md — Replace CORS wildcard with BrokerageDomain proc, create rack_attack.rb initializer, add dev seeds
 - [ ] 01-04-PLAN.md — Fix SEC-05/06/07 bugs, add DEBT-03 enum, lower DEBT-06 log level, remove DEBT-07 Pagination concern
 - [ ] 01-05-PLAN.md — Fix PERF-01 EstateLike N+1, verify PERF-02, cap per_page on 7 controllers (PERF-03), migrate DEBT-04 price_numeric
@@ -91,7 +91,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Security Foundation | 1/7 | In progress | - |
+| 1. Security Foundation | 2/7 | In progress | - |
 | 2. Test Suite | 0/TBD | Not started | - |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |

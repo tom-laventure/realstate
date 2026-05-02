@@ -25,19 +25,19 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 1 of 5 (Security Foundation)
-Plan: 1 of 7 in current phase
-Status: In progress — Plan 01-01 complete, Wave 1 ready for 01-02
-Last activity: 2026-05-02 — Plan 01-01 complete (rack-attack + solid_cache installed, Rails.cache = SolidCache)
+Plan: 2 of 7 in current phase
+Status: In progress — Plan 01-02 complete, Wave 2 ready for 01-03
+Last activity: 2026-05-02 — Plan 01-02 complete (V1::Admin::BaseController created, all 13 admin controllers updated)
 
-Progress: [█░░░░░░░░░] 14% (1/7 plans in Phase 1)
+Progress: [██░░░░░░░░] 29% (2/7 plans in Phase 1)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 1
-- Average duration: 3 min
-- Total execution time: 3 min
+- Total plans completed: 2
+- Average duration: 2.5 min
+- Total execution time: 5 min
 
 **By Phase:**
 
@@ -65,6 +65,10 @@ Recent decisions affecting current work:
 - 01-01: cache_store set in environment files (not initializers) — rack_attack.rb loads before solid_cache.rb alphabetically; environment files guarantee correct store before any initializer runs
 - 01-01: solid_cache:install:migrations used (not solid_cache:install) — avoids creating unwanted config/cache.yml
 - 01-01: solid_cache uses same PostgreSQL DB as app (no separate database.yml entry)
+- 01-02: V1::Admin::BaseController namespace matches v1/admin/ path for Rails autoloading
+- 01-02: include BrokerageAuth before CognitoAuth — BrokerageAuth included do registers resolve_brokerage before authenticate_cognito_user! runs
+- 01-02: Owner-only actions use skip_before_action :require_admin! + before_action :require_owner! pattern (D-04)
+- 01-02: InvitationsController validate_token is fully public — skips both authenticate_cognito_user! and require_admin! (D-14)
 
 ### Pending Todos
 
@@ -86,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-02T01:14:02Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-05-02T01:18:08Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
