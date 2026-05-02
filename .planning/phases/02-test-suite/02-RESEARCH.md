@@ -621,22 +621,25 @@ describe('ProtectedRoute', () => {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **TEST-05 rating sort: add to query or test filter instead?**
    - What we know: `apply_sort` has no rating case; `filter_by_min_user_rating` exists
    - What's unclear: Whether the requirement means testing filter capability OR adding a new sort case
    - Recommendation: Add `rating-desc`/`rating-asc` sort cases to `GroupEstatesQuery` and test both — this is the literal reading of TEST-05 and adds real value
+   - **RESOLVED: Plan 02-03 adds `rating-desc`/`rating-asc` sort cases to `GroupEstatesQuery#apply_sort` (approach 2 selected)**
 
 2. **TEST-09 GoogleSignInButton: minimal stub vs. full Phase 4 component?**
    - What we know: The component does not exist; Phase 4 implements full OAuth; TEST-09 only requires the click behavior and Hub listener
    - What's unclear: How much Phase 4 logic to anticipate here
    - Recommendation: Build the minimal component (button + click handler + Hub listener) that satisfies TEST-09. Phase 4 will replace it with the polished version. Mark the file clearly as a Phase 4 target.
+   - **RESOLVED: Plan 02-06 creates minimal `GoogleSignInButton` skeleton with `TODO Phase 4` marker; Phase 4 replaces it with the polished UI**
 
 3. **Transaction-based test isolation for FilterSets (insert_all)?**
    - What we know: `FilterSetsController` uses `GroupEstate.insert_all(rows)` which bypasses AR callbacks
    - What's unclear: Whether Rails test transaction wrapping rolls back `insert_all` correctly in SQLite3
    - Recommendation: Use `DatabaseCleaner` with truncation strategy for the FilterSets integration test only, or just wrap setup in an explicit `GroupEstate.delete_all` teardown
+   - **RESOLVED: Relying on Rails transactional fixtures per Assumption A2 in the Assumptions section. If test failures from dirty data occur post-execution, add explicit `GroupEstate.delete_all` teardown to `filter_sets_test.rb`**
 
 ---
 
