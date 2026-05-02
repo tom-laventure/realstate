@@ -11,13 +11,13 @@
 ### Security & Authorization
 
 - [ ] **SEC-01**: `Admin::BaseController#require_admin!` before_action enforces owner/admin role on all `/v1/admin/**` endpoints; returns `{ error: { code: "forbidden", message: "..." } }` with HTTP 403 for any other role
-- [ ] **SEC-02**: User can sign in without test credentials pre-filled — remove `defaultValue` email and password from sign-in component
+- [x] **SEC-02**: User can sign in without test credentials pre-filled — remove `defaultValue` email and password from sign-in component
 - [ ] **SEC-03**: CORS origin check uses a dynamic proc that validates `request.host` against `BrokerageDomain` records — supports unlimited dynamic subdomains and custom domains without a hardcoded allowlist
 - [ ] **SEC-04**: `POST /v1/sessions` is rate-limited via `rack-attack` with a shared-store-aware counter (PostgreSQL-backed or Redis) to prevent brute-force across Puma workers
 - [x] **SEC-05**: Dead `Group#order_estates`, `estates_ordered_by_avg_rating`, `estates_ordered_by_user_rating`, `estates_ordered_by_created_at` methods are removed (eliminate SQL injection risk from unparameterized string interpolation)
 - [x] **SEC-06**: `InvitationsController` no longer crashes on create or accept — `current_user` calls replaced with `Current.user` throughout
 - [x] **SEC-07**: `FilterSetsController#create` estate cleanup is group-scoped: `GroupEstate.where(group: @group, group_filter_set_id: previous_active_id)` prevents cross-group deletion
-- [ ] **SEC-08**: Axios interceptor handles 403 responses by redirecting to the dashboard and showing an access-denied toast — it does not log out the user (401 continues to logout as before)
+- [x] **SEC-08**: Axios interceptor handles 403 responses by redirecting to the dashboard and showing an access-denied toast — it does not log out the user (401 continues to logout as before)
 
 ### Google OAuth (Social Login)
 

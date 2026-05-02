@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-05-PLAN.md
-last_updated: "2026-05-01T00:10:00Z"
-last_activity: 2026-05-01
+stopped_at: Completed 01-06-PLAN.md
+last_updated: "2026-05-02T01:35:42Z"
+last_activity: 2026-05-02
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 7
-  completed_plans: 4
-  percent: 57
+  completed_plans: 5
+  percent: 71
 ---
 
 # Project State
@@ -26,17 +26,17 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 1 of 5 (Security Foundation)
-Plan: 5 of 7 in current phase
+Plan: 6 of 7 in current phase
 Status: Ready to execute
-Last activity: 2026-05-01
+Last activity: 2026-05-02
 
-Progress: [███████░░░] 71%
+Progress: [████████░░] 86%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 6 min
 - Total execution time: 30 min
 
@@ -79,6 +79,9 @@ Recent decisions affecting current work:
 - 01-05: D-18: liked_ge_ids bulk-computed via EstateLike.where(user_id:, group_estate_id:).pluck.to_set — matches rejected_ge_ids pattern; passed in instance_options to serializer
 - 01-05: D-19: price sort uses price_numeric NULLS LAST only — secondary list_price fallback removed; price_numeric is the canonical decimal field
 - 01-05: D-20: filter_by_price_per_sqft CAST(price AS REAL) left unchanged — that is a computed ratio (price/sqft) not covered by DEBT-04 scope
+- 01-06: D-21: router.navigate('/') used instead of window.location.href for generic 403 redirect — preserves React tree so toast renders
+- 01-06: D-22: Generic 403 branch comes AFTER no-access 403 branch — no-access redirect takes priority when next_step field is present
+- 01-06: D-23: No clearToken() call on generic 403 — authorization failure does not invalidate identity; user stays logged in
 
 ### Pending Todos
 
@@ -100,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-01T00:10:00Z
-Stopped at: Completed 01-05-PLAN.md
+Last session: 2026-05-02T01:35:42Z
+Stopped at: Completed 01-06-PLAN.md
 Resume file: None
