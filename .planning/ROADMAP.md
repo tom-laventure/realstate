@@ -12,7 +12,7 @@ Milestone 2 hardens the platform before expanding it. Phase 1 closes the active 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Security Foundation** - Close RBAC gap, remove hardcoded credentials, tighten CORS/rate-limiting, fix crashes, eliminate N+1s and tech debt
+- [x] **Phase 1: Security Foundation** - Close RBAC gap, remove hardcoded credentials, tighten CORS/rate-limiting, fix crashes, eliminate N+1s and tech debt *(Complete 2026-05-02)*
 - [ ] **Phase 2: Test Suite** - Build backend and frontend test infrastructure from scratch; test every change made in Phase 1
 - [ ] **Phase 3: Onboarding Fixes** - Fix domain setup wizard, post-join redirect, and welcome banner
 - [ ] **Phase 4: Google OAuth** - Cognito federation + intermediary callback + PreSignUp Lambda + frontend button, shipped atomically
@@ -39,7 +39,7 @@ Plans:
 - [x] 01-04-PLAN.md — Fix SEC-05/06/07 bugs, add DEBT-03 enum, lower DEBT-06 log level, remove DEBT-07 Pagination concern
 - [x] 01-05-PLAN.md — Fix PERF-01 EstateLike N+1, verify PERF-02, cap per_page on 7 controllers (PERF-03), migrate DEBT-04 price_numeric
 - [x] 01-06-PLAN.md — Remove SEC-02 hardcoded credentials, add SEC-08 Axios 403 handler with toast
-- [ ] 01-07-PLAN.md — Remove DEBT-01 console.logs + ESLint rule, rename DEBT-02 usersAminView, delete DEBT-05 FilterByPopup
+- [x] 01-07-PLAN.md — Remove DEBT-01 console.logs + ESLint rule, rename DEBT-02 usersAminView, delete DEBT-05 FilterByPopup
 
 ### Phase 2: Test Suite
 **Goal**: Backend and frontend test infrastructure exists; the highest-risk paths from Phase 1 are covered by passing automated tests
