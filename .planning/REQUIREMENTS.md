@@ -49,10 +49,10 @@
 - [ ] **TEST-03**: Integration test confirms agent/client roles receive 403 on all `/v1/admin/**` endpoints; owner/admin roles receive 200
 - [x] **TEST-04**: Integration test confirms `FilterSetsController#create` correctly moves estates and destroys previous filter set estates scoped to the correct group
 - [x] **TEST-05**: Integration tests confirm `GroupEstatesQuery` price range filtering, sort by price, and sort by rating return correct record sets
-- [ ] **TEST-06**: Integration test confirms `InvitationsController#create` and `#accept_invitation` succeed without crashing (covers the `Current.user` fix)
+- [x] **TEST-06**: Integration test confirms `InvitationsController#create` and `#accept_invitation` succeed without crashing (covers the `Current.user` fix)
 - [x] **TEST-07**: Frontend test infrastructure: Vitest + jsdom + MSW installed; `renderWithProviders` helper wraps components in a fresh `QueryClientProvider` per test; MSW server configured with `beforeAll`/`afterEach`/`afterAll` lifecycle
-- [ ] **TEST-08**: Frontend tests confirm `ProtectedRoute` redirects unauthenticated users to login; `RequireRole` hides restricted UI from non-matching roles
-- [ ] **TEST-09**: Frontend tests confirm the Google OAuth login flow: "Sign in with Google" click calls `signInWithRedirect`; Hub `signInWithRedirect` event triggers session exchange with mocked `fetchAuthSession`
+- [x] **TEST-08**: Frontend tests confirm `ProtectedRoute` redirects unauthenticated users to login; `RequireRole` hides restricted UI from non-matching roles
+- [x] **TEST-09**: Frontend tests confirm the Google OAuth login flow: "Sign in with Google" click calls `signInWithRedirect`; Hub `signInWithRedirect` event triggers session exchange with mocked `fetchAuthSession`
 
 ### Performance
 
@@ -103,7 +103,7 @@
 | SEC-01 through SEC-08 | Phase 1: Security Foundation | Pending |
 | PERF-01 through PERF-03 | Phase 1: Security Foundation | Complete |
 | DEBT-01 through DEBT-07 | Phase 1: Security Foundation | Pending |
-| TEST-01 through TEST-09 | Phase 2: Test Suite | Pending |
+| TEST-01 through TEST-09 | Phase 2: Test Suite | Complete |
 | ONB-01 through ONB-03 | Phase 3: Onboarding Fixes | Pending |
 | AUTH-01 through AUTH-04 | Phase 4: Google OAuth | Pending |
 | CAL-01 through CAL-07 | Phase 5: Calendar Sync | Pending |

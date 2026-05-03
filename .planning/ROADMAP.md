@@ -13,7 +13,7 @@ Milestone 2 hardens the platform before expanding it. Phase 1 closes the active 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Security Foundation** - Close RBAC gap, remove hardcoded credentials, tighten CORS/rate-limiting, fix crashes, eliminate N+1s and tech debt *(Complete 2026-05-02)*
-- [ ] **Phase 2: Test Suite** - Build backend and frontend test infrastructure from scratch; test every change made in Phase 1
+- [x] **Phase 2: Test Suite** - Build backend and frontend test infrastructure from scratch; test every change made in Phase 1 *(Complete 2026-05-03)*
 - [ ] **Phase 3: Onboarding Fixes** - Fix domain setup wizard, post-join redirect, and welcome banner
 - [ ] **Phase 4: Google OAuth** - Cognito federation + intermediary callback + PreSignUp Lambda + frontend button, shipped atomically
 - [ ] **Phase 5: Calendar Sync** - UserCalendarConnection model + CalendarSyncJob + Google, Microsoft, and Apple calendar providers + settings UI
@@ -58,7 +58,7 @@ Plans:
 - [x] 02-03-PLAN.md — Add rating sort to GroupEstatesQuery, FilterSets cross-group safety test (TEST-04), price+rating query tests (TEST-05)
 - [x] 02-04-PLAN.md — InvitationsController accept_token + validate_token integration tests (TEST-06)
 - [x] 02-05-PLAN.md — Install Vitest + MSW + testing-library, create vitest.config.ts + renderWithProviders + MSW server setup (TEST-07)
-- [ ] 02-06-PLAN.md — GoogleSignInButton component (minimal skeleton) + ProtectedRoute/RequireRole/GoogleSignInButton tests (TEST-08, TEST-09)
+- [x] 02-06-PLAN.md — GoogleSignInButton component (minimal skeleton) + ProtectedRoute/RequireRole/GoogleSignInButton tests (TEST-08, TEST-09)
 
 ### Phase 3: Onboarding Fixes
 **Goal**: A new brokerage owner can complete domain setup without errors, and a new invitee lands on their brokerage workspace after accepting an invitation
@@ -100,7 +100,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
-| 2. Test Suite | 4/6 | In Progress|  |
+| 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 0/TBD | Not started | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |
