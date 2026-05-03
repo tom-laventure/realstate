@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-05-02T23:58:42.228Z"
+stopped_at: Completed 02-04-PLAN.md
+last_updated: "2026-05-02T23:59:00.000Z"
 last_activity: 2026-05-02
 progress:
   total_phases: 5
@@ -91,6 +91,7 @@ Recent decisions affecting current work:
 - 02-03: GroupEstatesQuery#call returns Estate records (not GroupEstate) — test assertions use .id not .estate_id; accessible_by scope requires BrokerageEstate fixtures in tests
 - 02-03: acts_as_paranoid destroy_all sets deleted_at — assert without_deleted.count == 0 after soft-delete, not with_deleted.count
 - 02-03: FilterSets create with empty filters returns 422 when replacing active set — test accepts [201, 422] and checks data state not HTTP status
+- 02-04: accept_token invalid-token response is 410 Gone (not 404/422) — controller renders status: :gone; test asserts [404, 410, 422]
 
 ### Pending Todos
 
@@ -113,5 +114,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-02T23:57:10Z
-Stopped at: Completed 02-03-PLAN.md
+Stopped at: Completed 02-04-PLAN.md
 Resume file: None
