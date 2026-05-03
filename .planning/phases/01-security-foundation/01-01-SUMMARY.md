@@ -122,3 +122,15 @@ None — no external service configuration required. solid_cache uses the existi
 ---
 *Phase: 01-security-foundation*
 *Completed: 2026-05-02*
+
+## Self-Check: PASSED
+
+- FOUND: backend/Gemfile (rack-attack, solid_cache gem declarations)
+- FOUND: backend/config/environments/development.rb (solid_cache_store)
+- FOUND: backend/config/environments/production.rb (solid_cache_store)
+- FOUND: backend/config/environments/test.rb (solid_cache_store)
+- FOUND: .planning/phases/01-security-foundation/01-01-SUMMARY.md
+- FOUND: backend commit e15aa40 (Task 1)
+- FOUND: backend commit 45aef0b (Task 2)
+- VERIFIED: `rails runner "puts Rails.cache.class"` prints `SolidCache::Store`
+- VERIFIED: All 4 solid_cache migrations are `up` in db:migrate:status

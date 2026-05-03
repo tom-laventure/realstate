@@ -1,7 +1,7 @@
 ---
 phase: 3
 slug: onboarding-fixes
-status: draft
+status: approved
 shadcn_initialized: true
 preset: new-york / zinc / css-variables
 created: 2026-05-03
