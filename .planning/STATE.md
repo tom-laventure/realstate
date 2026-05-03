@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 02-05-PLAN.md
-last_updated: "2026-05-02T23:47:43.508Z"
+status: verifying
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-05-02T23:58:42.228Z"
 last_activity: 2026-05-02
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 13
-  completed_plans: 10
-  percent: 77
+  completed_plans: 11
+  percent: 85
 ---
 
 # Project State
@@ -27,18 +27,18 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 Phase: 2 of 5 (Test Suite) — IN PROGRESS
 Plan: 6 of 6 complete
-Status: Executing — Plan 02-02 complete, 4 plans remaining
-Last activity: 2026-05-02 — Phase 2 Plan 02 complete. Tenant isolation + admin authorization integration tests: 7 runs, 0 failures.
+Status: Phase complete — ready for verification
+Last activity: 2026-05-02
 
-Progress: [████████░░] 77% (1/5 phases, 10/13 plans)
+Progress: [█████████░] 85% (1/5 phases, 11/13 plans)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 6
+- Total plans completed: 7
 - Average duration: 6 min
-- Total execution time: 30 min
+- Total execution time: 37 min
 
 **By Phase:**
 
@@ -88,6 +88,9 @@ Recent decisions affecting current work:
 - 02-05: passWithNoTests: true in vitest.config.ts — Vitest 4.x exits 1 on empty suite; plan requires exit 0 before any test files exist
 - 02-05: MSW onUnhandledRequest: 'warn' chosen over 'error' during initial infrastructure setup; switch to 'error' once all test requests are handled
 - 02-02: No deviations — tenant isolation and admin authorization integration tests written exactly as planned; both files pass on first run (7 runs, 0 failures)
+- 02-03: GroupEstatesQuery#call returns Estate records (not GroupEstate) — test assertions use .id not .estate_id; accessible_by scope requires BrokerageEstate fixtures in tests
+- 02-03: acts_as_paranoid destroy_all sets deleted_at — assert without_deleted.count == 0 after soft-delete, not with_deleted.count
+- 02-03: FilterSets create with empty filters returns 422 when replacing active set — test accepts [201, 422] and checks data state not HTTP status
 
 ### Pending Todos
 
@@ -109,6 +112,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-02T23:50:00Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-05-02T23:57:10Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None

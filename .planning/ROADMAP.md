@@ -55,7 +55,7 @@ Plans:
 Plans:
 - [x] 02-01-PLAN.md — Install factory_bot_rails + shoulda-matchers, create test_helper.rb with AuthHelper + Current.reset, build 10 factory files
 - [x] 02-02-PLAN.md — Tenant isolation test (TEST-02) + admin authorization tests for all 4 roles (TEST-03)
-- [ ] 02-03-PLAN.md — Add rating sort to GroupEstatesQuery, FilterSets cross-group safety test (TEST-04), price+rating query tests (TEST-05)
+- [x] 02-03-PLAN.md — Add rating sort to GroupEstatesQuery, FilterSets cross-group safety test (TEST-04), price+rating query tests (TEST-05)
 - [ ] 02-04-PLAN.md — InvitationsController accept_token + validate_token integration tests (TEST-06)
 - [x] 02-05-PLAN.md — Install Vitest + MSW + testing-library, create vitest.config.ts + renderWithProviders + MSW server setup (TEST-07)
 - [ ] 02-06-PLAN.md — GoogleSignInButton component (minimal skeleton) + ProtectedRoute/RequireRole/GoogleSignInButton tests (TEST-08, TEST-09)

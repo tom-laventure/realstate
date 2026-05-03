@@ -47,8 +47,8 @@
 - [x] **TEST-01**: Backend test infrastructure: `factory_bot_rails` + `shoulda-matchers` installed; `AuthHelper` module mints JWTs via `TokenService.issue(user)`; `Current.reset` teardown in `ActiveSupport::TestCase` prevents `CurrentAttributes` leakage between tests
 - [ ] **TEST-02**: Integration test confirms a user from Brokerage A cannot access Brokerage B data — requests with Brokerage B `Host` header and Brokerage A JWT return 403 or 404
 - [ ] **TEST-03**: Integration test confirms agent/client roles receive 403 on all `/v1/admin/**` endpoints; owner/admin roles receive 200
-- [ ] **TEST-04**: Integration test confirms `FilterSetsController#create` correctly moves estates and destroys previous filter set estates scoped to the correct group
-- [ ] **TEST-05**: Integration tests confirm `GroupEstatesQuery` price range filtering, sort by price, and sort by rating return correct record sets
+- [x] **TEST-04**: Integration test confirms `FilterSetsController#create` correctly moves estates and destroys previous filter set estates scoped to the correct group
+- [x] **TEST-05**: Integration tests confirm `GroupEstatesQuery` price range filtering, sort by price, and sort by rating return correct record sets
 - [ ] **TEST-06**: Integration test confirms `InvitationsController#create` and `#accept_invitation` succeed without crashing (covers the `Current.user` fix)
 - [x] **TEST-07**: Frontend test infrastructure: Vitest + jsdom + MSW installed; `renderWithProviders` helper wraps components in a fresh `QueryClientProvider` per test; MSW server configured with `beforeAll`/`afterEach`/`afterAll` lifecycle
 - [ ] **TEST-08**: Frontend tests confirm `ProtectedRoute` redirects unauthenticated users to login; `RequireRole` hides restricted UI from non-matching roles
