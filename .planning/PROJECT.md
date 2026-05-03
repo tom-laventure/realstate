@@ -23,6 +23,30 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Filter sets with listing filtering and preview counts — existing
 - ✓ S3 document storage, CloudFront CDN for photos — existing
 - ✓ Brokerage creation wizard and invitation-based join flow — existing
+- ✓ Server-side role enforcement on all `/v1/admin/**` endpoints — Validated Phase 1 (SEC-01)
+- ✓ Hardcoded test credentials removed from sign-in component — Validated Phase 1 (SEC-02)
+- ✓ CORS restricted to brokerage domain allowlist — Validated Phase 1 (SEC-03)
+- ✓ Rate limiting on `POST /v1/sessions` via rack-attack — Validated Phase 1 (SEC-04)
+- ✓ SQL injection risk removed from `Group#order_estates` — Validated Phase 1 (SEC-05)
+- ✓ `InvitationsController` crash fixed — Validated Phase 1 (SEC-06)
+- ✓ `FilterSetsController#create` scoped to current group — Validated Phase 1 (SEC-07)
+- ✓ Frontend 403 handler with toast + redirect — Validated Phase 1 (SEC-08)
+- ✓ `EstateLike` N+1 bulk-precomputed in estates index — Validated Phase 1 (PERF-01)
+- ✓ `per_page` cap at 100 across all controllers — Validated Phase 1 (PERF-03)
+- ✓ `console.log` removed from production code; ESLint no-console rule — Validated Phase 1 (DEBT-01)
+- ✓ `usersAminView` renamed to `usersAdminView` — Validated Phase 1 (DEBT-02)
+- ✓ `BrokerageBoardCredential#status` enum defined — Validated Phase 1 (DEBT-03)
+- ✓ `GroupEstatesQuery` price filtering uses `price_numeric` — Validated Phase 1 (DEBT-04)
+- ✓ Dead `FilterByPopup` component deleted — Validated Phase 1 (DEBT-05)
+- ✓ Backend test infrastructure: factory_bot_rails + test_helper + 10 factory files — Validated Phase 2 (TEST-01)
+- ✓ Cross-brokerage tenant isolation test (Brokerage A JWT + Brokerage B Host → 403/404) — Validated Phase 2 (TEST-02)
+- ✓ Admin authorization tests: agent/client rejected, owner/admin accepted — Validated Phase 2 (TEST-03)
+- ✓ `FilterSetsController` create/update transition correctness — Validated Phase 2 (TEST-04)
+- ✓ `GroupEstatesQuery` price/rating sort filter tests — Validated Phase 2 (TEST-05)
+- ✓ `InvitationsController` accept_token + validate_token integration tests — Validated Phase 2 (TEST-06)
+- ✓ Frontend Vitest + MSW + renderWithProviders test infrastructure — Validated Phase 2 (TEST-07)
+- ✓ `ProtectedRoute` and `RequireRole` guard unit tests — Validated Phase 2 (TEST-08)
+- ✓ `GoogleSignInButton` + Hub session exchange tests — Validated Phase 2 (TEST-09)
 
 ### Active
 
@@ -67,15 +91,8 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - [ ] Delete dead `FilterByPopup` component (imports non-existent `framer-motion`)
 - [ ] Lower brokerage domain log from `info` to `debug` in `BrokerageAuth`
 
-**Unit Testing**
-- [ ] Backend: tenant isolation — confirm cross-brokerage data access is blocked
-- [ ] Backend: admin authorization — confirm `agent`/`client` roles rejected from admin endpoints
-- [ ] Backend: `FilterSetsController` create/update transitions — estate cleanup correctness
-- [ ] Backend: `GroupEstatesQuery` filter combinations — price/sort returns correct results
-- [ ] Backend: `InvitationsController` create and accept actions
-- [ ] Frontend: `ProtectedRoute` and `RequireRole` guard behavior
+**Unit Testing** (remaining — Phase 2 covered backend integration + auth guards)
 - [ ] Frontend: core context hooks (`GeneralDashboardContext`, `useGeneralDashboardContext`)
-- [ ] Frontend: Google OAuth login flow (Amplify social sign-in)
 - [ ] Frontend: calendar sync connection flow and UI states
 
 ### Out of Scope
@@ -95,7 +112,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Auth:** AWS Cognito + Amplify for identity; custom HS256 JWT (`TokenService`) issued on sign-in, stored in `localStorage`. `CognitoAuth` concern verifies per-request.
 - **Multi-tenancy:** `BrokerageAuth` concern resolves `Current.brokerage` from Host header on every request. All queries must scope to `Current.brokerage`.
 - **Soft deletes:** `acts_as_paranoid` on all user-facing models. Every query must call `.without_deleted`; joins require explicit `where(table: { deleted_at: nil })`.
-- **No test suite exists today** — the entire backend and frontend are untested. This milestone establishes the foundation.
+- **Test suite established (Phase 2)** — 17 backend integration tests (Minitest) + 7 frontend unit tests (Vitest 4.x + MSW 2.x). Covers tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController, ProtectedRoute, RequireRole, GoogleSignInButton.
 - **Calendar model:** `EstateDate` is the existing listing event model. `EstateEventSerializer` and `estate_dates_controller` already exist for dashboard reads.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Calendar sync writes should go through a job for retry resilience.
 - **Onboarding:** The `createBrokerage` wizard and `joinBrokerage` invitation flow exist in frontend. The domain setup step and post-join redirect are the broken parts.
@@ -139,4 +156,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-30 after initialization*
+*Last updated: 2026-05-02 after Phase 2 completion*
