@@ -68,7 +68,21 @@ Plans:
   1. A brokerage owner can type a domain, see real-time format validation, save it, and see a confirmation — the wizard advances only after a successful save; a duplicate domain shows an error and does not advance
   2. A user who accepts a brokerage invitation lands on the brokerage dashboard (correct tenant domain) — not the homepage or a blank screen
   3. A new brokerage member sees a dismissible welcome banner on their first dashboard visit showing the brokerage name and their assigned groups; the banner does not reappear after dismissal
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+
+**Wave 1** *(no dependencies — all three run in parallel)*
+- [ ] 03-01-PLAN.md — ONB-01: domain wizard inline error handling, SuccessStep window.location redirect, DNS verify state machine
+- [ ] 03-02-PLAN.md — ONB-02: backend returns group.uid; JoinBrokerage and Invitation navigate to absolute paths with dashboard sentinel
+- [ ] 03-03-PLAN.md — ONB-03 backend: welcomed_at migration, dismiss_welcome endpoint, show_welcome_banner serializer attribute
+
+**Wave 2** *(blocked on Wave 1 completion — requires 03-03 backend endpoint + migration)*
+- [ ] 03-04-PLAN.md — ONB-03 frontend: dismissWelcome API + hook, WelcomeBanner component, GeneralDashboard wiring
+
+Cross-cutting constraints:
+- All backend queries on `brokerage_memberships` must use `.without_deleted` scope (acts_as_paranoid)
+- All frontend API calls must route through TanStack hooks — never call API modules directly from components
 
 ### Phase 4: Google OAuth
 **Goal**: Users can sign in with Google; existing email/password accounts are automatically linked by email; the "Sign in with Google" button and the account-linking Lambda ship simultaneously
@@ -101,6 +115,6 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
-| 3. Onboarding Fixes | 0/TBD | Not started | - |
+| 3. Onboarding Fixes | 0/4 | Ready to execute | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |
