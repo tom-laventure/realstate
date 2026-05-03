@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready
-stopped_at: Phase 3 planned — 4 plans in 2 waves, ready to execute
-last_updated: "2026-05-03T00:00:00Z"
+status: in_progress
+stopped_at: Phase 3 executing — 03-02 complete; Wave 1 continuing (03-01, 03-03)
+last_updated: "2026-05-03T23:57:42Z"
 last_activity: 2026-05-03
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 17
-  completed_plans: 13
-  percent: 76
+  completed_plans: 14
+  percent: 82
 ---
 
 # Project State
@@ -94,6 +94,8 @@ Recent decisions affecting current work:
 - 02-04: accept_token invalid-token response is 410 Gone (not 404/422) — controller renders status: :gone; test asserts [404, 410, 422]
 - 02-06: vi.hoisted used for mock function declarations in vi.mock factories — vi.mock calls are hoisted before const declarations; plain const variables cause ReferenceError
 - 02-06: execArgv: ['--experimental-require-module'] in vitest.config.ts — Node 22.9+ flag enables require() of ESM; jsdom 27.x → cssstyle → @asamuzakjp/css-color → @csstools/css-calc (ESM-only) causes ERR_REQUIRE_ESM without this flag
+- 03-02: next_step = group.uid (D-09) — UUID is canonical public identifier; group.id.to_s was integer string which has no router match
+- 03-02: dashboard sentinel (D-10/D-11/D-12) — backend returns "dashboard" for brokerage-level invitations; frontend guards nextStep !== 'dashboard' before interpolating into path; both flows use absolute leading-slash navigation
 
 ### Pending Todos
 
@@ -115,6 +117,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-03T00:10:31Z
-Stopped at: Completed 02-06-PLAN.md
-Resume file: .planning/phases/03-onboarding-fixes/03-CONTEXT.md
+Last session: 2026-05-03T23:57:42Z
+Stopped at: Completed 03-02-PLAN.md
+Resume file: .planning/phases/03-onboarding-fixes/03-03-PLAN.md

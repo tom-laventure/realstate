@@ -29,7 +29,7 @@
 ### Onboarding Fixes
 
 - [ ] **ONB-01**: Brokerage owner can complete the domain setup step end-to-end: domain format is validated client-side (regex) and server-side (uniqueness); save persists a `BrokerageDomain` record; confirmation is shown before advancing to the next wizard step; wizard does not advance on save failure
-- [ ] **ONB-02**: User who accepts a brokerage invitation is redirected to the brokerage workspace (correct tenant domain + dashboard) — not the homepage or a blank screen
+- [x] **ONB-02**: User who accepts a brokerage invitation is redirected to the brokerage workspace (correct tenant domain + dashboard) — not the homepage or a blank screen
 - [ ] **ONB-03**: New brokerage member sees a dismissible welcome banner on their first dashboard visit showing the brokerage name and their assigned groups
 
 ### Calendar Sync

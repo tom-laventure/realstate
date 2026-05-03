@@ -74,7 +74,7 @@ Plans:
 
 **Wave 1** *(no dependencies — all three run in parallel)*
 - [ ] 03-01-PLAN.md — ONB-01: domain wizard inline error handling, SuccessStep window.location redirect, DNS verify state machine
-- [ ] 03-02-PLAN.md — ONB-02: backend returns group.uid; JoinBrokerage and Invitation navigate to absolute paths with dashboard sentinel
+- [x] 03-02-PLAN.md — ONB-02: backend returns group.uid; JoinBrokerage and Invitation navigate to absolute paths with dashboard sentinel
 - [ ] 03-03-PLAN.md — ONB-03 backend: welcomed_at migration, dismiss_welcome endpoint, show_welcome_banner serializer attribute
 
 **Wave 2** *(blocked on Wave 1 completion — requires 03-03 backend endpoint + migration)*
@@ -115,6 +115,6 @@ Cross-cutting constraints:
 |-------|----------------|--------|-----------|
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
-| 3. Onboarding Fixes | 0/4 | Ready to execute | - |
+| 3. Onboarding Fixes | 1/4 | In progress | - |
 | 4. Google OAuth | 0/TBD | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |
