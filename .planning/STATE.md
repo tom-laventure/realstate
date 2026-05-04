@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 03-03-PLAN.md
-last_updated: "2026-05-04T00:14:31.190Z"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-05-04T00:21:43.596Z"
 last_activity: 2026-05-04
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 17
-  completed_plans: 16
-  percent: 94
+  completed_plans: 17
+  percent: 100
 ---
 
 # Project State
@@ -100,6 +100,10 @@ Recent decisions affecting current work:
 - 03-03: D-15: BrokerageMembership.without_deleted.find_by! in dismiss_welcome — soft-deleted memberships get 404 not stale update
 - 03-03: D-16: show_welcome_banner boolean only in serializer — raw welcomed_at timestamp not exposed (T-03-03-03 accept)
 - 03-03: BrokerageMembership lacked acts_as_paranoid — deleted_at + index added in same migration; model updated with acts_as_paranoid to enable .without_deleted scope required by plan
+- 03-04: D-17: bannerHydrated guard — bannerVisible defaults false until profile resolves; prevents banner flash for users who have already dismissed
+- 03-04: D-18: Optimistic dismiss — setBannerVisible(false) immediately + fire-and-forget dismissMutation.mutate() (no toast, no await, no confirmation)
+- 03-04: D-19: CLAUDE.md compliance — brokerage name and group names both flow via dedicated TanStack hooks (useFetchDashboardBrokerage + useFetchAccountGroups); no inline useQuery
+- 03-04: D-20: WelcomeBanner is purely presentational — zero internal state, zero hooks
 
 ### Pending Todos
 
@@ -121,6 +125,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-04T00:14:31.186Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-05-04T00:19:42Z
+Stopped at: Completed 03-04-PLAN.md
 Resume file: None
