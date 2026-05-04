@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-stopped_at: Phase 3 executing — 03-02 complete; Wave 1 continuing (03-01, 03-03)
-last_updated: "2026-05-03T23:57:42Z"
-last_activity: 2026-05-03
+status: verifying
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-05-04T00:14:31.190Z"
+last_activity: 2026-05-04
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 17
-  completed_plans: 14
-  percent: 82
+  completed_plans: 16
+  percent: 94
 ---
 
 # Project State
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 Phase: 2 of 5 (Test Suite) — VERIFIED COMPLETE
 Plan: 6 of 6 complete
-Status: Phase 2 verified — 4/4 must-haves confirmed; 17 backend tests + 7 frontend tests passing
-Last activity: 2026-05-02
+Status: Phase complete — ready for verification
+Last activity: 2026-05-04
 
 Progress: [████░░░░░░] 40% (2/5 phases complete) — ready for Phase 3
 
@@ -96,6 +96,10 @@ Recent decisions affecting current work:
 - 02-06: execArgv: ['--experimental-require-module'] in vitest.config.ts — Node 22.9+ flag enables require() of ESM; jsdom 27.x → cssstyle → @asamuzakjp/css-color → @csstools/css-calc (ESM-only) causes ERR_REQUIRE_ESM without this flag
 - 03-02: next_step = group.uid (D-09) — UUID is canonical public identifier; group.id.to_s was integer string which has no router match
 - 03-02: dashboard sentinel (D-10/D-11/D-12) — backend returns "dashboard" for brokerage-level invitations; frontend guards nextStep !== 'dashboard' before interpolating into path; both flows use absolute leading-slash navigation
+- 03-03: D-14: welcomed_at nullable datetime; NULL = banner not dismissed; no backfill (existing users will see banner on first load)
+- 03-03: D-15: BrokerageMembership.without_deleted.find_by! in dismiss_welcome — soft-deleted memberships get 404 not stale update
+- 03-03: D-16: show_welcome_banner boolean only in serializer — raw welcomed_at timestamp not exposed (T-03-03-03 accept)
+- 03-03: BrokerageMembership lacked acts_as_paranoid — deleted_at + index added in same migration; model updated with acts_as_paranoid to enable .without_deleted scope required by plan
 
 ### Pending Todos
 
@@ -117,6 +121,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-03T23:57:42Z
+Last session: 2026-05-04T00:14:31.186Z
 Stopped at: Completed 03-02-PLAN.md
-Resume file: .planning/phases/03-onboarding-fixes/03-03-PLAN.md
+Resume file: None
