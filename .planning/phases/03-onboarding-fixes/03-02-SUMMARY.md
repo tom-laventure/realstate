@@ -162,6 +162,15 @@ None — no external service configuration required.
 - ONB-02 resolved: invitation accept flows land users on valid routes (`/:groupUid` or `/`)
 - No blockers introduced for subsequent Phase 3 plans (03-03, 03-04)
 
+## Self-Check: PASSED
+
+- FOUND: .planning/phases/03-onboarding-fixes/03-02-SUMMARY.md
+- FOUND: backend/app/controllers/v1/dashboard/invitations_controller.rb
+- FOUND: frontend/src/containers/auth/joinBrokerage/JoinBrokerage.tsx
+- FOUND: frontend/src/containers/auth/Invitation.tsx
+- FOUND: 23c71ac (backend — fix invitations_controller group.uid)
+- FOUND: 223fed3 (frontend — fix invitation navigation paths)
+
 ---
 *Phase: 03-onboarding-fixes*
 *Completed: 2026-05-03*
