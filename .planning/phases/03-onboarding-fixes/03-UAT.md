@@ -109,8 +109,16 @@ blocked: 0
   reason: "User reported: did not see a welcome banner for the user with email tom.laventure42@gmail.com when I first logged in"
   severity: major
   test: 7
-  artifacts: []
-  missing: []
+  root_cause: "WelcomeBanner placed inside GeneralDashboard (route /:groupId) only. The root path / renders Homepage (index route) which has no WelcomeBanner. Users with multiple groups stay on Homepage permanently and never reach GeneralDashboard."
+  artifacts:
+    - path: "frontend/src/router/dashboard/dashboard.tsx"
+      issue: "Routes / to Homepage (index), not GeneralDashboard — banner never mounted at root path"
+    - path: "frontend/src/containers/dashboard/home/Homepage.tsx"
+      issue: "No WelcomeBanner rendered — users with multiple groups stay here indefinitely"
+    - path: "frontend/src/containers/dashboard/general/GeneralDashboard.tsx"
+      issue: "WelcomeBanner present but only reachable at /:groupId, not at /"
+  missing:
+    - "Add WelcomeBanner to Homepage (with same hooks/data), OR move banner into AppShell (parent layout at /) so it renders on all child routes"
 
 - truth: "Subdomain input border remains visible when the input is focused"
   status: failed
