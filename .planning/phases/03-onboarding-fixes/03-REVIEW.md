@@ -1,318 +1,186 @@
 ---
 phase: 03-onboarding-fixes
-reviewed: 2026-05-03T00:00:00Z
+reviewed: 2026-05-04T00:00:00Z
 depth: standard
-files_reviewed: 22
+files_reviewed: 2
 files_reviewed_list:
-  - backend/app/controllers/v1/onboarding/brokerages_controller.rb
-  - frontend/src/assets/api/onboarding/createBrokerage.ts
-  - frontend/src/store/hooks/Auth/useCreateBrokerage.ts
-  - frontend/src/containers/createBrokerage/CreateBrokerageContext.tsx
-  - frontend/src/containers/createBrokerage/steps/DomainStep.tsx
-  - frontend/src/containers/createBrokerage/steps/SuccessStep.tsx
-  - backend/app/controllers/v1/dashboard/invitations_controller.rb
-  - frontend/src/containers/auth/joinBrokerage/JoinBrokerage.tsx
-  - frontend/src/containers/auth/Invitation.tsx
-  - backend/db/migrate/20260503000001_add_welcomed_at_to_brokerage_memberships.rb
-  - backend/app/models/brokerage_membership.rb
-  - backend/app/controllers/v1/account/profile_controller.rb
-  - backend/config/routes.rb
-  - backend/app/serializers/user_serializer.rb
-  - frontend/src/assets/api/account/dismissWelcome.ts
-  - frontend/src/store/hooks/Account/useDismissWelcome.ts
-  - frontend/src/store/hooks/Dashboard/useFetchDashboardBrokerage.ts
-  - frontend/src/components/dashboard/general/WelcomeBanner.tsx
-  - frontend/src/store/hooks/queryKeys.tsx
-  - frontend/src/assets/types/userType.ts
-  - frontend/src/containers/dashboard/general/GeneralDashboardContext.tsx
-  - frontend/src/containers/dashboard/general/GeneralDashboard.tsx
+  - frontend/src/containers/dashboard/home/HomepageContext.tsx
+  - frontend/src/containers/dashboard/home/Homepage.tsx
 findings:
-  critical: 5
-  warning: 6
-  info: 3
-  total: 14
+  critical: 1
+  warning: 3
+  info: 2
+  total: 6
 status: issues_found
 ---
 
-# Phase 03: Code Review Report
+# Phase 03: Code Review Report (Gap Closure — Welcome Banner)
 
-**Reviewed:** 2026-05-03
+**Reviewed:** 2026-05-04
 **Depth:** standard
-**Files Reviewed:** 22
+**Files Reviewed:** 2
 **Status:** issues_found
 
 ## Summary
 
-This phase adds brokerage onboarding (multi-step wizard), invitation acceptance flow, and a welcome banner with dismiss tracking. The general structure is sound, but there are five critical issues: a soft-delete bypass in the membership existence check that allows deleted members to accept invitations, an open redirect vulnerability in the SuccessStep navigation, base64 favicon content injected directly into brokerage attributes before model-level sanitization, an N+1 query introduced by `show_welcome_banner` being computed in the serializer for every user in a collection, and a `BrokerageMembership` model that declares `acts_as_paranoid` but whose `current_brokerage_membership` association and membership existence checks do not consistently guard `deleted_at`, creating a soft-delete leak. Several warnings cover missing error handling on the wizard submit, unsafe URL casting, and a stale `onError` API in TanStack Query v5.
+These two files implement the Homepage context and view for the welcome-banner gap closure (plan steps 03-05). The overall structure follows the established Context/hook pattern correctly. One critical type-safety bug is present: the code accesses `.id` on a `group` object whose TypeScript interface only declares `.uid`, and at runtime the API actually sends the `id` key — meaning `.uid` is always `undefined` while `.id` is used without type coverage. Three warnings cover a `useMemo` stability problem caused by a non-memoized derived array in deps, a silent error UX regression when banner dismissal fails, and incomplete group coverage in the banner for users in more than six groups. Two informational items cover a redundant `useNavigate` instantiation and a stale `onError` pattern.
 
 ---
 
 ## Critical Issues
 
-### CR-01: Soft-delete bypass in `CognitoAuth` membership gate — deleted members pass through
+### CR-01: `group` type declares `.uid` but runtime access uses `.id` — `singleGroupId` is always `undefined` per TypeScript types
 
-**File:** `backend/app/controllers/concerns/cognito_auth.rb:23`
+**File:** `frontend/src/containers/dashboard/home/HomepageContext.tsx:108`
 
-**Issue:** The brokerage membership existence check uses plain `BrokerageMembership.exists?`, which does **not** call `without_deleted`. Because `BrokerageMembership` now declares `acts_as_paranoid` (added in the migration), a soft-deleted membership record still satisfies this check and the user is allowed through. A user who was removed from a brokerage (soft-deleted membership) can still authenticate against that brokerage's endpoints.
+**Issue:** `redirectGroups` is typed as `group[]`, where the `group` interface (in `assets/types/groupType.ts`) declares `uid: string` and has no `id` field. Line 108 accesses `redirectGroups[0].id`. With `"strict": true` in `tsconfig.json`, this is a type error — `.id` does not exist on `group`.
 
-**Fix:**
-```ruby
-unless BrokerageMembership.without_deleted.exists?(
-  user_id: Current.user.id,
-  brokerage_id: Current.brokerage.id
-)
-```
+At runtime the value of `.id` is defined (the `GroupSerializer` serializes `def id; object.uid; end`, so the JSON key is `id`), but `.uid` is always `undefined` at runtime because the JSON never contains a `uid` key. The type and the runtime contract are inverted:
 
----
+- TypeScript thinks: `group.uid` is valid, `group.id` does not exist.
+- Runtime reality: `group.uid` is `undefined`, `group.id` holds the correct value.
 
-### CR-02: Open redirect in `SuccessStep` — user-controlled domain navigated to via `window.location.href`
+The single-group redirect (`singleGroupId`) works today only because the runtime value happens to be correct, but the `group` type used by every other consumer of `useFetchUserGroups` (e.g., `GroupsSection`, `selectGroup`) will silently receive `undefined` for `.uid` wherever that field is used. The canonical fix is to reconcile the type with the serializer contract.
 
-**File:** `frontend/src/containers/createBrokerage/steps/SuccessStep.tsx:95`
-
-**Issue:** `window.location.href = \`https://${customDomain}\`` and `window.location.href = \`https://${subdomain}\`` navigate to values that come directly from API response data (`state.result?.domains?.customDomain`, `state.result?.domains?.subdomain`). If the API response is tampered with (MITM, compromised CDN, or a future bug that returns attacker-controlled data), this is an open redirect to an arbitrary `https://` URL. At minimum there is no allowlist validation that the domains end with the expected base domain before navigation.
-
-**Fix:** Validate the domain against the expected base domain before navigating:
-```tsx
-const BASE_DOMAIN = import.meta.env.VITE_APP_BASE_DOMAIN || 'realstate.ca'
-
-function isSafeRedirect(host: string): boolean {
-    return host === BASE_DOMAIN || host.endsWith(`.${BASE_DOMAIN}`)
-}
-
-// Before navigating:
-if (subdomain && isSafeRedirect(subdomain)) {
-    window.location.href = `https://${subdomain}`
+**Fix — Option A (preferred): align the `group` interface to match what the API sends:**
+```ts
+// assets/types/groupType.ts
+interface group {
+    id: string      // was `uid`; the serializer sends `id` (mapped from uid)
+    name: string
+    createdAt: string
+    updatedAt: string
+    active: boolean
+    memberCount: number
+    lastActiveAt: string | null
 }
 ```
+Then update all call sites that reference `.uid` to use `.id`.
 
----
-
-### CR-03: Unvalidated base64 favicon injected into model attributes before sanitization
-
-**File:** `backend/app/controllers/v1/onboarding/brokerages_controller.rb:37-48`
-
-**Issue:** `brokerage_attrs["favicon_url"]` is set from `brokerage_params`, which permits `favicon_url` via strong parameters. The check `start_with?("data:")` is the only guard before the full base64 string is passed to `S3UploadService#upload_base64`. There is no validation of:
-1. **Maximum size** — a client can send an arbitrarily large base64 string, consuming server memory and S3 bandwidth.
-2. **Allowed MIME types** — `extract_content_type` falls back to `application/octet-stream`, and `mime_type_to_extension` falls back to `.bin`. A malicious client can upload arbitrary binary content (e.g., an executable) with a `.bin` extension to S3.
-
-An SVG (`image/svg+xml`) is also accepted, which can contain embedded scripts and be served as an active document if the S3 bucket or CDN does not force-download content-disposition headers.
-
-**Fix:**
+**Fix — Option B: keep `uid` in the type but fix the serializer to send `uid` as the key:**
 ```ruby
-ALLOWED_FAVICON_MIME_TYPES = %w[image/png image/jpeg image/gif image/webp image/x-icon image/vnd.microsoft.icon].freeze
-MAX_FAVICON_BASE64_BYTES = 512_000 # ~375 KB decoded
-
-content_type = extract_content_type(brokerage_attrs["favicon_url"])
-unless ALLOWED_FAVICON_MIME_TYPES.include?(content_type)
-  return render json: { error: "Unsupported favicon type" }, status: :unprocessable_entity
-end
-
-if brokerage_attrs["favicon_url"].bytesize > MAX_FAVICON_BASE64_BYTES
-  return render json: { error: "Favicon too large" }, status: :unprocessable_entity
-end
+# group_serializer.rb
+attributes :name, :uid, :created_at, :updated_at, :active, :last_active_at
+# remove the `def id` override
 ```
-Remove `image/svg+xml` from allowed types entirely, or ensure the S3 bucket policy sets `Content-Disposition: attachment` for SVG objects.
-
----
-
-### CR-04: N+1 query — `show_welcome_banner` fires a DB query per user in every collection serialization
-
-**File:** `backend/app/serializers/user_serializer.rb:37-45`
-
-**Issue:** `show_welcome_banner` is declared as a plain `attribute` (not guarded with an `if:` proc), so it executes unconditionally on every serialized user. It runs `BrokerageMembership.without_deleted.find_by(...)` — one query per user record. Any collection endpoint that serializes users (admin users list, group users list, etc.) now issues N membership queries per response. The project's `AssociationLoader` pattern exists explicitly to prevent this, but was not applied here.
-
-**Fix:** Either guard behind an `if:` conditional that is false for collection contexts, or pass membership data via `instance_options` from the controller and read it in the serializer without hitting the DB:
-```ruby
-attribute :show_welcome_banner, if: :show_welcome_banner?
-
-def show_welcome_banner?
-  @instance_options[:include_welcome_banner] == true
-end
-
-def show_welcome_banner
-  @instance_options[:welcomed_at_by_user_id]&.fetch(object.id, nil).nil?
-end
-```
-The profile controller (the only place the banner matters) can pass `welcomed_at` pre-loaded; all other serialization paths set `include_welcome_banner: false`.
-
----
-
-### CR-05: `accept_token` — `skip_brokerage_membership?` override is named but never used; membership role is not set when record already exists
-
-**File:** `backend/app/controllers/v1/dashboard/invitations_controller.rb:11-13, 89-91`
-
-**Issue 1 — dead override:** `skip_brokerage_membership?` returns `true` for `"accept_token"` (line 11-13), which bypasses the membership existence check in `CognitoAuth`. This is correct intent — the user may not yet be a member. However the method name is `skip_brokerage_membership?` and it is defined on the controller, but `CognitoAuth` only calls `skip_brokerage_membership?` inside `authenticate_cognito_user!`, and `accept_token` calls `before_action :authenticate_cognito_user!` through the default `except: [:validate_token]` filter — so it IS applied. The logic is fine, but it needs a test; silently removing this override would be a security regression with no compile-time warning.
-
-**Issue 2 — BLOCKER:** `find_or_create_by!` on line 89 sets `m.role = invitation.role` **only inside the block**, which runs only when the record is *created*. If a `BrokerageMembership` already exists (e.g., user previously accepted a different invitation to the same brokerage), the role from the new invitation is silently ignored and the user keeps their old role. This means an invitation for `role: "owner"` does nothing if the user is already a member with `role: "agent"`.
-
-```ruby
-# Current (role only set on create):
-BrokerageMembership.find_or_create_by!(user_id: user.id, brokerage_id: brokerage.id) do |m|
-  m.role = invitation.role
-end
-```
-
-This is an inconsistency/logic error. Whether it is a bug depends on product intent, but no comment documents the decision. If the intent is "never downgrade role," that logic must be explicit:
-
-```ruby
-membership = BrokerageMembership.without_deleted.find_or_initialize_by(
-  user_id: user.id, brokerage_id: brokerage.id
-)
-# Only set role if creating, or if the new role is a promotion
-membership.role ||= invitation.role
-membership.save!
-```
-
-Also: `find_or_create_by!` does not call `.without_deleted`, so a soft-deleted membership record will not be found and a duplicate will be created, violating the unique index.
+Then update `HomepageContext.tsx:108` to `redirectGroups[0].uid`.
 
 ---
 
 ## Warnings
 
-### WR-01: `submit` in `CreateBrokerageContext` — unhandled error swallows wizard state, no toast on failure
+### WR-01: `groupNames` derived array breaks `useMemo` stability — context value recreated on every render
 
-**File:** `frontend/src/containers/createBrokerage/CreateBrokerageContext.tsx:111-119`
+**File:** `frontend/src/containers/dashboard/home/HomepageContext.tsx:101, 172`
 
-**Issue:** `createMutation.mutateAsync(payload)` throws on a non-2xx HTTP response. The `await` on line 111 is not wrapped in try/catch. If `mutateAsync` rejects (network error, 500, etc.), the exception propagates up to the caller (`DomainStep.handleContinue`). `DomainStep` does catch it (line 73-79), but maps all errors onto `errors.subdomain`, which is confusing when the root cause is unrelated to the subdomain (e.g., a server 500).
+**Issue:** `groupNames` is computed on line 101 with `.map()`, which creates a new array reference on every render. It is placed directly in the `useMemo` dependency array at line 172. Because the array reference changes every render (even when the underlying data is unchanged), the `useMemo` re-runs on every render cycle regardless of whether any actual data changed. This defeats the purpose of `useMemo` for the context value and causes every consumer of `useHomepageContext` to re-render on every parent render.
 
-More critically: the error check `if (data.error)` on line 113 is executed only for 2xx responses that contain an `{ error: "..." }` body. A genuine 4xx/5xx response never reaches line 113, so `throw new Error(detail)` on line 115 is never reached for real HTTP errors. The error classification in `DomainStep` is therefore unreliable.
-
-**Fix:** Wrap the mutateAsync call and distinguish HTTP errors from app-level errors. Show a toast for non-domain errors:
+**Fix:** Derive `groupNames` inside the `useMemo` body, or stabilize it with its own `useMemo` keyed on `groupsQuery.data`:
 ```tsx
-const data = await createMutation.mutateAsync(payload)
-// data.error here is only a 2xx soft error; real HTTP errors already threw
-if (data.error) {
-    const detail = data.details?.join(', ') || data.error
-    throw new Error(detail)
-}
-```
-At minimum, add a toast in the `catch` block of `CreateBrokerageContext.submit` so the user gets feedback independent of the calling component.
-
----
-
-### WR-02: `JoinBrokerage` — `handleAccept` is not wrapped in try/catch; unhandled rejection on network error
-
-**File:** `frontend/src/containers/auth/joinBrokerage/JoinBrokerage.tsx:41-50`
-
-**Issue:** `handleAccept` calls `acceptMutation.mutateAsync()` without try/catch. If the network request fails, the promise rejects and produces an unhandled rejection. The component does display `acceptMutation.isError` for the signed-in case (line 159), but for the `CreateAccount` flow at line 179 (`onAuthenticated={handleAccept}`), any rejection after account creation is silently swallowed — the user sees no feedback and does not reach the dashboard.
-
-**Fix:**
-```tsx
-const handleAccept = useCallback(async () => {
-    try {
-        const accepted = await acceptMutation.mutateAsync()
-        const nextStep = accepted?.nextStep
-        if (nextStep && nextStep !== 'dashboard') {
-            navigate(`/${nextStep}`, { replace: true })
-            return
-        }
-        navigate('/', { replace: true })
-    } catch {
-        // acceptMutation.isError will be true; the signed-in UI renders the error.
-        // For the CreateAccount flow, surface a toast:
-        toast.error('Failed to accept invitation. Please try again.')
+// Option A — derive inside the outer useMemo:
+return useMemo(() => {
+    const groupNames = (groupsQuery.data?.groups ?? []).map((g: { name: string }) => g.name)
+    return {
+        state: {
+            ...
+            groupNames,
+        },
+        ...
     }
-}, [acceptMutation, navigate])
+}, [
+    // replace `groupNames` dep with `groupsQuery.data`
+    groupsQuery.data,
+    ...
+])
 ```
 
----
-
-### WR-03: `JoinBrokerage` — `data?.error` check occurs after `validationQuery.isError` branch, but a 4xx response body `{ error: "..." }` is never reached
-
-**File:** `frontend/src/containers/auth/joinBrokerage/JoinBrokerage.tsx:74-117`
-
-**Issue:** When `validate_token` returns a non-2xx status (e.g., 404 for invalid token, 410 for expired), Axios throws an error, `validationQuery.isError` becomes true, and the generic "Unable to validate invite" card is shown. The check `if (data?.error)` at line 97 is unreachable for any non-2xx response — `data` will be `undefined` in the error path. This means the specific `next_step` values (`"expired"`, `"revoked"`, `"already-accepted"`) returned in the 4xx body are never read, and the user always sees the same generic error card regardless of the failure reason.
-
-**Fix:** In `validateInviteToken`, catch Axios errors and return the response body (which contains `{ error, next_step, contact }`) as the resolved value rather than rejecting, so `validationQuery.data` is populated for error cases:
-```ts
-const validateInviteToken = async (token: string) => {
-    try {
-        const response = await api.post('/v1/dashboard/invitations/validate_token', { invite_token: token })
-        return response.data
-    } catch (err: unknown) {
-        const axiosErr = err as { response?: { data?: unknown } }
-        if (axiosErr.response?.data) return axiosErr.response.data
-        throw err
-    }
-}
-```
-
----
-
-### WR-04: `useFetchDashboardBrokerage` uses deprecated TanStack Query v5 `onError` option
-
-**File:** `frontend/src/store/hooks/Dashboard/useFetchDashboardBrokerage.ts:11-13`
-
-**Issue:** The `onError` callback passed to `useQuery` was removed in TanStack Query v5. In v5, `onError` on `useQuery` is silently ignored — the error is not logged. The correct v5 approach is to handle errors via the `error` return value or a global `QueryCache` error handler.
-
-**Fix:** Remove `onError` from the options and handle the error via the returned `error` value:
-```ts
-const { isLoading, data, isError, error, refetch } = useQuery({
-    queryKey: dashboardBrokerageKeys.all,
-    queryFn: fetchBrokerageContact,
-    retry: false,
-})
-if (error) console.error('Failed to fetch dashboard brokerage:', error)
-```
-
----
-
-### WR-05: `CreateBrokerageContext` — `createMutation.isLoading` uses removed TanStack Query v5 API
-
-**File:** `frontend/src/containers/createBrokerage/CreateBrokerageContext.tsx:133`
-
-**Issue:** `createMutation.isLoading` was renamed to `createMutation.isPending` in TanStack Query v5. `isLoading` on mutations is no longer defined in v5 and will always be `undefined` (falsy). This means `state.isSubmitting` is always `false`, the submit button is never disabled during the mutation, and the "Creating…" label never appears — the user can double-submit.
-
-**Fix:**
 ```tsx
-isSubmitting: createMutation.isPending,
+// Option B — own useMemo:
+const groupNames = useMemo(
+    () => (groupsQuery.data?.groups ?? []).map((g: { name: string }) => g.name),
+    [groupsQuery.data]
+)
 ```
 
 ---
 
-### WR-06: `invitations_controller#index` — `per_page` not capped at 100
+### WR-02: Banner dismissed optimistically — API failure leaves backend state inconsistent with no user feedback
 
-**File:** `backend/app/controllers/v1/dashboard/invitations_controller.rb:131-135`
+**File:** `frontend/src/containers/dashboard/home/HomepageContext.tsx:95-98`
 
-**Issue:** The `index` action accepts `per_page` from params and passes it directly to Pagy without capping at 100. CLAUDE.md explicitly requires: "Always cap `per_page` at 100 to prevent abusive large-page requests." A client can request `per_page=100000` to dump the entire invitations table in one response.
+**Issue:** `dismissBanner` calls `setBannerVisible(false)` before firing `dismissMutation.mutate()`. The `onError` handler in `useDismissWelcome` only calls `console.error` — it does not restore `bannerVisible` to `true`. If the API call fails (network error, 404 membership not found, etc.), the banner disappears from the UI permanently for the current session, but `welcomed_at` in the database remains `null`. On the next page load, the backend will again return `showWelcomeBanner: true` and the banner will reappear, creating a confusing on/off cycle that the user cannot resolve.
 
-**Fix:**
-```ruby
-per_page = params[:per_page].to_i
-items = per_page.positive? ? [per_page, 100].min : 10
-@pagy, invitations = pagy(invitations_scope, items: items)
+**Fix:** Either restore visibility on error or show a toast:
+```tsx
+const dismissBanner = useCallback(() => {
+    setBannerVisible(false)
+    dismissMutation.mutate(undefined, {
+        onError: () => {
+            setBannerVisible(true)  // restore on failure
+            toast.error('Could not dismiss the banner. Please try again.')
+        },
+    })
+}, [dismissMutation])
 ```
+
+---
+
+### WR-03: Banner group names truncated at first page (max 6 groups) — users with more groups see incomplete list
+
+**File:** `frontend/src/containers/dashboard/home/HomepageContext.tsx:79, 101`
+
+**Issue:** `useFetchAccountGroups` is called with `{ pagination: { page: 1 } }` and no `perPage` override. `fetchAccountGroups` spreads the pagination object as `params: { ...pagination }`, which sends only `page=1` — no `per_page`. The backend `groups_controller.rb` defaults to `items: params[:per_page].presence || 6`, meaning at most 6 group names are fetched. A user who is a member of 7 or more groups will see an incomplete list in the welcome banner with no indication that more groups exist.
+
+**Fix:** Either pass a high `perPage` value sufficient to cover realistic group membership, or use `paginate=false` if the endpoint supports it:
+```tsx
+const groupsQuery = useFetchAccountGroups({ pagination: { page: 1, perPage: 50 } })
+```
+If the backend `/v1/account/groups` endpoint does not yet support `paginate=false`, add that support (per the CLAUDE.md pattern) for this use case.
 
 ---
 
 ## Info
 
-### IN-01: `dismissWelcome` API module — `response.data` cast to interface that will already be camelCased
+### IN-01: `Homepage` instantiates a redundant `useNavigate` — navigation responsibility already split correctly
 
-**File:** `frontend/src/assets/api/account/dismissWelcome.ts:9`
+**File:** `frontend/src/containers/dashboard/home/Homepage.tsx:11`
 
-**Issue:** `return response.data as DismissWelcomeResponse` is fine. The interface correctly uses `welcomedAt` (camelCase) matching the Axios interceptor's `camelcaseKeys` transform. No functional issue, but worth noting the backend sends `welcomed_at` and the cast is only safe because the interceptor runs first.
+**Issue:** `Homepage` calls `useNavigate()` at line 11 for the single-group redirect effect. `HomepageContext` also calls `useNavigate()` at line 16 for the `selectGroup` action. Both instances are valid React Router hooks and functionally correct, but the duplication could suggest that the single-group redirect logic belongs in the context (alongside the existing `isSingleGroup`/`singleGroupId` state) rather than in the component. This is a minor coupling concern, not a bug.
 
----
-
-### IN-02: Migration adds `deleted_at` column to `brokerage_memberships` but prior queries are not audited
-
-**File:** `backend/db/migrate/20260503000001_add_welcomed_at_to_brokerage_memberships.rb`
-
-**Issue:** Adding `acts_as_paranoid` to `BrokerageMembership` and the `deleted_at` column means all pre-existing queries on `brokerage_memberships` throughout the codebase now silently filter out soft-deleted records — or do not, depending on whether `without_deleted` was being called. Any code that was previously relying on `BrokerageMembership.where(...)` now gets a default scope that excludes deleted records, but `BrokerageMembership.exists?` in `CognitoAuth` (CR-01) now includes them. A full audit of every `BrokerageMembership` query is warranted.
+**Suggestion:** Move the redirect `useEffect` into `HomepageContext` alongside the `isSingleGroup` derivation, where the navigation logic already lives (`selectGroup`). The component can then remain a pure render layer with no direct `useNavigate` dependency.
 
 ---
 
-### IN-03: `GeneralDashboard` — `onCardClick` for `newListings` sets `showRejected: true` unconditionally
+### IN-02: `useGetAccountProfile` uses deprecated TanStack Query v5 `onError` option
 
-**File:** `frontend/src/containers/dashboard/general/GeneralDashboard.tsx:44-51`
+**File:** `frontend/src/store/hooks/Account/useGetAccountProfile.tsx:12-15`
 
-**Issue:** Every `onCardClick` handler calls `actions.setShowRejected(true)` before applying the card-specific filter. This means clicking "New Listings" (or any summary card) always activates the `showRejected` filter. This appears unintentional — users clicking "New Listings" do not expect to see rejected properties.
+**Issue:** The `onError` callback on `useQuery` was removed in TanStack Query v5. It is silently ignored — the `toast.error('Failed to fetch profile')` call will never execute on profile fetch failure. This means `HomepageContext`'s banner hydration (`profileQuery.data?.showWelcomeBanner`) will silently fail to load with no user-visible error when the profile endpoint is unreachable.
 
-**Fix:** Remove the unconditional `actions.setShowRejected(true)` call from the `onCardClick` handler, or only set it for the card type that intends to show rejected listings.
+This same issue was flagged as WR-04 in the prior review for `useFetchDashboardBrokerage`. The same fix applies:
+
+**Fix:**
+```tsx
+const useGetAccountProfile = () => {
+    const { isLoading, data, isError, error, refetch } = useQuery({
+        queryKey: accountProfileKeys.all,
+        queryFn: getAccountProfile,
+        retry: false,
+    })
+
+    useEffect(() => {
+        if (error) {
+            toast.error('Failed to fetch profile')
+            console.error('Failed to fetch profile:', error)
+        }
+    }, [error])
+
+    return { isLoading, data: data?.user, isError, error, refetch }
+}
+```
 
 ---
 
-_Reviewed: 2026-05-03_
+_Reviewed: 2026-05-04_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
