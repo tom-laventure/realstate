@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-05-04T00:21:43.596Z"
-last_activity: 2026-05-04
+stopped_at: Completed 03-05-PLAN.md
+last_updated: "2026-05-05T06:27:00Z"
+last_activity: 2026-05-05
 progress:
   total_phases: 5
   completed_phases: 3
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 2 of 5 (Test Suite) — VERIFIED COMPLETE
-Plan: 6 of 6 complete
-Status: Phase complete — ready for verification
-Last activity: 2026-05-04
+Phase: 3 of 5 (Onboarding Fixes) — IN PROGRESS
+Plan: 5 of 5 complete
+Status: Phase complete — all plans executed
+Last activity: 2026-05-05
 
-Progress: [████░░░░░░] 40% (2/5 phases complete) — ready for Phase 3
+Progress: [██████░░░░] 60% (3/5 phases complete) — Phase 3 complete, ready for Phase 4
 
 ## Performance Metrics
 
@@ -104,6 +104,8 @@ Recent decisions affecting current work:
 - 03-04: D-18: Optimistic dismiss — setBannerVisible(false) immediately + fire-and-forget dismissMutation.mutate() (no toast, no await, no confirmation)
 - 03-04: D-19: CLAUDE.md compliance — brokerage name and group names both flow via dedicated TanStack hooks (useFetchDashboardBrokerage + useFetchAccountGroups); no inline useQuery
 - 03-04: D-20: WelcomeBanner is purely presentational — zero internal state, zero hooks
+- 03-05: D-21: Option A chosen (HomepageContext) over Option B (AppShell) for banner — AppShell is layout-only; injecting data hooks there violates separation of concerns
+- 03-05: D-22: Both HomepageContext and GeneralDashboardContext use identical four-hook chain for banner — consistent pattern, easy to maintain
 
 ### Pending Todos
 
@@ -125,6 +127,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-04T00:19:42Z
-Stopped at: Completed 03-04-PLAN.md
+Last session: 2026-05-05T06:27:00Z
+Stopped at: Completed 03-05-PLAN.md
 Resume file: None
