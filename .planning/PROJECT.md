@@ -47,6 +47,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Frontend Vitest + MSW + renderWithProviders test infrastructure — Validated Phase 2 (TEST-07)
 - ✓ `ProtectedRoute` and `RequireRole` guard unit tests — Validated Phase 2 (TEST-08)
 - ✓ `GoogleSignInButton` + Hub session exchange tests — Validated Phase 2 (TEST-09)
+- ✓ Domain wizard error propagation — inline error on duplicate, no toast, wizard step gate — Validated Phase 3 (ONB-01)
+- ✓ Post-accept navigation to `/{groupUid}` (UUID path) via `group.uid` in invitation backend — Validated Phase 3 (ONB-02)
+- ✓ Welcome banner (`welcomed_at` migration, `dismiss_welcome` endpoint, `show_welcome_banner` serializer, `WelcomeBanner` component, `HomepageContext` + `GeneralDashboardContext` wiring) — Validated Phase 3 (ONB-03)
 
 ### Active
 
@@ -156,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-02 after Phase 2 completion*
+*Last updated: 2026-05-05 after Phase 3 completion*
