@@ -95,8 +95,19 @@ Cross-cutting constraints:
   1. A user on any brokerage subdomain can click "Sign in with Google", complete Google's consent screen, and land on their brokerage dashboard authenticated — the intermediary callback URL resolves the correct tenant and completes the session exchange
   2. A user with an existing email/password account who signs in with the same Google email is linked automatically — no duplicate account is created; they see their existing data
   3. A user signed in via Google sees a "Connected via Google" badge in their account settings
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 4 plans
+
+Plans:
+
+**Wave 1** *(no dependencies — both run in parallel)*
+- [ ] 04-01-PLAN.md — Backend foundation: auth_provider migration, SessionsController id_token branch (JWT.decode), CORS auth.realtybase.ca, UserSerializer auth_provider
+- [ ] 04-02-PLAN.md — PreSignUp Lambda: Node.js 20.x, adminLinkProviderForUser, email_verified guard, AliasExistsException handling
+
+**Wave 2** *(depends on 04-01 — callback page POSTs to the id_token session endpoint)*
+- [ ] 04-03-PLAN.md — Static callback page (auth-callback/index.html) + LoginSuccessful.tsx hash-reading + /auth/login-success route
+
+**Wave 3** *(depends on 04-01 + 04-03 — button wires to the route, badge reads from serializer)*
+- [ ] 04-04-PLAN.md — GoogleSignInButton full implementation + CreateAccount.tsx divider wiring + amplify.ts redirectSignIn + userType.ts authProvider + MemberDetailCard badge
 
 ### Phase 5: Calendar Sync
 **Goal**: Users can connect Google, Microsoft, and Apple calendars from their profile settings; EstateDate events sync automatically to connected calendars; sync failures are visible and recoverable without reconnecting
@@ -119,5 +130,5 @@ Cross-cutting constraints:
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
-| 4. Google OAuth | 0/TBD | Not started | - |
+| 4. Google OAuth | 0/4 | Not started | - |
 | 5. Calendar Sync | 0/TBD | Not started | - |
