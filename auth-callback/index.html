@@ -35,9 +35,25 @@
 
     function showError(message) {
       document.getElementById('spinner').style.display = 'none'
-      document.getElementById('status').innerHTML =
-        '<span class="error-text">' + message + '</span><br>' +
-        '<a href="/" style="margin-top:0.75rem;display:inline-block">Back to sign in</a>'
+      const status = document.getElementById('status')
+      // Clear existing content (textContent assignment removes all child nodes)
+      status.textContent = ''
+
+      // Error message — textContent prevents HTML interpretation of server-supplied content (CR-03 fix)
+      const errorSpan = document.createElement('span')
+      errorSpan.className = 'error-text'
+      errorSpan.textContent = message
+
+      const br = document.createElement('br')
+
+      const backLink = document.createElement('a')
+      backLink.href = '/'
+      backLink.style.cssText = 'margin-top:0.75rem;display:inline-block'
+      backLink.textContent = 'Back to sign in'
+
+      status.appendChild(errorSpan)
+      status.appendChild(br)
+      status.appendChild(backLink)
     }
 
     Amplify.configure({
