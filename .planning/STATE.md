@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-05-09T13:52:57.877Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-05-09T13:56:46.810Z"
 last_activity: 2026-05-09
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 22
-  completed_plans: 19
-  percent: 86
+  completed_plans: 20
+  percent: 91
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 04 (google-oauth) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-05-09
 
-Progress: [██████░░░░] 60% (3/5 phases complete) — Phase 4 planned, ready for execute-phase
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [██████░░░░] 60% (3/5 phases complete) — Phase 4
 
 *Updated after each plan completion*
 | Phase 04-google-oauth P01 | 4min | 2 tasks | 4 files |
+| Phase 04-google-oauth P02 | 2 | - tasks | - files |
 
 ## Accumulated Context
 
@@ -110,6 +111,9 @@ Recent decisions affecting current work:
 - [Phase ?]: 04-01: CORS origin uses source == https://auth.realtybase.ca exact full-origin string — not host-only (D-06 compliance)
 - [Phase ?]: 04-01: JWT.decode(token, nil, false) used for Cognito RS256 idToken in OAuth path — project-established pattern from CognitoService
 - [Phase ?]: 04-01: email_verified checked before find_or_initialize_by in OAuth path — prevents account takeover via unverified email (T-04-01-01 mitigation)
+- [Phase ?]: 04-02: ProviderAttributeName 'email' for DestinationUser lookup — 'username' fails on email-alias Cognito pools (UserNotFoundException)
+- [Phase ?]: 04-02: email_verified evaluated as string === 'true' — Cognito userAttributes are strings not booleans
+- [Phase ?]: 04-02: AliasExistsException swallowed as no-op; all other SDK errors propagate to Cognito sign-up rejection
 
 ### Pending Todos
 
@@ -131,6 +135,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-09T13:52:57.873Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-05-09T13:56:46.797Z
+Stopped at: Completed 04-02-PLAN.md
 Resume file: None
