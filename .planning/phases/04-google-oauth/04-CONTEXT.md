@@ -24,7 +24,7 @@ After this phase: a user on any brokerage subdomain or custom domain can sign in
 
 ### Session Exchange (Backend)
 
-- **D-05:** Extend `POST /v1/sessions` with an `id_token` param path. When `id_token` is present: call `TokenService.verify(id_token)` to validate and decode the Cognito JWT, find-or-create the User from the `sub` claim, set `auth_provider = 'google'` on the user, and return `TokenService.issue(user)`. When `email` + `password` are present: existing `CognitoService.initiate_auth` path unchanged.
+- **D-05:** Extend `POST /v1/sessions` with an `id_token` param path. When `id_token` is present: decode the Cognito idToken with `JWT.decode(params[:id_token], nil, false)` (third arg `false` skips signature verification — Cognito idTokens are RS256-signed, NOT HS256; `TokenService.verify` uses HS256 and will always raise `JWT::DecodeError` — do not use it here), extract claims (`sub`, `email`, `email_verified`, `given_name`, `family_name`, `name`), find-or-create the User from the `sub` claim, set `auth_provider = 'google'` on the user, and return `TokenService.issue(user)`. When `email` + `password` are present: existing `CognitoService.initiate_auth` path unchanged.
 - **D-06:** CORS: extend the existing BrokerageDomain proc to also allow `https://auth.realtybase.ca`. Pattern: `BrokerageDomain.exists?(domain: origin_host) || origin == 'https://auth.realtybase.ca'`. This is a special-case addition — `auth.realtybase.ca` is not a brokerage tenant domain.
 
 ### Session Exchange (Frontend)
@@ -105,11 +105,10 @@ After this phase: a user on any brokerage subdomain or custom domain can sign in
 ### Reusable Assets
 - `GoogleSignInButton.tsx` — skeleton already imports `signInWithRedirect`, `fetchAuthSession`, `Hub`. Phase 4 fleshes it out: Google logo, spinner, `customState` encoding, error handling.
 - `LoginSuccessful.tsx` — spinner screen already exists and matches the design language. Repurpose with a `useEffect` to read hash token.
-- `TokenService.verify` — already used in `CognitoAuth` concern to validate Cognito JWTs. The OAuth session exchange path can call this directly instead of `CognitoService.initiate_auth`.
 - `SessionsController#create` — existing find-or-create-user logic can be reused in the OAuth path; same claim mapping (`sub`, `email`, `name`, `given_name`, `family_name`).
 
 ### Established Patterns
-- **Session exchange:** existing email/password path calls `CognitoService.initiate_auth` → gets claims → find-or-create user → `TokenService.issue`. OAuth path follows the same shape but starts with `TokenService.verify(id_token)` instead.
+- **Session exchange:** existing email/password path calls `CognitoService.initiate_auth` → gets claims → find-or-create user → `TokenService.issue`. OAuth path follows the same shape but starts with `JWT.decode(params[:id_token], nil, false)` instead of `TokenService.verify` (which uses HS256 and cannot verify Cognito RS256 idTokens).
 - **CORS:** `config/initializers/cors.rb` proc validates `request.host` against `BrokerageDomain`; extend with OR condition for the fixed auth domain.
 - **Context data chain:** `AccountContext` → `useGetAccountProfile` → `getAccountProfile` API → serializer. `auth_provider` flows through this chain once added to the serializer.
 - **Amplify Hub listener:** `GoogleSignInButton` already uses `Hub.listen('auth', ...)` — the Phase 2 skeleton used this for `signInWithRedirect` event. Phase 4 moves this logic into the `/auth/login-success` route instead (callback page handles the session exchange, not the Hub listener).

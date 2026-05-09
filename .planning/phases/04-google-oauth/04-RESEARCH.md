@@ -606,27 +606,27 @@ Note: `LoginSuccessful` is not currently imported in `auth.tsx`. The import must
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **customState encoding format in Amplify v6 — exact separator**
    - What we know: Amplify v6 uses `customState` option in `signInWithRedirect`. It encodes this into the OAuth `state` param.
-   - What's unclear: The exact format of how Amplify separates its internal state tracking from the `customState` value in the `state` query parameter that arrives at the callback URL.
-   - Recommendation: The static callback page should use `fetchAuthSession()` first (which completes the PKCE exchange), then either read the `customState` from Amplify's Hub event or decode the `state` param knowing Amplify's format. Test this in a dev environment before finalizing the callback page logic.
+   - What was unclear: The exact format of how Amplify separates its internal state tracking from the `customState` value in the `state` query parameter that arrives at the callback URL.
+   - **RESOLVED:** Hub listener approach used in callback page — the callback page calls `fetchAuthSession()` first (completing PKCE exchange), then reads `customState` from Amplify's Hub `customOAuthState` event detail rather than parsing the raw `state` query param. This avoids the Amplify prefix format entirely. Implementation: set up `Hub.listen('auth', ...)` before calling `fetchAuthSession()`; the Hub event `payload.data.customState` contains the decoded custom state string (the base64 JSON from D-02) — no raw state param parsing needed.
 
 2. **Callback page hosting: where does the static file live?**
    - What we know: The page must be at `https://auth.realtybase.ca/oauth/callback`. It is not part of the React SPA.
-   - What's unclear: Whether a hosting provider (Cloudflare Pages, S3, Netlify) is already provisioned for `auth.realtybase.ca`, or whether this is a new infrastructure task.
-   - Recommendation: The plan should include a hosting task. If no hosting exists, S3 + CloudFront is the standard AWS-native approach and consistent with the rest of the stack.
+   - What was unclear: Whether a hosting provider (Cloudflare Pages, S3, Netlify) is already provisioned for `auth.realtybase.ca`, or whether this is a new infrastructure task.
+   - **RESOLVED:** `auth-callback/index.html` is a new directory at the monorepo root, committed to the monorepo root git repo (not to `backend/` or `frontend/` sub-repos). Static hosting infrastructure (DNS + server) is a manual provisioning step flagged in Plan 04-03 as infrastructure-out-of-scope. The file is created by Plan 04-03 and must be deployed to a static host at `auth.realtybase.ca` as a separate human-performed step.
 
 3. **Amplify config for the callback page: must it be identical to the SPA?**
    - What we know: The callback page needs to call `fetchAuthSession()` which requires the same Cognito configuration (userPoolId, clientId, domain, redirectSignIn).
-   - What's unclear: Whether the callback page gets its Amplify config from environment variables (impossible for a static file at runtime) or from a hardcoded config embedded in the bundle.
-   - Recommendation: The callback page should have the Amplify config values embedded at build time (either by inlining into the HTML or using a pre-built bundle with config baked in). The planner should include a task for this.
+   - What was unclear: Whether the callback page gets its Amplify config from environment variables (impossible for a static file at runtime) or from a hardcoded config embedded in the bundle.
+   - **RESOLVED:** Amplify config values are embedded directly in `auth-callback/index.html` at development time, sourced from `frontend/.env`. The callback page has no build step — config values are hardcoded from the env file. Plan 04-03 Task 1 explicitly instructs the executor to read `frontend/.env` before writing the callback page and to replace placeholder strings with actual env values.
 
 4. **Does the Cognito client need a client secret for the OAuth flow?**
    - What we know: `CognitoService` uses a `client_secret` for `SECRET_HASH`. The Amplify public client (`VITE_COGNITO_CLIENT_ID`) is typically a public client without a secret.
-   - What's unclear: Whether the Cognito app client configured for Amplify has a secret. Public clients (no secret) are standard for SPAs and mobile apps; adding a Google federated IdP uses the same client.
-   - Recommendation: This is likely already configured correctly if Amplify is working — federated IdP uses the same `clientId` as email/password Amplify auth. No code change needed unless the client was configured with a secret.
+   - What was unclear: Whether the Cognito app client configured for Amplify has a secret. Public clients (no secret) are standard for SPAs and mobile apps; adding a Google federated IdP uses the same client.
+   - **RESOLVED:** No change needed. The Amplify public client (`VITE_COGNITO_CLIENT_ID`) is a public SPA client without a secret. Federated IdP sign-in uses the same client. `CognitoService` uses a separate confidential client (with SECRET_HASH) for admin operations — these are different app clients and the distinction is already correctly handled in the existing codebase.
 
 ---
 
