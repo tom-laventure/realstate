@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-02-PLAN.md
-last_updated: "2026-05-09T13:56:46.810Z"
+stopped_at: Completed 04-03-PLAN.md
+last_updated: "2026-05-09T13:59:33Z"
 last_activity: 2026-05-09
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 22
-  completed_plans: 20
-  percent: 91
+  completed_plans: 21
+  percent: 95
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 ## Current Position
 
 Phase: 04 (google-oauth) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-05-09
 
@@ -54,6 +54,7 @@ Progress: [█████████░] 91%
 *Updated after each plan completion*
 | Phase 04-google-oauth P01 | 4min | 2 tasks | 4 files |
 | Phase 04-google-oauth P02 | 2 | - tasks | - files |
+| Phase 04-google-oauth P03 | 1min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -114,6 +115,9 @@ Recent decisions affecting current work:
 - [Phase ?]: 04-02: ProviderAttributeName 'email' for DestinationUser lookup — 'username' fails on email-alias Cognito pools (UserNotFoundException)
 - [Phase ?]: 04-02: email_verified evaluated as string === 'true' — Cognito userAttributes are strings not booleans
 - [Phase ?]: 04-02: AliasExistsException swallowed as no-op; all other SDK errors propagate to Cognito sign-up rejection
+- [Phase ?]: 04-03: Hub.listen('signInWithRedirect') approach for customState — avoids Amplify raw state param prefix format parsing entirely
+- [Phase ?]: 04-03: endsWith('.realtybase.ca') guard in callback page — open redirector prevention for OAuth state param injection
+- [Phase ?]: 04-03: Amplify loaded via jsDelivr CDN in static callback page — CDN failure is denial-of-service, not security risk (T-04-03-04 accepted)
 
 ### Pending Todos
 
@@ -135,6 +139,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-09T13:56:46.797Z
-Stopped at: Completed 04-02-PLAN.md
+Last session: 2026-05-09T13:59:33Z
+Stopped at: Completed 04-03-PLAN.md
 Resume file: None

@@ -104,7 +104,7 @@ Plans:
 - [x] 04-02-PLAN.md — PreSignUp Lambda: Node.js 20.x, adminLinkProviderForUser, email_verified guard, AliasExistsException handling
 
 **Wave 2** *(depends on 04-01 — callback page POSTs to the id_token session endpoint)*
-- [ ] 04-03-PLAN.md — Static callback page (auth-callback/index.html) + LoginSuccessful.tsx hash-reading + /auth/login-success route
+- [x] 04-03-PLAN.md — Static callback page (auth-callback/index.html) + LoginSuccessful.tsx hash-reading + /auth/login-success route
 
 **Wave 3** *(depends on 04-01 + 04-03 — button wires to the route, badge reads from serializer)*
 - [ ] 04-04-PLAN.md — GoogleSignInButton full implementation + CreateAccount.tsx divider wiring + amplify.ts redirectSignIn + userType.ts authProvider + MemberDetailCard badge
@@ -130,5 +130,5 @@ Plans:
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
-| 4. Google OAuth | 2/4 | In Progress|  |
+| 4. Google OAuth | 3/4 | In Progress|  |
 | 5. Calendar Sync | 0/TBD | Not started | - |
