@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Completing sign-in…</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #fafafa; }
+    .card { text-align: center; padding: 2rem; border: 1px solid #e4e4e7; border-radius: 1rem; background: #fff; max-width: 360px; width: 100%; }
+    .spinner { display: inline-block; width: 48px; height: 48px; border: 4px solid rgba(24,24,27,0.15); border-top-color: #18181b; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    h1 { font-size: 1.125rem; font-weight: 600; margin: 0 0 0.5rem; color: #18181b; }
+    p { font-size: 0.875rem; color: #71717a; margin: 0; }
+    .error-text { color: #dc2626; margin-top: 1rem; font-size: 0.875rem; }
+    a { color: #18181b; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="spinner" id="spinner"></div>
+    <h1>Completing your sign-in…</h1>
+    <p id="status">Finishing authentication with Google.</p>
+  </div>
+
+  <script type="module">
+    // Amplify config values embedded from frontend/.env at development time.
+    // These must be updated when deploying to a different environment.
+    const COGNITO_USER_POOL_ID = 'us-west-2_uYxUwf8nj'
+    const COGNITO_CLIENT_ID = '1enoejqc07arf31an928fgo0nf'
+    const COGNITO_DOMAIN = 'us-west-2uyxuwf8nj.auth.us-west-2.amazoncognito.com'
+    const BACKEND_URL = 'https://api.realtybase.ca'
+
+    import { Amplify, Hub } from 'https://cdn.jsdelivr.net/npm/aws-amplify@6/dist/aws-amplify.js'
+    import { fetchAuthSession } from 'https://cdn.jsdelivr.net/npm/aws-amplify@6/dist/aws-amplify.js'
+
+    function showError(message) {
+      document.getElementById('spinner').style.display = 'none'
+      document.getElementById('status').innerHTML =
+        '<span class="error-text">' + message + '</span><br>' +
+        '<a href="/" style="margin-top:0.75rem;display:inline-block">Back to sign in</a>'
+    }
+
+    Amplify.configure({
+      Auth: {
+        Cognito: {
+          userPoolId: COGNITO_USER_POOL_ID,
+          userPoolClientId: COGNITO_CLIENT_ID,
+          loginWith: {
+            oauth: {
+              domain: COGNITO_DOMAIN,
+              scopes: ['email', 'openid', 'aws.cognito.signin.user.admin'],
+              redirectSignIn: ['https://auth.realtybase.ca/oauth/callback'],
+              redirectSignOut: ['https://auth.realtybase.ca/oauth/callback'],
+              responseType: 'code'
+            }
+          }
+        }
+      }
+    })
+
+    // Listen for the signInWithRedirect Hub event BEFORE calling fetchAuthSession.
+    // Amplify fires this event with customState decoded from the OAuth state param.
+    // Per D-02: customState = base64(JSON.stringify({ brokerage: "broker1.realtybase.ca" }))
+    let customState = null
+    const unlisten = Hub.listen('auth', ({ payload }) => {
+      if (payload.event === 'signInWithRedirect') {
+        customState = payload.data?.customState || null
+      }
+    })
+
+    try {
+      // fetchAuthSession() completes the PKCE code exchange and fires the Hub event.
+      const session = await fetchAuthSession()
+      unlisten()
+
+      const idToken = session.tokens?.idToken?.toString()
+      if (!idToken) {
+        showError('Authentication failed: no token received. Please try again.')
+        return
+      }
+
+      // Parse brokerage domain from customState (per D-02 and D-13)
+      // Format: base64(JSON.stringify({ brokerage: "broker1.realtybase.ca" }))
+      let brokerage = null
+      if (customState) {
+        try {
+          const decoded = JSON.parse(atob(customState))
+          brokerage = decoded.brokerage
+        } catch {
+          // customState parse failure — fall through to validation error
+        }
+      }
+
+      // Security: validate brokerage domain before redirecting (open redirector prevention — T-04-03-01)
+      // Only allow redirect to .realtybase.ca subdomains
+      if (!brokerage || !brokerage.endsWith('.realtybase.ca')) {
+        showError('Invalid sign-in state. Please return to your brokerage portal and sign in again.')
+        return
+      }
+
+      // Exchange Cognito idToken for app JWT via backend session endpoint (per D-05)
+      const response = await fetch(BACKEND_URL + '/v1/sessions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token: idToken })
+      })
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}))
+        showError('Sign-in failed: ' + (body.error || response.statusText) + '. Please try again.')
+        return
+      }
+
+      const { token } = await response.json()
+
+      // Token handoff: redirect to brokerage domain with JWT in URL hash (per D-04).
+      // Hash is browser-only — not sent in Referer headers, not in server access logs.
+      window.location.href = 'https://' + brokerage + '/auth/login-success#token=' + token
+    } catch (err) {
+      unlisten()
+      showError('Something went wrong completing your sign-in. Please try again.')
+      console.error('OAuth callback error:', err)
+    }
+  </script>
+</body>
+</html>
