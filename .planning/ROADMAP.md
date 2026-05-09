@@ -100,7 +100,7 @@ Cross-cutting constraints:
 Plans:
 
 **Wave 1** *(no dependencies — both run in parallel)*
-- [ ] 04-01-PLAN.md — Backend foundation: auth_provider migration, SessionsController id_token branch (JWT.decode), CORS auth.realtybase.ca, UserSerializer auth_provider
+- [x] 04-01-PLAN.md — Backend foundation: auth_provider migration, SessionsController id_token branch (JWT.decode), CORS auth.realtybase.ca, UserSerializer auth_provider
 - [ ] 04-02-PLAN.md — PreSignUp Lambda: Node.js 20.x, adminLinkProviderForUser, email_verified guard, AliasExistsException handling
 
 **Wave 2** *(depends on 04-01 — callback page POSTs to the id_token session endpoint)*
@@ -130,5 +130,5 @@ Plans:
 | 1. Security Foundation | 7/7 | Complete | 2026-05-02 |
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
-| 4. Google OAuth | 0/4 | Not started | - |
+| 4. Google OAuth | 1/4 | In Progress|  |
 | 5. Calendar Sync | 0/TBD | Not started | - |

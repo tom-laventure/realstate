@@ -21,10 +21,10 @@
 
 ### Google OAuth (Social Login)
 
-- [ ] **AUTH-01**: Google is configured as a federated identity provider in the Cognito user pool; a fixed intermediary callback URL (e.g. `auth.realtybase.ca/oauth/callback`) receives all OAuth redirects, extracts brokerage domain from the `state` parameter, and completes the per-tenant session exchange — this is mandatory given dynamic tenant domains
+- [x] **AUTH-01**: Google is configured as a federated identity provider in the Cognito user pool; a fixed intermediary callback URL (e.g. `auth.realtybase.ca/oauth/callback`) receives all OAuth redirects, extracts brokerage domain from the `state` parameter, and completes the per-tenant session exchange — this is mandatory given dynamic tenant domains
 - [ ] **AUTH-02**: Cognito Pre Sign-Up Lambda calls `AdminLinkProviderForUser` when a Google sign-in matches an existing email/password user; Lambda verifies `email_verified: true` on the Google claim before linking to prevent account takeover; first-link exception handled gracefully on the frontend
 - [ ] **AUTH-03**: User can click "Sign in with Google" on the login screen; on success, Amplify Hub fires `signInWithRedirect`, `fetchAuthSession()` retrieves the Cognito idToken, which is exchanged at `POST /v1/sessions` for the app's HS256 JWT
-- [ ] **AUTH-04**: User sees a "Connected via Google" badge in their account settings when signed in via Google federation
+- [x] **AUTH-04**: User sees a "Connected via Google" badge in their account settings when signed in via Google federation
 
 ### Onboarding Fixes
 

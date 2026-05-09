@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-stopped_at: Phase 4 planned — 4 plans ready for execution
-last_updated: "2026-05-09T00:00:00Z"
+status: executing
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-05-09T13:52:57.877Z"
 last_activity: 2026-05-09
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 21
-  completed_plans: 17
-  percent: 60
+  total_plans: 22
+  completed_plans: 19
+  percent: 86
 ---
 
 # Project State
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-30)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 4 — Google OAuth (next)
+**Current focus:** Phase 04 — google-oauth
 
 ## Current Position
 
-Phase: 4 of 5 (Google OAuth) — PLANNED, READY TO EXECUTE
-Plan: 0 of 4 complete
-Status: Phase planned — 4 plans in 3 waves, ready for execution
+Phase: 04 (google-oauth) — EXECUTING
+Plan: 2 of 4
+Status: Ready to execute
 Last activity: 2026-05-09
 
 Progress: [██████░░░░] 60% (3/5 phases complete) — Phase 4 planned, ready for execute-phase
@@ -52,6 +52,7 @@ Progress: [██████░░░░] 60% (3/5 phases complete) — Phase 4
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 04-google-oauth P01 | 4min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,9 @@ Recent decisions affecting current work:
 - 03-04: D-20: WelcomeBanner is purely presentational — zero internal state, zero hooks
 - 03-05: D-21: Option A chosen (HomepageContext) over Option B (AppShell) for banner — AppShell is layout-only; injecting data hooks there violates separation of concerns
 - 03-05: D-22: Both HomepageContext and GeneralDashboardContext use identical four-hook chain for banner — consistent pattern, easy to maintain
+- [Phase ?]: 04-01: CORS origin uses source == https://auth.realtybase.ca exact full-origin string — not host-only (D-06 compliance)
+- [Phase ?]: 04-01: JWT.decode(token, nil, false) used for Cognito RS256 idToken in OAuth path — project-established pattern from CognitoService
+- [Phase ?]: 04-01: email_verified checked before find_or_initialize_by in OAuth path — prevents account takeover via unverified email (T-04-01-01 mitigation)
 
 ### Pending Todos
 
@@ -127,6 +131,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-05T06:27:00Z
-Stopped at: Completed 03-05-PLAN.md
+Last session: 2026-05-09T13:52:57.873Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
