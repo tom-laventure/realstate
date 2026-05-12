@@ -73,6 +73,25 @@
       }
     })
 
+    // Poll fetchAuthSession() until Amplify's background PKCE code exchange completes.
+    // configure() starts the exchange asynchronously; fetchAuthSession() initially returns {}
+    // and only gains tokens once the exchange finishes (typically within 1-2 seconds).
+    async function waitForAuthSession(timeoutMs = 15000) {
+      const deadline = Date.now() + timeoutMs
+      let attempt = 0
+      while (Date.now() < deadline) {
+        const session = await fetchAuthSession()
+        attempt++
+        console.log(`[auth-cb] poll #${attempt}`, {
+          hasIdToken: !!session.tokens?.idToken,
+          elapsed: Date.now() - (deadline - timeoutMs),
+        })
+        if (session.tokens?.idToken) return session
+        await new Promise(r => setTimeout(r, 300))
+      }
+      throw new Error('Sign-in timed out waiting for Amplify code exchange')
+    }
+
     ;(async () => {
       try {
         console.log('[auth-cb] page loaded', {
@@ -81,29 +100,16 @@
           state: new URLSearchParams(location.search).get('state'),
         })
 
-        console.log('[auth-cb] calling fetchAuthSession()…')
+        console.log('[auth-cb] waiting for Amplify code exchange…')
         let session
         try {
-          session = await fetchAuthSession()
+          session = await waitForAuthSession()
         } catch (sessionErr) {
-          console.error('[auth-cb] fetchAuthSession() threw:', sessionErr)
+          console.error('[auth-cb] waitForAuthSession() threw:', sessionErr)
           throw sessionErr
         }
 
-        console.log('[auth-cb] fetchAuthSession() resolved', {
-          hasTokens: !!session.tokens,
-          hasIdToken: !!session.tokens?.idToken,
-          hasAccessToken: !!session.tokens?.accessToken,
-          identityId: session.identityId,
-          credentials: session.credentials ? 'present' : 'absent',
-        })
-
         const idToken = session.tokens?.idToken?.toString()
-        if (!idToken) {
-          console.warn('[auth-cb] no idToken in session — session dump:', JSON.stringify(session, null, 2))
-          showError('Authentication failed: no token received. Please try again.')
-          return
-        }
         console.log('[auth-cb] idToken obtained, length:', idToken.length)
 
         // Extract the brokerage customState from the URL's state param directly.
