@@ -16,167 +16,174 @@
   </style>
 </head>
 <body>
-  <div class="card" id="card">
+  <div class="card">
     <div class="spinner" id="spinner"></div>
     <h1 id="heading">Completing your sign-in…</h1>
     <p id="status">Finishing authentication with Google.</p>
   </div>
 
-  <script type="module">
-    // Amplify config values embedded from frontend/.env at development time.
-    // These must be updated when deploying to a different environment.
-    const COGNITO_USER_POOL_ID = 'us-west-2_uYxUwf8nj'
-    const COGNITO_CLIENT_ID = '1enoejqc07arf31an928fgo0nf'
-    const COGNITO_DOMAIN = 'us-west-2uyxuwf8nj.auth.us-west-2.amazoncognito.com'
-    const BACKEND_URL = 'https://realstate-be.onrender.com'
+  <script>
+    // No CDN imports — all Amplify sub-path imports share different singletons on esm.sh,
+    // causing "not configured" errors. This page implements OAuth 2.0 + PKCE directly
+    // using standard Web APIs (fetch, crypto.subtle, localStorage).
 
-    import { Amplify } from 'https://esm.sh/aws-amplify@6.15.9'
-    import { signInWithRedirect, fetchAuthSession } from 'https://esm.sh/aws-amplify@6.15.9/auth'
+    const COGNITO_CLIENT_ID = '1enoejqc07arf31an928fgo0nf'
+    const COGNITO_DOMAIN    = 'us-west-2uyxuwf8nj.auth.us-west-2.amazoncognito.com'
+    const REDIRECT_URI      = 'https://auth.realtybase.ca/oauth/callback'
+    const BACKEND_URL       = 'https://realstate-be.onrender.com'
 
     function showError(message) {
       document.getElementById('spinner').style.display = 'none'
       const status = document.getElementById('status')
       status.textContent = ''
-
-      // textContent prevents HTML interpretation of server-supplied content (CR-03 fix)
-      const errorSpan = document.createElement('span')
-      errorSpan.className = 'error-text'
-      errorSpan.textContent = message
-
-      const br = document.createElement('br')
-
-      const backLink = document.createElement('a')
-      backLink.href = '/'
-      backLink.style.cssText = 'margin-top:0.75rem;display:inline-block'
-      backLink.textContent = 'Back to sign in'
-
-      status.appendChild(errorSpan)
-      status.appendChild(br)
-      status.appendChild(backLink)
+      // textContent prevents HTML injection of server-supplied strings (CR-03)
+      const err = document.createElement('span')
+      err.className = 'error-text'
+      err.textContent = message
+      const link = document.createElement('a')
+      link.href = '/'
+      link.style.cssText = 'margin-top:0.75rem;display:inline-block'
+      link.textContent = 'Back to sign in'
+      status.appendChild(err)
+      status.appendChild(document.createElement('br'))
+      status.appendChild(link)
     }
 
-    Amplify.configure({
-      Auth: {
-        Cognito: {
-          userPoolId: COGNITO_USER_POOL_ID,
-          userPoolClientId: COGNITO_CLIENT_ID,
-          loginWith: {
-            oauth: {
-              domain: COGNITO_DOMAIN,
-              scopes: ['email', 'openid', 'aws.cognito.signin.user.admin'],
-              redirectSignIn: ['https://auth.realtybase.ca/oauth/callback'],
-              redirectSignOut: ['https://auth.realtybase.ca/oauth/callback'],
-              responseType: 'code'
-            }
-          }
-        }
-      }
-    })
-
-    // Poll fetchAuthSession() until Amplify's background PKCE code exchange completes.
-    // configure() starts the exchange asynchronously; fetchAuthSession() initially returns {}
-    // and only gains tokens once the exchange finishes (typically within 1-2 seconds).
-    async function waitForAuthSession(timeoutMs = 15000) {
-      const deadline = Date.now() + timeoutMs
-      while (Date.now() < deadline) {
-        const session = await fetchAuthSession()
-        if (session.tokens?.idToken) return session
-        await new Promise(r => setTimeout(r, 300))
-      }
-      throw new Error('Sign-in timed out waiting for token exchange')
+    function b64url(bytes) {
+      return btoa(String.fromCharCode(...bytes))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
     }
 
-    const params = new URLSearchParams(location.search)
-    const hasCode = params.has('code')
-    const brokerageParam = params.get('brokerage')
+    async function generatePKCE() {
+      const verifierBytes = new Uint8Array(32)
+      crypto.getRandomValues(verifierBytes)
+      const verifier  = b64url(verifierBytes)
+      const hash      = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
+      const challenge = b64url(new Uint8Array(hash))
+      return { verifier, challenge }
+    }
 
-    if (!hasCode && brokerageParam) {
+    function generateState() {
+      const bytes = new Uint8Array(16)
+      crypto.getRandomValues(bytes)
+      return b64url(bytes)
+    }
+
+    const params    = new URLSearchParams(location.search)
+    const code      = params.get('code')
+    const urlState  = params.get('state')
+    const brokerage = params.get('brokerage')
+
+    if (!code && brokerage) {
       // ── Initiation phase ──────────────────────────────────────────────────
-      // The frontend navigates here so that signInWithRedirect() is called from
-      // auth.realtybase.ca. This ensures the PKCE code verifier is stored in
-      // THIS origin's localStorage, where the /oauth/callback page can find it.
+      // Frontend navigates here so PKCE is generated on auth.realtybase.ca —
+      // the same origin as /oauth/callback — ensuring localStorage is shared.
       document.getElementById('heading').textContent = 'Redirecting to Google…'
-      document.getElementById('status').textContent = 'You will be redirected to sign in with Google.'
+      document.getElementById('status').textContent  = 'You will be redirected to sign in with Google.'
 
-      // Security: validate brokerage domain before trusting it as customState
-      if (brokerageParam !== 'realtybase.ca' && !brokerageParam.endsWith('.realtybase.ca')) {
-        showError('Invalid sign-in request. Please return to your brokerage portal and try again.')
+      // Security: validate brokerage domain before storing (T-04-03-01)
+      if (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca')) {
+        showError('Invalid sign-in request. Please return to your brokerage portal.')
       } else {
-        const customState = btoa(JSON.stringify({ brokerage: brokerageParam }))
-        signInWithRedirect({ provider: 'Google', customState }).catch(err => {
-          console.error('[auth] signInWithRedirect failed:', err)
-          showError('Could not start Google sign-in. Please try again.')
-        })
+        ;(async () => {
+          const { verifier, challenge } = await generatePKCE()
+          const state = generateState()
+
+          localStorage.setItem('auth_pkce_verifier',  verifier)
+          localStorage.setItem('auth_pkce_state',     state)
+          localStorage.setItem('auth_pkce_brokerage', brokerage)
+
+          const qs = new URLSearchParams({
+            response_type:         'code',
+            client_id:             COGNITO_CLIENT_ID,
+            redirect_uri:          REDIRECT_URI,
+            scope:                 'email openid aws.cognito.signin.user.admin',
+            identity_provider:     'Google',
+            code_challenge:        challenge,
+            code_challenge_method: 'S256',
+            state,
+          })
+          window.location.href = `https://${COGNITO_DOMAIN}/oauth2/authorize?${qs}`
+        })()
       }
 
-    } else if (hasCode) {
+    } else if (code && urlState) {
       // ── Callback phase ────────────────────────────────────────────────────
-      // PKCE code verifier is in this domain's localStorage (set during initiation above).
-      // Amplify exchanges the code in the background after configure(); we poll until done.
       ;(async () => {
         try {
-          console.log('[auth-cb] callback phase test', {
-            code: params.get('code'),
-            state: params.get('state'),
-          })
+          const verifier    = localStorage.getItem('auth_pkce_verifier')
+          const storedState = localStorage.getItem('auth_pkce_state')
+          const broker      = localStorage.getItem('auth_pkce_brokerage')
 
-          const session = await waitForAuthSession()
-          const idToken = session.tokens?.idToken?.toString()
-          console.log('[auth-cb] idToken obtained, length:', idToken.length)
+          console.log('[auth-cb] callback', { hasVerifier: !!verifier, hasBroker: !!broker })
 
-          // Extract brokerage customState from the URL's state param.
-          // Amplify v6 format: <alphanumeric pkce state>-<hex-encoded customState>
-          const stateParam = params.get('state') || ''
-          const sep = stateParam.indexOf('-')
-          let customState = null
-          if (sep !== -1) {
-            try {
-              const hex = stateParam.slice(sep + 1)
-              customState = hex.replace(/../g, h => String.fromCharCode(parseInt(h, 16)))
-              console.log('[auth-cb] customState from URL:', customState)
-            } catch {
-              console.warn('[auth-cb] hex decode of customState failed')
-            }
+          if (!verifier || !storedState) {
+            showError('Sign-in session expired. Please return to your portal and try again.')
+            return
           }
-
-          let brokerage = null
-          if (customState) {
-            try {
-              const decoded = JSON.parse(atob(customState))
-              brokerage = decoded.brokerage
-              console.log('[auth-cb] brokerage:', brokerage)
-            } catch {
-              console.warn('[auth-cb] customState parse failed, raw:', customState)
-            }
-          }
-
-          // Security: validate brokerage domain before redirecting (open redirector prevention — T-04-03-01)
-          if (!brokerage || (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca'))) {
-            console.error('[auth-cb] brokerage validation failed:', brokerage)
-            showError('Invalid sign-in state. Please return to your brokerage portal and sign in again.')
+          if (urlState !== storedState) {
+            console.error('[auth-cb] state mismatch')
+            showError('Invalid sign-in state. Please try again.')
             return
           }
 
-          // Exchange Cognito idToken for app JWT via backend session endpoint
-          const response = await fetch(BACKEND_URL + '/v1/sessions', {
-            method: 'POST',
+          // Remove before exchange to prevent replay on page reload
+          localStorage.removeItem('auth_pkce_verifier')
+          localStorage.removeItem('auth_pkce_state')
+          localStorage.removeItem('auth_pkce_brokerage')
+
+          // Exchange authorization code for tokens at the Cognito token endpoint
+          const tokenRes = await fetch(`https://${COGNITO_DOMAIN}/oauth2/token`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              grant_type:    'authorization_code',
+              client_id:     COGNITO_CLIENT_ID,
+              code,
+              redirect_uri:  REDIRECT_URI,
+              code_verifier: verifier,
+            }),
+          })
+
+          console.log('[auth-cb] Cognito token status:', tokenRes.status)
+          if (!tokenRes.ok) {
+            const e = await tokenRes.json().catch(() => ({}))
+            console.error('[auth-cb] token exchange failed:', e)
+            showError('Authentication failed. Please try again.')
+            return
+          }
+
+          const { id_token } = await tokenRes.json()
+          if (!id_token) {
+            showError('Authentication failed: no id_token in response. Please try again.')
+            return
+          }
+
+          // Security: validate brokerage domain before redirecting (T-04-03-01)
+          if (!broker || (broker !== 'realtybase.ca' && !broker.endsWith('.realtybase.ca'))) {
+            console.error('[auth-cb] brokerage validation failed:', broker)
+            showError('Invalid sign-in state. Please return to your brokerage portal.')
+            return
+          }
+
+          // Exchange Cognito id_token for app JWT
+          const backendRes = await fetch(BACKEND_URL + '/v1/sessions', {
+            method:  'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_token: idToken })
+            body:    JSON.stringify({ id_token }),
           })
 
-          if (!response.ok) {
-            const body = await response.json().catch(() => ({}))
-            console.error('[auth-cb] backend error:', body)
-            showError('Sign-in failed: ' + (body.error || response.statusText) + '. Please try again.')
+          console.log('[auth-cb] backend status:', backendRes.status)
+          if (!backendRes.ok) {
+            const body = await backendRes.json().catch(() => ({}))
+            showError('Sign-in failed: ' + (body.error || backendRes.statusText) + '. Please try again.')
             return
           }
 
-          const { token } = await response.json()
-          console.log('[auth-cb] app token received, redirecting…')
+          const { token } = await backendRes.json()
 
-          // Token handoff: redirect to brokerage domain with JWT in URL hash (per D-04).
-          // Hash is browser-only — not sent in Referer headers, not in server access logs.
-          window.location.href = 'https://' + brokerage + '/auth/login-success#token=' + token
+          // Token handoff via URL hash — hash is browser-only, not logged server-side (D-04)
+          window.location.href = 'https://' + broker + '/auth/login-success#token=' + token
         } catch (err) {
           showError('Something went wrong completing your sign-in. Please try again.')
           console.error('[auth-cb] error:', err)
@@ -184,10 +191,9 @@
       })()
 
     } else {
-      // No action params — user landed here directly
       document.getElementById('spinner').style.display = 'none'
-      document.getElementById('heading').textContent = 'Nothing to do here'
-      document.getElementById('status').textContent = 'Please use your brokerage portal to sign in.'
+      document.getElementById('heading').textContent   = 'Nothing to do here'
+      document.getElementById('status').textContent    = 'Please use your brokerage portal to sign in.'
     }
   </script>
 </body>
