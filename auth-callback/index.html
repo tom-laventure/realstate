@@ -30,8 +30,9 @@
     const COGNITO_DOMAIN = 'us-west-2uyxuwf8nj.auth.us-west-2.amazoncognito.com'
     const BACKEND_URL = 'https://realstate-be.onrender.com'
 
-    import { Amplify, Hub } from 'https://cdn.jsdelivr.net/npm/aws-amplify@6/dist/aws-amplify.js'
-    import { fetchAuthSession } from 'https://cdn.jsdelivr.net/npm/aws-amplify@6/dist/aws-amplify.js'
+    import { Amplify } from 'https://esm.sh/aws-amplify@6.15.9'
+    import { Hub } from 'https://esm.sh/aws-amplify@6.15.9/utils'
+    import { fetchAuthSession } from 'https://esm.sh/aws-amplify@6.15.9/auth'
 
     function showError(message) {
       document.getElementById('spinner').style.display = 'none'
