@@ -73,6 +73,7 @@
     const code      = params.get('code')
     const urlState  = params.get('state')
     const brokerage = params.get('brokerage')
+    const returnTo  = params.get('returnTo')
 
     if (!code && brokerage) {
       // ── Initiation phase ──────────────────────────────────────────────────
@@ -92,6 +93,7 @@
           localStorage.setItem('auth_pkce_verifier',  verifier)
           localStorage.setItem('auth_pkce_state',     state)
           localStorage.setItem('auth_pkce_brokerage', brokerage)
+          if (returnTo) localStorage.setItem('auth_pkce_return_to', returnTo)
 
           const qs = new URLSearchParams({
             response_type:         'code',
@@ -114,6 +116,7 @@
           const verifier    = localStorage.getItem('auth_pkce_verifier')
           const storedState = localStorage.getItem('auth_pkce_state')
           const broker      = localStorage.getItem('auth_pkce_brokerage')
+          const savedReturn = localStorage.getItem('auth_pkce_return_to')
 
           console.log('[auth-cb] callback', { hasVerifier: !!verifier, hasBroker: !!broker })
 
@@ -131,6 +134,7 @@
           localStorage.removeItem('auth_pkce_verifier')
           localStorage.removeItem('auth_pkce_state')
           localStorage.removeItem('auth_pkce_brokerage')
+          localStorage.removeItem('auth_pkce_return_to')
 
           // Exchange authorization code for tokens at the Cognito token endpoint
           const tokenRes = await fetch(`https://${COGNITO_DOMAIN}/oauth2/token`, {
@@ -183,7 +187,10 @@
           const { token } = await backendRes.json()
 
           // Token handoff via URL hash — hash is browser-only, not logged server-side (D-04)
-          window.location.href = 'https://' + broker + '/auth/login-success#token=' + token
+          const hash = savedReturn
+            ? `token=${token}&returnTo=${encodeURIComponent(savedReturn)}`
+            : `token=${token}`
+          window.location.href = 'https://' + broker + '/auth/login-success#' + hash
         } catch (err) {
           showError('Something went wrong completing your sign-in. Please try again.')
           console.error('[auth-cb] error:', err)
