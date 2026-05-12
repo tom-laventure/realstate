@@ -34,6 +34,25 @@
     import { Hub } from 'https://esm.sh/aws-amplify@6.15.9/utils'
     import { fetchAuthSession } from 'https://esm.sh/aws-amplify@6.15.9/auth'
 
+    // Register listener BEFORE configure() — configure() triggers the PKCE code exchange
+    // and can fire signInWithRedirect synchronously before any later Hub.listen call runs.
+    const authEventPromise = new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('Sign-in timed out')), 30000)
+
+      const unlisten = Hub.listen('auth', ({ payload }) => {
+        if (payload.event === 'signInWithRedirect') {
+          clearTimeout(timer)
+          unlisten()
+          resolve(payload.data?.customState || null)
+        }
+        if (payload.event === 'signInWithRedirect_failure') {
+          clearTimeout(timer)
+          unlisten()
+          reject(new Error(payload.data?.error || 'OAuth sign-in failed'))
+        }
+      })
+    })
+
     function showError(message) {
       document.getElementById('spinner').style.display = 'none'
       const status = document.getElementById('status')
@@ -77,25 +96,9 @@
 
     ;(async () => {
       try {
-        // Wait for Amplify to complete the PKCE code exchange.
-        // Amplify detects ?code=...&state=... on page load and fires this Hub event when done.
-        // fetchAuthSession() called before this event returns an unauthenticated session.
-        const customState = await new Promise((resolve, reject) => {
-          const timer = setTimeout(() => reject(new Error('Sign-in timed out')), 30000)
-
-          const unlisten = Hub.listen('auth', ({ payload }) => {
-            if (payload.event === 'signInWithRedirect') {
-              clearTimeout(timer)
-              unlisten()
-              resolve(payload.data?.customState || null)
-            }
-            if (payload.event === 'signInWithRedirect_failure') {
-              clearTimeout(timer)
-              unlisten()
-              reject(new Error(payload.data?.error || 'OAuth sign-in failed'))
-            }
-          })
-        })
+        // authEventPromise was created before configure() so the listener is guaranteed
+        // to be registered before Amplify starts the PKCE code exchange.
+        const customState = await authEventPromise
 
         const session = await fetchAuthSession()
         const idToken = session.tokens?.idToken?.toString()
