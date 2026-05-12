@@ -75,20 +75,36 @@
 
     ;(async () => {
       try {
-        // Amplify v6 automatically begins the PKCE code exchange on configure() when
-        // ?code=...&state=... are in the URL. fetchAuthSession() waits for that exchange
-        // to complete and returns the resulting tokens.
-        //
-        // We intentionally do NOT use Hub events here: Hub.listen relies on both callers
-        // sharing the same Hub singleton, which is not guaranteed when loading Amplify
-        // sub-paths (e.g. aws-amplify/utils) from a CDN — they can resolve to separate
-        // bundles with distinct singletons, causing events to be silently dropped.
-        const session = await fetchAuthSession()
+        console.log('[auth-cb] page loaded', {
+          href: location.href,
+          code: new URLSearchParams(location.search).get('code'),
+          state: new URLSearchParams(location.search).get('state'),
+        })
+
+        console.log('[auth-cb] calling fetchAuthSession()…')
+        let session
+        try {
+          session = await fetchAuthSession()
+        } catch (sessionErr) {
+          console.error('[auth-cb] fetchAuthSession() threw:', sessionErr)
+          throw sessionErr
+        }
+
+        console.log('[auth-cb] fetchAuthSession() resolved', {
+          hasTokens: !!session.tokens,
+          hasIdToken: !!session.tokens?.idToken,
+          hasAccessToken: !!session.tokens?.accessToken,
+          identityId: session.identityId,
+          credentials: session.credentials ? 'present' : 'absent',
+        })
+
         const idToken = session.tokens?.idToken?.toString()
         if (!idToken) {
+          console.warn('[auth-cb] no idToken in session — session dump:', JSON.stringify(session, null, 2))
           showError('Authentication failed: no token received. Please try again.')
           return
         }
+        console.log('[auth-cb] idToken obtained, length:', idToken.length)
 
         // Extract the brokerage customState from the URL's state param directly.
         // Amplify v6 format: <alphanumeric pkce state>-<hex-encoded customState>
@@ -101,9 +117,12 @@
           try {
             const hex = stateParam.slice(sep + 1)
             customState = hex.replace(/../g, h => String.fromCharCode(parseInt(h, 16)))
-          } catch {
-            // hex decode failed — customState remains null
+            console.log('[auth-cb] customState extracted from URL:', customState)
+          } catch (hexErr) {
+            console.warn('[auth-cb] hex decode of customState failed:', hexErr)
           }
+        } else {
+          console.warn('[auth-cb] no "-" separator found in state param:', stateParam)
         }
 
         // Parse brokerage domain from customState
@@ -113,18 +132,21 @@
           try {
             const decoded = JSON.parse(atob(customState))
             brokerage = decoded.brokerage
-          } catch {
-            // customState parse failure — fall through to validation error
+            console.log('[auth-cb] brokerage parsed:', brokerage)
+          } catch (parseErr) {
+            console.warn('[auth-cb] customState JSON parse failed:', parseErr, 'raw:', customState)
           }
         }
 
         // Security: validate brokerage domain before redirecting (open redirector prevention — T-04-03-01)
         // Only allow redirect to .realtybase.ca subdomains or root domain
         if (!brokerage || (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca'))) {
+          console.error('[auth-cb] brokerage validation failed:', brokerage)
           showError('Invalid sign-in state. Please return to your brokerage portal and sign in again.')
           return
         }
 
+        console.log('[auth-cb] posting to backend /v1/sessions…')
         // Exchange Cognito idToken for app JWT via backend session endpoint
         const response = await fetch(BACKEND_URL + '/v1/sessions', {
           method: 'POST',
@@ -132,13 +154,16 @@
           body: JSON.stringify({ id_token: idToken })
         })
 
+        console.log('[auth-cb] backend responded:', response.status, response.statusText)
         if (!response.ok) {
           const body = await response.json().catch(() => ({}))
+          console.error('[auth-cb] backend error body:', body)
           showError('Sign-in failed: ' + (body.error || response.statusText) + '. Please try again.')
           return
         }
 
         const { token } = await response.json()
+        console.log('[auth-cb] app token received, redirecting to brokerage…')
 
         // Token handoff: redirect to brokerage domain with JWT in URL hash (per D-04).
         // Hash is browser-only — not sent in Referer headers, not in server access logs.
