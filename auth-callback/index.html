@@ -84,59 +84,61 @@
       }
     })
 
-    try {
-      // fetchAuthSession() completes the PKCE code exchange and fires the Hub event.
-      const session = await fetchAuthSession()
-      unlisten()
+    ;(async () => {
+      try {
+        // fetchAuthSession() completes the PKCE code exchange and fires the Hub event.
+        const session = await fetchAuthSession()
+        unlisten()
 
-      const idToken = session.tokens?.idToken?.toString()
-      if (!idToken) {
-        showError('Authentication failed: no token received. Please try again.')
-        return
-      }
-
-      // Parse brokerage domain from customState (per D-02 and D-13)
-      // Format: base64(JSON.stringify({ brokerage: "broker1.realtybase.ca" }))
-      let brokerage = null
-      if (customState) {
-        try {
-          const decoded = JSON.parse(atob(customState))
-          brokerage = decoded.brokerage
-        } catch {
-          // customState parse failure — fall through to validation error
+        const idToken = session.tokens?.idToken?.toString()
+        if (!idToken) {
+          showError('Authentication failed: no token received. Please try again.')
+          return
         }
+
+        // Parse brokerage domain from customState (per D-02 and D-13)
+        // Format: base64(JSON.stringify({ brokerage: "broker1.realtybase.ca" }))
+        let brokerage = null
+        if (customState) {
+          try {
+            const decoded = JSON.parse(atob(customState))
+            brokerage = decoded.brokerage
+          } catch {
+            // customState parse failure — fall through to validation error
+          }
+        }
+
+        // Security: validate brokerage domain before redirecting (open redirector prevention — T-04-03-01)
+        // Only allow redirect to .realtybase.ca subdomains or root domain
+        if (!brokerage || (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca'))) {
+          showError('Invalid sign-in state. Please return to your brokerage portal and sign in again.')
+          return
+        }
+
+        // Exchange Cognito idToken for app JWT via backend session endpoint (per D-05)
+        const response = await fetch(BACKEND_URL + '/v1/sessions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id_token: idToken })
+        })
+
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}))
+          showError('Sign-in failed: ' + (body.error || response.statusText) + '. Please try again.')
+          return
+        }
+
+        const { token } = await response.json()
+
+        // Token handoff: redirect to brokerage domain with JWT in URL hash (per D-04).
+        // Hash is browser-only — not sent in Referer headers, not in server access logs.
+        window.location.href = 'https://' + brokerage + '/auth/login-success#token=' + token
+      } catch (err) {
+        unlisten()
+        showError('Something went wrong completing your sign-in. Please try again.')
+        console.error('OAuth callback error:', err)
       }
-
-      // Security: validate brokerage domain before redirecting (open redirector prevention — T-04-03-01)
-      // Only allow redirect to .realtybase.ca subdomains
-      if (!brokerage || (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca'))) {
-        showError('Invalid sign-in state. Please return to your brokerage portal and sign in again.')
-        return
-      }
-
-      // Exchange Cognito idToken for app JWT via backend session endpoint (per D-05)
-      const response = await fetch(BACKEND_URL + '/v1/sessions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_token: idToken })
-      })
-
-      if (!response.ok) {
-        const body = await response.json().catch(() => ({}))
-        showError('Sign-in failed: ' + (body.error || response.statusText) + '. Please try again.')
-        return
-      }
-
-      const { token } = await response.json()
-
-      // Token handoff: redirect to brokerage domain with JWT in URL hash (per D-04).
-      // Hash is browser-only — not sent in Referer headers, not in server access logs.
-      window.location.href = 'https://' + brokerage + '/auth/login-success#token=' + token
-    } catch (err) {
-      unlisten()
-      showError('Something went wrong completing your sign-in. Please try again.')
-      console.error('OAuth callback error:', err)
-    }
+    })()
   </script>
 </body>
 </html>
