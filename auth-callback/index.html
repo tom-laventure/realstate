@@ -28,7 +28,7 @@
     const COGNITO_USER_POOL_ID = 'us-west-2_uYxUwf8nj'
     const COGNITO_CLIENT_ID = '1enoejqc07arf31an928fgo0nf'
     const COGNITO_DOMAIN = 'us-west-2uyxuwf8nj.auth.us-west-2.amazoncognito.com'
-    const BACKEND_URL = 'https://api.realtybase.ca'
+    const BACKEND_URL = 'https://realstate-be.onrender.com'
 
     import { Amplify, Hub } from 'https://cdn.jsdelivr.net/npm/aws-amplify@6/dist/aws-amplify.js'
     import { fetchAuthSession } from 'https://cdn.jsdelivr.net/npm/aws-amplify@6/dist/aws-amplify.js'
@@ -109,7 +109,7 @@
 
       // Security: validate brokerage domain before redirecting (open redirector prevention — T-04-03-01)
       // Only allow redirect to .realtybase.ca subdomains
-      if (!brokerage || !brokerage.endsWith('.realtybase.ca')) {
+      if (!brokerage || (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca'))) {
         showError('Invalid sign-in state. Please return to your brokerage portal and sign in again.')
         return
       }

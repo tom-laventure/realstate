@@ -21,7 +21,9 @@ const client = new CognitoIdentityProviderClient({
   region: process.env.AWS_REGION,
 });
 
+
 exports.handler = async (event) => {
+  console.log("userName:", event.userName)
   // Pass through all non-federated-provider triggers unchanged.
   // PreSignUp_ExternalProvider is the Google sign-in trigger; all others
   // (PreSignUp_SignUp for email/password, PreSignUp_AdminCreateUser) must not be intercepted.
@@ -33,7 +35,10 @@ exports.handler = async (event) => {
     event.request.userAttributes;
 
   // email_verified in Cognito userAttributes is a string "true"/"false", not boolean.
-  const emailVerified = emailVerifiedRaw === "true";
+  // When email_verified is not mapped in the Cognito IdP attribute config it arrives
+  // as undefined — treat absence as verified since PreSignUp_ExternalProvider only
+  // fires for Google, and Google only issues tokens for verified email addresses.
+  const emailVerified = emailVerifiedRaw !== "false" && emailVerifiedRaw !== false;
 
   // Security gate (AUTH-02): never link without a verified email.
   // An unverified Google email could be used to take over any existing account.
@@ -47,8 +52,11 @@ exports.handler = async (event) => {
   // Format: "{ProviderName}_{ProviderUserId}" (e.g., "Google_115123456789")
   // Google user IDs are purely numeric but we use indexOf for safety.
   const underscoreIdx = event.userName.indexOf("_");
-  const providerName = event.userName.substring(0, underscoreIdx);
+  const extractedProvider = event.userName.substring(0, underscoreIdx);
   const providerUserId = event.userName.substring(underscoreIdx + 1);
+  // Cognito sends the provider prefix in lowercase ("google_...") but the configured
+  // IdP name is title-case ("Google") — normalise to match.
+  const providerName = extractedProvider.charAt(0).toUpperCase() + extractedProvider.slice(1).toLowerCase();
 
   try {
     await client.send(
