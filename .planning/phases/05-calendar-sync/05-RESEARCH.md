@@ -146,7 +146,7 @@ EstateEventsController (create/destroy)
 
 CalendarSyncJob (SolidQueue :default queue)
     │
-    ├─ Load UserCalendarConnection (discard_on RecordNotFound)
+    ├─ Load UserCalendarConnection (find_by! without status filter; guard disconnected separately)
     ├─ with_advisory_lock(conn.id) ──► token refresh if expires_at < now + 5min
     │                                    └─ POST /oauth2/token → update credentials
     ├─ Dispatch to provider adapter:
@@ -233,9 +233,13 @@ class CalendarSyncJob < ApplicationJob
   retry_on StandardError, wait: :polynomially_longer, attempts: 3
   discard_on ActiveRecord::RecordNotFound
 
+  # IMPORTANT: Do NOT include status: "connected" in find_by! — see Pattern 1 note below
   def perform(user_id:, provider:, estate_date_id:, action:)
     conn = UserCalendarConnection.without_deleted
-      .find_by!(user_id: user_id, provider: provider, status: "connected")
+      .find_by!(user_id: user_id, provider: provider)
+
+    # Guard disconnected separately (not RecordNotFound) so retry_on fires rather than discard_on
+    raise CalendarSyncJob::ConnectionNotActiveError, "Calendar connection #{provider} is disconnected" if conn.status == "disconnected"
 
     estate_date = EstateDate.without_deleted.find(estate_date_id)
     brokerage = estate_date.group_estate.group.brokerage
@@ -264,6 +268,8 @@ class CalendarSyncJob < ApplicationJob
   end
 end
 ```
+
+**Pattern 1 note — Why NOT `find_by!(status: "connected")`:** If the job fails (e.g., token expired) and the rescue block sets `conn.status = "error"`, the next retry call to `find_by!(status: "connected")` raises `RecordNotFound`. This triggers `discard_on RecordNotFound` and permanently discards the job — defeating the retry mechanism entirely. The fix is to find by `user_id` and `provider` only, then raise a custom error class for the disconnected case so `discard_on RecordNotFound` does not fire.
 
 ### Pattern 2: UserCalendarConnection Model
 
@@ -569,6 +575,7 @@ return (
 - **Using `Brokerage#users` without `.without_deleted`:** All queries on `brokerage_memberships` joined tables must use `.without_deleted` per CLAUDE.md.
 - **Hardcoding `primary` as calendar ID for Microsoft:** Microsoft Graph uses `/me/events` not a calendar ID; the default calendar is implicit.
 - **Storing Apple event URL vs. UID:** For `destroy`, `calendav` needs the event URL (returned by `events.create`), not the UID. The `external_event_id` column in `estate_date_calendar_events` should store the URL for Apple and the event ID string for Google/Microsoft.
+- **`find_by!(status: "connected")` in CalendarSyncJob:** NEVER add `status: "connected"` to the `find_by!` call inside `CalendarSyncJob#perform`. On first failure the rescue block sets `status = "error"`, making retries raise `RecordNotFound` which triggers `discard_on` — permanently dropping the job. Instead, find by `user_id` + `provider` only and raise a custom error class for disconnected connections.
 
 ---
 
@@ -717,11 +724,37 @@ connections = UserCalendarConnection.without_deleted.where(user_id: user_ids, st
 **How to avoid:**
 ```ruby
 # In ResyncCalendarJob or CalendarSyncJob sweep mode:
+# IMPORTANT: Must join estates table explicitly before applying where(estates: {...})
 EstateDate.without_deleted
-  .joins(group_estate: :group)
+  .joins(group_estate: {group: :brokerage})
+  .joins(group_estate: :estate)
   .where(groups: { brokerage_id: conn.user.brokerage.id })
   .where("estate_dates.date >= ?", Time.current)
+  .where(estates: { deleted_at: nil })
 ```
+
+**Warning signs:** `PG::UndefinedTable: ERROR: missing FROM-clause entry for table "estates"` if `.joins(group_estate: :estate)` is omitted before the `where(estates: ...)` clause.
+
+### Pitfall 9: CalendarSyncJob retry loop broken by `find_by!(status: "connected")`
+
+**What goes wrong:** Using `find_by!(user_id:, provider:, status: "connected")` in `CalendarSyncJob#perform` causes permanent job discard on first failure. On failure, the rescue block sets `conn.status = "error"`. On retry, `find_by!` raises `RecordNotFound` because `status` is now `"error"`, and `discard_on RecordNotFound` fires — the job is permanently dropped. No retries ever execute.
+
+**Why it happens:** `discard_on RecordNotFound` is correct for truly-missing records (e.g., the estate_date was deleted). But a connection in "error" state is NOT missing — it should be retried. Mixing lookup semantics with business-state filtering into one query conflates these two conditions.
+
+**How to avoid:**
+```ruby
+# Find without status filter (RecordNotFound = truly gone = discard is correct)
+conn = UserCalendarConnection.without_deleted
+  .find_by!(user_id: user_id, provider: provider)
+
+# Guard disconnected with a DIFFERENT error class so retry_on fires (not discard_on)
+class CalendarSyncJob::ConnectionNotActiveError < StandardError; end
+raise CalendarSyncJob::ConnectionNotActiveError, "..." if conn.status == "disconnected"
+# Add: retry_on ConnectionNotActiveError, wait: 1.hour, attempts: 1
+# OR:  discard_on ConnectionNotActiveError  (if disconnected intentionally, skip)
+```
+
+**Warning signs:** Job appears to fail once then never retries; `solid_queue_failed_executions` shows `RecordNotFound` for connections that exist in the database.
 
 ---
 
@@ -873,7 +906,7 @@ export interface FetchCalendarConnectionsResponse {
 | # | Claim | Section | Risk if Wrong |
 |---|-------|---------|---------------|
 | A1 | Apple CalDAV `calendav` gem works with Ruby 4.0.2 (no explicit Ruby version constraint declared) | Standard Stack | If incompatible, fall back to raw Net::HTTP + `icalendar` gem directly |
-| A2 | Google OAuth callback redirect URI can be a brokerage subdomain (not fixed auth.realtybase.ca) because calendar OAuth is for authenticated users, not identity | Architecture Patterns | If Google OAuth app requires a fixed redirect URI per OAuth app, all brokerages must share one callback URI on the backend side |
+| A2 | Google OAuth callback redirect URI can be a brokerage subdomain (not fixed auth.realtybase.ca) because calendar OAuth is for authenticated users, not identity login | Architecture Patterns | If Google OAuth app requires a fixed redirect URI per OAuth app, all brokerages must share one callback URI on the backend side |
 | A3 | `estate_dates.date` column stores UTC datetimes (inferred from Rails convention and schema.rb; no timezone column observed) | Common Pitfalls (Pitfall 7) | If it stores in a non-UTC format, timezone conversion logic must be adjusted |
 | A4 | Microsoft Graph `/me/events` is accessible with delegated `Calendars.ReadWrite` scope for individual user OAuth tokens | Standard Stack (Microsoft) | If tenant admin restrictions apply, may need `Calendar.ReadWrite` on application permissions |
 
@@ -881,17 +914,13 @@ export interface FetchCalendarConnectionsResponse {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Google OAuth app redirect URI registration**
-   - What we know: Google OAuth2 requires the redirect URI to be registered in the Google Cloud Console
-   - What's unclear: Will each brokerage subdomain need to be registered, or can a wildcard/backend-side redirect work?
-   - Recommendation: Use a single backend URI registered in the OAuth app (e.g., `https://api.realtybase.ca/v1/account/calendar/google/callback`), which is the brokerage subdomain backend endpoint. The frontend initiates via `GET /v1/account/calendar/google/authorize` which returns a redirect URL; the backend callback then redirects the browser back to the frontend. Alternatively, register the common auth domain for calendars.
+1. **Google OAuth app redirect URI registration** (RESOLVED)
+   - **Resolution:** Calendar OAuth callbacks go to the brokerage subdomain since the user is already authenticated (NOT `auth.realtybase.ca` which is Cognito-only). Registered redirect URI per provider: `https://{brokerage_subdomain}.realtybase.ca/v1/account/calendar/{provider}/callback`. This matches the multi-tenant pattern. `GOOGLE_CALENDAR_REDIRECT_URI` is an env var resolved at runtime — Rails can compute it from `Current.brokerage` host (e.g., `"https://#{Current.brokerage.primary_domain}/v1/account/calendar/google/callback"`). The env var provides the base; the controller uses it directly.
 
-2. **Microsoft OAuth app (Azure App Registration) vs. existing Google OAuth app**
-   - What we know: Phase 4 registered a Google OAuth app in Cognito; this phase needs a separate Google OAuth app for calendar scope (different scopes, different tokens)
-   - What's unclear: Whether the same Google Cloud project can have two OAuth2 client IDs (one for Cognito federation, one for calendar API)
-   - Recommendation: Create a separate OAuth2 client ID in Google Cloud Console for calendar scope. Both can coexist in the same project. Requires separate `GOOGLE_CALENDAR_CLIENT_ID` and `GOOGLE_CALENDAR_CLIENT_SECRET` env vars distinct from Cognito's.
+2. **Microsoft OAuth app (Azure App Registration) vs. existing Google OAuth app** (RESOLVED)
+   - **Resolution:** Use a SEPARATE Google Calendar OAuth2 client ID from the Cognito federation client. Same GCP project, different OAuth2 client entry. Env vars: `GOOGLE_CALENDAR_CLIENT_ID` and `GOOGLE_CALENDAR_CLIENT_SECRET` (distinct from Cognito's `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`). Different scopes: `https://www.googleapis.com/auth/calendar.events` for calendar vs. `openid email` for identity. Both client IDs can coexist in the same GCP project — create a separate "OAuth 2.0 Client ID" of type "Web application" in the Google Cloud Console for calendar scope.
 
 ---
 
