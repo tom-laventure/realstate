@@ -131,7 +131,7 @@ Plans:
 - [x] 05-04-PLAN.md — Apple CalDAV adapter (calendav) + ConnectionsController (index/create_apple/destroy/resync) + UserCalendarConnectionSerializer + routes
 
 **Wave 3** *(depends on 05-02, 05-03, 05-04)*
-- [ ] 05-05-PLAN.md — CalendarSyncJob (advisory lock, token refresh, adapter dispatch, upsert) + EstateEventsController calendar fan-out
+- [x] 05-05-PLAN.md — CalendarSyncJob (advisory lock, token refresh, adapter dispatch, upsert) + EstateEventsController calendar fan-out
 
 **Wave 4** *(depends on 05-05)*
 - [ ] 05-06-PLAN.md — Frontend: types, API modules, hooks, CalendarContext, ProviderCard, CalendarTab, Account.tsx Tabs integration
@@ -149,4 +149,4 @@ Plans:
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
 | 4. Google OAuth | 4/4 | Complete   | 2026-05-09 |
-| 5. Calendar Sync | 3/7 | Executing | - |
+| 5. Calendar Sync | 5/7 | Executing | - |

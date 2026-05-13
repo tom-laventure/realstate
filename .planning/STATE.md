@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-04-PLAN.md
-last_updated: "2026-05-13T21:05:00.000Z"
-last_activity: "2026-05-13 -- Phase 05 Plan 04 complete: AppleCalendarAdapter + ConnectionsController + all 8 calendar routes; routes.rb OAuth path bug fixed"
+stopped_at: Completed 05-05-PLAN.md
+last_updated: "2026-05-13T21:09:49Z"
+last_activity: "2026-05-13 -- Phase 05 Plan 05 complete: CalendarSyncJob with advisory-lock token refresh + adapter dispatch; EstateEventsController create/destroy fan-out"
 progress:
   total_phases: 5
   completed_phases: 4
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 05 (calendar-sync) — EXECUTING (Plan 04 of 7 complete; Wave 2 complete)
-Last activity: 2026-05-13 -- Phase 05 Plan 04 complete: AppleCalendarAdapter + ConnectionsController + all 8 calendar routes; routes.rb OAuth path bug fixed
+Phase: 05 (calendar-sync) — EXECUTING (Plan 05 of 7 complete; Wave 3 complete)
+Last activity: 2026-05-13 -- Phase 05 Plan 05 complete: CalendarSyncJob with advisory-lock token refresh + adapter dispatch; EstateEventsController create/destroy fan-out
 
 Progress: [██████████] 100% of Phase 04 | Milestone 80%
 
@@ -58,6 +58,7 @@ Progress: [██████████] 100% of Phase 04 | Milestone 80%
 | Phase 05-calendar-sync P02 | 2min | 2 tasks | 3 files |
 | Phase 05-calendar-sync P03 | 5min | 2 tasks | 3 files |
 | Phase 05-calendar-sync P04 | 7min | 2 tasks | 4 files |
+| Phase 05-calendar-sync P05 | 5min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -130,6 +131,9 @@ Recent decisions affecting current work:
 - 05-04: routes.rb calendar OAuth path bug fixed — namespace :google sub-namespace generated wrong controller path v1/account/calendar/google/google_oauth#authorize; flat route get "google/authorize", to: "google_oauth#authorize" resolves to correct v1/account/calendar/google_oauth#authorize
 - 05-04: Apple CalDAV create returns event URL as external_event_id — CalendarSyncJob (Plan 05) must persist sync() return value when action='create' for Apple provider
 - 05-04: Resync uses find_by (no bang, no status filter) — error-state connections proceed to enqueue jobs (CAL-07 design); nil returns 404, disconnected returns 422
+- 05-05: CalendarSyncJob find_by!(user_id:, provider:) without status filter — error-state connections retried correctly (BLOCKER 4 fix); ConnectionNotActiveError discards disconnected connections separately
+- 05-05: action values are 'create' and 'destroy' only — no 'update' (EstateEventsController routes confirm only: [:index, :create, :destroy]; D-06 'update' mention was artifact)
+- 05-05: update_columns used for conn.status=error and last_error updates — skips AR callbacks/validations (safe for error state fields)
 
 ### Pending Todos
 
@@ -150,6 +154,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-13T20:55:20Z
-Stopped at: Completed 05-03-PLAN.md
+Last session: 2026-05-13T21:09:49Z
+Stopped at: Completed 05-05-PLAN.md
 Resume file: None
