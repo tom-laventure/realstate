@@ -35,10 +35,10 @@
 ### Calendar Sync
 
 - [ ] **CAL-01**: `user_calendar_connections` table stores one row per user per provider (`google`, `microsoft`, `apple`) with `status`, `last_synced_at`, `last_error`, encrypted credentials (ActiveRecord Encryption for Apple app-specific password)
-- [ ] **CAL-02**: User can view, connect, and disconnect calendar providers from their profile settings; each provider shows connection status (`connected`, `error`, `disconnected`) and last sync time
+- [x] **CAL-02**: User can view, connect, and disconnect calendar providers from their profile settings; each provider shows connection status (`connected`, `error`, `disconnected`) and last sync time
 - [ ] **CAL-03**: User can connect Google Calendar via OAuth2; `EstateDate` create/update/delete events are synced to the connected Google Calendar automatically
 - [x] **CAL-04**: User can connect Microsoft Calendar via OAuth2 (Azure AD v2.0 + Microsoft Graph); `EstateDate` events are synced
-- [ ] **CAL-05**: User can connect Apple iCloud Calendar by entering their iCloud email and an app-specific password (no OAuth — Apple CalDAV does not support OAuth2); `EstateDate` events are synced via CalDAV
+- [x] **CAL-05**: User can connect Apple iCloud Calendar by entering their iCloud email and an app-specific password (no OAuth — Apple CalDAV does not support OAuth2); `EstateDate` events are synced via CalDAV
 - [ ] **CAL-06**: All calendar writes go through `CalendarSyncJob` (SolidQueue); the job uses a deterministic provider event ID derived from `EstateDate.id` for idempotent retries; concurrent token refresh is serialized via PostgreSQL advisory locks on `UserCalendarConnection.id`
 - [ ] **CAL-07**: User sees a sync failure indicator per provider in the settings panel when a calendar write fails; a "Re-sync" button re-enqueues the job for that provider without requiring reconnection
 

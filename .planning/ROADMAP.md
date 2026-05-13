@@ -128,7 +128,7 @@ Plans:
 **Wave 2** *(parallel — all depend on 05-01)*
 - [x] 05-02-PLAN.md — Google Calendar adapter (google-apis-calendar_v3) + GoogleOauthController (authorize + callback)
 - [x] 05-03-PLAN.md — Microsoft Calendar adapter (HTTParty + Graph API) + MicrosoftOauthController (authorize + callback)
-- [ ] 05-04-PLAN.md — Apple CalDAV adapter (calendav) + ConnectionsController (index/create_apple/destroy/resync) + UserCalendarConnectionSerializer + routes
+- [x] 05-04-PLAN.md — Apple CalDAV adapter (calendav) + ConnectionsController (index/create_apple/destroy/resync) + UserCalendarConnectionSerializer + routes
 
 **Wave 3** *(depends on 05-02, 05-03, 05-04)*
 - [ ] 05-05-PLAN.md — CalendarSyncJob (advisory lock, token refresh, adapter dispatch, upsert) + EstateEventsController calendar fan-out

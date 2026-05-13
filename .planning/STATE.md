@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-03-PLAN.md
-last_updated: "2026-05-13T20:55:20.000Z"
-last_activity: 2026-05-13 -- Phase 05 Plan 03 complete; MicrosoftCalendarAdapter + MicrosoftOauthController built; Microsoft Graph API event create/delete and OAuth2 authorize/callback endpoints ready
+stopped_at: Completed 05-04-PLAN.md
+last_updated: "2026-05-13T21:05:00.000Z"
+last_activity: "2026-05-13 -- Phase 05 Plan 04 complete: AppleCalendarAdapter + ConnectionsController + all 8 calendar routes; routes.rb OAuth path bug fixed"
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 30
-  completed_plans: 25
-  percent: 80
+  completed_plans: 28
+  percent: 93
 ---
 
 # Project State
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 05 (calendar-sync) — EXECUTING (Plan 03 of 7 complete; Wave 2 in progress)
-Last activity: 2026-05-13 -- Phase 05 Plan 03 complete: MicrosoftCalendarAdapter service + MicrosoftOauthController with authorize/callback endpoints
+Phase: 05 (calendar-sync) — EXECUTING (Plan 04 of 7 complete; Wave 2 complete)
+Last activity: 2026-05-13 -- Phase 05 Plan 04 complete: AppleCalendarAdapter + ConnectionsController + all 8 calendar routes; routes.rb OAuth path bug fixed
 
 Progress: [██████████] 100% of Phase 04 | Milestone 80%
 
@@ -57,6 +57,7 @@ Progress: [██████████] 100% of Phase 04 | Milestone 80%
 | Phase 05-calendar-sync P01 | 8min | 3 tasks | 8 files |
 | Phase 05-calendar-sync P02 | 2min | 2 tasks | 3 files |
 | Phase 05-calendar-sync P03 | 5min | 2 tasks | 3 files |
+| Phase 05-calendar-sync P04 | 7min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -126,6 +127,9 @@ Recent decisions affecting current work:
 - 05-02: GoogleCalendarAdapter receives pre-decrypted credentials Hash — no token refresh in adapter; CalendarSyncJob owns refresh with advisory lock (CAL-06)
 - 05-02: OAuth2 state nonce (SecureRandom.hex(32)) stored in Rails.cache with 10-min TTL; single-use (deleted on first read); user_id taken from cache not params (T-05-02-03)
 - 05-02: refresh_token preserved from existing UserCalendarConnection when Google does not re-issue on re-auth (prompt: consent only re-issues on first authorization)
+- 05-04: routes.rb calendar OAuth path bug fixed — namespace :google sub-namespace generated wrong controller path v1/account/calendar/google/google_oauth#authorize; flat route get "google/authorize", to: "google_oauth#authorize" resolves to correct v1/account/calendar/google_oauth#authorize
+- 05-04: Apple CalDAV create returns event URL as external_event_id — CalendarSyncJob (Plan 05) must persist sync() return value when action='create' for Apple provider
+- 05-04: Resync uses find_by (no bang, no status filter) — error-state connections proceed to enqueue jobs (CAL-07 design); nil returns 404, disconnected returns 422
 
 ### Pending Todos
 
