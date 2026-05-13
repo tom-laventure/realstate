@@ -94,7 +94,6 @@
           localStorage.setItem('auth_pkce_state',     state)
           localStorage.setItem('auth_pkce_brokerage', brokerage)
           if (returnTo) localStorage.setItem('auth_pkce_return_to', returnTo)
-          console.log('[auth-cb] initiation stored → brokerage:', brokerage, '| returnTo:', returnTo ?? '(none)')
 
           const qs = new URLSearchParams({
             response_type:         'code',
@@ -119,7 +118,6 @@
           const broker      = localStorage.getItem('auth_pkce_brokerage')
           const savedReturn = localStorage.getItem('auth_pkce_return_to')
 
-          console.log('[auth-cb] callback → broker:', broker, '| savedReturn:', savedReturn ?? '(none)', '| hasVerifier:', !!verifier)
 
           if (!verifier || !storedState) {
             showError('Sign-in session expired. Please return to your portal and try again.')
@@ -191,9 +189,7 @@
           const hash = savedReturn
             ? `token=${token}&returnTo=${encodeURIComponent(savedReturn)}`
             : `token=${token}`
-          const finalUrl = 'https://' + broker + '/auth/login-success#' + hash
-          console.log('[auth-cb] redirecting to', finalUrl.replace(/token=[^&]+/, 'token=<redacted>'))
-          window.location.href = finalUrl
+          window.location.href = 'https://' + broker + '/auth/login-success#' + hash
         } catch (err) {
           showError('Something went wrong completing your sign-in. Please try again.')
           console.error('[auth-cb] error:', err)
