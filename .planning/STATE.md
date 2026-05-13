@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 05 planned — ready to execute
-last_updated: "2026-05-13T00:00:00.000Z"
-last_activity: 2026-05-13 -- Phase 05 planned; 7 plans in 5 waves; ready to execute
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-05-13T20:43:00.000Z"
+last_activity: 2026-05-13 -- Phase 05 Plan 01 complete; gems bundled, migrations created, models written; DB migration pending (Render.com DB inaccessible from dev)
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 30
-  completed_plans: 23
-  percent: 77
+  completed_plans: 24
+  percent: 80
 ---
 
 # Project State
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 05 (calendar-sync) — PLANNED (7 plans in 5 waves; ready to execute)
-Last activity: 2026-05-13 -- Phase 05 planning complete; verification passed; ready to execute
+Phase: 05 (calendar-sync) — EXECUTING (Plan 01 of 7 complete; Wave 1 done)
+Last activity: 2026-05-13 -- Phase 05 Plan 01 complete: gems, migrations, and models for calendar sync foundation
 
 Progress: [██████████] 100% of Phase 04 | Milestone 80%
 
@@ -54,6 +54,7 @@ Progress: [██████████] 100% of Phase 04 | Milestone 80%
 | Phase 04-google-oauth P02 | 2 | - tasks | - files |
 | Phase 04-google-oauth P03 | 1min | 2 tasks | 3 files |
 | Phase 04-google-oauth P04 | 2min | 2 tasks | 5 files |
+| Phase 05-calendar-sync P01 | 8min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -117,6 +118,9 @@ Recent decisions affecting current work:
 - [Phase ?]: 04-03: Hub.listen('signInWithRedirect') approach for customState — avoids Amplify raw state param prefix format parsing entirely
 - [Phase ?]: 04-03: endsWith('.realtybase.ca') guard in callback page — open redirector prevention for OAuth state param injection
 - [Phase ?]: 04-03: Amplify loaded via jsDelivr CDN in static callback page — CDN failure is denial-of-service, not security risk (T-04-03-04 accepted)
+- 05-01: with_advisory_lock downgraded to ~> 5.3 from ~> 7.5 — version 7.x requires activerecord >= 7.2; 5.3.0 compatible with Rails 7.1.4 (requires activerecord >= 6.1); API is identical
+- 05-01: omniauth-azure-activedirectory-v2 is deprecated (post-install warns to switch to omniauth-entra-id) — kept per plan spec; rename is out-of-scope for Phase 05
+- 05-01: credentials_hash rescues JSON::ParserError returning {} — prevents raw credential values in error paths (T-05-01-02 mitigation)
 
 ### Pending Todos
 
@@ -124,8 +128,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 4 planning requires upfront design of intermediary callback URL (exact URL, state encoding, redirect strategy)
-- Phase 5 planning requires: (1) decision on provider event ID storage, (2) confirmation that EstateDate has/needs a timezone column, (3) Apple scope confirmation (personal iCloud vs. Apple Business Manager)
+- Phase 5 executing: Render.com PostgreSQL DB unreachable from local dev (SSL connection closes after handshake). Migrations 20260513203641, 20260513203643, 20260513203645 are committed but not yet applied. Requires `rails db:migrate` from Render.com environment before Wave 2 plans can run validators.
 
 ## Deferred Items
 
@@ -138,6 +141,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-09T14:06:56.217Z
-Stopped at: Completed 04-03-PLAN.md
+Last session: 2026-05-13T20:43:00Z
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None

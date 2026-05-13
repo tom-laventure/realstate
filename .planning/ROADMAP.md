@@ -123,7 +123,7 @@ Plans:
 Plans:
 
 **Wave 1** *(no dependencies)*
-- [ ] 05-01-PLAN.md — Gems (google-apis-calendar_v3, omniauth-azure-activedirectory-v2, calendav, with_advisory_lock), 3 migrations, UserCalendarConnection + EstateDateCalendarEvent models
+- [x] 05-01-PLAN.md — Gems (google-apis-calendar_v3, omniauth-azure-activedirectory-v2, calendav, with_advisory_lock), 3 migrations, UserCalendarConnection + EstateDateCalendarEvent models
 
 **Wave 2** *(parallel — all depend on 05-01)*
 - [ ] 05-02-PLAN.md — Google Calendar adapter (google-apis-calendar_v3) + GoogleOauthController (authorize + callback)
