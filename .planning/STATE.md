@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-05-13T20:43:00.000Z"
-last_activity: 2026-05-13 -- Phase 05 Plan 01 complete; gems bundled, migrations created, models written; DB migration pending (Render.com DB inaccessible from dev)
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-05-13T20:50:17.000Z"
+last_activity: 2026-05-13 -- Phase 05 Plan 02 complete; GoogleCalendarAdapter + GoogleOauthController built; OAuth2 authorize/callback endpoints ready
 progress:
   total_phases: 5
   completed_phases: 4
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 05 (calendar-sync) — EXECUTING (Plan 01 of 7 complete; Wave 1 done)
-Last activity: 2026-05-13 -- Phase 05 Plan 01 complete: gems, migrations, and models for calendar sync foundation
+Phase: 05 (calendar-sync) — EXECUTING (Plan 02 of 7 complete; Wave 2 in progress)
+Last activity: 2026-05-13 -- Phase 05 Plan 02 complete: GoogleCalendarAdapter service + GoogleOauthController with authorize/callback endpoints
 
 Progress: [██████████] 100% of Phase 04 | Milestone 80%
 
@@ -55,6 +55,7 @@ Progress: [██████████] 100% of Phase 04 | Milestone 80%
 | Phase 04-google-oauth P03 | 1min | 2 tasks | 3 files |
 | Phase 04-google-oauth P04 | 2min | 2 tasks | 5 files |
 | Phase 05-calendar-sync P01 | 8min | 3 tasks | 8 files |
+| Phase 05-calendar-sync P02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -121,6 +122,9 @@ Recent decisions affecting current work:
 - 05-01: with_advisory_lock downgraded to ~> 5.3 from ~> 7.5 — version 7.x requires activerecord >= 7.2; 5.3.0 compatible with Rails 7.1.4 (requires activerecord >= 6.1); API is identical
 - 05-01: omniauth-azure-activedirectory-v2 is deprecated (post-install warns to switch to omniauth-entra-id) — kept per plan spec; rename is out-of-scope for Phase 05
 - 05-01: credentials_hash rescues JSON::ParserError returning {} — prevents raw credential values in error paths (T-05-01-02 mitigation)
+- 05-02: GoogleCalendarAdapter receives pre-decrypted credentials Hash — no token refresh in adapter; CalendarSyncJob owns refresh with advisory lock (CAL-06)
+- 05-02: OAuth2 state nonce (SecureRandom.hex(32)) stored in Rails.cache with 10-min TTL; single-use (deleted on first read); user_id taken from cache not params (T-05-02-03)
+- 05-02: refresh_token preserved from existing UserCalendarConnection when Google does not re-issue on re-auth (prompt: consent only re-issues on first authorization)
 
 ### Pending Todos
 
@@ -141,6 +145,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-13T20:43:00Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-05-13T20:50:17Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
