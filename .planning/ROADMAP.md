@@ -127,7 +127,7 @@ Plans:
 
 **Wave 2** *(parallel — all depend on 05-01)*
 - [x] 05-02-PLAN.md — Google Calendar adapter (google-apis-calendar_v3) + GoogleOauthController (authorize + callback)
-- [ ] 05-03-PLAN.md — Microsoft Calendar adapter (HTTParty + Graph API) + MicrosoftOauthController (authorize + callback)
+- [x] 05-03-PLAN.md — Microsoft Calendar adapter (HTTParty + Graph API) + MicrosoftOauthController (authorize + callback)
 - [ ] 05-04-PLAN.md — Apple CalDAV adapter (calendav) + ConnectionsController (index/create_apple/destroy/resync) + UserCalendarConnectionSerializer + routes
 
 **Wave 3** *(depends on 05-02, 05-03, 05-04)*
@@ -149,4 +149,4 @@ Plans:
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
 | 4. Google OAuth | 4/4 | Complete   | 2026-05-09 |
-| 5. Calendar Sync | 2/7 | Executing | - |
+| 5. Calendar Sync | 3/7 | Executing | - |
