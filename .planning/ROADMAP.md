@@ -134,7 +134,7 @@ Plans:
 - [x] 05-05-PLAN.md — CalendarSyncJob (advisory lock, token refresh, adapter dispatch, upsert) + EstateEventsController calendar fan-out
 
 **Wave 4** *(depends on 05-05)*
-- [ ] 05-06-PLAN.md — Frontend: types, API modules, hooks, CalendarContext, ProviderCard, CalendarTab, Account.tsx Tabs integration
+- [x] 05-06-PLAN.md — Frontend: types, API modules, hooks, CalendarContext, ProviderCard, CalendarTab, Account.tsx Tabs integration
 
 **Wave 5** *(human verification — depends on 05-06)*
 - [ ] 05-07-PLAN.md — Human verification: backend routes, frontend Calendar tab rendering, CAL requirement traceability

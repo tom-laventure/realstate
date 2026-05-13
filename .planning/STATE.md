@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-05-PLAN.md
-last_updated: "2026-05-13T21:09:49Z"
-last_activity: "2026-05-13 -- Phase 05 Plan 05 complete: CalendarSyncJob with advisory-lock token refresh + adapter dispatch; EstateEventsController create/destroy fan-out"
+stopped_at: Completed 05-06-PLAN.md
+last_updated: "2026-05-13T21:20:00Z"
+last_activity: "2026-05-13 -- Phase 05 Plan 06 complete: Calendar settings UI — CalendarTab with 3 provider cards (Google/Microsoft/Apple), CalendarContext, ProviderCard, Account.tsx Tabs integration"
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 30
-  completed_plans: 28
-  percent: 93
+  completed_plans: 29
+  percent: 97
 ---
 
 # Project State
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-30)
 
 ## Current Position
 
-Phase: 05 (calendar-sync) — EXECUTING (Plan 05 of 7 complete; Wave 3 complete)
-Last activity: 2026-05-13 -- Phase 05 Plan 05 complete: CalendarSyncJob with advisory-lock token refresh + adapter dispatch; EstateEventsController create/destroy fan-out
+Phase: 05 (calendar-sync) — EXECUTING (Plan 06 of 7 complete; Wave 4 in progress)
+Last activity: 2026-05-13 -- Phase 05 Plan 06 complete: Calendar settings UI — CalendarTab with 3 provider cards (Google/Microsoft/Apple), CalendarContext, ProviderCard, Account.tsx Tabs integration
 
 Progress: [██████████] 100% of Phase 04 | Milestone 80%
 
@@ -134,6 +134,10 @@ Recent decisions affecting current work:
 - 05-05: CalendarSyncJob find_by!(user_id:, provider:) without status filter — error-state connections retried correctly (BLOCKER 4 fix); ConnectionNotActiveError discards disconnected connections separately
 - 05-05: action values are 'create' and 'destroy' only — no 'update' (EstateEventsController routes confirm only: [:index, :create, :destroy]; D-06 'update' mention was artifact)
 - 05-05: update_columns used for conn.status=error and last_error updates — skips AR callbacks/validations (safe for error state fields)
+- 05-06: ProviderCard renders generic error copy — raw lastError field never interpolated into DOM (T-05-06-03 mitigation)
+- 05-06: Apple type=password input (T-05-06-01) — value not stored beyond form session, never logged
+- 05-06: Google/Microsoft connect hooks use useMutation (not useQuery) — OAuth authorize GET treated as mutation due to window.location.href side effect in onSuccess
+- 05-06: CalendarContext co-located in containers/account/ as parallel hook to AccountContext — not extending it (D-08)
 
 ### Pending Todos
 
