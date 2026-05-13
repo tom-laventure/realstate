@@ -149,4 +149,4 @@ Plans:
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
 | 4. Google OAuth | 4/4 | Complete   | 2026-05-09 |
-| 5. Calendar Sync | 0/7 | Not started | - |
+| 5. Calendar Sync | 0/7 | Ready to execute | - |
