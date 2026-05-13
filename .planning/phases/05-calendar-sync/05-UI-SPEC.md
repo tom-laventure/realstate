@@ -1,7 +1,7 @@
 ---
 phase: 5
 slug: calendar-sync
-status: draft
+status: approved
 shadcn_initialized: true
 preset: new-york / zinc / css-variables
 created: 2026-05-12
@@ -43,7 +43,7 @@ Declared values (must be multiples of 4):
 
 Exceptions:
 - Minimum touch target for icon-only buttons: 44px height (`min-h-[44px]` or `h-10 w-10` for icon size variant). Used on connect/disconnect/re-sync buttons.
-- Apple credential form input rows use `space-y-1.5` (6px) between label and input — matches existing EditProfileView pattern.
+- Apple credential form input rows use `space-y-2` (8px) between label and input.
 
 ---
 
@@ -154,7 +154,7 @@ Each card is a `Card` component (rounded-xl, border, shadow-sm) with fixed inter
 Card (class="flex flex-col")
   CardContent (class="p-4 sm:p-6 flex flex-col gap-4 h-full")
     <!-- Header row -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
       [ProviderLogo 20x20] + <span class="text-base font-semibold">[Provider Name]</span>
     </div>
 
@@ -204,12 +204,12 @@ Card (class="flex flex-col")
 Replaces the Connect button for the Apple card when `status === 'disconnected'`.
 
 ```
-<form class="space-y-3" onSubmit={handleAppleConnect}>
-  <div class="space-y-1.5">
+<form class="space-y-4" onSubmit={handleAppleConnect}>
+  <div class="space-y-2">
     <Label htmlFor="apple-email">iCloud Email</Label>
     <Input id="apple-email" type="email" placeholder="you@icloud.com" required />
   </div>
-  <div class="space-y-1.5">
+  <div class="space-y-2">
     <Label htmlFor="apple-password">
       App-Specific Password
       <Lock class="ml-1 inline h-3 w-3 text-muted-foreground" />
@@ -236,7 +236,7 @@ Dialog
       DialogTitle: "Disconnect [Provider] Calendar"
       DialogDescription: "Your calendar will stop receiving new property showing events. Past events already synced will remain in your calendar."
     DialogFooter
-      Button variant="outline" onClick={closeDialog}: "Cancel"
+      Button variant="outline" onClick={closeDialog}: "Keep Connected"
       Button variant="destructive" onClick={confirmDisconnect}: "Disconnect"
 ```
 
@@ -290,7 +290,7 @@ Or use `<Loader2 className="h-4 w-4 animate-spin" />` for inline icon replacemen
 | Connect loading state | (button disabled, spinner shown — no text change) |
 | Disconnect dialog title | "Disconnect [Provider] Calendar" |
 | Disconnect dialog body | "Your calendar will stop receiving new property showing events. Past events already synced will remain in your calendar." |
-| Disconnect dialog cancel | "Cancel" |
+| Disconnect dialog cancel | "Keep Connected" |
 | Disconnect dialog confirm | "Disconnect" |
 | Apple password hint | "Generate at appleid.apple.com under Security." |
 | Apple email placeholder | "you@icloud.com" |
@@ -331,11 +331,11 @@ No third-party registries declared for this phase. All components are already in
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [~] Dimension 1 Copywriting: FLAG — single-word CTAs ("Connect", "Disconnect", "Re-sync") contextually clear, not in BLOCK list
+- [~] Dimension 2 Visuals: FLAG — visual hierarchy implied by layout structure; no explicit focal point declaration
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [~] Dimension 5 Spacing: FLAG — 44px touch target exception declared with accessibility justification
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved — 2026-05-12
