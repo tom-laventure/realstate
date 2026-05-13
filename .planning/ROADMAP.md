@@ -118,8 +118,26 @@ Plans:
   2. A user who connects Google Calendar sees new EstateDate events appear in their Google Calendar automatically; updating or deleting the EstateDate removes or updates the corresponding Google Calendar event
   3. A user who connects Microsoft Calendar via OAuth has EstateDate events synced to their Microsoft Calendar; a user who connects Apple iCloud Calendar by entering their app-specific password has EstateDate events synced via CalDAV
   4. When a calendar write fails, the provider card in settings shows a failure indicator with last error; clicking "Re-sync" re-enqueues the job without requiring the user to reconnect
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 7 plans
+
+Plans:
+
+**Wave 1** *(no dependencies)*
+- [ ] 05-01-PLAN.md — Gems (google-apis-calendar_v3, omniauth-azure-activedirectory-v2, calendav, with_advisory_lock), 3 migrations, UserCalendarConnection + EstateDateCalendarEvent models
+
+**Wave 2** *(parallel — all depend on 05-01)*
+- [ ] 05-02-PLAN.md — Google Calendar adapter (google-apis-calendar_v3) + GoogleOauthController (authorize + callback)
+- [ ] 05-03-PLAN.md — Microsoft Calendar adapter (HTTParty + Graph API) + MicrosoftOauthController (authorize + callback)
+- [ ] 05-04-PLAN.md — Apple CalDAV adapter (calendav) + ConnectionsController (index/create_apple/destroy/resync) + UserCalendarConnectionSerializer + routes
+
+**Wave 3** *(depends on 05-02, 05-03, 05-04)*
+- [ ] 05-05-PLAN.md — CalendarSyncJob (advisory lock, token refresh, adapter dispatch, upsert) + EstateEventsController calendar fan-out
+
+**Wave 4** *(depends on 05-05)*
+- [ ] 05-06-PLAN.md — Frontend: types, API modules, hooks, CalendarContext, ProviderCard, CalendarTab, Account.tsx Tabs integration
+
+**Wave 5** *(human verification — depends on 05-06)*
+- [ ] 05-07-PLAN.md — Human verification: backend routes, frontend Calendar tab rendering, CAL requirement traceability
 
 ## Progress
 
@@ -131,4 +149,4 @@ Plans:
 | 2. Test Suite | 6/6 | Complete | 2026-05-03 |
 | 3. Onboarding Fixes | 5/5 | Complete | 2026-05-05 |
 | 4. Google OAuth | 4/4 | Complete   | 2026-05-09 |
-| 5. Calendar Sync | 0/TBD | Not started | - |
+| 5. Calendar Sync | 0/7 | Not started | - |
