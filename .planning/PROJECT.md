@@ -8,6 +8,15 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
+## Current Milestone: v1.1 Domain Access Control
+
+**Goal:** Enforce strict domain-based routing — main domain serves only the brokerage creation flow; brokerage subdomains never expose `/create`.
+
+**Target features:**
+- Frontend domain guard (configurable `VITE_MAIN_DOMAIN`, main domain shows only `/create/*`, subdomains redirect `/create` → `/`)
+- Backend onboarding guard (all `/v1/onboarding/*` endpoints require main-domain origin, 403 otherwise)
+- Configurable main domain via env vars on both frontend and backend (ready for `realtybase.ca → app.realtybase.ca` migration)
+
 ## Requirements
 
 ### Validated
@@ -48,6 +57,12 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
+- [ ] Frontend domain guard — main domain routes only `/create/*`, all else → 404 (DOM-01, DOM-02)
+- [ ] Subdomain `/create` block — redirect to `/` on brokerage subdomains (DOM-03)
+- [ ] Backend onboarding guard — all `/v1/onboarding/*` endpoints require main-domain origin (DOM-04)
+- [ ] Configurable main domain — `VITE_MAIN_DOMAIN` (frontend) + `APP_BASE_DOMAIN` (backend, already exists) (DOM-05)
+
+**Deferred from v1.0:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Two-way calendar sync — requires webhooks and conflict resolution
@@ -117,4 +132,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-13 after v1.0 milestone completion*
+*Last updated: 2026-05-13 — milestone v1.1 started*

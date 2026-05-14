@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: Security, OAuth & Calendar
-status: complete
-stopped_at: Completed 05-07-PLAN.md
-last_updated: "2026-05-13T21:25:00Z"
-last_activity: "2026-05-13 -- Phase 05 Plan 07 complete: Human verification — Google calendar sync tested and working end-to-end; CAL-04/CAL-05 deferred; Milestone 2 complete"
+milestone: v1.1
+milestone_name: Domain Access Control
+status: planning
+stopped_at: ~
+last_updated: "2026-05-13T00:00:00Z"
+last_activity: "2026-05-13 — Milestone v1.1 started"
 progress:
-  total_phases: 5
-  completed_phases: 5
-  total_plans: 30
-  completed_plans: 30
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-13)
 
 ## Current Position
 
-Milestone v1.0 complete — 5 phases, 30 plans shipped.
-Last activity: 2026-05-13 — v1.0 milestone archived
-
-Progress: [██████████] 100% of Phase 04 | Milestone 80%
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-13 — Milestone v1.1 started
 
 ## Performance Metrics
 
