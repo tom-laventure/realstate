@@ -38,7 +38,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
 Wave 1 *(all tasks autonomous, no dependencies)*
 
-- [ ] 06-01: Domain detection utility + frontend router split
+- [x] 06-01: Domain detection utility + frontend router split
 
 ---
 
@@ -67,5 +67,5 @@ Wave 1 *(all tasks autonomous, no dependencies)*
 | 3. Onboarding Fixes | v1.0 | 5/5 | Complete | 2026-05-05 |
 | 4. Google OAuth | v1.0 | 4/4 | Complete | 2026-05-09 |
 | 5. Calendar Sync | v1.0 | 7/7 | Complete | 2026-05-13 |
-| 6. Frontend Domain Routing Guards | v1.1 | 0/1 | Pending | — |
+| 6. Frontend Domain Routing Guards | v1.1 | 1/1 | Complete | 2026-05-14 |
 | 7. Backend Onboarding Guard | v1.1 | 0/1 | Pending | — |

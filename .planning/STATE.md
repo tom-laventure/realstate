@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.1
-milestone_name: Domain Access Control
-status: ready_to_execute
-stopped_at: Phase 6 planned — ready to execute
-last_updated: "2026-05-13T00:00:00Z"
-last_activity: "2026-05-13 — Phase 6 planned (1 plan, wave 1)"
+milestone_name: milestone
+status: in_progress
+stopped_at: Phase 6 Plan 01 complete — Phase 7 pending
+last_updated: "2026-05-14T06:20:39Z"
+last_activity: "2026-05-14 — Phase 6 Plan 01 complete (frontend domain routing guards)"
 progress:
   total_phases: 2
-  completed_phases: 0
-  total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 1
+  percent: 50
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-13)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-05-13 — Milestone v1.1 started
+Phase: 06-frontend-domain-routing-guards (complete)
+Plan: 06-01 (complete)
+Status: Phase 6 done — Phase 7 (Backend Onboarding Guard) ready to plan/execute
+Last activity: 2026-05-14 — Phase 6 Plan 01 complete (domain routing guards, 3 tasks, 7 files)
 
 ## Performance Metrics
 
@@ -50,6 +50,7 @@ Last activity: 2026-05-13 — Milestone v1.1 started
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 06-frontend-domain-routing-guards P01 | 2min | 3 tasks | 7 files |
 | Phase 04-google-oauth P01 | 4min | 2 tasks | 4 files |
 | Phase 04-google-oauth P02 | 2 | - tasks | - files |
 | Phase 04-google-oauth P03 | 1min | 2 tasks | 3 files |
@@ -67,6 +68,10 @@ Last activity: 2026-05-13 — Milestone v1.1 started
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- 06-01: DomainGuard as root guard components wrapping route subtrees (not bootstrap-time router split) — follows ProtectedRoute Outlet pattern with named exports
+- 06-01: isMainDomain() is UX enforcement only — documented in source comments; Phase 7 adds backend 403 as the real security boundary
+- 06-01: VITE_MAIN_DOMAIN=localhost in gitignored .env for local dev; .env.example committed with placeholder value
+- 06-01: Test pattern for domain guards: vi.stubEnv('VITE_MAIN_DOMAIN', ...) + vi.stubGlobal('location', { hostname: ... }) with afterEach cleanup
 - Roadmap: Google OAuth ships atomically — PreSignUp Lambda and "Sign in with Google" button must land in the same phase; never button without Lambda
 - Roadmap: Fixed intermediary callback URL strategy required for Phase 4 — multi-tenant subdomain conflict must be designed before planning begins
 - Roadmap: Phase 5 provider event ID storage model (columns on EstateDate vs. join table) and EstateDate timezone column existence must be resolved at Phase 5 planning time
@@ -158,6 +163,6 @@ None — Milestone 2 complete.
 
 ## Session Continuity
 
-Last session: 2026-05-13T21:09:49Z
-Stopped at: Phase 6 UI-SPEC approved
-Resume file: .planning/phases/06-frontend-domain-routing-guards/06-UI-SPEC.md
+Last session: 2026-05-14T06:20:39Z
+Stopped at: Completed 06-01-PLAN.md (Phase 6 Plan 01 — frontend domain routing guards)
+Resume file: None — Phase 7 planning next
