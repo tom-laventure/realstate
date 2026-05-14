@@ -382,17 +382,11 @@ afterEach(() => {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **What is the production value of `VITE_MAIN_DOMAIN`?**
-   - What we know: Backend uses `APP_BASE_DOMAIN`; presumably the same domain (e.g., `realtybase.ca`)
-   - What's unclear: Whether the production `.env` already has this set elsewhere, or if it needs to be added to CI/CD secrets
-   - Recommendation: Plan task for "add VITE_MAIN_DOMAIN=localhost to .env for dev" + note in plan that production value must be set in deployment environment
+1. **What is the production value of `VITE_MAIN_DOMAIN`?** — RESOLVED: `localhost` for local dev (added to `frontend/.env` in Plan 06-01 Task 1). Production value must be set in deployment environment secrets — not committed to repo. No blocker to Phase 6 execution.
 
-2. **Does the main domain need the `auth` and `joinBrokerage` routes?**
-   - What we know: CONTEXT.md says main domain shows only `/create`; all other routes 404
-   - What's unclear: `/invite/:token` (joinBrokerage) — does a user clicking a brokerage invite link land on a subdomain or main domain? The router currently has this as a top-level route.
-   - Recommendation: Based on D-02 ("all routes except /create/* render 404"), joinBrokerage should be under SubdomainOnly guard. Plan should implement this and let the human confirm during execution.
+2. **Does the main domain need the `auth` and `joinBrokerage` routes?** — RESOLVED: No. Per D-02, all routes except `/create/*` render 404 on main domain. `auth` and `joinBrokerage` are wrapped under `SubdomainOnly` in Plan 06-01 Task 2 — they are subdomain-only routes.
 
 ---
 

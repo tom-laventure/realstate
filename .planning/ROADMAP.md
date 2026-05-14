@@ -35,6 +35,9 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 3. On a brokerage subdomain, visiting `/create` redirects to `/` without rendering the wizard
 
 **Plans:**
+
+Wave 1 *(all tasks autonomous, no dependencies)*
+
 - [ ] 06-01: Domain detection utility + frontend router split
 
 ---

@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Domain Access Control
-status: planning
-stopped_at: ~
+status: ready_to_execute
+stopped_at: Phase 6 planned — ready to execute
 last_updated: "2026-05-13T00:00:00Z"
-last_activity: "2026-05-13 — Milestone v1.1 started"
+last_activity: "2026-05-13 — Phase 6 planned (1 plan, wave 1)"
 progress:
   total_phases: 2
   completed_phases: 0
-  total_plans: 2
+  total_plans: 3
   completed_plans: 0
   percent: 0
 ---
