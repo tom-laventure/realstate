@@ -1,32 +1,32 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
-status: executing
-stopped_at: Completed 05-06-PLAN.md
-last_updated: "2026-05-13T21:20:00Z"
-last_activity: "2026-05-13 -- Phase 05 Plan 06 complete: Calendar settings UI — CalendarTab with 3 provider cards (Google/Microsoft/Apple), CalendarContext, ProviderCard, Account.tsx Tabs integration"
+milestone_name: Security, OAuth & Calendar
+status: complete
+stopped_at: Completed 05-07-PLAN.md
+last_updated: "2026-05-13T21:25:00Z"
+last_activity: "2026-05-13 -- Phase 05 Plan 07 complete: Human verification — Google calendar sync tested and working end-to-end; CAL-04/CAL-05 deferred; Milestone 2 complete"
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 30
-  completed_plans: 29
-  percent: 97
+  completed_plans: 30
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-30)
+See: .planning/PROJECT.md (updated 2026-05-13)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 05 — calendar-sync
+**Current focus:** Between milestones — v1.0 complete, planning v2.0
 
 ## Current Position
 
-Phase: 05 (calendar-sync) — EXECUTING (Plan 06 of 7 complete; Wave 4 in progress)
-Last activity: 2026-05-13 -- Phase 05 Plan 06 complete: Calendar settings UI — CalendarTab with 3 provider cards (Google/Microsoft/Apple), CalendarContext, ProviderCard, Account.tsx Tabs integration
+Milestone v1.0 complete — 5 phases, 30 plans shipped.
+Last activity: 2026-05-13 — v1.0 milestone archived
 
 Progress: [██████████] 100% of Phase 04 | Milestone 80%
 
@@ -145,7 +145,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 5 executing: Render.com PostgreSQL DB unreachable from local dev (SSL connection closes after handshake). Migrations 20260513203641, 20260513203643, 20260513203645 are committed but not yet applied. Requires `rails db:migrate` from Render.com environment before Wave 2 plans can run validators.
+None — Milestone 2 complete.
 
 ## Deferred Items
 

@@ -97,3 +97,19 @@ None — plan executed exactly as written. Both files match the plan's code spec
 ---
 *Phase: 05-calendar-sync*
 *Completed: 2026-05-13*
+
+## Self-Check: PASSED
+
+Files verified:
+- FOUND: backend/app/services/calendar/google_calendar_adapter.rb
+- FOUND: backend/app/controllers/v1/account/calendar/google_oauth_controller.rb
+- FOUND: .planning/phases/05-calendar-sync/05-02-SUMMARY.md
+
+Commits verified (backend repo):
+- FOUND: f3dc8b0 (Task 1 — GoogleCalendarAdapter)
+- FOUND: 6888506 (Task 2 — GoogleOauthController + routes)
+
+Rails environment verification:
+- GoogleOauthController loaded: ApplicationController (superclass correct)
+- GoogleCalendarAdapter loaded: Object (superclass correct)
+- sync method present: true

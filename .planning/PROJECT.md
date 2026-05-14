@@ -1,8 +1,8 @@
-# RealState SaaS Platform — Milestone 2
+# RealState SaaS Platform
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. This milestone hardens the platform's security posture, adds Google social login, fixes broken onboarding flows, introduces personal calendar sync for listing dates, and establishes a test suite.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, and a backend + frontend test suite.
 
 ## Core Value
 
@@ -23,80 +23,35 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Filter sets with listing filtering and preview counts — existing
 - ✓ S3 document storage, CloudFront CDN for photos — existing
 - ✓ Brokerage creation wizard and invitation-based join flow — existing
-- ✓ Server-side role enforcement on all `/v1/admin/**` endpoints — Validated Phase 1 (SEC-01)
-- ✓ Hardcoded test credentials removed from sign-in component — Validated Phase 1 (SEC-02)
-- ✓ CORS restricted to brokerage domain allowlist — Validated Phase 1 (SEC-03)
-- ✓ Rate limiting on `POST /v1/sessions` via rack-attack — Validated Phase 1 (SEC-04)
-- ✓ SQL injection risk removed from `Group#order_estates` — Validated Phase 1 (SEC-05)
-- ✓ `InvitationsController` crash fixed — Validated Phase 1 (SEC-06)
-- ✓ `FilterSetsController#create` scoped to current group — Validated Phase 1 (SEC-07)
-- ✓ Frontend 403 handler with toast + redirect — Validated Phase 1 (SEC-08)
-- ✓ `EstateLike` N+1 bulk-precomputed in estates index — Validated Phase 1 (PERF-01)
-- ✓ `per_page` cap at 100 across all controllers — Validated Phase 1 (PERF-03)
-- ✓ `console.log` removed from production code; ESLint no-console rule — Validated Phase 1 (DEBT-01)
-- ✓ `usersAminView` renamed to `usersAdminView` — Validated Phase 1 (DEBT-02)
-- ✓ `BrokerageBoardCredential#status` enum defined — Validated Phase 1 (DEBT-03)
-- ✓ `GroupEstatesQuery` price filtering uses `price_numeric` — Validated Phase 1 (DEBT-04)
-- ✓ Dead `FilterByPopup` component deleted — Validated Phase 1 (DEBT-05)
-- ✓ Backend test infrastructure: factory_bot_rails + test_helper + 10 factory files — Validated Phase 2 (TEST-01)
-- ✓ Cross-brokerage tenant isolation test (Brokerage A JWT + Brokerage B Host → 403/404) — Validated Phase 2 (TEST-02)
-- ✓ Admin authorization tests: agent/client rejected, owner/admin accepted — Validated Phase 2 (TEST-03)
-- ✓ `FilterSetsController` create/update transition correctness — Validated Phase 2 (TEST-04)
-- ✓ `GroupEstatesQuery` price/rating sort filter tests — Validated Phase 2 (TEST-05)
-- ✓ `InvitationsController` accept_token + validate_token integration tests — Validated Phase 2 (TEST-06)
-- ✓ Frontend Vitest + MSW + renderWithProviders test infrastructure — Validated Phase 2 (TEST-07)
-- ✓ `ProtectedRoute` and `RequireRole` guard unit tests — Validated Phase 2 (TEST-08)
-- ✓ `GoogleSignInButton` + Hub session exchange tests — Validated Phase 2 (TEST-09)
-- ✓ Domain wizard error propagation — inline error on duplicate, no toast, wizard step gate — Validated Phase 3 (ONB-01)
-- ✓ Post-accept navigation to `/{groupUid}` (UUID path) via `group.uid` in invitation backend — Validated Phase 3 (ONB-02)
-- ✓ Welcome banner (`welcomed_at` migration, `dismiss_welcome` endpoint, `show_welcome_banner` serializer, `WelcomeBanner` component, `HomepageContext` + `GeneralDashboardContext` wiring) — Validated Phase 3 (ONB-03)
+- ✓ Server-side RBAC via `Admin::BaseController#require_admin!` on all 13 admin controllers — v1.0 (SEC-01)
+- ✓ Hardcoded test credentials removed from sign-in component — v1.0 (SEC-02)
+- ✓ CORS restricted to brokerage domain allowlist via `BrokerageDomain` proc — v1.0 (SEC-03)
+- ✓ `POST /v1/sessions` rate-limited via rack-attack — v1.0 (SEC-04)
+- ✓ SQL injection risk removed from `Group#order_estates` — v1.0 (SEC-05)
+- ✓ `InvitationsController` crash fixed — v1.0 (SEC-06)
+- ✓ `FilterSetsController#create` scoped to current group — v1.0 (SEC-07)
+- ✓ Frontend 403 handler with toast + redirect — v1.0 (SEC-08)
+- ✓ `EstateLike` N+1 eliminated — v1.0 (PERF-01)
+- ✓ `per_page` cap at 100 across all controllers — v1.0 (PERF-03)
+- ✓ Backend test suite: 17 integration tests (tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController) — v1.0 (TEST-01–06)
+- ✓ Frontend test suite: Vitest 4.x + MSW 2.x, 7 unit tests (ProtectedRoute, RequireRole, GoogleSignInButton) — v1.0 (TEST-07–09)
+- ✓ Domain wizard: client-side + server-side validation, save, confirmation, wizard gate — v1.0 (ONB-01)
+- ✓ Post-invite redirect to correct brokerage workspace via `group.uid` — v1.0 (ONB-02)
+- ✓ Dismissible welcome banner on first dashboard visit — v1.0 (ONB-03)
+- ✓ Google OAuth federation via Cognito + PreSignUp Lambda with `AdminLinkProviderForUser` — v1.0 (AUTH-01/02)
+- ✓ "Sign in with Google" button + intermediary callback + Cognito idToken exchange — v1.0 (AUTH-03)
+- ✓ "Connected via Google" badge in account settings — v1.0 (AUTH-04)
+- ✓ `user_calendar_connections` table with AR Encryption + `EstateDateCalendarEvent` pivot — v1.0 (CAL-01)
+- ✓ Calendar settings panel: Google provider card with connect/disconnect/resync — v1.0 (CAL-02)
+- ✓ Google Calendar sync via `CalendarSyncJob` with advisory lock and deterministic event IDs — v1.0 (CAL-03, CAL-06)
+- ✓ Sync failure indicator + Re-sync button in calendar settings — v1.0 (CAL-07)
 
 ### Active
 
-**Security & Authorization**
-- [ ] Server-side role enforcement on all `/v1/admin/**` endpoints via `Admin::BaseController#require_admin!`
-- [ ] Remove hardcoded test credentials (`defaultValue` email/password) from sign-in component
-- [ ] Restrict CORS `origins` from wildcard to brokerage domain allowlist
-- [ ] Add rate limiting to `POST /v1/sessions` via `rack-attack`
-- [ ] Remove SQL injection risk: delete dead `Group#order_estates` and related methods
-- [ ] Fix `InvitationsController` crash: replace `current_user` calls with `Current.user`
-- [ ] Scope `GroupEstate` cleanup in `FilterSetsController#create` to `group: @group`
-
-**Google OAuth**
-- [ ] Add Google as a federated identity provider in Cognito user pool
-- [ ] Frontend: "Sign in with Google" button on login screen integrated with Amplify social login flow
-- [ ] User account linking: existing email/password accounts can connect Google identity
-
-**Onboarding Fixes**
-- [ ] Fix brokerage domain setup step: domain validation, save, and confirmation work end-to-end
-- [ ] Fix post-join experience: user lands on correct dashboard after accepting invitation with no dead ends
-
-**Calendar Sync**
-- [ ] OAuth connection flow for Google Calendar (Google Identity + Calendar API)
-- [ ] OAuth connection flow for Apple Calendar (CalDAV via iCloud)
-- [ ] OAuth connection flow for Microsoft Calendar (Microsoft Graph API)
-- [ ] Per-user calendar connection stored in DB (`UserCalendarConnection` model)
-- [ ] Sync `EstateDate` records to connected calendars on create/update/delete
-- [ ] UI: calendar connection management panel (connect, disconnect, sync status)
-- [ ] Background job to handle calendar write failures with retry
-
-**Performance Fixes**
-- [ ] Fix `EstateLike` N+1: bulk-precompute `liked_ge_ids` in both estates index actions
-- [ ] Fix `EstateEventSerializer` N+1: add `.includes(rsvps: :user)` to event query scope
-- [ ] Enforce `per_page` cap at 100 across all 6 uncapped controllers
-- [ ] Remove unused `paginate` lambda from `Pagination` concern
-
-**Tech Debt Cleanup**
-- [ ] Remove all `console.log` statements from production code; add ESLint `no-console` rule
-- [ ] Rename `usersAminView` directory to `usersAdminView` and update all imports
-- [ ] Add `BrokerageBoardCredential#status` enum definition
-- [ ] Migrate `GroupEstatesQuery` price filtering to use `price_numeric` column
-- [ ] Delete dead `FilterByPopup` component (imports non-existent `framer-motion`)
-- [ ] Lower brokerage domain log from `info` to `debug` in `BrokerageAuth`
-
-**Unit Testing** (remaining — Phase 2 covered backend integration + auth guards)
-- [ ] Frontend: core context hooks (`GeneralDashboardContext`, `useGeneralDashboardContext`)
-- [ ] Frontend: calendar sync connection flow and UI states
+- [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
+- [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
+- [ ] Two-way calendar sync — requires webhooks and conflict resolution
+- [ ] Expanded test coverage: context hooks, calendar UI states
 
 ### Out of Scope
 
@@ -112,13 +67,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 ## Context
 
 - **Stack:** Ruby 4.0.2 / Rails 7.1 JSON API + Vite/React 18 SPA. Monorepo with `backend/` and `frontend/` as separate git repos.
-- **Auth:** AWS Cognito + Amplify for identity; custom HS256 JWT (`TokenService`) issued on sign-in, stored in `localStorage`. `CognitoAuth` concern verifies per-request.
+- **Auth:** AWS Cognito + Amplify for identity; custom HS256 JWT (`TokenService`) issued on sign-in, stored in `localStorage`. Google OAuth federated identity via Cognito + PreSignUp Lambda. `CognitoAuth` concern verifies per-request.
 - **Multi-tenancy:** `BrokerageAuth` concern resolves `Current.brokerage` from Host header on every request. All queries must scope to `Current.brokerage`.
 - **Soft deletes:** `acts_as_paranoid` on all user-facing models. Every query must call `.without_deleted`; joins require explicit `where(table: { deleted_at: nil })`.
-- **Test suite established (Phase 2)** — 17 backend integration tests (Minitest) + 7 frontend unit tests (Vitest 4.x + MSW 2.x). Covers tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController, ProtectedRoute, RequireRole, GoogleSignInButton.
-- **Calendar model:** `EstateDate` is the existing listing event model. `EstateEventSerializer` and `estate_dates_controller` already exist for dashboard reads.
-- **Background jobs:** SolidQueue (DB-backed, no Redis). Calendar sync writes should go through a job for retry resilience.
-- **Onboarding:** The `createBrokerage` wizard and `joinBrokerage` invitation flow exist in frontend. The domain setup step and post-join redirect are the broken parts.
+- **Test suite:** 17 backend integration tests (Minitest) + 7 frontend unit tests (Vitest 4.x + MSW 2.x). Covers tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController, ProtectedRoute, RequireRole, GoogleSignInButton.
+- **Calendar sync:** `UserCalendarConnection` (encrypted credentials) + `EstateDateCalendarEvent` + `CalendarSyncJob` (SolidQueue, advisory lock). Google adapter active; Microsoft (HTTParty/Graph API) and Apple (CalDAV via calendav) adapters built but inactive — activate by expanding `PROVIDERS` constant.
+- **Background jobs:** SolidQueue (DB-backed, no Redis). Migrations for calendar tables must be applied on Render.com environment via `rails db:migrate`.
+- **Shipped v1.0:** 2026-05-13
 
 ## Constraints
 
@@ -133,11 +88,14 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Google OAuth via Cognito federated identity | Keeps token issuance centralized in `TokenService`; avoids parallel auth path | — Pending |
-| Per-user `UserCalendarConnection` model | Calendar tokens are personal; users may connect different calendars | — Pending |
-| SolidQueue job for calendar sync writes | Calendar APIs can fail; retry resilience needed without blocking request cycle | — Pending |
-| Fix onboarding bugs in-place (not rewrite) | Flows exist; specific steps are broken — surgical fixes preferred over rewrite | — Pending |
-| Full bug audit in single phase | All documented concerns addressed together to avoid accumulating further debt | — Pending |
+| `Admin::BaseController#require_admin!` — imperative, no gem | Consistent with existing imperative auth pattern; no additional dependency | ✓ Good — all 13 admin controllers enforcing RBAC |
+| Google OAuth via Cognito federated identity | Keeps token issuance centralized in `TokenService`; avoids parallel auth path | ✓ Good — single idToken exchange at `POST /v1/sessions` |
+| Fixed intermediary callback URL (`auth.realtybase.ca`) | Multi-tenant subdomains can't receive OAuth redirects directly | ✓ Good — customState brokerage encoding works across tenants |
+| PreSignUp Lambda ships atomically with button | Button without Lambda = broken flow; Lambda without button = dead code | ✓ Good — shipped together in Phase 4 |
+| Per-user `UserCalendarConnection` with AR Encryption | Calendar tokens are personal; Apple credentials need encryption at rest | ✓ Good — encryption transparent via AR Encryption |
+| `CalendarSyncJob` with advisory lock on connection ID | Concurrent token refresh races cause invalid_grant errors | ✓ Good — advisory lock serializes refresh per connection |
+| Microsoft + Apple adapters built but not exposed (v1.0) | Google verified working; Microsoft/Apple require more external setup | ✓ Good — activate by expanding PROVIDERS constant, no code changes needed |
+| Fix onboarding bugs in-place (not rewrite) | Flows exist; specific steps are broken — surgical fixes preferred | ✓ Good — minimal churn, all ONB requirements satisfied |
 
 ---
 
@@ -159,4 +117,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-05 after Phase 3 completion*
+*Last updated: 2026-05-13 after v1.0 milestone completion*
