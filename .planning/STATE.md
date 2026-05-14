@@ -159,5 +159,5 @@ None — Milestone 2 complete.
 ## Session Continuity
 
 Last session: 2026-05-13T21:09:49Z
-Stopped at: Completed 05-05-PLAN.md
-Resume file: None
+Stopped at: Phase 6 UI-SPEC approved
+Resume file: .planning/phases/06-frontend-domain-routing-guards/06-UI-SPEC.md
