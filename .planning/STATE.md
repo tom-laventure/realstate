@@ -7,9 +7,9 @@ stopped_at: ~
 last_updated: "2026-05-13T00:00:00Z"
 last_activity: "2026-05-13 — Milestone v1.1 started"
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
-  total_plans: 0
+  total_plans: 2
   completed_plans: 0
   percent: 0
 ---

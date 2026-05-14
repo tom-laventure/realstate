@@ -43,8 +43,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DOM-01 | TBD | Pending |
-| DOM-02 | TBD | Pending |
-| DOM-03 | TBD | Pending |
-| DOM-04 | TBD | Pending |
-| DOM-05 | TBD | Pending |
+| DOM-01 | Phase 6 | Pending |
+| DOM-02 | Phase 6 | Pending |
+| DOM-03 | Phase 6 | Pending |
+| DOM-04 | Phase 7 | Pending |
+| DOM-05 | Phase 7 | Pending |
