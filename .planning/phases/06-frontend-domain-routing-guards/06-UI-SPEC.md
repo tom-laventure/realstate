@@ -1,7 +1,7 @@
 ---
 phase: 6
 slug: frontend-domain-routing-guards
-status: draft
+status: approved
 shadcn_initialized: true
 preset: "new-york / zinc / cssVariables"
 created: 2026-05-13
@@ -61,10 +61,8 @@ Exceptions: none
 |------|------|--------|-------------|----------|----------------|
 | Heading | 24px | 600 (semibold) | 1.2 | `text-2xl font-semibold` | `<h1>` "Page not found" |
 | Body | 16px | 400 (regular) | 1.5 | `text-base` (Tailwind default) | `<p>` subtext |
-| Label | 14px | 500 (medium) | 1.4 | `text-sm font-medium` | Not used in this phase |
-| Display | 28px | 700 (bold) | 1.15 | `text-3xl font-bold` | Not used in this phase |
 
-**Rationale:** NotFound needs only 2 type roles — heading + body. The heading/body pair is the minimal readable hierarchy that matches D-05 ("minimal, clean"). Size and weight values derive from `button.tsx` convention (`text-sm font-medium`) extrapolated to heading scale.
+**Two weights only:** 400 (regular) and 600 (semibold). Phase 6 has a single UI surface with two text elements — no additional type roles are needed.
 
 ---
 
@@ -187,11 +185,11 @@ frontend/src/containers/errorPage/NotFound.tsx
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved 2026-05-13
