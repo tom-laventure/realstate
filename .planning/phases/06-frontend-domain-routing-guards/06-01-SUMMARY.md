@@ -125,3 +125,15 @@ None for automated tests. For manual browser verification:
 ---
 *Phase: 06-frontend-domain-routing-guards*
 *Completed: 2026-05-14*
+
+## Self-Check: PASSED
+
+- FOUND: frontend/src/helpers/domain.ts
+- FOUND: frontend/src/helpers/domain.test.ts
+- FOUND: frontend/src/components/common/guards/DomainGuard.tsx
+- FOUND: frontend/src/components/common/guards/DomainGuard.test.tsx
+- FOUND: frontend/src/containers/errorPage/NotFound.tsx
+- FOUND: frontend/.env.example
+- FOUND: .planning/phases/06-frontend-domain-routing-guards/06-01-SUMMARY.md
+- FOUND commit da08da6 (Task 1)
+- FOUND commit 4e435b4 (Task 2)
