@@ -11,11 +11,11 @@
 
 ### Domain Routing & Access Control (DOM)
 
-- [ ] **DOM-01**: Frontend reads main domain from `VITE_MAIN_DOMAIN` env var and detects whether `window.location.hostname` matches the main domain at runtime
-- [ ] **DOM-02**: On the main domain, all routes except `/create/*` render a 404 (not-found) page; authenticated app routes (dashboard, admin, account) are inaccessible from the main domain
-- [ ] **DOM-03**: On brokerage subdomains and custom domains, navigating to `/create` (or any `/create/*` sub-path) redirects to `/` (brokerage dashboard)
-- [ ] **DOM-04**: All `/v1/onboarding/*` backend endpoints reject requests not originating from the main domain with HTTP 403; applies to brokerage create, domain check/verify, and user profile update
-- [ ] **DOM-05**: Backend reads the main domain from the existing `APP_BASE_DOMAIN` env var for origin validation; no hardcoded domain strings in guard logic
+- [x] **DOM-01**: Frontend reads main domain from `VITE_MAIN_DOMAIN` env var and detects whether `window.location.hostname` matches the main domain at runtime — Validated in Phase 6
+- [x] **DOM-02**: On the main domain, all routes except `/create/*` render a 404 (not-found) page; authenticated app routes (dashboard, admin, account) are inaccessible from the main domain — Validated in Phase 6
+- [x] **DOM-03**: On brokerage subdomains and custom domains, navigating to `/create` (or any `/create/*` sub-path) redirects to `/` (brokerage dashboard) — Validated in Phase 6
+- [x] **DOM-04**: All `/v1/onboarding/*` backend endpoints reject requests not originating from the main domain with HTTP 403; applies to brokerage create, domain check/verify, and user profile update — Validated in Phase 7
+- [x] **DOM-05**: Backend reads the main domain from the existing `APP_BASE_DOMAIN` env var for origin validation; no hardcoded domain strings in guard logic — Validated in Phase 7
 
 ---
 
@@ -43,8 +43,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DOM-01 | Phase 6 | Pending |
-| DOM-02 | Phase 6 | Pending |
-| DOM-03 | Phase 6 | Pending |
-| DOM-04 | Phase 7 | Pending |
-| DOM-05 | Phase 7 | Pending |
+| DOM-01 | Phase 6 | Complete — 2026-05-14 |
+| DOM-02 | Phase 6 | Complete — 2026-05-14 |
+| DOM-03 | Phase 6 | Complete — 2026-05-14 |
+| DOM-04 | Phase 7 | Complete — 2026-05-16 |
+| DOM-05 | Phase 7 | Complete — 2026-05-16 |

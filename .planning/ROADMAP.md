@@ -21,7 +21,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 </details>
 
 <details open>
-<summary>🔄 v1.1 — Domain Access Control (Phases 6–7) — IN PROGRESS</summary>
+<summary>✅ v1.1 — Domain Access Control (Phases 6–7) — SHIPPED 2026-05-16</summary>
 
 ### Phase 6: Frontend Domain Routing Guards
 
