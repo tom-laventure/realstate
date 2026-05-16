@@ -39,7 +39,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 | # | Phase | Goal | Requirements |
 |---|-------|------|--------------|
-| 8 | 1/2 | In Progress|  |
+| 8 | 2/2 | Complete | MAP-01 |
 | 9 | Group Dashboard Map | Google Maps panel with filter sync, clustering, popup cards | MAP-02, MAP-03, MAP-05, MAP-06 |
 | 10 | Listing Detail Map | Embedded map on individual listing detail page | MAP-04 |
 
@@ -55,11 +55,11 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 3. `GeocodeListingsJob` backfills all existing listings that have an address but no coordinates
 4. RETS/MLS coordinate ingestion deferred (D-06) — to be addressed in a future phase
 
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans executed — Phase 8 COMPLETE
 
 Plans:
 - [x] 08-01-PLAN.md — Migration adding latitude/longitude/geocoding_failed to listing_details + serializer + model attribute hints
-- [ ] 08-02-PLAN.md — GeocodingService (Nominatim wrapper) + GeocodeListingsJob (retry/after_discard) + geocode:backfill rake task + Minitest coverage
+- [x] 08-02-PLAN.md — GeocodingService (Nominatim wrapper) + GeocodeListingsJob (retry/after_discard) + geocode:backfill rake task + Minitest coverage
 
 ### Phase 9: Group Dashboard Map
 
@@ -97,6 +97,6 @@ Plans:
 | 5. Calendar Sync | v1.0 | 7/7 | Complete | 2026-05-13 |
 | 6. Frontend Domain Routing Guards | v1.1 | 1/1 | Complete | 2026-05-14 |
 | 7. Backend Onboarding Guard | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 8. Geocoding & Data Layer | v1.2 | 0/2 | Planned | — |
+| 8. Geocoding & Data Layer | v1.2 | 2/2 | Complete | 2026-05-16 |
 | 9. Group Dashboard Map | v1.2 | 0/? | Pending | — |
 | 10. Listing Detail Map | v1.2 | 0/? | Pending | — |

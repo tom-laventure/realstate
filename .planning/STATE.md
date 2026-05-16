@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: — Listing Map View
 status: executing
-stopped_at: Completed 08-01-PLAN.md (Phase 8 Plan 01 — geocoding data layer schema)
-last_updated: "2026-05-16T20:46:08.932Z"
+stopped_at: Completed 08-02-PLAN.md (Phase 8 Plan 02 — geocoding service, job, rake task)
+last_updated: "2026-05-16T20:58:00.000Z"
 last_activity: 2026-05-16
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
-  percent: 50
+  completed_plans: 2
+  percent: 100
 ---
 
 # Project State
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-05-16)
 ## Current Position
 
 Phase: 8 (geocoding-data-layer) — EXECUTING
-Plan: 2 of 2
-Status: Ready to execute
+Plan: 2 of 2 (COMPLETE)
+Status: Phase 8 complete — all plans executed
 Last activity: 2026-05-16
 
 ## Performance Metrics
@@ -61,6 +61,7 @@ Last activity: 2026-05-16
 | Phase 05-calendar-sync P04 | 7min | 2 tasks | 4 files |
 | Phase 05-calendar-sync P05 | 5min | 2 tasks | 2 files |
 | Phase 08-geocoding-data-layer P01 | 2min | 2 tasks | 4 files |
+| Phase 08-geocoding-data-layer P02 | 11min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -147,6 +148,10 @@ Recent decisions affecting current work:
 - [Phase 08-01]: decimal(10,6) for lat/lng — not float; preserves ~0.1m precision exactly as stored
 - [Phase 08-01]: geocoding_failed uses null: false + default: false — PostgreSQL >=11 metadata-only migration; existing rows get false automatically
 - [Phase 08-01]: EstateSerializer required no changes — ListingDetailSerializer already wired as listing_detail association; appending attributes flows to both index and show
+- 08-02: WebMock used for HTTP stubbing in geocoding tests — project uses minitest 6.x (no Object#stub); WebMock already in test group Gemfile
+- 08-02: run_after_discard_procs(nil) used in after_discard test — Rails 7.1 private method; run_callbacks(:discard) is minitest 5.x pattern, not applicable
+- 08-02: assert_in_delta for lat/lng job test — decimal(10,6) rounds to 6 decimal places; test values must match column precision
+- 08-02: Estate dependent: :destroy hard-destroys listing_detail on soft-delete — cannot reload listing_detail after estate.destroy in tests
 
 ### Pending Todos
 
@@ -167,6 +172,6 @@ None — Milestone 2 complete.
 
 ## Session Continuity
 
-Last session: 2026-05-16T20:46:08.928Z
-Stopped at: Completed 08-01-PLAN.md (Phase 8 Plan 01 — geocoding data layer schema)
+Last session: 2026-05-16T20:58:00.000Z
+Stopped at: Completed 08-02-PLAN.md (Phase 8 Plan 02 — geocoding service, job, rake task)
 Resume file: None
