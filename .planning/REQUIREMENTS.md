@@ -9,7 +9,7 @@ Requirements for the Listing Map View milestone. Each maps to a roadmap phase.
 
 ### Data Layer
 
-- [ ] **MAP-01**: Listings have geocoded coordinates (lat/lng) stored server-side — sourced from RETS/MLS feed on import, or geocoded from address as fallback
+- [x] **MAP-01**: Listings have geocoded coordinates (lat/lng) stored server-side — sourced from RETS/MLS feed on import, or geocoded from address as fallback
 
 ### Group Dashboard Map
 
@@ -61,7 +61,7 @@ Updated by roadmapper after roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MAP-01 | Phase 8 | Pending |
+| MAP-01 | Phase 8 | Complete |
 | MAP-02 | Phase 9 | Pending |
 | MAP-03 | Phase 9 | Pending |
 | MAP-04 | Phase 10 | Pending |

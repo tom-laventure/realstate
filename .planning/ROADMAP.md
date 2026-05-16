@@ -39,7 +39,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 | # | Phase | Goal | Requirements |
 |---|-------|------|--------------|
-| 8 | Geocoding & Data Layer | Add lat/lng to listings; populate from RETS/MLS + geocoding fallback | MAP-01 |
+| 8 | 1/2 | In Progress|  |
 | 9 | Group Dashboard Map | Google Maps panel with filter sync, clustering, popup cards | MAP-02, MAP-03, MAP-05, MAP-06 |
 | 10 | Listing Detail Map | Embedded map on individual listing detail page | MAP-04 |
 
@@ -55,10 +55,10 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 3. `GeocodeListingsJob` backfills all existing listings that have an address but no coordinates
 4. RETS/MLS coordinate ingestion deferred (D-06) — to be addressed in a future phase
 
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
-- [ ] 08-01-PLAN.md — Migration adding latitude/longitude/geocoding_failed to listing_details + serializer + model attribute hints
+- [x] 08-01-PLAN.md — Migration adding latitude/longitude/geocoding_failed to listing_details + serializer + model attribute hints
 - [ ] 08-02-PLAN.md — GeocodingService (Nominatim wrapper) + GeocodeListingsJob (retry/after_discard) + geocode:backfill rake task + Minitest coverage
 
 ### Phase 9: Group Dashboard Map

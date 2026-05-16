@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.2
-milestone_name: Listing Map View
+milestone_name: — Listing Map View
 status: executing
-stopped_at: Completed 06-01-PLAN.md (Phase 6 Plan 01 — frontend domain routing guards)
-last_updated: "2026-05-16T19:45:26.492Z"
-last_activity: 2026-05-16 -- Phase 8 planning complete
+stopped_at: Completed 08-01-PLAN.md (Phase 8 Plan 01 — geocoding data layer schema)
+last_updated: "2026-05-16T20:46:08.932Z"
+last_activity: 2026-05-16
 progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 50
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-16)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.2 — Listing Map View
+**Current focus:** Phase 8 — geocoding-data-layer
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
+Phase: 8 (geocoding-data-layer) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-05-16 -- Phase 8 planning complete
+Last activity: 2026-05-16
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ Last activity: 2026-05-16 -- Phase 8 planning complete
 | Phase 05-calendar-sync P03 | 5min | 2 tasks | 3 files |
 | Phase 05-calendar-sync P04 | 7min | 2 tasks | 4 files |
 | Phase 05-calendar-sync P05 | 5min | 2 tasks | 2 files |
+| Phase 08-geocoding-data-layer P01 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -143,6 +144,9 @@ Recent decisions affecting current work:
 - 05-06: Apple type=password input (T-05-06-01) — value not stored beyond form session, never logged
 - 05-06: Google/Microsoft connect hooks use useMutation (not useQuery) — OAuth authorize GET treated as mutation due to window.location.href side effect in onSuccess
 - 05-06: CalendarContext co-located in containers/account/ as parallel hook to AccountContext — not extending it (D-08)
+- [Phase 08-01]: decimal(10,6) for lat/lng — not float; preserves ~0.1m precision exactly as stored
+- [Phase 08-01]: geocoding_failed uses null: false + default: false — PostgreSQL >=11 metadata-only migration; existing rows get false automatically
+- [Phase 08-01]: EstateSerializer required no changes — ListingDetailSerializer already wired as listing_detail association; appending attributes flows to both index and show
 
 ### Pending Todos
 
@@ -163,6 +167,6 @@ None — Milestone 2 complete.
 
 ## Session Continuity
 
-Last session: 2026-05-14T06:20:39Z
-Stopped at: Completed 06-01-PLAN.md (Phase 6 Plan 01 — frontend domain routing guards)
-Resume file: None — Phase 7 planning next
+Last session: 2026-05-16T20:46:08.928Z
+Stopped at: Completed 08-01-PLAN.md (Phase 8 Plan 01 — geocoding data layer schema)
+Resume file: None
