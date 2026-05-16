@@ -8,13 +8,13 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Current Milestone: v1.1 Domain Access Control
+## Milestone: v1.1 Domain Access Control — SHIPPED 2026-05-16
 
-**Goal:** Enforce strict domain-based routing — main domain serves only the brokerage creation flow; brokerage subdomains never expose `/create`.
+**Goal:** Enforce strict domain-based routing — main domain serves only the brokerage creation flow; brokerage subdomains never expose `/create`. ✓ Complete.
 
-**Target features:**
-- Frontend domain guard (configurable `VITE_MAIN_DOMAIN`, main domain shows only `/create/*`, subdomains redirect `/create` → `/`)
-- Backend onboarding guard (all `/v1/onboarding/*` endpoints require main-domain origin, 403 otherwise)
+**Delivered:**
+- Frontend domain guard (configurable `VITE_MAIN_DOMAIN`, main domain shows only `/create/*`, subdomains redirect `/create` → `/`) — Phase 6
+- Backend onboarding guard (all `/v1/onboarding/*` endpoints require main-domain origin, 403 otherwise) — Phase 7
 - Configurable main domain via env vars on both frontend and backend (ready for `realtybase.ca → app.realtybase.ca` migration)
 
 ## Requirements
@@ -54,13 +54,12 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Calendar settings panel: Google provider card with connect/disconnect/resync — v1.0 (CAL-02)
 - ✓ Google Calendar sync via `CalendarSyncJob` with advisory lock and deterministic event IDs — v1.0 (CAL-03, CAL-06)
 - ✓ Sync failure indicator + Re-sync button in calendar settings — v1.0 (CAL-07)
+- ✓ Frontend domain guard: `VITE_MAIN_DOMAIN`-based routing, main domain → only `/create/*`, subdomain `/create` → `/` — v1.1 (DOM-01, DOM-02, DOM-03)
+- ✓ Backend onboarding guard: `MainDomainOnly` concern rejects non-main-domain origins on all `/v1/onboarding/*` with HTTP 403 — v1.1 (DOM-04, DOM-05)
 
-### Active
+### Active (v1.1 complete — no active requirements)
 
-- [ ] Frontend domain guard — main domain routes only `/create/*`, all else → 404 (DOM-01, DOM-02)
-- [ ] Subdomain `/create` block — redirect to `/` on brokerage subdomains (DOM-03)
-- [ ] Backend onboarding guard — all `/v1/onboarding/*` endpoints require main-domain origin (DOM-04)
-- [ ] Configurable main domain — `VITE_MAIN_DOMAIN` (frontend) + `APP_BASE_DOMAIN` (backend, already exists) (DOM-05)
+**v1.1 shipped 2026-05-16. All DOM requirements validated.**
 
 **Deferred from v1.0:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
@@ -112,11 +111,16 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | Microsoft + Apple adapters built but not exposed (v1.0) | Google verified working; Microsoft/Apple require more external setup | ✓ Good — activate by expanding PROVIDERS constant, no code changes needed |
 | Fix onboarding bugs in-place (not rewrite) | Flows exist; specific steps are broken — surgical fixes preferred | ✓ Good — minimal churn, all ONB requirements satisfied |
 
+| `MainDomainOnly` concern — duplicate Origin extraction vs shared helper | Separate concerns have different semantics; sharing couples orthogonal security boundaries | ✓ Good — duplication is deliberate per research guidance |
+| Frontend guards are UX-only; backend 403 is the real security boundary (decision 06-01) | JavaScript guards can be bypassed; API layer is the trust boundary | ✓ Good — Phase 7 closes the gap with a proper server-side check |
+
 ---
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
+
+Last updated: 2026-05-16 — v1.1 milestone complete
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
