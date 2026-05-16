@@ -61,17 +61,17 @@ Updated by roadmapper after roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MAP-01 | — | Pending |
-| MAP-02 | — | Pending |
-| MAP-03 | — | Pending |
-| MAP-04 | — | Pending |
-| MAP-05 | — | Pending |
-| MAP-06 | — | Pending |
+| MAP-01 | Phase 8 | Pending |
+| MAP-02 | Phase 9 | Pending |
+| MAP-03 | Phase 9 | Pending |
+| MAP-04 | Phase 10 | Pending |
+| MAP-05 | Phase 9 | Pending |
+| MAP-06 | Phase 9 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 6 total
-- Mapped to phases: 0
-- Unmapped: 6 ⚠️
+- Mapped to phases: 6
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-16*

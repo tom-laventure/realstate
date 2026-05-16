@@ -4,6 +4,7 @@
 
 - ✅ **v1.0 — Security, OAuth & Calendar** — Phases 1–5 (shipped 2026-05-13)
 - ✅ **v1.1 — Domain Access Control** — Phases 6–7 (shipped 2026-05-16)
+- 🔨 **v1.2 — Listing Map View** — Phases 8–10 (in progress)
 
 ## Phases
 
@@ -30,6 +31,55 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 </details>
 
+## v1.2 — Listing Map View (Phases 8–10)
+
+**Goal:** Give agents a geographic view of their listings — interactive Google Maps on the group dashboard (filter-synced, clustered) and on individual listing detail pages.
+
+**Requirements:** MAP-01 through MAP-06 (6 total)
+
+| # | Phase | Goal | Requirements |
+|---|-------|------|--------------|
+| 8 | Geocoding & Data Layer | Add lat/lng to listings; populate from RETS/MLS + geocoding fallback | MAP-01 |
+| 9 | Group Dashboard Map | Google Maps panel with filter sync, clustering, popup cards | MAP-02, MAP-03, MAP-05, MAP-06 |
+| 10 | Listing Detail Map | Embedded map on individual listing detail page | MAP-04 |
+
+### Phase 8: Geocoding & Data Layer
+
+**Goal:** Give listings geographic coordinates — from the RETS/MLS feed on import, geocoded from address as fallback.
+
+**Requirements:** MAP-01
+
+**Success Criteria:**
+1. New listings imported from RETS with coordinate fields have `latitude`/`longitude` populated immediately
+2. Listings imported without MLS coordinates are geocoded via `GeocodingService` and stored
+3. `latitude` and `longitude` appear in the group dashboard and listing detail API responses
+4. `GeocodeListingsJob` backfills all existing listings that have an address but no coordinates
+
+### Phase 9: Group Dashboard Map
+
+**Goal:** Render an interactive Google Maps panel on the group dashboard with filter-synced pins, proximity clustering, and popup cards.
+
+**Requirements:** MAP-02, MAP-03, MAP-05, MAP-06
+
+**Success Criteria:**
+1. Group dashboard shows a map panel with a pin for each listing in the group that has coordinates
+2. Switching filter sets updates the map pins without a page reload
+3. Listings within ~50m are grouped into a cluster pin showing a count badge
+4. Clicking a cluster at max zoom shows a multi-listing popup with individual address + price rows, each linking to the listing detail
+5. Clicking a single pin opens a popup with hero photo, price, address, bed/bath/sqft, and "View details" link
+
+### Phase 10: Listing Detail Map
+
+**Goal:** Show the property location on the individual listing detail page via an embedded Google Map.
+
+**Requirements:** MAP-04
+
+**Success Criteria:**
+1. Listing detail page shows a Google Maps section with the property pinned at its exact location
+2. Map section is absent (not a broken component) when the listing has no coordinates
+
+---
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -41,3 +91,6 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 | 5. Calendar Sync | v1.0 | 7/7 | Complete | 2026-05-13 |
 | 6. Frontend Domain Routing Guards | v1.1 | 1/1 | Complete | 2026-05-14 |
 | 7. Backend Onboarding Guard | v1.1 | 1/1 | Complete | 2026-05-16 |
+| 8. Geocoding & Data Layer | v1.2 | 0/? | Pending | — |
+| 9. Group Dashboard Map | v1.2 | 0/? | Pending | — |
+| 10. Listing Detail Map | v1.2 | 0/? | Pending | — |
