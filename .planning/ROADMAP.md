@@ -54,6 +54,9 @@ Wave 1 *(all tasks autonomous, no dependencies)*
 3. Domain check and verify endpoints also return 403 from non-main-domain origins
 
 **Plans:**
+
+Wave 1 *(all tasks autonomous, no dependencies)*
+
 - [ ] 07-01: `MainDomainOnly` concern + apply to all onboarding controllers
 
 </details>
