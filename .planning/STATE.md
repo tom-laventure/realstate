@@ -1,34 +1,34 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: milestone
-status: complete
-stopped_at: v1.1 milestone archived — planning next milestone
+milestone: v1.2
+milestone_name: Listing Map View
+status: planning
+stopped_at: ""
 last_updated: "2026-05-16T00:00:00Z"
-last_activity: "2026-05-16 — v1.1 Domain Access Control shipped and archived (2 phases, 2 plans)"
+last_activity: "2026-05-16 — Milestone v1.2 started"
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-13)
+See: .planning/PROJECT.md (updated 2026-05-16)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Between milestones — v1.0 complete, planning v2.0
+**Current focus:** v1.2 — Listing Map View
 
 ## Current Position
 
-Phase: 07-backend-onboarding-guard (planned — ready to execute)
-Plan: 07-01 (pending)
-Status: Ready to execute — Phase 7 planned (1 plan in 1 wave)
-Last activity: 2026-05-15 — Phase 7 plan created (MainDomainOnly concern + 3 onboarding controllers + integration test)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-16 — Milestone v1.2 started
 
 ## Performance Metrics
 

@@ -8,6 +8,17 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
+## Current Milestone: v1.2 — Listing Map View
+
+**Goal:** Give agents a geographic view of their listings — an interactive Google Maps panel on the group dashboard (filter-synced) and a location map on each individual listing detail page.
+
+**Target features:**
+- lat/lng columns on `listing_details`; populated from RETS/MLS feed on import, geocoded from address as fallback
+- Group dashboard: Google Maps panel with pins for all group listings, live-synced to active filter
+- Individual listing detail: embedded map showing the property location
+- Pin clustering: nearby/same-building listings grouped into a cluster pin, expandable to individual cards
+- Popup card on pin click: hero photo, address, price, bed/bath/sqft, "View details" link
+
 ## Milestone: v1.1 Domain Access Control — SHIPPED 2026-05-16
 
 **Goal:** Enforce strict domain-based routing — main domain serves only the brokerage creation flow; brokerage subdomains never expose `/create`. ✓ Complete.
@@ -57,15 +68,22 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Frontend domain guard: `VITE_MAIN_DOMAIN`-based routing, main domain → only `/create/*`, subdomain `/create` → `/` — v1.1 (DOM-01, DOM-02, DOM-03)
 - ✓ Backend onboarding guard: `MainDomainOnly` concern rejects non-main-domain origins on all `/v1/onboarding/*` with HTTP 403 — v1.1 (DOM-04, DOM-05)
 
-### Active (v1.1 complete — no active requirements)
+### Active (v1.2 requirements)
 
-**v1.1 shipped 2026-05-16. All DOM requirements validated.**
+- [ ] **MAP-01**: lat/lng columns added to `listing_details`; populated from RETS/MLS feed, geocoded as fallback
+- [ ] **MAP-02**: Group dashboard renders Google Maps panel showing pins for all listings in the group
+- [ ] **MAP-03**: Group dashboard map updates pins in real time when active filter changes
+- [ ] **MAP-04**: Individual listing detail page shows embedded Google Maps with the property location pinned
+- [ ] **MAP-05**: Nearby listings are clustered into a single cluster pin on the group map; expanding the cluster reveals individual listing cards
+- [ ] **MAP-06**: Clicking a pin opens a popup card showing hero photo, address, price, bed/bath/sqft, and a "View details" link
 
-**Deferred from v1.0:**
+**Deferred from v1.0/v1.1:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Two-way calendar sync — requires webhooks and conflict resolution
 - [ ] Expanded test coverage: context hooks, calendar UI states
+- [ ] CR-01: `BrokerageDomain.exists?` missing `.active` scope in `DomainsController#check` — deferred to v1.3
+- [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure — deferred to v1.3
 
 ### Out of Scope
 
@@ -136,4 +154,4 @@ Last updated: 2026-05-16 — v1.1 milestone complete
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-13 — milestone v1.1 started*
+*Last updated: 2026-05-16 — milestone v1.2 started*
