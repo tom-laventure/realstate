@@ -45,15 +45,21 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 ### Phase 8: Geocoding & Data Layer
 
-**Goal:** Give listings geographic coordinates — from the RETS/MLS feed on import, geocoded from address as fallback.
+**Goal:** Give listings geographic coordinates — geocoded from address via Nominatim (OpenStreetMap). RETS/MLS coordinate ingestion is deferred to a future phase per Phase 8 CONTEXT D-06.
 
 **Requirements:** MAP-01
 
 **Success Criteria:**
-1. New listings imported from RETS with coordinate fields have `latitude`/`longitude` populated immediately
-2. Listings imported without MLS coordinates are geocoded via `GeocodingService` and stored
-3. `latitude` and `longitude` appear in the group dashboard and listing detail API responses
-4. `GeocodeListingsJob` backfills all existing listings that have an address but no coordinates
+1. Listings imported without MLS coordinates are geocoded via `GeocodingService` and stored
+2. `latitude` and `longitude` appear in the group dashboard and listing detail API responses
+3. `GeocodeListingsJob` backfills all existing listings that have an address but no coordinates
+4. RETS/MLS coordinate ingestion deferred (D-06) — to be addressed in a future phase
+
+**Plans:** 2 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Migration adding latitude/longitude/geocoding_failed to listing_details + serializer + model attribute hints
+- [ ] 08-02-PLAN.md — GeocodingService (Nominatim wrapper) + GeocodeListingsJob (retry/after_discard) + geocode:backfill rake task + Minitest coverage
 
 ### Phase 9: Group Dashboard Map
 
@@ -91,6 +97,6 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 | 5. Calendar Sync | v1.0 | 7/7 | Complete | 2026-05-13 |
 | 6. Frontend Domain Routing Guards | v1.1 | 1/1 | Complete | 2026-05-14 |
 | 7. Backend Onboarding Guard | v1.1 | 1/1 | Complete | 2026-05-16 |
-| 8. Geocoding & Data Layer | v1.2 | 0/? | Pending | — |
+| 8. Geocoding & Data Layer | v1.2 | 0/2 | Planned | — |
 | 9. Group Dashboard Map | v1.2 | 0/? | Pending | — |
 | 10. Listing Detail Map | v1.2 | 0/? | Pending | — |
