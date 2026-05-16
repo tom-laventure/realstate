@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: milestone
 status: complete
-stopped_at: Phase 7 complete — v1.1 milestone shipped
+stopped_at: v1.1 milestone archived — planning next milestone
 last_updated: "2026-05-16T00:00:00Z"
-last_activity: "2026-05-16 — Phase 7 complete (Backend Onboarding Guard, 1/1 plans)"
+last_activity: "2026-05-16 — v1.1 Domain Access Control shipped and archived (2 phases, 2 plans)"
 progress:
   total_phases: 2
   completed_phases: 2

@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 — Security, OAuth & Calendar** — Phases 1–5 (shipped 2026-05-13)
-- 🔄 **v1.1 — Domain Access Control** — Phases 6–7 (in progress)
+- ✅ **v1.1 — Domain Access Control** — Phases 6–7 (shipped 2026-05-16)
 
 ## Phases
 
@@ -20,44 +20,13 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
 </details>
 
-<details open>
+<details>
 <summary>✅ v1.1 — Domain Access Control (Phases 6–7) — SHIPPED 2026-05-16</summary>
 
-### Phase 6: Frontend Domain Routing Guards
+- [x] Phase 6: Frontend Domain Routing Guards (1/1 plans) — completed 2026-05-14
+- [x] Phase 7: Backend Onboarding Guard (1/1 plans) — completed 2026-05-16
 
-**Goal:** React router conditionally enforces main-domain-only and subdomain-only route trees based on hostname.
-
-**Requirements:** DOM-01, DOM-02, DOM-03
-
-**Success criteria:**
-1. On the main domain (`VITE_MAIN_DOMAIN`), visiting any non-`/create` URL renders the 404 error page
-2. On the main domain, visiting `/create` renders the brokerage creation wizard correctly
-3. On a brokerage subdomain, visiting `/create` redirects to `/` without rendering the wizard
-
-**Plans:**
-
-Wave 1 *(all tasks autonomous, no dependencies)*
-
-- [x] 06-01: Domain detection utility + frontend router split
-
----
-
-### Phase 7: Backend Onboarding Guard
-
-**Goal:** Rails API rejects all onboarding requests not originating from the main domain.
-
-**Requirements:** DOM-04, DOM-05
-
-**Success criteria:**
-1. `POST /v1/onboarding/brokerage` from a brokerage subdomain returns HTTP 403
-2. `POST /v1/onboarding/brokerage` from the main domain succeeds as before
-3. Domain check and verify endpoints also return 403 from non-main-domain origins
-
-**Plans:**
-
-Wave 1 *(all tasks autonomous, no dependencies)*
-
-- [x] 07-01: `MainDomainOnly` concern + apply to all onboarding controllers
+Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 </details>
 

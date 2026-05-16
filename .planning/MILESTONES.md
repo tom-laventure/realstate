@@ -1,5 +1,39 @@
 # Milestones
 
+## v1.1 — Domain Access Control
+
+**Shipped:** 2026-05-16
+**Phases:** 2 | **Plans:** 2
+**Timeline:** 2026-05-13 → 2026-05-16 (3 days)
+
+### Delivered
+
+Full-stack domain enforcement: frontend `DomainGuard` React components enforce main-domain-only (`/create`) and subdomain-only routes via `VITE_MAIN_DOMAIN` env var (Phase 6). Backend `MainDomainOnly` Rails concern rejects non-main-domain requests on all four `/v1/onboarding/*` endpoints with HTTP 403 before Cognito auth runs (Phase 7). Both layers read domain config from env vars — no hardcoded strings. All 5 DOM requirements validated.
+
+### Key Accomplishments
+
+1. `isMainDomain()` utility + `SubdomainOnly`/`MainDomainOnly` guard components wired into React router — DOM-01/02/03
+2. `NotFound` page per UI-SPEC — renders on all non-`/create` routes from main domain
+3. `MainDomainOnly` Rails concern: Origin-first extraction, `URI::InvalidURIError` rescue, `APP_BASE_DOMAIN` env config — DOM-04/05
+4. Guard runs before Cognito auth — wrong-domain requests return 403, not 401 (correct security ordering)
+5. 22 backend integration tests (17 prior + 5 new), 0 failures; 8 frontend unit tests (all passing)
+6. Code review surfaced 2 pre-existing critical issues (soft-delete filter gap, S3 orphan) — logged for v1.2
+
+### Known Deferred Items at Close: 2
+
+| Category | Item | Status |
+|----------|------|--------|
+| CR-01 | `BrokerageDomain.exists?` missing `.active` scope in `DomainsController#check` | Pre-existing; address in v1.2 |
+| CR-02 | S3 favicon upload outside transaction — orphaned on DB failure | Pre-existing; address in v1.2 |
+
+### Archive
+
+- Roadmap: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
+- Requirements: [milestones/v1.1-REQUIREMENTS.md](milestones/v1.1-REQUIREMENTS.md)
+- Tag: `v1.1`
+
+---
+
 ## v1.0 — Security, OAuth & Calendar
 
 **Shipped:** 2026-05-13
