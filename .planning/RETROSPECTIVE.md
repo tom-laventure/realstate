@@ -1,5 +1,38 @@
 # Retrospective
 
+## Milestone: v1.1 — Domain Access Control
+
+**Shipped:** 2026-05-16
+**Phases:** 2 | **Plans:** 2 | **Timeline:** 3 days (2026-05-13 → 2026-05-16)
+
+### What Was Built
+
+1. `isMainDomain()` + `DomainGuard` React components — `SubdomainOnly`/`MainDomainOnly` route wrappers, NotFound page, env-driven config
+2. `MainDomainOnly` Rails concern — Origin-first extraction, ENV.fetch config, fires before Cognito auth, 5 integration tests
+
+### What Worked
+
+- Single-plan phases kept execution fast and reviewable — no cross-plan dependencies to coordinate
+- Planning artifacts (RESEARCH.md, PATTERNS.md, code examples in PLAN.md) let executor work without codebase exploration
+- Code review caught 2 pre-existing critical bugs surfaced by touching those files — good habit to keep
+
+### What Was Inefficient
+
+- Milestone had only 2 plans — could have been batched into one phase if scoped together earlier
+
+### Patterns Established
+
+- Guard ordering rule: `include MainDomainOnly` before `include CognitoAuth` — domain check fires before auth
+- Frontend guard pattern: named exports, Outlet pass-through, no default exports
+- Code review generates CR/WR/IN findings even for small phases — useful for catching pre-existing issues
+
+### Key Lessons
+
+- UX guards (frontend) and security boundaries (backend) must be treated as separate concerns with explicit handoff documentation; Phase 6 decision 06-01 made this explicit
+- Small milestones close fast but may not justify full research/discuss overhead; consider lighter-weight planning for single-phase milestones
+
+---
+
 ## Milestone: v1.0 — Security, OAuth & Calendar
 
 **Shipped:** 2026-05-13
