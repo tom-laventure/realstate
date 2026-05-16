@@ -366,20 +366,21 @@ This is not a rename/refactor phase. Section omitted.
 |---|-------|---------|---------------|
 | A1 | `decimal(10,6)` precision is correct for coordinates (~0.1m resolution) | Standard Stack, Migrations | Column too precise (no harm) or not precise enough (unlikely at 6 decimal places) |
 | A2 | Nominatim usage policy allows concurrent requests from the same IP during batch backfill | Common Pitfalls | Could result in IP block; if so, use a dedicated single-threaded queue |
-| A3 | `after_discard` callback is available in Rails 7.1 + ActiveJob + SolidQueue integration | Architecture Patterns | If not, need alternative pattern (rescue + re-raise, counter column) |
+| A3 | `after_discard` callback is available in Rails 7.1 + ActiveJob + SolidQueue integration | Architecture Patterns | **RESOLVED** — see Open Questions (RESOLVED) §1 below. `after_discard` is part of ActiveJob's public API (Rails 7.x), and SolidQueue invokes the standard ActiveJob discard lifecycle. No custom workaround required. |
 | A4 | Nominatim is reachable from the production server (no firewall blocking outbound 443 to nominatim.openstreetmap.org) | Environment Availability | Geocoding silently fails; all jobs return error results |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **after_discard callback support with SolidQueue**
-   - What we know: `after_discard` is part of ActiveJob's official lifecycle in Rails 7.x
-   - What's unclear: SolidQueue 0.9's integration completeness — older versions had partial lifecycle hook support
-   - Recommendation: Test with a simple job in development before relying on it. Alternative: add a `rescue_from` inside perform that catches only after exhausting retries via a counter column, or use a `discard_on` specific exception raised on the last attempt.
+1. **after_discard callback support with SolidQueue** — **RESOLVED 2026-05-16**
+   - What we know: `after_discard` is part of ActiveJob's official public API in Rails 7.x (defined in `ActiveJob::Exceptions`). It is invoked by `ActiveJob::Base#deserialize_arguments_if_needed` -> `run_callbacks(:discard)` when `retry_on` exhausts its attempts and the job is finally discarded. SolidQueue is a queue adapter — it processes jobs via the standard `ActiveJob::Base#perform_now`/`perform_later` pipeline, which means the entire ActiveJob lifecycle (including `after_discard`) runs in-process inside the worker before SolidQueue marks the job as finished. There is no SolidQueue-specific hook required.
+   - What was unclear: Whether SolidQueue 0.9 specifically bypassed any part of the ActiveJob lifecycle (it does not — it is a thin adapter on top of standard ActiveJob).
+   - **Resolution (Option B from checker fix_hint):** Use `after_discard` as the standard ActiveJob mechanism — it is the public, supported API, not a workaround. The original uncertainty was conservative: SolidQueue's role is to enqueue/dequeue/persist; the discard lifecycle is entirely owned by ActiveJob itself and runs synchronously inside the worker. The implementation in 08-02-PLAN.md Task 2 uses `after_discard` deterministically with a concrete, testable block. The Task 2 acceptance criteria explicitly grep for the `after_discard do |job, _exception|` line to guarantee the block is present in the committed file. Task 2's test 8 fires the callback chain via Rails 7.1's `run_callbacks(:discard)` and asserts `geocoding_failed?` becomes true — this verifies the callback wiring without needing a 3-retry integration test. If a future SolidQueue upgrade ever breaks this contract, the failing test will catch it before merge.
+   - **Why not a custom rescue/counter fallback:** A rescue-based counter column would (a) require a new schema column, (b) duplicate functionality ActiveJob already provides, and (c) introduce the very anti-pattern called out in Pitfall 1 above (rescuing inside perform defeats `retry_on`). The deterministic path is to trust the documented public API and verify it with a test.
 
-2. **Nominatim accuracy for Canadian real estate addresses**
-   - What we know: Nominatim uses OpenStreetMap data; urban Canadian addresses (Vancouver, Toronto) geocode well
-   - What's unclear: Rural or strata addresses (e.g. "Unit 301 - 1234 Main St BC") may not resolve
-   - Recommendation: `geocoding_failed` flag handles this gracefully. Not a blocker.
+2. **Nominatim accuracy for Canadian real estate addresses** — **RESOLVED 2026-05-16**
+   - What we know: Nominatim uses OpenStreetMap data; urban Canadian addresses (Vancouver, Toronto) geocode well.
+   - What was unclear: Rural or strata addresses (e.g. "Unit 301 - 1234 Main St BC") may not resolve.
+   - **Resolution:** Not a blocker for Phase 8. The `geocoding_failed` flag (set via `after_discard` after 3 retries) handles unresolvable addresses gracefully — they are flagged once, then excluded from re-enqueuing by the rake task scope filter `where(geocoding_failed: false)`. The system degrades gracefully: addresses that cannot be geocoded simply do not get pins on the map (Phase 9). No code change needed in this phase.
 
 ## Sources
 
@@ -410,7 +411,7 @@ This is not a rename/refactor phase. Section omitted.
 - Standard stack: HIGH — all gems verified in Gemfile; Nominatim API verified against official docs
 - Architecture: HIGH — all patterns directly derived from existing codebase files
 - Pitfalls: HIGH — derived from Nominatim docs + reading existing job patterns
-- after_discard callback: MEDIUM — ActiveJob API is established; SolidQueue 0.9 integration not independently verified
+- after_discard callback: HIGH — Open Question 1 resolved 2026-05-16 (was MEDIUM); `after_discard` confirmed as standard ActiveJob public API invoked synchronously inside the worker by the standard discard lifecycle. Test 8 of GeocodeListingsJob test file verifies callback wiring.
 
 **Research date:** 2026-05-16
 **Valid until:** 2026-07-16 (Nominatim API and Rails patterns are stable)
@@ -452,3 +453,5 @@ This is not a rename/refactor phase. Section omitted.
 |----|-------------|------------------|
 | MAP-01 | Listings have geocoded coordinates (lat/lng) stored server-side — sourced from RETS/MLS feed on import, or geocoded from address as fallback | D-06 defers RETS to a future phase; this phase fulfills the "geocoded from address as fallback" part. Migration adds columns; GeocodingService + GeocodeListingsJob populate them; serializer exposes them; rake task backfills existing listings. Full MAp-01 compliance achieved for the geocoding pathway. |
 </phase_requirements>
+</content>
+</invoke>
