@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: — Listing Map View
-status: ready_to_execute
-stopped_at: Phase 9 planned — 4 plans across 2 waves
-last_updated: "2026-05-17T00:00:00.000Z"
+status: executing
+stopped_at: Completed 09-01-PLAN.md (Phase 9 Plan 01 — coordinates endpoint)
+last_updated: "2026-05-17T09:15:00.000Z"
 last_activity: 2026-05-17
 progress:
   total_phases: 3
-  completed_phases: 2
-  total_plans: 4
-  completed_plans: 2
-  percent: 67
+  completed_phases: 1
+  total_plans: 6
+  completed_plans: 3
+  percent: 50
 ---
 
 # Project State
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-05-16)
 ## Current Position
 
 Phase: 9
-Plan: Not started
-Status: Ready to execute — 4 plans planned
+Plan: 1 complete (Plan 02 is next)
+Status: Executing — 3 plans remaining
 Last activity: 2026-05-17
 
 ## Performance Metrics
@@ -62,6 +62,7 @@ Last activity: 2026-05-17
 | Phase 05-calendar-sync P05 | 5min | 2 tasks | 2 files |
 | Phase 08-geocoding-data-layer P01 | 2min | 2 tasks | 4 files |
 | Phase 08-geocoding-data-layer P02 | 11min | 3 tasks | 5 files |
+| Phase 09-group-dashboard-map P01 | 10min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -152,6 +153,8 @@ Recent decisions affecting current work:
 - 08-02: run_after_discard_procs(nil) used in after_discard test — Rails 7.1 private method; run_callbacks(:discard) is minitest 5.x pattern, not applicable
 - 08-02: assert_in_delta for lat/lng job test — decimal(10,6) rounds to 6 decimal places; test values must match column precision
 - 08-02: Estate dependent: :destroy hard-destroys listing_detail on soft-delete — cannot reload listing_detail after estate.destroy in tests
+- 09-01: coordinates action uses .select() projection — e.bedrooms/e.full_bathrooms required (not e.beds/e.baths model method aliases); emitted as beds/baths in JSON
+- 09-01: UserGroup.create! required in integration test setup — set_group joins user_groups for membership check; plan only specified BrokerageEstate + GroupEstate
 
 ### Pending Todos
 
@@ -172,6 +175,6 @@ None — Milestone 2 complete.
 
 ## Session Continuity
 
-Last session: 2026-05-16T20:58:00.000Z
-Stopped at: Completed 08-02-PLAN.md (Phase 8 Plan 02 — geocoding service, job, rake task)
+Last session: 2026-05-17T09:15:00.000Z
+Stopped at: Completed 09-01-PLAN.md (Phase 9 Plan 01 — backend coordinates endpoint)
 Resume file: None
