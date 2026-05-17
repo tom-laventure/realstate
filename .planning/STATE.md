@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: — Listing Map View
-status: ready_to_plan
-stopped_at: Completed 08-02-PLAN.md (Phase 8 Plan 02 — geocoding service, job, rake task)
-last_updated: "2026-05-16T20:58:00.000Z"
-last_activity: 2026-05-16
+status: ready_to_execute
+stopped_at: Phase 9 planned — 4 plans across 2 waves
+last_updated: "2026-05-17T00:00:00.000Z"
+last_activity: 2026-05-17
 progress:
   total_phases: 3
   completed_phases: 2
-  total_plans: 2
+  total_plans: 4
   completed_plans: 2
   percent: 67
 ---
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-05-16)
 
 Phase: 9
 Plan: Not started
-Status: Ready to plan
+Status: Ready to execute — 4 plans planned
 Last activity: 2026-05-17
 
 ## Performance Metrics
