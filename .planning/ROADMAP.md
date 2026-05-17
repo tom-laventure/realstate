@@ -74,6 +74,14 @@ Plans:
 4. Clicking a cluster at max zoom shows a multi-listing popup with individual address + price rows, each linking to the listing detail
 5. Clicking a single pin opens a popup with hero photo, price, address, bed/bath/sqft, and "View details" link
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Backend /coordinates endpoint on EstatesController + route + integration tests (Wave 1)
+- [ ] 09-02-PLAN.md — Frontend data layer: types, API module, TanStack hook, query key, GeneralDashboardContext wiring (Wave 1)
+- [ ] 09-03-PLAN.md — Install @vis.gl/react-google-maps + @googlemaps/markerclusterer + document VITE_GOOGLE_MAPS_API_KEY/MAP_ID env vars (Wave 1)
+- [ ] 09-04-PLAN.md — GroupMapPanel + GroupMapPinPopup + GroupMapClusterPopup components, wire into GeneralDashboard, human-verify end-to-end (Wave 2)
+
 ### Phase 10: Listing Detail Map
 
 **Goal:** Show the property location on the individual listing detail page via an embedded Google Map.
@@ -98,5 +106,5 @@ Plans:
 | 6. Frontend Domain Routing Guards | v1.1 | 1/1 | Complete | 2026-05-14 |
 | 7. Backend Onboarding Guard | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Geocoding & Data Layer | v1.2 | 2/2 | Complete | 2026-05-16 |
-| 9. Group Dashboard Map | v1.2 | 0/? | Pending | — |
+| 9. Group Dashboard Map | v1.2 | 0/4 | Pending | — |
 | 10. Listing Detail Map | v1.2 | 0/? | Pending | — |
