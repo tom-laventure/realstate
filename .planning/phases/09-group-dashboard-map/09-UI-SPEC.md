@@ -181,9 +181,9 @@ At zoom < 19: default `defaultOnClusterClickHandler` (zoom in) — no custom pop
 ```
 
 - Each row: `flex items-center justify-between gap-4 text-sm py-1`
-- Price: `font-medium` — left-aligned
+- Price: `font-semibold` — left-aligned
 - Address: `text-muted-foreground` — left-aligned
-- "→" link: navigates to `/:groupId/estate/:estateId` — right-aligned `text-primary`
+- "→" link: navigates to `/:groupId/estate/:estateId` — right-aligned `text-primary`; rendered as `<ArrowRight className="h-4 w-4" aria-label="View listing at {address}" />`
 - Max rows shown: all listings in cluster (no pagination at cluster level — cluster count is naturally bounded by zoom level)
 - Popup width: `w-64` (256px)
 
@@ -234,7 +234,7 @@ No retry button in this phase — user refreshes the page. Error is silent to th
 | Map section heading | "Listings on the map" | Displayed above the map panel; `text-sm font-medium text-muted-foreground`; no count appended (count is visible from the listings section heading above) |
 | Pin popup CTA | "View details" | Link navigating to listing detail — verb + noun, action-oriented |
 | Cluster popup heading | "{N} listings at this location" | N = cluster.count; lowercase "listings"; communicates the situation without jargon |
-| Cluster popup row CTA | Arrow icon only (`→` via `ArrowRight` lucide icon, `h-4 w-4`) | Inline with each row; no text label needed — space is tight |
+| Cluster popup row CTA | Arrow icon only (`ArrowRight` lucide icon, `h-4 w-4`) with `aria-label="View listing at {address}"` | `aria-label` value uses the listing's address string interpolated at render time; no visible text label — space is tight |
 | Empty state heading | "No listings with location data" | Shown when `coordinates.length === 0` after a successful fetch |
 | Empty state body | "Location data isn't available for the listings in this group yet." | No next-step action — this resolves automatically as geocoding runs |
 | API key missing (dev only) | "Google Maps API key not configured" | Single line, `text-sm text-muted-foreground`; only shown in development when `VITE_GOOGLE_MAPS_API_KEY` is unset |
