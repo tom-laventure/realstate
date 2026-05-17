@@ -78,7 +78,7 @@ Plans:
 
 Plans:
 - [x] 09-01-PLAN.md — Backend /coordinates endpoint on EstatesController + route + integration tests (Wave 1)
-- [ ] 09-02-PLAN.md — Frontend data layer: types, API module, TanStack hook, query key, GeneralDashboardContext wiring (Wave 1)
+- [x] 09-02-PLAN.md — Frontend data layer: types, API module, TanStack hook, query key, GeneralDashboardContext wiring (Wave 1)
 - [ ] 09-03-PLAN.md — Install @vis.gl/react-google-maps + @googlemaps/markerclusterer + document VITE_GOOGLE_MAPS_API_KEY/MAP_ID env vars (Wave 1)
 - [ ] 09-04-PLAN.md — GroupMapPanel + GroupMapPinPopup + GroupMapClusterPopup components, wire into GeneralDashboard, human-verify end-to-end (Wave 2)
 
@@ -106,5 +106,5 @@ Plans:
 | 6. Frontend Domain Routing Guards | v1.1 | 1/1 | Complete | 2026-05-14 |
 | 7. Backend Onboarding Guard | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Geocoding & Data Layer | v1.2 | 2/2 | Complete | 2026-05-16 |
-| 9. Group Dashboard Map | v1.2 | 1/4 | Executing | — |
+| 9. Group Dashboard Map | v1.2 | 2/4 | Executing | — |
 | 10. Listing Detail Map | v1.2 | 0/? | Pending | — |
