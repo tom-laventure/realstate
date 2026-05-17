@@ -70,7 +70,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active (v1.2 requirements)
 
-- [ ] **MAP-01**: lat/lng columns added to `listing_details`; populated from RETS/MLS feed, geocoded as fallback
+- [x] **MAP-01**: lat/lng columns added to `listing_details`; populated from RETS/MLS feed, geocoded as fallback — Validated in Phase 8: decimal(10,6) lat/lng + geocoding_failed on listing_details; GeocodingService + GeocodeListingsJob + geocode:backfill rake task
 - [ ] **MAP-02**: Group dashboard renders Google Maps panel showing pins for all listings in the group
 - [ ] **MAP-03**: Group dashboard map updates pins in real time when active filter changes
 - [ ] **MAP-04**: Individual listing detail page shows embedded Google Maps with the property location pinned
@@ -138,7 +138,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-16 — v1.1 milestone complete
+Last updated: 2026-05-17 — Phase 8 complete (geocoding data layer)
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
@@ -154,4 +154,4 @@ Last updated: 2026-05-16 — v1.1 milestone complete
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-16 — milestone v1.2 started*
+*Last updated: 2026-05-17 — Phase 8 complete (geocoding data layer)*
