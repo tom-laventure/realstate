@@ -8,16 +8,14 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Current Milestone: v1.2 — Listing Map View
+## Milestone: v1.2 — Listing Map View — SHIPPED 2026-05-18
 
-**Goal:** Give agents a geographic view of their listings — an interactive Google Maps panel on the group dashboard (filter-synced) and a location map on each individual listing detail page.
+**Goal:** Give agents a geographic view of their listings — an interactive Mapbox panel on the group dashboard (filter-synced, clustered) and a location map on each individual listing detail page. ✓ Complete.
 
-**Target features:**
-- lat/lng columns on `listing_details`; populated from RETS/MLS feed on import, geocoded from address as fallback
-- Group dashboard: Google Maps panel with pins for all group listings, live-synced to active filter
-- Individual listing detail: embedded map showing the property location
-- Pin clustering: nearby/same-building listings grouped into a cluster pin, expandable to individual cards
-- Popup card on pin click: hero photo, address, price, bed/bath/sqft, "View details" link
+**Delivered:**
+- lat/lng columns on `listing_details` via `GeocodingService` + `GeocodeListingsJob` + geocode:backfill rake task — Phase 8
+- Group dashboard Mapbox panel with filter-synced pins, use-supercluster clustering, popup cards — Phase 9
+- Individual listing detail: `EstateLocationMap` single-pin Mapbox component between summary card and section tabs — Phase 10
 
 ## Milestone: v1.1 Domain Access Control — SHIPPED 2026-05-16
 
@@ -73,7 +71,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - [x] **MAP-01**: lat/lng columns added to `listing_details`; populated from RETS/MLS feed, geocoded as fallback — Validated in Phase 8: decimal(10,6) lat/lng + geocoding_failed on listing_details; GeocodingService + GeocodeListingsJob + geocode:backfill rake task
 - [x] **MAP-02**: Group dashboard renders Mapbox GL map panel (react-map-gl) showing pins for all geocoded listings in the group — Validated in Phase 9
 - [x] **MAP-03**: Group dashboard map updates pins in real time when active filter changes (keepPreviousData: true, no flash) — Validated in Phase 9
-- [ ] **MAP-04**: Individual listing detail page shows embedded map with the property location pinned
+- [x] **MAP-04**: Individual listing detail page shows embedded map with the property location pinned — Validated in Phase 10: EstateLocationMap (single-pin Mapbox, h-64, cooperativeGestures, conditional on coordinates)
 - [x] **MAP-05**: Nearby listings cluster via use-supercluster; cluster click zooms in; at max zoom shows multi-listing popup — Validated in Phase 9
 - [x] **MAP-06**: Clicking a pin opens a popup card with hero photo, address, price, bed/bath/sqft, "View details" link — Validated in Phase 9
 
@@ -138,7 +136,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-18 — Phase 9 complete (group dashboard Mapbox map)
+Last updated: 2026-05-18 — Phase 10 complete (listing detail map) — Milestone v1.2 SHIPPED
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
@@ -154,4 +152,4 @@ Last updated: 2026-05-18 — Phase 9 complete (group dashboard Mapbox map)
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-18 — Phase 9 complete (group dashboard Mapbox map)*
+*Last updated: 2026-05-18 — Phase 10 complete (listing detail map) — Milestone v1.2 SHIPPED*
