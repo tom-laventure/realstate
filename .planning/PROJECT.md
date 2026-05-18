@@ -71,11 +71,11 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 ### Active (v1.2 requirements)
 
 - [x] **MAP-01**: lat/lng columns added to `listing_details`; populated from RETS/MLS feed, geocoded as fallback — Validated in Phase 8: decimal(10,6) lat/lng + geocoding_failed on listing_details; GeocodingService + GeocodeListingsJob + geocode:backfill rake task
-- [ ] **MAP-02**: Group dashboard renders Google Maps panel showing pins for all listings in the group
-- [ ] **MAP-03**: Group dashboard map updates pins in real time when active filter changes
-- [ ] **MAP-04**: Individual listing detail page shows embedded Google Maps with the property location pinned
-- [ ] **MAP-05**: Nearby listings are clustered into a single cluster pin on the group map; expanding the cluster reveals individual listing cards
-- [ ] **MAP-06**: Clicking a pin opens a popup card showing hero photo, address, price, bed/bath/sqft, and a "View details" link
+- [x] **MAP-02**: Group dashboard renders Mapbox GL map panel (react-map-gl) showing pins for all geocoded listings in the group — Validated in Phase 9
+- [x] **MAP-03**: Group dashboard map updates pins in real time when active filter changes (keepPreviousData: true, no flash) — Validated in Phase 9
+- [ ] **MAP-04**: Individual listing detail page shows embedded map with the property location pinned
+- [x] **MAP-05**: Nearby listings cluster via use-supercluster; cluster click zooms in; at max zoom shows multi-listing popup — Validated in Phase 9
+- [x] **MAP-06**: Clicking a pin opens a popup card with hero photo, address, price, bed/bath/sqft, "View details" link — Validated in Phase 9
 
 **Deferred from v1.0/v1.1:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
@@ -138,7 +138,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-17 — Phase 8 complete (geocoding data layer)
+Last updated: 2026-05-18 — Phase 9 complete (group dashboard Mapbox map)
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
@@ -154,4 +154,4 @@ Last updated: 2026-05-17 — Phase 8 complete (geocoding data layer)
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-17 — Phase 8 complete (geocoding data layer)*
+*Last updated: 2026-05-18 — Phase 9 complete (group dashboard Mapbox map)*
