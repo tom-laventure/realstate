@@ -43,16 +43,16 @@ decisions:
 metrics:
   duration: "~15 min"
   completed_date: "2026-05-17"
-  tasks_completed: 2
-  files_changed: 4
-  status: awaiting-human-verification
+  tasks_completed: 3
+  files_changed: 5
+  status: complete
 ---
 
 # Phase 9 Plan 04: Map UI Components Summary
 
 One-liner: Three Mapbox map components (GroupMapPanel with use-supercluster clustering, GroupMapPinPopup single-pin card, GroupMapClusterPopup multi-listing popup) wired into GeneralDashboard — implementing MAP-02, MAP-03, MAP-05, MAP-06.
 
-**Status: Tasks 1–2 complete. Task 3 (human verification) is a blocking checkpoint — awaiting human approval.**
+**Status: All 3 tasks complete. Human verification approved.**
 
 ## What Was Built
 
@@ -99,6 +99,9 @@ One-liner: Three Mapbox map components (GroupMapPanel with use-supercluster clus
 | 1 | e5038a3 | feat(09-04): add GroupMapPinPopup and GroupMapClusterPopup components | frontend |
 | 2 | caa61a1 | feat(09-04): build GroupMapPanel and wire into GeneralDashboard | frontend |
 | 2 (fix) | a6d745d | fix(09-04): rename Map import to MapGL to avoid shadowing JS global Map constructor | frontend |
+| 3 (fix) | e01a648 | fix(09-04): use custom Marker child with stopPropagation so pin click opens popup | frontend |
+| 3 (fix) | 509d5e9 | fix(09-04): fall back to images[0] when hero_image_url is null in coordinates endpoint | backend |
+| 3 | — | Human verification approved | — |
 
 ## Deviations from Plan
 
@@ -124,23 +127,22 @@ npm run build → ✓ built in 9.89s (3797 modules)
 ```
 No TypeScript errors. Two large chunks (mapbox-gl bundle ~1.78MB gzip: 492KB) — expected for a mapping library; code splitting is a future optimization.
 
-## Human Verification (Pending — Task 3)
+## Human Verification (Task 3) — APPROVED
 
-Task 3 is a `checkpoint:human-verify` (blocking gate). The following verification steps are required:
+All six verification sections passed after two fixes applied during verification:
 
-**Prerequisites:**
-1. Add `VITE_MAPBOX_TOKEN=<your Mapbox public token>` to `frontend/.env`
-2. Ensure test listings have lat/lng data (`rails geocode:backfill` if needed)
-3. Start backend: `rails server` (port 8080)
-4. Start frontend: `npm run dev` (port 3000)
+- A. MAP-02 ✓ — Map panel renders between filter bar and listings grid; "Listings on the map" heading visible
+- B. MAP-03 ✓ — Filter changes update pins without page reload (keepPreviousData: true)
+- C. MAP-05 ✓ — Cluster badges appear on zoom out; cluster click zooms in; max-zoom click opens multi-listing popup
+- D. MAP-06 ✓ — Single pin click opens popup with hero photo, price badge, address, stats, "View details" link
+- E. Error state ✓ — "Mapbox token not configured" shown when VITE_MAPBOX_TOKEN missing
+- F. Accessibility ✓ — "View details" keyboard-focusable; cluster rows have aria-label
 
-**Verification sections:**
-- A. MAP-02: Map panel renders between filter bar and listings grid; pins visible
-- B. MAP-03: Filter changes update pins without page reload (keepPreviousData: true)
-- C. MAP-05: Cluster badges appear on zoom out; click zooms in; max-zoom click opens cluster popup
-- D. MAP-06: Single pin click opens popup with hero/price/address/stats/View details link
-- E. Error/empty states: remove token → "Mapbox token not configured"
-- F. Accessibility: "View details" keyboard-focusable; cluster arrow links have aria-label
+**Fixes applied during verification:**
+
+1. **Pin click not firing popup** — The childless `<Marker onClick={...} />` (default Mapbox teardrop) does not reliably deliver click events through react-map-gl v8. Fixed by providing a custom `<button>` child (`<MapPin>` icon) with `e.stopPropagation()`, matching the existing cluster marker pattern.
+
+2. **Hero image null in popup** — Seed data populates `listing_details.images` (array) but not `hero_image_url`. The coordinates endpoint only returned `hero_image_url`. Fixed by adding `images` to the SELECT and coalescing `hero_image_url.presence || images.first` in the backend controller.
 
 ## Known Stubs
 
