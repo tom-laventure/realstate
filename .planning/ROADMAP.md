@@ -80,7 +80,7 @@ Plans:
 - [x] 09-01-PLAN.md — Backend /coordinates endpoint on EstatesController + route + integration tests (Wave 1)
 - [x] 09-02-PLAN.md — Frontend data layer: types, API module, TanStack hook, query key, GeneralDashboardContext wiring (Wave 1)
 - [x] 09-03-PLAN.md — Install @vis.gl/react-google-maps + @googlemaps/markerclusterer + document VITE_GOOGLE_MAPS_API_KEY/MAP_ID env vars (Wave 1)
-- [ ] 09-04-PLAN.md — GroupMapPanel + GroupMapPinPopup + GroupMapClusterPopup components, wire into GeneralDashboard, human-verify end-to-end (Wave 2)
+- [x] 09-04-PLAN.md — GroupMapPanel + GroupMapPinPopup + GroupMapClusterPopup components, wire into GeneralDashboard, human-verify end-to-end (Wave 2)
 
 ### Phase 10: Listing Detail Map
 
