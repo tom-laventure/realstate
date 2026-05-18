@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: — Listing Map View
-status: ready_to_execute
-stopped_at: Phase 10 planned (1 plan, Wave 1)
+status: milestone_complete
+stopped_at: Phase 10 complete (1/1 plans)
 last_updated: "2026-05-18T00:00:00.000Z"
-last_activity: 2026-05-18 -- Phase 10 plan created and verified
+last_activity: 2026-05-18 -- Phase 10 executed and verified
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 7
-  completed_plans: 5
-  percent: 71
+  completed_plans: 7
+  percent: 100
 ---
 
 # Project State
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-16)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 09 — group-dashboard-map
+**Current focus:** Milestone v1.2 complete — all phases done
 
 ## Current Position
 
-Phase: 10
-Plan: 10-01
-Status: Ready to execute
+Phase: 10 (complete)
+Plan: 10-01 (complete)
+Status: Milestone v1.2 complete
 Last activity: 2026-05-18
 
 ## Performance Metrics
@@ -178,6 +178,6 @@ None — Milestone 2 complete.
 
 ## Session Continuity
 
-Last session: 2026-05-17T20:30:00Z
-Stopped at: Phase 10 UI-SPEC approved
-Resume file: .planning/phases/10-listing-detail-map/10-UI-SPEC.md
+Last session: 2026-05-18T00:00:00Z
+Stopped at: Phase 10 executed and verified — Milestone v1.2 complete
+Resume file: .planning/ROADMAP.md

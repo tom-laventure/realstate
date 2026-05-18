@@ -19,7 +19,7 @@ Requirements for the Listing Map View milestone. Each maps to a roadmap phase.
 
 ### Listing Detail Map
 
-- [ ] **MAP-04**: The individual listing detail page shows an embedded Google Maps section with the property's location pinned
+- [x] **MAP-04**: The individual listing detail page shows an embedded Google Maps section with the property's location pinned
 
 ### Pin Interaction
 
@@ -64,7 +64,7 @@ Updated by roadmapper after roadmap creation.
 | MAP-01 | Phase 8 | Complete |
 | MAP-02 | Phase 9 | Pending |
 | MAP-03 | Phase 9 | Pending |
-| MAP-04 | Phase 10 | Pending |
+| MAP-04 | Phase 10 | Complete |
 | MAP-05 | Phase 9 | Pending |
 | MAP-06 | Phase 9 | Pending |
 
