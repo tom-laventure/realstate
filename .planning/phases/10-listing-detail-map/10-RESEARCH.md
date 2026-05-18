@@ -365,7 +365,7 @@ No type changes needed — Phase 8 + 9 already updated this type.
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Map height on the listing detail page**
    - What we know: The group map uses `h-96` (384px). A per-listing map needs less height — `h-64` (256px) proposed.

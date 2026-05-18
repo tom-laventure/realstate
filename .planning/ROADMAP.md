@@ -84,13 +84,18 @@ Plans:
 
 ### Phase 10: Listing Detail Map
 
-**Goal:** Show the property location on the individual listing detail page via an embedded Google Map.
+**Goal:** Show the property location on the individual listing detail page via an embedded Mapbox map (project standard since Phase 9; supersedes the original Google Maps wording in MAP-04).
 
 **Requirements:** MAP-04
 
 **Success Criteria:**
-1. Listing detail page shows a Google Maps section with the property pinned at its exact location
+1. Listing detail page shows a map section with the property pinned at its exact location
 2. Map section is absent (not a broken component) when the listing has no coordinates
+
+**Plans:** 1 plan
+
+Plans:
+- [ ] 10-01-PLAN.md — EstateLocationMap single-pin Mapbox component + EstateDashboard wiring (Wave 1)
 
 ---
 
@@ -107,4 +112,4 @@ Plans:
 | 7. Backend Onboarding Guard | v1.1 | 1/1 | Complete | 2026-05-16 |
 | 8. Geocoding & Data Layer | v1.2 | 2/2 | Complete | 2026-05-16 |
 | 9. Group Dashboard Map | v1.2 | 3/4 | Executing | — |
-| 10. Listing Detail Map | v1.2 | 0/? | Pending | — |
+| 10. Listing Detail Map | v1.2 | 0/1 | Pending | — |
