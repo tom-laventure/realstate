@@ -1,5 +1,50 @@
 # Retrospective
 
+## Milestone: v1.2 — Listing Map View
+
+**Shipped:** 2026-05-18
+**Phases:** 3 | **Plans:** 7 | **Timeline:** 2 days (2026-05-16 → 2026-05-18)
+
+### What Was Built
+
+1. Nominatim geocoding pipeline — `GeocodingService` + `GeocodeListingsJob` (retry/discard) + `geocode:backfill` rake task; `decimal(10,6)` lat/lng columns on `listing_details`
+2. `GET /coordinates` endpoint — filter-forwarding, null-coord-excluding lightweight projection; 6 integration tests
+3. `GroupMapPanel` (react-map-gl + use-supercluster, clustering, popups) wired into GeneralDashboard with `keepPreviousData` filter sync
+4. `EstateLocationMap` single-pin listing detail map — conditional on coordinates, outside tab system
+
+### What Worked
+
+- **Mapbox migration mid-phase** — discovering that Mapbox was the better fit (Plan 03 revision) before Plan 04 executed avoided a painful rewrite; CONTEXT.md made the rationale clear for Phase 10 to follow
+- **Custom Marker child pattern** — react-map-gl v8 childless Marker click issue was caught during human verification and fixed immediately; the fix is now documented in the SUMMARY as a reusable pattern
+- **`fitBounds` guard** — identifying the re-centering UX problem early (RESEARCH.md Pitfall) and solving it with a simple ref avoided a latent user complaint
+- **Phase 10 followed Phase 9 patterns exactly** — same entry point, same cooperativeGestures, same fill-primary pin; zero new decisions needed
+
+### What Was Inefficient
+
+- REQUIREMENTS.md checkbox sync — MAP-02/03/05/06 were never checked off during Phase 9 close; required manual reconciliation at milestone archive (same lesson as v1.0, still not resolved)
+- Google Maps libs installed in Plan 03, then migrated to Mapbox in Plan 03 revised — adding one exploratory research step before Plan 03 would have caught this before any npm installs
+
+### Patterns Established
+
+- `react-map-gl/mapbox` entry point (not `react-map-gl`) — always use for Mapbox GL JS v3 compatibility
+- Custom `<button>` child on `<Marker>` with `e.stopPropagation()` — required for reliable click events in react-map-gl v8
+- `hasFitBoundsRef` + `fitBounds` on first load only — standard pattern for map panels that filter-sync
+- `hero_image_url || images[0]` fallback in coordinates SELECT — defensive against seed data gaps
+
+### Key Lessons
+
+- REQUIREMENTS.md checkbox sync needs to happen at each phase close, not just at milestone close — the same gap appeared in v1.0 and v1.2; worth adding a reminder to the phase close checklist
+- Migration from one mapping library to another mid-phase is cheap when done before implementation starts, expensive after — spike/research should explicitly evaluate library fit before installation
+- `decimal(10,6)` for coordinates is settled — this is the project standard; no need to revisit
+
+### Cost Observations
+
+- Sessions: 3–4 across 2 days
+- Model: Claude Sonnet 4.6 throughout
+- Notable: 2 days for 7 plans including human verification; fast because Phase 9's patterns made Phase 10 a copy-and-simplify exercise
+
+---
+
 ## Milestone: v1.1 — Domain Access Control
 
 **Shipped:** 2026-05-16
@@ -82,10 +127,12 @@
 
 ## Cross-Milestone Trends
 
-| Metric | v1.0 |
-|--------|------|
-| Phases | 5 |
-| Plans | 30 |
-| Days | 14 |
-| Avg plans/day | 2.1 |
-| Deferred items at close | 2 (CAL-04, CAL-05) |
+| Metric | v1.0 | v1.1 | v1.2 |
+|--------|------|------|------|
+| Phases | 5 | 2 | 3 |
+| Plans | 30 | 2 | 7 |
+| Days | 14 | 3 | 2 |
+| Avg plans/day | 2.1 | 0.7 | 3.5 |
+| Deferred items at close | 2 (CAL-04, CAL-05) | 2 (CR-01, CR-02) | 0 |
+
+**Trend:** Velocity accelerating — v1.2 averaged 3.5 plans/day vs 2.1 in v1.0. REQUIREMENTS.md sync gap is a recurring issue across all three milestones.

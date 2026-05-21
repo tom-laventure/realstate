@@ -2,13 +2,13 @@
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, and a backend + frontend test suite.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, and geographic map views of listings via Mapbox GL.
 
 ## Core Value
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Milestone: v1.2 — Listing Map View — SHIPPED 2026-05-18
+## Milestone: v1.2 — Listing Map View — SHIPPED 2026-05-18 ✅
 
 **Goal:** Give agents a geographic view of their listings — an interactive Mapbox panel on the group dashboard (filter-synced, clustered) and a location map on each individual listing detail page. ✓ Complete.
 
@@ -65,17 +65,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Sync failure indicator + Re-sync button in calendar settings — v1.0 (CAL-07)
 - ✓ Frontend domain guard: `VITE_MAIN_DOMAIN`-based routing, main domain → only `/create/*`, subdomain `/create` → `/` — v1.1 (DOM-01, DOM-02, DOM-03)
 - ✓ Backend onboarding guard: `MainDomainOnly` concern rejects non-main-domain origins on all `/v1/onboarding/*` with HTTP 403 — v1.1 (DOM-04, DOM-05)
+- ✓ lat/lng (`decimal(10,6)`) + `geocoding_failed` on `listing_details`; `GeocodingService` (Nominatim) + `GeocodeListingsJob` + `geocode:backfill` rake task — v1.2 (MAP-01)
+- ✓ Group dashboard Mapbox GL map panel with filter-synced pins, use-supercluster clustering, popup cards — v1.2 (MAP-02, MAP-03, MAP-05, MAP-06)
+- ✓ Individual listing detail page `EstateLocationMap` — single-pin Mapbox, conditional on coordinates — v1.2 (MAP-04)
 
-### Active (v1.2 requirements)
+### Active (next milestone)
 
-- [x] **MAP-01**: lat/lng columns added to `listing_details`; populated from RETS/MLS feed, geocoded as fallback — Validated in Phase 8: decimal(10,6) lat/lng + geocoding_failed on listing_details; GeocodingService + GeocodeListingsJob + geocode:backfill rake task
-- [x] **MAP-02**: Group dashboard renders Mapbox GL map panel (react-map-gl) showing pins for all geocoded listings in the group — Validated in Phase 9
-- [x] **MAP-03**: Group dashboard map updates pins in real time when active filter changes (keepPreviousData: true, no flash) — Validated in Phase 9
-- [x] **MAP-04**: Individual listing detail page shows embedded map with the property location pinned — Validated in Phase 10: EstateLocationMap (single-pin Mapbox, h-64, cooperativeGestures, conditional on coordinates)
-- [x] **MAP-05**: Nearby listings cluster via use-supercluster; cluster click zooms in; at max zoom shows multi-listing popup — Validated in Phase 9
-- [x] **MAP-06**: Clicking a pin opens a popup card with hero photo, address, price, bed/bath/sqft, "View details" link — Validated in Phase 9
-
-**Deferred from v1.0/v1.1:**
+**Deferred from v1.0–v1.2:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Two-way calendar sync — requires webhooks and conflict resolution
@@ -102,8 +98,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Soft deletes:** `acts_as_paranoid` on all user-facing models. Every query must call `.without_deleted`; joins require explicit `where(table: { deleted_at: nil })`.
 - **Test suite:** 17 backend integration tests (Minitest) + 7 frontend unit tests (Vitest 4.x + MSW 2.x). Covers tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController, ProtectedRoute, RequireRole, GoogleSignInButton.
 - **Calendar sync:** `UserCalendarConnection` (encrypted credentials) + `EstateDateCalendarEvent` + `CalendarSyncJob` (SolidQueue, advisory lock). Google adapter active; Microsoft (HTTParty/Graph API) and Apple (CalDAV via calendav) adapters built but inactive — activate by expanding `PROVIDERS` constant.
-- **Background jobs:** SolidQueue (DB-backed, no Redis). Migrations for calendar tables must be applied on Render.com environment via `rails db:migrate`.
-- **Shipped v1.0:** 2026-05-13
+- **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
+- **Background jobs:** SolidQueue (DB-backed, no Redis). Migrations for calendar/geocoding tables must be applied on Render.com environment via `rails db:migrate`.
+- **Shipped v1.2:** 2026-05-18
 
 ## Constraints
 
@@ -129,6 +126,10 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 | `MainDomainOnly` concern — duplicate Origin extraction vs shared helper | Separate concerns have different semantics; sharing couples orthogonal security boundaries | ✓ Good — duplication is deliberate per research guidance |
 | Frontend guards are UX-only; backend 403 is the real security boundary (decision 06-01) | JavaScript guards can be bypassed; API layer is the trust boundary | ✓ Good — Phase 7 closes the gap with a proper server-side check |
+| Mapbox GL instead of Google Maps for map panels | Phase 9 CONTEXT.md established Mapbox as project standard; Google Maps requires billing + Map ID setup overhead | ✓ Good — consistent across group dashboard map and listing detail map |
+| `react-map-gl/mapbox` entry point (not `react-map-gl`) | Mapbox GL JS v3 requires the mapbox-specific bundle; generic entry point produces runtime errors | ✓ Good — both Phase 9 and Phase 10 use same import path |
+| `hasFitBoundsRef` guard — fitBounds only on initial load | Without guard, every filter change re-centers the map, disrupting user pan/zoom state | ✓ Good — UX stays stable across filter interactions |
+| Custom Marker child with `stopPropagation()` | Childless Mapbox `<Marker>` doesn't reliably forward click events through react-map-gl v8 | ✓ Good — pin click popup works reliably |
 
 ---
 
@@ -136,7 +137,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-18 — Phase 10 complete (listing detail map) — Milestone v1.2 SHIPPED
+Last updated: 2026-05-21 — Milestone v1.2 archived
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
@@ -152,4 +153,4 @@ Last updated: 2026-05-18 — Phase 10 complete (listing detail map) — Mileston
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-18 — Phase 10 complete (listing detail map) — Milestone v1.2 SHIPPED*
+*Last updated: 2026-05-21 after v1.2 milestone*

@@ -1,5 +1,36 @@
 # Milestones
 
+## v1.2 — Listing Map View
+
+**Shipped:** 2026-05-18
+**Phases:** 3 | **Plans:** 7
+**Timeline:** 2026-05-16 → 2026-05-18 (2 days)
+
+### Delivered
+
+Geocoding pipeline seeded listing coordinates from Nominatim (OpenStreetMap) with retry/discard job semantics and a backfill rake task (Phase 8). Interactive Mapbox GL map panel on the group dashboard with filter-synced pins, use-supercluster proximity clustering, single-pin and cluster popups (Phase 9). Single-pin location map on individual listing detail pages, conditional on coordinates, placed outside the tab system (Phase 10). All 6 MAP requirements validated.
+
+### Key Accomplishments
+
+1. `decimal(10,6)` lat/lng + `geocoding_failed` on `listing_details` — zero-downtime PostgreSQL metadata-only migration — MAP-01
+2. `GeocodingService` (Nominatim) + `GeocodeListingsJob` (retry/after_discard) + idempotent `geocode:backfill` rake task — MAP-01
+3. `GET /v1/dashboard/groups/:id/estates/coordinates` — filter-synced, null-coord-excluding lightweight projection endpoint — MAP-02/03
+4. `GroupMapPanel` with use-supercluster clustering, `keepPreviousData`, custom Marker child, `fitBounds` on first load only — MAP-02/03/05
+5. `GroupMapPinPopup` + `GroupMapClusterPopup` with hero photo, price, address, bed/bath/sqft, "View details" links — MAP-06
+6. `EstateLocationMap` single-pin Mapbox component on listing detail page; absent when listing has no coordinates — MAP-04
+
+### Known Deferred Items at Close: 0
+
+No items deferred at milestone close.
+
+### Archive
+
+- Roadmap: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
+- Requirements: [milestones/v1.2-REQUIREMENTS.md](milestones/v1.2-REQUIREMENTS.md)
+- Tag: `v1.2`
+
+---
+
 ## v1.1 — Domain Access Control
 
 **Shipped:** 2026-05-16
