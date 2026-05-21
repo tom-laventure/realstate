@@ -8,6 +8,18 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
+## Current Milestone: v1.3 — Test Board & Board Management
+
+**Goal:** Replace multi-board seed data with a single TEST board (real North Vancouver addresses + coords), add a test board connect flow that skips RETS credentials and auto-associates listings, and add delete/edit CRUD to the Board Registrations table.
+
+**Target features:**
+- Seeder overhaul: single "TEST" board replaces REBGV/FVREB/CADREB; 100 listings with real North Vancouver addresses and hardcoded lat/lng
+- Auto-associate listings on board connect: `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows for all estates on the connected board
+- Test board connect flow: `ConnectBoardDialog` detects `is_test_board` → skips credentials step, shows info notice
+- Board credential CRUD: delete (soft) and update (re-enter credentials) per row in the Board Registrations table
+
+---
+
 ## Milestone: v1.2 — Listing Map View — SHIPPED 2026-05-18 ✅
 
 **Goal:** Give agents a geographic view of their listings — an interactive Mapbox panel on the group dashboard (filter-synced, clustered) and a location map on each individual listing detail page. ✓ Complete.
@@ -69,15 +81,23 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Group dashboard Mapbox GL map panel with filter-synced pins, use-supercluster clustering, popup cards — v1.2 (MAP-02, MAP-03, MAP-05, MAP-06)
 - ✓ Individual listing detail page `EstateLocationMap` — single-pin Mapbox, conditional on coordinates — v1.2 (MAP-04)
 
-### Active (next milestone)
+### Active (v1.3)
 
-**Deferred from v1.0–v1.2:**
+- [ ] SEED-01: Single "TEST" real estate board replaces REBGV/FVREB/CADREB in seeds
+- [ ] SEED-02: 100 seeded listings use real North Vancouver, BC addresses with hardcoded lat/lng
+- [ ] BOARD-01: `is_test_board` boolean column on `real_estate_boards`
+- [ ] BOARD-02: Connecting a board auto-creates `BrokerageEstate` rows for all that board's estates
+- [ ] BOARD-03: Test board connect flow skips RETS credentials, shows info notice in dialog
+- [ ] BOARD-04: Admin can delete a board credential (soft delete)
+- [ ] BOARD-05: Admin can update credentials for an existing board registration
+
+**Deferred from v1.0–v1.2 (carry forward):**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Two-way calendar sync — requires webhooks and conflict resolution
 - [ ] Expanded test coverage: context hooks, calendar UI states
-- [ ] CR-01: `BrokerageDomain.exists?` missing `.active` scope in `DomainsController#check` — deferred to v1.3
-- [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure — deferred to v1.3
+- [ ] CR-01: `BrokerageDomain.exists?` missing `.active` scope in `DomainsController#check`
+- [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure
 
 ### Out of Scope
 
@@ -137,7 +157,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-21 — Milestone v1.2 archived
+Last updated: 2026-05-21 — Milestone v1.3 started
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
@@ -153,4 +173,4 @@ Last updated: 2026-05-21 — Milestone v1.2 archived
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-21 after v1.2 milestone*
+*Last updated: 2026-05-21 — Milestone v1.3 started*
