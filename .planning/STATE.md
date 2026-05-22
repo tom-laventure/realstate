@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: — Test Board & Board Management
 status: planning
-stopped_at: Phase 11 context gathered
-last_updated: "2026-05-22T01:48:59.822Z"
-last_activity: 2026-05-21 — v1.3 roadmap created (Phases 11–14)
+stopped_at: Phase 11 Plan 02 complete
+last_updated: "2026-05-22T01:51:37Z"
+last_activity: 2026-05-22 — Phase 11 Plan 02 complete (seed overhaul — TEST board only)
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 33
+  completed_plans: 2
+  percent: 67
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 
 ## Current Position
 
-Phase: Not started (roadmap defined)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-05-21 — v1.3 roadmap created (Phases 11–14)
+Phase: 11 — DB Migration & Seed Overhaul
+Plan: 02 complete (2/3)
+Status: In progress — Plan 03 (estate seed rewrite + file deletions) is next
+Last activity: 2026-05-22 — Phase 11 Plan 02 complete (seed overhaul — TEST board only)
 
 ## Performance Metrics
 
@@ -160,6 +160,8 @@ Recent decisions affecting current work:
 - 09-01: UserGroup.create! required in integration test setup — set_group joins user_groups for membership check; plan only specified BrokerageEstate + GroupEstate
 - [Phase ?]: 11-01: is_test_board migration uses null: false + default: false — PostgreSQL >=11 metadata-only migration; no backfill needed
 - [Phase ?]: 11-01: rets_endpoint validation left unconditional — TEST board seed will supply placeholder endpoint; Phase 12 adds conditional if needed
+- 11-02: delete_all before upsert_all in seed_real_estate_boards! — upsert_all only INSERT/UPDATEs by unique_by key; REBGV/FVREB/CADREB rows would persist without explicit delete
+- 11-02: seed_board_credentials! deleted entirely (D-05) — BrokerageBoardCredentials starts empty in dev; no fake ciphertext in the database
 
 ### Pending Todos
 
@@ -180,6 +182,6 @@ None — Milestone v1.2 complete. v1.3 roadmap defined.
 
 ## Session Continuity
 
-Last session: 2026-05-22T01:48:44.257Z
-Stopped at: Phase 11 context gathered
+Last session: 2026-05-22T01:51:37Z
+Stopped at: Phase 11 Plan 02 complete — ready for Plan 03
 Resume file: None

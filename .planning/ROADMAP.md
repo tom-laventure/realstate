@@ -71,7 +71,7 @@ Plans:
 - [x] 11-01-PLAN.md — Migration + model scopes + serializer (is_test_board column, test_boards/real_boards scopes, :is_test_board serializer attribute)
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 11-02-PLAN.md — Constants + board seed overhaul + seeds.rb cleanup (BOARD_SHORT_CODES → TEST, 09_real_estate_boards.rb → TEST only, remove dropped file references)
+- [x] 11-02-PLAN.md — Constants + board seed overhaul + seeds.rb cleanup (BOARD_SHORT_CODES → TEST, 09_real_estate_boards.rb → TEST only, remove dropped file references)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 11-03-PLAN.md — Estate seed rewrite + file deletions (NV_LISTINGS, remove BrokerageEstate/GroupEstate, delete 06/07/08, db:reset verification)
@@ -123,7 +123,7 @@ Plans:
 | 8. Geocoding & Data Layer | v1.2 | 2/2 | Complete | 2026-05-16 |
 | 9. Group Dashboard Map | v1.2 | 4/4 | Complete | 2026-05-17 |
 | 10. Listing Detail Map | v1.2 | 1/1 | Complete | 2026-05-18 |
-| 11. DB Migration & Seed Overhaul | v1.3 | 1/3 | In Progress|  |
+| 11. DB Migration & Seed Overhaul | v1.3 | 2/3 | In Progress|  |
 | 12. Board Connect Flow — Backend | v1.3 | 0/? | Not started | - |
 | 13. Board Connect Flow — Frontend | v1.3 | 0/? | Not started | - |
 | 14. Board Credential CRUD | v1.3 | 0/? | Not started | - |
