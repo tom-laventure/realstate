@@ -9,8 +9,8 @@
 
 ## Board Model
 
-- [ ] **BOARD-01**: `real_estate_boards` has an `is_test_board` boolean column (default `false`)
-- [ ] **BOARD-02**: TEST board seeded with `is_test_board: true`; `is_test_board` exposed in `RealEstateBoardSerializer`
+- [x] **BOARD-01**: `real_estate_boards` has an `is_test_board` boolean column (default `false`)
+- [x] **BOARD-02**: TEST board seeded with `is_test_board: true`; `is_test_board` exposed in `RealEstateBoardSerializer`
 
 ## Board Connect Flow
 
@@ -49,8 +49,8 @@
 | SEED-02 | Phase 11 | pending |
 | SEED-03 | Phase 11 | pending |
 | SEED-04 | Phase 11 | pending |
-| BOARD-01 | Phase 11 | pending |
-| BOARD-02 | Phase 11 | pending |
+| BOARD-01 | Phase 11 | Complete |
+| BOARD-02 | Phase 11 | Complete |
 | BOARD-03 | Phase 12 | pending |
 | BOARD-04 | Phase 12 | pending |
 | BOARD-05 | Phase 13 | pending |

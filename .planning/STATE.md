@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.3
-milestone_name: Test Board & Board Management
-status: ready_to_execute
-stopped_at: "Phase 11 planned — 3 plans ready"
-last_updated: "2026-05-21T00:00:00.000Z"
-last_activity: 2026-05-21 -- Phase 11 planned (3 plans, 3 waves)
+milestone_name: — Test Board & Board Management
+status: planning
+stopped_at: Phase 11 context gathered
+last_updated: "2026-05-22T01:48:59.822Z"
+last_activity: 2026-05-21 — v1.3 roadmap created (Phases 11–14)
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 33
 ---
 
 # Project State
@@ -158,6 +158,8 @@ Recent decisions affecting current work:
 - 08-02: Estate dependent: :destroy hard-destroys listing_detail on soft-delete — cannot reload listing_detail after estate.destroy in tests
 - 09-01: coordinates action uses .select() projection — e.bedrooms/e.full_bathrooms required (not e.beds/e.baths model method aliases); emitted as beds/baths in JSON
 - 09-01: UserGroup.create! required in integration test setup — set_group joins user_groups for membership check; plan only specified BrokerageEstate + GroupEstate
+- [Phase ?]: 11-01: is_test_board migration uses null: false + default: false — PostgreSQL >=11 metadata-only migration; no backfill needed
+- [Phase ?]: 11-01: rets_endpoint validation left unconditional — TEST board seed will supply placeholder endpoint; Phase 12 adds conditional if needed
 
 ### Pending Todos
 
@@ -178,6 +180,6 @@ None — Milestone v1.2 complete. v1.3 roadmap defined.
 
 ## Session Continuity
 
-Last session: 2026-05-21T00:00:00Z
+Last session: 2026-05-22T01:48:44.257Z
 Stopped at: Phase 11 context gathered
-Resume file: .planning/phases/11-db-migration-seed-overhaul/11-CONTEXT.md
+Resume file: None
