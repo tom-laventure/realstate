@@ -470,17 +470,17 @@ mls_source    ← deterministic (remove .sample)
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **rets_endpoint validation for TEST board**
    - What we know: Model validates `presence: true`; schema has `null: false`. TEST boards don't use RETS.
    - What's unclear: Whether the model validation should be conditionalized (`unless is_test_board?`) now or deferred to Phase 12.
-   - Recommendation: For Phase 11, supply a placeholder URL in the seed. Model validation can remain unconditional. Phase 12 can add `validates :rets_endpoint, presence: true, unless: :is_test_board?` when it matters for the connect flow.
+   - RESOLVED: For Phase 11, supply a placeholder URL (`"https://test.example.com/rets/login"`) in the seed. Model validation remains unconditional. Phase 12 can add `validates :rets_endpoint, presence: true, unless: :is_test_board?` when the connect flow requires it.
 
 2. **mls_source determinism**
    - What we know: Existing seed uses `.sample` (non-deterministic). New seed should be deterministic per project philosophy.
    - What's unclear: Whether any code or test relies on `mls_source` values.
-   - Recommendation: Replace `.sample` with `%w[RETS IDX MLS][idx % 3]` in the new seed.
+   - RESOLVED: Replace `.sample` with `%w[RETS IDX MLS][idx % 3]` in the new seed. No tests reference `mls_source` values (confirmed by codebase search).
 
 ---
 
