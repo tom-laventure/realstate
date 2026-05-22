@@ -63,7 +63,12 @@ Full details: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
   2. 100 seeded listings each have a real North Vancouver street address and non-null `lat`/`lng` values matching known coordinates
   3. No `BrokerageEstate` rows are created during seeding — listings exist on the TEST board but brokerages have no access until they connect
   4. `GET /v1/admin/real_estate_boards` (or equivalent board list endpoint) returns `is_test_board: true` for the TEST board
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Migration + model scopes + serializer (is_test_board column, test_boards/real_boards scopes, :is_test_board serializer attribute)
+- [ ] 11-02-PLAN.md — Constants + board seed overhaul + seeds.rb cleanup (BOARD_SHORT_CODES → TEST, 09_real_estate_boards.rb → TEST only, remove dropped file references)
+- [ ] 11-03-PLAN.md — Estate seed rewrite + file deletions (NV_LISTINGS, remove BrokerageEstate/GroupEstate, delete 06/07/08, db:reset verification)
 
 ### Phase 12: Board Connect Flow — Backend
 **Goal**: Connecting a board via `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows for all estates on that board, and test boards bypass RETS credential validation entirely
@@ -112,7 +117,7 @@ Full details: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
 | 8. Geocoding & Data Layer | v1.2 | 2/2 | Complete | 2026-05-16 |
 | 9. Group Dashboard Map | v1.2 | 4/4 | Complete | 2026-05-17 |
 | 10. Listing Detail Map | v1.2 | 1/1 | Complete | 2026-05-18 |
-| 11. DB Migration & Seed Overhaul | v1.3 | 0/? | Not started | - |
+| 11. DB Migration & Seed Overhaul | v1.3 | 0/3 | Not started | - |
 | 12. Board Connect Flow — Backend | v1.3 | 0/? | Not started | - |
 | 13. Board Connect Flow — Frontend | v1.3 | 0/? | Not started | - |
 | 14. Board Credential CRUD | v1.3 | 0/? | Not started | - |
