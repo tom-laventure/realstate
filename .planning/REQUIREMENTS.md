@@ -45,15 +45,15 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| SEED-01 | — | pending |
-| SEED-02 | — | pending |
-| SEED-03 | — | pending |
-| SEED-04 | — | pending |
-| BOARD-01 | — | pending |
-| BOARD-02 | — | pending |
-| BOARD-03 | — | pending |
-| BOARD-04 | — | pending |
-| BOARD-05 | — | pending |
-| BOARD-06 | — | pending |
-| BOARD-07 | — | pending |
-| BOARD-08 | — | pending |
+| SEED-01 | Phase 11 | pending |
+| SEED-02 | Phase 11 | pending |
+| SEED-03 | Phase 11 | pending |
+| SEED-04 | Phase 11 | pending |
+| BOARD-01 | Phase 11 | pending |
+| BOARD-02 | Phase 11 | pending |
+| BOARD-03 | Phase 12 | pending |
+| BOARD-04 | Phase 12 | pending |
+| BOARD-05 | Phase 13 | pending |
+| BOARD-06 | Phase 14 | pending |
+| BOARD-07 | Phase 14 | pending |
+| BOARD-08 | Phase 14 | pending |
