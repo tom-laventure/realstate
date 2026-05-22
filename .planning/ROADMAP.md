@@ -66,8 +66,14 @@ Full details: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
 **Plans**: 3 plans
 
 Plans:
+
+**Wave 1**
 - [ ] 11-01-PLAN.md — Migration + model scopes + serializer (is_test_board column, test_boards/real_boards scopes, :is_test_board serializer attribute)
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 11-02-PLAN.md — Constants + board seed overhaul + seeds.rb cleanup (BOARD_SHORT_CODES → TEST, 09_real_estate_boards.rb → TEST only, remove dropped file references)
+
+**Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 11-03-PLAN.md — Estate seed rewrite + file deletions (NV_LISTINGS, remove BrokerageEstate/GroupEstate, delete 06/07/08, db:reset verification)
 
 ### Phase 12: Board Connect Flow — Backend
