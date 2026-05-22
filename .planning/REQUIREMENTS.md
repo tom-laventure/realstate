@@ -2,10 +2,10 @@
 
 ## Seed Data
 
-- [ ] **SEED-01**: All seeded listings belong to a single "Test RETS Board" (short_code: `TEST`) — REBGV, FVREB, CADREB removed from seeds
-- [ ] **SEED-02**: All seeded brokerage board credentials reference the TEST board
-- [ ] **SEED-03**: All 100 seeded listing addresses are real streets in/around North Vancouver, BC with matching hardcoded lat/lng coordinates
-- [ ] **SEED-04**: Listings are seeded without pre-attached `BrokerageEstate` rows — access is granted when a brokerage connects to the board
+- [x] **SEED-01**: All seeded listings belong to a single "Test RETS Board" (short_code: `TEST`) — REBGV, FVREB, CADREB removed from seeds
+- [x] **SEED-02**: All seeded brokerage board credentials reference the TEST board
+- [x] **SEED-03**: All 100 seeded listing addresses are real streets in/around North Vancouver, BC with matching hardcoded lat/lng coordinates
+- [x] **SEED-04**: Listings are seeded without pre-attached `BrokerageEstate` rows — access is granted when a brokerage connects to the board
 
 ## Board Model
 
@@ -45,10 +45,10 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| SEED-01 | Phase 11 | pending |
-| SEED-02 | Phase 11 | pending |
-| SEED-03 | Phase 11 | pending |
-| SEED-04 | Phase 11 | pending |
+| SEED-01 | Phase 11 | Complete |
+| SEED-02 | Phase 11 | Complete |
+| SEED-03 | Phase 11 | Complete |
+| SEED-04 | Phase 11 | Complete |
 | BOARD-01 | Phase 11 | Complete |
 | BOARD-02 | Phase 11 | Complete |
 | BOARD-03 | Phase 12 | pending |

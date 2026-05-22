@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: — Test Board & Board Management
 status: planning
-stopped_at: Phase 11 Plan 02 complete
-last_updated: "2026-05-22T01:51:37Z"
-last_activity: 2026-05-22 — Phase 11 Plan 02 complete (seed overhaul — TEST board only)
+stopped_at: Phase 11 Plan 03 complete
+last_updated: "2026-05-22T01:59:00Z"
+last_activity: 2026-05-22 — Phase 11 Plan 03 complete (estate seed rewrite + file deletions)
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 67
+  completed_plans: 3
+  percent: 100
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 11 — DB Migration & Seed Overhaul
-Plan: 02 complete (2/3)
-Status: In progress — Plan 03 (estate seed rewrite + file deletions) is next
-Last activity: 2026-05-22 — Phase 11 Plan 02 complete (seed overhaul — TEST board only)
+Plan: 03 complete (3/3) — Phase 11 complete
+Status: Phase 11 complete — Phase 12 (Board Connect Flow — Backend) is next
+Last activity: 2026-05-22 — Phase 11 Plan 03 complete (estate seed rewrite + file deletions)
 
 ## Performance Metrics
 
@@ -162,6 +162,9 @@ Recent decisions affecting current work:
 - [Phase ?]: 11-01: rets_endpoint validation left unconditional — TEST board seed will supply placeholder endpoint; Phase 12 adds conditional if needed
 - 11-02: delete_all before upsert_all in seed_real_estate_boards! — upsert_all only INSERT/UPDATEs by unique_by key; REBGV/FVREB/CADREB rows would persist without explicit delete
 - 11-02: seed_board_credentials! deleted entirely (D-05) — BrokerageBoardCredentials starts empty in dev; no fake ciphertext in the database
+- 11-03: NV_LISTINGS uses per-street base lat bands (49.32nn) with 0.0001 steps — guarantees all 100 lat values are unique without exceeding 4 decimal places
+- 11-03: db:seed:replant used instead of db:reset for verification — neondb (Neon managed PostgreSQL) has persistent connection proxies; drop requires exclusive lock that remote proxy prevents; replant tests identical code path
+- 11-03: city field set to North Vancouver (not cycling through cities list) — all NV_LISTINGS addresses are North Vancouver streets
 
 ### Pending Todos
 
@@ -182,6 +185,6 @@ None — Milestone v1.2 complete. v1.3 roadmap defined.
 
 ## Session Continuity
 
-Last session: 2026-05-22T01:51:37Z
-Stopped at: Phase 11 Plan 02 complete — ready for Plan 03
+Last session: 2026-05-22T01:59:00Z
+Stopped at: Phase 11 complete (all 3 plans done) — ready for Phase 12
 Resume file: None
