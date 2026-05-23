@@ -84,7 +84,16 @@ Plans:
   1. After posting board credentials for the TEST board, all estates belonging to that board have a `BrokerageEstate` row scoped to the connecting brokerage
   2. Connecting to the TEST board with no username/password (or any credentials) succeeds — no RETS validation error is returned
   3. Connecting to a non-test board still performs RETS credential validation before creating the credential record
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+
+**Wave 1**
+- [ ] 12-01-PLAN.md — Model conditional validation + factories (BrokerageBoardCredential unless: real_estate_board&.is_test_board?, RealEstateBoard factory with :test_board trait, BrokerageBoardCredential factory, model unit tests)
+
+**Wave 2** *(blocked on Wave 1 completion — parallel)*
+- [ ] 12-02-PLAN.md — Controller updates + integration tests (BoardCredentialsController#create board lookup widening + RETS bypass + BrokerageEstate.insert_all, BoardsController#index widening, BOARD-03/04 integration tests)
+- [ ] 12-03-PLAN.md — Estate#accessible_by scope restructure + scope unit tests (move real_boards filter inside first EXISTS, BrokerageEstate path becomes board-type-agnostic)
 
 ### Phase 13: Board Connect Flow — Frontend
 **Goal**: When an admin selects a test board in `ConnectBoardDialog`, the credentials form step is skipped and a descriptive information notice is displayed
@@ -124,6 +133,6 @@ Plans:
 | 9. Group Dashboard Map | v1.2 | 4/4 | Complete | 2026-05-17 |
 | 10. Listing Detail Map | v1.2 | 1/1 | Complete | 2026-05-18 |
 | 11. DB Migration & Seed Overhaul | v1.3 | 3/3 | Complete | 2026-05-22 |
-| 12. Board Connect Flow — Backend | v1.3 | 0/? | Not started | - |
+| 12. Board Connect Flow — Backend | v1.3 | 0/3 | Planned | - |
 | 13. Board Connect Flow — Frontend | v1.3 | 0/? | Not started | - |
 | 14. Board Credential CRUD | v1.3 | 0/? | Not started | - |
