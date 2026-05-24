@@ -592,11 +592,13 @@ Step 2.6: External dependencies are all in the existing project stack. No new ru
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **`useCreateBoardCredential` has no `onError` callback** — the hook shows no toast on connection failure (error propagates to ConnectBoardDialog's catch block instead). The `useDeleteBoardCredential` hook SHOULD add `onError` for a fire-and-forget toast since the AlertDialog closes immediately on confirm. This is consistent with the UI-SPEC ("Delete error toast: 'Failed to disconnect board...'"). The planner should include `onError` in the delete hook.
+   RESOLVED: Plan 14-02 Task 3 (`useDeleteBoardCredential`) includes `onError: () => toast.error("Failed to disconnect board. Please try again.")`.
 
 2. **`update` response shape** — the update action should return the updated credential serialized via `BrokerageBoardCredentialSerializer`. The serializer currently exposes `id, brokerage_id, real_estate_board_id, status, last_verified_at, created_at` plus the `real_estate_board` association. This is sufficient; the `UpdateBoardCredentialResponse` type can mirror `CreateBoardCredentialResponse`.
+   RESOLVED: Plan 14-01 Task 2 renders the updated credential via `BrokerageBoardCredentialSerializer`; Plan 14-02 Task 2 defines `UpdateBoardCredentialResponse` mirroring `CreateBoardCredentialResponse`.
 
 ---
 
