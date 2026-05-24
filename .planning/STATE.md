@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: — Test Board & Board Management
 status: active
-stopped_at: Phase 12 complete — UAT passed (6/7, 1 skipped)
-last_updated: "2026-05-23T23:30:00Z"
-last_activity: 2026-05-23 — Phase 12 UAT complete — ready for Phase 13
+stopped_at: Phase 13 UI-SPEC approved
+last_updated: "2026-05-23T00:00:00Z"
+last_activity: 2026-05-23 — Phase 13 UI design contract approved — ready to plan
 progress:
   total_phases: 4
   completed_phases: 2
