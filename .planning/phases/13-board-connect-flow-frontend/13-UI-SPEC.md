@@ -34,7 +34,7 @@ Declared values (must be multiples of 4):
 | Token | Value | Usage |
 |-------|-------|-------|
 | xs | 4px | Icon gaps (`gap-1`), inline padding |
-| sm | 8px | Compact element spacing (`px-3 py-2` on notice) |
+| sm | 8px | Compact element spacing (`px-2 py-2` on notice) |
 | md | 16px | Default element spacing (`space-y-4`, `pt-2`) |
 | lg | 24px | Section padding (`py-6` on success step) |
 | xl | 32px | Layout gaps |
@@ -43,7 +43,7 @@ Declared values (must be multiples of 4):
 
 Exceptions: none
 
-Source: Existing dialog uses `space-y-4`, `pt-2`, `py-6`, `px-3 py-2` — matches 8-point scale exactly.
+Source: Existing dialog uses `space-y-4`, `pt-2`, `py-6` — matches 8-point scale exactly.
 
 ---
 
@@ -52,7 +52,7 @@ Source: Existing dialog uses `space-y-4`, `pt-2`, `py-6`, `px-3 py-2` — matche
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body | 14px (`text-sm`) | 400 | 1.5 |
-| Label | 14px (`text-sm`) | 500 (`font-medium`) | 1.4 |
+| Label | 14px (`text-sm`) | 600 (`font-semibold`) | 1.4 |
 | Heading (dialog title) | 16px (`text-base`) | 600 (`font-semibold`) | 1.25 |
 | Caption / notice copy | 12px (`text-xs`) | 400 | 1.4 |
 
@@ -140,7 +140,7 @@ Follows the same `DialogHeader` + `div.space-y-4.pt-2` shell used in all other s
 ### Info Notice
 
 ```tsx
-<div className="rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-xs text-blue-800 flex items-start gap-2">
+<div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-xs text-blue-800 flex items-start gap-2">
   <Info className="h-4 w-4 mt-0.5 shrink-0" />
   <span>
     This board contains sample listings for development — no real credentials required.
@@ -151,7 +151,7 @@ Follows the same `DialogHeader` + `div.space-y-4.pt-2` shell used in all other s
 - Icon: `Info` from `lucide-react`, size `h-4 w-4`, `mt-0.5` for baseline alignment, `shrink-0`
 - Notice text: exactly "This board contains sample listings for development — no real credentials required."
 - Structure: `flex items-start gap-2` — icon left-anchored to first line of text
-- Classes match yellow notice dimensions exactly (`rounded-md`, `px-3 py-2`, `text-xs`) for visual consistency
+- Classes match yellow notice dimensions exactly (`rounded-md`, `px-4 py-2`, `text-xs`) for visual consistency
 
 ### Action Row
 
