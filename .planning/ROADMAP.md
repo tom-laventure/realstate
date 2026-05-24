@@ -49,7 +49,7 @@ Full details: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
 
 - [x] **Phase 11: DB Migration & Seed Overhaul** - Add `is_test_board` column, update model + serializer, replace multi-board seeds with single TEST board (100 real NV listings)
 - [x] **Phase 12: Board Connect Flow — Backend** - Auto-associate listings on board connect; skip RETS credential validation for test boards
-- [ ] **Phase 13: Board Connect Flow — Frontend** - `ConnectBoardDialog` detects test board, skips credentials step, shows info notice
+- [x] **Phase 13: Board Connect Flow — Frontend** - `ConnectBoardDialog` detects test board, skips credentials step, shows info notice — completed 2026-05-24
 - [ ] **Phase 14: Board Credential CRUD** - DELETE + PATCH backend endpoints and corresponding frontend table actions
 
 ## Phase Details
