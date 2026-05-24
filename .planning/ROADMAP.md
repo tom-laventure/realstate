@@ -5,7 +5,7 @@
 - ✅ **v1.0 — Security, OAuth & Calendar** — Phases 1–5 (shipped 2026-05-13)
 - ✅ **v1.1 — Domain Access Control** — Phases 6–7 (shipped 2026-05-16)
 - ✅ **v1.2 — Listing Map View** — Phases 8–10 (shipped 2026-05-18)
-- 🚧 **v1.3 — Test Board & Board Management** — Phases 11–14 (in progress)
+- ✅ **v1.3 — Test Board & Board Management** — Phases 11–14 (complete)
 
 ## Phases
 
@@ -43,7 +43,7 @@ Full details: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
 
 </details>
 
-### 🚧 v1.3 — Test Board & Board Management (In Progress)
+### ✅ v1.3 — Test Board & Board Management — SHIPPED 2026-05-24
 
 **Milestone Goal:** Replace multi-board seed data with a single TEST board (real North Vancouver addresses + coords), add a test board connect flow that skips RETS credentials and auto-associates listings, and add delete/edit CRUD to the Board Registrations table.
 
@@ -111,7 +111,7 @@ Plans:
 - [x] 13-01-PLAN.md — Add isTestBoard to boardType, expand ConnectBoardStep union, add test-board-info step JSX, route by isTestBoard in select step, conditional handleSubmit payload
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 13-02-PLAN.md — Close C-01: add serverError render block to test-board-info step and clear serverError in its Back button (mirror credentials step)
+- [x] 13-02-PLAN.md — Close C-01: add serverError render block to test-board-info step and clear serverError in its Back button (mirror credentials step)
 
 **UI hint**: yes
 
@@ -153,5 +153,5 @@ Plans:
 | 10. Listing Detail Map | v1.2 | 1/1 | Complete | 2026-05-18 |
 | 11. DB Migration & Seed Overhaul | v1.3 | 3/3 | Complete | 2026-05-22 |
 | 12. Board Connect Flow — Backend | v1.3 | 3/3 | Complete | 2026-05-23 |
-| 13. Board Connect Flow — Frontend | v1.3 | 1/2 | In progress | - |
+| 13. Board Connect Flow — Frontend | v1.3 | 2/2 | Complete | 2026-05-24 |
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |

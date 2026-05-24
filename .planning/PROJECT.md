@@ -8,15 +8,15 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Current Milestone: v1.3 — Test Board & Board Management
+## Milestone: v1.3 — Test Board & Board Management — SHIPPED 2026-05-24 ✅
 
-**Goal:** Replace multi-board seed data with a single TEST board (real North Vancouver addresses + coords), add a test board connect flow that skips RETS credentials and auto-associates listings, and add delete/edit CRUD to the Board Registrations table.
+**Goal:** Replace multi-board seed data with a single TEST board (real North Vancouver addresses + coords), add a test board connect flow that skips RETS credentials and auto-associates listings, and add delete/edit CRUD to the Board Registrations table. ✓ Complete.
 
-**Target features:**
-- Seeder overhaul: single "TEST" board replaces REBGV/FVREB/CADREB; 100 listings with real North Vancouver addresses and hardcoded lat/lng
-- Auto-associate listings on board connect: `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows for all estates on the connected board
-- Test board connect flow: `ConnectBoardDialog` detects `is_test_board` → skips credentials step, shows info notice
-- Board credential CRUD: delete (soft) and update (re-enter credentials) per row in the Board Registrations table
+**Delivered:**
+- Seeder overhaul: single "TEST" board replaces REBGV/FVREB/CADREB; 100 listings with real NV addresses + hardcoded lat/lng — Phase 11
+- Auto-associate listings on board connect: `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows — Phase 12
+- Test board connect flow: `ConnectBoardDialog` detects `is_test_board` → skips credentials step, shows blue info notice — Phase 13
+- Board credential CRUD: soft-delete + credential-update per row in Board Registrations table — Phase 14
 
 ---
 
@@ -83,13 +83,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Admin can delete a board credential (soft delete, row removed from table) — Phase 14 (BOARD-04)
 - ✓ Admin can update credentials for an existing board registration (test board re-verify / real board re-enter RETS) — Phase 14 (BOARD-05)
 
-### Active (v1.3)
+### Active (v1.3) — All Shipped ✅
 
-- [ ] SEED-01: Single "TEST" real estate board replaces REBGV/FVREB/CADREB in seeds
-- [ ] SEED-02: 100 seeded listings use real North Vancouver, BC addresses with hardcoded lat/lng
-- [ ] BOARD-01: `is_test_board` boolean column on `real_estate_boards`
-- [ ] BOARD-02: Connecting a board auto-creates `BrokerageEstate` rows for all that board's estates
-- [ ] BOARD-03: Test board connect flow skips RETS credentials, shows info notice in dialog
+- ✓ SEED-01: Single "TEST" real estate board replaces REBGV/FVREB/CADREB in seeds — Phase 11
+- ✓ SEED-02: 100 seeded listings use real North Vancouver, BC addresses with hardcoded lat/lng — Phase 11
+- ✓ BOARD-01: `is_test_board` boolean column on `real_estate_boards` — Phase 11
+- ✓ BOARD-02: Connecting a board auto-creates `BrokerageEstate` rows for all that board's estates — Phase 12
+- ✓ BOARD-03: Test board connect flow skips RETS credentials, shows info notice in dialog — Phase 13
 
 **Deferred from v1.0–v1.2 (carry forward):**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
@@ -175,4 +175,4 @@ Last updated: 2026-05-21 — Milestone v1.3 started
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-24 — Phase 14 complete*
+*Last updated: 2026-05-24 — Milestone v1.3 shipped*
