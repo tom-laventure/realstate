@@ -50,7 +50,7 @@ Full details: [milestones/v1.2-ROADMAP.md](milestones/v1.2-ROADMAP.md)
 - [x] **Phase 11: DB Migration & Seed Overhaul** - Add `is_test_board` column, update model + serializer, replace multi-board seeds with single TEST board (100 real NV listings)
 - [x] **Phase 12: Board Connect Flow — Backend** - Auto-associate listings on board connect; skip RETS credential validation for test boards
 - [x] **Phase 13: Board Connect Flow — Frontend** - `ConnectBoardDialog` detects test board, skips credentials step, shows info notice — completed 2026-05-24
-- [ ] **Phase 14: Board Credential CRUD** - DELETE + PATCH backend endpoints and corresponding frontend table actions
+- [x] **Phase 14: Board Credential CRUD** - DELETE + PATCH backend endpoints and corresponding frontend table actions — completed 2026-05-24
 
 ## Phase Details
 
@@ -133,7 +133,7 @@ Plans:
 - [x] 14-02-PLAN.md — Frontend infrastructure: install shadcn alert-dialog (Wave 0 blocker), extend boardType.ts with UpdateBoardCredentialPayload, create deleteBoardCredential + updateBoardCredential API modules, create useDeleteBoardCredential (with onError toast) + useUpdateBoardCredential (no onError — propagates to dialog) hooks
 
 **Wave 2** *(blocked on 14-02 — needs frontend hooks; functionally needs 14-01 backend at runtime)*
-- [ ] 14-03-PLAN.md — Frontend UI: create EditBoardCredentialDialog (test vs real board branches, inline error display), extend BoardRegistrations to 5-column grid with per-row ⋯ dropdown + AlertDialog delete confirmation, extend BrokerageAdminBoardContext with handleDeleteCredential/handleEditCredential actions, pass actions through BrokerageAdminBoard. Ends with human-verify checkpoint covering BOARD-06/07/08 end-to-end.
+- [x] 14-03-PLAN.md — Frontend UI: create EditBoardCredentialDialog (test vs real board branches, inline error display), extend BoardRegistrations to 5-column grid with per-row ⋯ dropdown + AlertDialog delete confirmation, extend BrokerageAdminBoardContext with handleDeleteCredential/handleEditCredential actions, pass actions through BrokerageAdminBoard. Ends with human-verify checkpoint covering BOARD-06/07/08 end-to-end.
 
 **UI hint**: yes
 
@@ -154,4 +154,4 @@ Plans:
 | 11. DB Migration & Seed Overhaul | v1.3 | 3/3 | Complete | 2026-05-22 |
 | 12. Board Connect Flow — Backend | v1.3 | 3/3 | Complete | 2026-05-23 |
 | 13. Board Connect Flow — Frontend | v1.3 | 1/2 | In progress | - |
-| 14. Board Credential CRUD | v1.3 | 2/3 | In progress | - |
+| 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |

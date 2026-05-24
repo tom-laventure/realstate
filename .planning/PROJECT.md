@@ -80,6 +80,8 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ lat/lng (`decimal(10,6)`) + `geocoding_failed` on `listing_details`; `GeocodingService` (Nominatim) + `GeocodeListingsJob` + `geocode:backfill` rake task — v1.2 (MAP-01)
 - ✓ Group dashboard Mapbox GL map panel with filter-synced pins, use-supercluster clustering, popup cards — v1.2 (MAP-02, MAP-03, MAP-05, MAP-06)
 - ✓ Individual listing detail page `EstateLocationMap` — single-pin Mapbox, conditional on coordinates — v1.2 (MAP-04)
+- ✓ Admin can delete a board credential (soft delete, row removed from table) — Phase 14 (BOARD-04)
+- ✓ Admin can update credentials for an existing board registration (test board re-verify / real board re-enter RETS) — Phase 14 (BOARD-05)
 
 ### Active (v1.3)
 
@@ -88,8 +90,6 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - [ ] BOARD-01: `is_test_board` boolean column on `real_estate_boards`
 - [ ] BOARD-02: Connecting a board auto-creates `BrokerageEstate` rows for all that board's estates
 - [ ] BOARD-03: Test board connect flow skips RETS credentials, shows info notice in dialog
-- [ ] BOARD-04: Admin can delete a board credential (soft delete)
-- [ ] BOARD-05: Admin can update credentials for an existing board registration
 
 **Deferred from v1.0–v1.2 (carry forward):**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
@@ -150,6 +150,8 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `react-map-gl/mapbox` entry point (not `react-map-gl`) | Mapbox GL JS v3 requires the mapbox-specific bundle; generic entry point produces runtime errors | ✓ Good — both Phase 9 and Phase 10 use same import path |
 | `hasFitBoundsRef` guard — fitBounds only on initial load | Without guard, every filter change re-centers the map, disrupting user pan/zoom state | ✓ Good — UX stays stable across filter interactions |
 | Custom Marker child with `stopPropagation()` | Childless Mapbox `<Marker>` doesn't reliably forward click events through react-map-gl v8 | ✓ Good — pin click popup works reliably |
+| Controlled AlertDialog for delete (outside Radix tree) | AlertDialogTrigger inside DropdownMenuItem causes portal/focus conflicts across Radix contexts | ✓ Good — delete flow works reliably with `deleteTarget` state pointer |
+| `useUpdateBoardCredential` no onError — propagates to dialog | Dialog uses `mutateAsync` to display inline serverError; toast-only failure feedback is insufficient for form re-entry | ✓ Good — inline error shown in EditBoardCredentialDialog catch block |
 
 ---
 
@@ -173,4 +175,4 @@ Last updated: 2026-05-21 — Milestone v1.3 started
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-21 — Milestone v1.3 started*
+*Last updated: 2026-05-24 — Phase 14 complete*
