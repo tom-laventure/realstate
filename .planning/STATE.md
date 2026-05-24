@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: — Test Board & Board Management
-status: complete
-stopped_at: Phase 13 + 14 complete — milestone v1.3 shipped
-last_updated: "2026-05-24T12:50:00Z"
-last_activity: 2026-05-24 -- Milestone v1.3 complete — all 4 phases verified
+status: archived
+stopped_at: Milestone v1.3 archived — ready for /gsd-new-milestone v1.4
+last_updated: "2026-05-24T14:00:00Z"
+last_activity: 2026-05-24 -- Milestone v1.3 archived — tag v1.3 created
 progress:
   total_phases: 4
   completed_phases: 4
@@ -18,17 +18,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-21)
+See: .planning/PROJECT.md (updated 2026-05-24)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.3 complete — ready for /gsd-complete-milestone or v1.4 planning
+**Current focus:** v1.3 archived — ready for /gsd-new-milestone to start v1.4
 
 ## Current Position
 
-Phase: v1.3 Milestone Complete
+Phase: v1.3 Milestone Archived
 Plan: All 11 plans done across 4 phases
-Status: Complete — all UAT passed, milestone ready to archive
-Last activity: 2026-05-24 -- Phase 13 human UAT approved + Phase 14 UAT passed — milestone v1.3 done
+Status: Archived — milestone tagged v1.3, requirements archived, ROADMAP.md collapsed
+Last activity: 2026-05-24 -- Milestone v1.3 archived; tag created; REQUIREMENTS.md removed
 
 ## Performance Metrics
 

@@ -14,15 +14,15 @@
 
 ## Board Connect Flow
 
-- [ ] **BOARD-03**: Connecting to any board auto-creates `BrokerageEstate` rows for all estates on that board (fired inside `POST /v1/admin/board_credentials`)
-- [ ] **BOARD-04**: Connecting to a test board requires no RETS credentials — username/password validation skipped server-side
-- [ ] **BOARD-05**: In the `ConnectBoardDialog`, selecting a test board skips the credentials step and shows an information notice ("This board contains sample listings for development — no real credentials required")
+- [x] **BOARD-03**: Connecting to any board auto-creates `BrokerageEstate` rows for all estates on that board (fired inside `POST /v1/admin/board_credentials`)
+- [x] **BOARD-04**: Connecting to a test board requires no RETS credentials — username/password validation skipped server-side
+- [x] **BOARD-05**: In the `ConnectBoardDialog`, selecting a test board skips the credentials step and shows an information notice ("This board contains sample listings for development — no real credentials required")
 
 ## Board Credential CRUD
 
-- [ ] **BOARD-06**: Admin can delete a board credential (`DELETE /v1/admin/board_credentials/:id` — soft delete via `acts_as_paranoid`)
-- [ ] **BOARD-07**: Admin can update credentials for an existing board registration (`PATCH /v1/admin/board_credentials/:id` — re-validates RETS for real boards, no-op validation for test boards)
-- [ ] **BOARD-08**: Board Registrations table displays delete and edit actions per row
+- [x] **BOARD-06**: Admin can delete a board credential (`DELETE /v1/admin/board_credentials/:id` — soft delete via `acts_as_paranoid`)
+- [x] **BOARD-07**: Admin can update credentials for an existing board registration (`PATCH /v1/admin/board_credentials/:id` — re-validates RETS for real boards, no-op validation for test boards)
+- [x] **BOARD-08**: Board Registrations table displays delete and edit actions per row
 
 ## Future Requirements
 
@@ -51,9 +51,9 @@
 | SEED-04 | Phase 11 | Complete |
 | BOARD-01 | Phase 11 | Complete |
 | BOARD-02 | Phase 11 | Complete |
-| BOARD-03 | Phase 12 | pending |
-| BOARD-04 | Phase 12 | pending |
-| BOARD-05 | Phase 13 | pending |
-| BOARD-06 | Phase 14 | pending |
-| BOARD-07 | Phase 14 | pending |
-| BOARD-08 | Phase 14 | pending |
+| BOARD-03 | Phase 12 | Complete |
+| BOARD-04 | Phase 12 | Complete |
+| BOARD-05 | Phase 13 | Complete |
+| BOARD-06 | Phase 14 | Complete |
+| BOARD-07 | Phase 14 | Complete |
+| BOARD-08 | Phase 14 | Complete |

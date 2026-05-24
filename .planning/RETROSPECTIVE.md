@@ -1,5 +1,52 @@
 # Retrospective
 
+## Milestone: v1.3 — Test Board & Board Management
+
+**Shipped:** 2026-05-24
+**Phases:** 4 | **Plans:** 11 | **Timeline:** 3 days (2026-05-21 → 2026-05-24)
+
+### What Was Built
+
+1. `is_test_board` column + `test_boards`/`real_boards` scopes; seed overhaul: single TEST board, 100 NV listings with hardcoded unique coordinates, no pre-attached BrokerageEstate rows
+2. Board connect backend: conditional RETS validation, `BrokerageEstate.insert_all` idempotency, `Estate#accessible_by` scope restructure (outer JOIN removed, `is_test_board` filter moved inside EXISTS)
+3. Fixed pre-existing AR Encryption bug: `encrypts :rets_username_ciphertext` (column name) — had prevented all BrokerageBoardCredential saves since initial implementation
+4. `ConnectBoardDialog` test-board-info step: bypass credentials, blue notice, server error handling (mirrored from credentials step pattern)
+5. `DELETE`/`PATCH /v1/admin/board_credentials/:id` with IDOR scoping + 10 integration tests; `EditBoardCredentialDialog` + 5-column `BoardRegistrations` with controlled `AlertDialog`
+
+### What Worked
+
+- **AR Encryption bug surfaced immediately** — Plan 12-01 unit tests required actual DB saves; the first test run caught the `PG::NotNullViolation` immediately. Without the test suite, this bug would have reached production.
+- **Controlled AlertDialog pattern** — choosing `open` prop + `deleteTarget` state (outside the Radix dropdown tree) at the start of Phase 14 avoided the portal/focus conflict discovered during prior work
+- **Per-street lat band strategy** — the coordinate uniqueness bug (76 of 100 unique) was caught during seed verification in Phase 11. The systematic band approach (49.3200 + 0.0001 steps per street) is a reusable pattern for future seed files needing unique numeric values
+- **`Estate#accessible_by` scope restructure** — identifying that the outer `JOIN + merge` would drop all test-board estates before EXISTS ran was critical pre-12-03 analysis; fixing it in one targeted plan kept scope clean
+
+### What Was Inefficient
+
+- **REQUIREMENTS.md checkbox sync** — same gap as v1.0, v1.1, v1.2: 6 of 12 requirements were unchecked at milestone close even though all work was done. The REQUIREMENTS.md was not updated at each phase close. This is the fourth consecutive milestone with the same issue.
+- **No milestone audit** — proceeding without `gsd-audit-milestone` means cross-phase integration was verified through human UAT only, not automated checks
+
+### Patterns Established
+
+- **AR Encryption + `_ciphertext` column naming**: `encrypts :rets_username_ciphertext` (column name), expose friendly accessor manually — settled pattern for this codebase
+- **Controlled `AlertDialog` outside Radix dropdown tree**: `open` prop + single `deleteTarget` state pointer — canonical pattern when trigger is inside `DropdownMenuItem`
+- **Fire-and-forget delete + propagating update hook pair**: `useDeleteBoardCredential` (mutate + onError toast) vs `useUpdateBoardCredential` (mutateAsync, no onError — dialog catches rejection)
+- **Per-street lat band uniqueness**: base lat per street (N × 0.0010 increment) + 0.0001 step per entry — guarantees N×M unique values without exceeding 4 decimal places
+- **`db:seed:replant` for neondb**: neondb connection proxy prevents `db:reset`; `replant` tests identical code path
+
+### Key Lessons
+
+- **REQUIREMENTS.md sync is a persistent gap** — four consecutive milestones with the same issue. The fix is to update REQUIREMENTS.md checkboxes at each phase close, not just at milestone close. Worth adding to the phase-close checklist explicitly.
+- **Integration tests are the best bug detector** — the AR Encryption bug had been silently present since Phase 1; model unit tests in Phase 12-01 caught it in minutes. Every new model with complex associations should get unit tests at creation time.
+- **Test-board bypass scope is fragile** — `is_test_board? || Rails.env.development?` is a workaround for the test environment; a more principled approach would separate test-board logic from dev-environment logic
+
+### Cost Observations
+
+- Sessions: 3–4 across 3 days
+- Model: Claude Sonnet 4.6 throughout
+- Notable: 11 plans in 3 days; most plans executed in 2–5 minutes; AR Encryption fix was the longest single investigation (~20 minutes including root cause analysis)
+
+---
+
 ## Milestone: v1.2 — Listing Map View
 
 **Shipped:** 2026-05-18
@@ -127,12 +174,12 @@
 
 ## Cross-Milestone Trends
 
-| Metric | v1.0 | v1.1 | v1.2 |
-|--------|------|------|------|
-| Phases | 5 | 2 | 3 |
-| Plans | 30 | 2 | 7 |
-| Days | 14 | 3 | 2 |
-| Avg plans/day | 2.1 | 0.7 | 3.5 |
-| Deferred items at close | 2 (CAL-04, CAL-05) | 2 (CR-01, CR-02) | 0 |
+| Metric | v1.0 | v1.1 | v1.2 | v1.3 |
+|--------|------|------|------|------|
+| Phases | 5 | 2 | 3 | 4 |
+| Plans | 30 | 2 | 7 | 11 |
+| Days | 14 | 3 | 2 | 3 |
+| Avg plans/day | 2.1 | 0.7 | 3.5 | 3.7 |
+| Deferred items at close | 2 (CAL-04, CAL-05) | 2 (CR-01, CR-02) | 0 | 4 (CAL-04, CAL-05, CR-01, CR-02) |
 
-**Trend:** Velocity accelerating — v1.2 averaged 3.5 plans/day vs 2.1 in v1.0. REQUIREMENTS.md sync gap is a recurring issue across all three milestones.
+**Trend:** Velocity stable at ~3.5–3.7 plans/day since v1.2. REQUIREMENTS.md checkbox sync gap now four consecutive milestones — must add to phase-close checklist.

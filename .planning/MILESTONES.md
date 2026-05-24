@@ -1,5 +1,41 @@
 # Milestones
 
+## v1.3 — Test Board & Board Management
+
+**Shipped:** 2026-05-24
+**Phases:** 4 | **Plans:** 11
+**Timeline:** 2026-05-21 → 2026-05-24 (3 days)
+
+### Delivered
+
+Seed overhaul: single TEST board replaces REBGV/FVREB/CADREB; 100 real North Vancouver listings with hardcoded lat/lng, seeded without pre-attached BrokerageEstate rows (Phase 11). Board connect flow: `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows idempotently; test boards bypass RETS validation; `Estate#accessible_by` restructured for test-board estate visibility (Phase 12). Frontend connect dialog: `ConnectBoardDialog` test-board-info step skips credentials, shows blue info notice, handles server errors (Phase 13). Board credential CRUD: DELETE + PATCH backend endpoints with IDOR scoping, 10 integration tests; `EditBoardCredentialDialog` + 5-column Board Registrations table with per-row ⋯ dropdown and AlertDialog delete confirmation (Phase 14). All 12 requirements validated.
+
+### Key Accomplishments
+
+1. `is_test_board boolean null: false default: false` column + `test_boards`/`real_boards` scopes + serializer exposure — BOARD-01/02
+2. `NV_LISTINGS` constant with 100 real North Vancouver addresses; per-street lat bands guarantee all 100 unique — SEED-01/02/03/04
+3. `BrokerageEstate.insert_all unique_by: [:brokerage_id, :estate_id]` on board connect; `Estate#accessible_by` restructured — BOARD-03/04
+4. `ConnectBoardDialog` test-board-info bypass step with blue info notice and server error handling — BOARD-05
+5. `DELETE`/`PATCH /v1/admin/board_credentials/:id` with IDOR scoping, 10 integration tests, acts_as_paranoid soft delete — BOARD-06/07
+6. `EditBoardCredentialDialog` + 5-column `BoardRegistrations` with DropdownMenu and controlled AlertDialog — BOARD-08
+
+### Known Deferred Items at Close: 4
+
+| Category | Item | Status |
+|----------|------|--------|
+| CAL-04 | Microsoft Calendar sync | Adapter built, activate by expanding PROVIDERS |
+| CAL-05 | Apple CalDAV sync | Adapter built, activate by expanding PROVIDERS |
+| CR-01 | `BrokerageDomain.exists?` missing `.active` scope | Pre-existing; address in v1.4 |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; address in v1.4 |
+
+### Archive
+
+- Roadmap: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
+- Requirements: [milestones/v1.3-REQUIREMENTS.md](milestones/v1.3-REQUIREMENTS.md)
+- Tag: `v1.3`
+
+---
+
 ## v1.2 — Listing Map View
 
 **Shipped:** 2026-05-18

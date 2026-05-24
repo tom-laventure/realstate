@@ -80,18 +80,23 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ lat/lng (`decimal(10,6)`) + `geocoding_failed` on `listing_details`; `GeocodingService` (Nominatim) + `GeocodeListingsJob` + `geocode:backfill` rake task — v1.2 (MAP-01)
 - ✓ Group dashboard Mapbox GL map panel with filter-synced pins, use-supercluster clustering, popup cards — v1.2 (MAP-02, MAP-03, MAP-05, MAP-06)
 - ✓ Individual listing detail page `EstateLocationMap` — single-pin Mapbox, conditional on coordinates — v1.2 (MAP-04)
-- ✓ Admin can delete a board credential (soft delete, row removed from table) — Phase 14 (BOARD-04)
-- ✓ Admin can update credentials for an existing board registration (test board re-verify / real board re-enter RETS) — Phase 14 (BOARD-05)
+- ✓ Admin can delete a board credential (soft delete, row removed from table) — v1.3 Phase 14 (BOARD-06)
+- ✓ Admin can update credentials for an existing board registration (test board re-verify / real board re-enter RETS) — v1.3 Phase 14 (BOARD-07)
+- ✓ Board Registrations table has per-row delete/edit actions — v1.3 Phase 14 (BOARD-08)
 
-### Active (v1.3) — All Shipped ✅
+### Validated (v1.3 additions)
 
-- ✓ SEED-01: Single "TEST" real estate board replaces REBGV/FVREB/CADREB in seeds — Phase 11
-- ✓ SEED-02: 100 seeded listings use real North Vancouver, BC addresses with hardcoded lat/lng — Phase 11
-- ✓ BOARD-01: `is_test_board` boolean column on `real_estate_boards` — Phase 11
-- ✓ BOARD-02: Connecting a board auto-creates `BrokerageEstate` rows for all that board's estates — Phase 12
-- ✓ BOARD-03: Test board connect flow skips RETS credentials, shows info notice in dialog — Phase 13
+- ✓ SEED-01–04: Single TEST board; 100 NV listings with real coords; no pre-attached BrokerageEstate rows — v1.3 Phase 11
+- ✓ BOARD-01/02: `is_test_board` column + serializer; TEST board seeded — v1.3 Phase 11
+- ✓ BOARD-03/04: Board connect auto-inserts BrokerageEstate rows; test boards bypass RETS validation — v1.3 Phase 12
+- ✓ BOARD-05: `ConnectBoardDialog` test-board bypass step with blue info notice — v1.3 Phase 13
+- ✓ BOARD-06/07/08: Board credential soft-delete + update CRUD; 5-column table with per-row actions — v1.3 Phase 14
 
-**Deferred from v1.0–v1.2 (carry forward):**
+### Active (v1.4 — TBD)
+
+_Next milestone requirements to be defined via `/gsd-new-milestone`._
+
+**Carry-forward from v1.0–v1.3:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Two-way calendar sync — requires webhooks and conflict resolution
@@ -120,7 +125,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Calendar sync:** `UserCalendarConnection` (encrypted credentials) + `EstateDateCalendarEvent` + `CalendarSyncJob` (SolidQueue, advisory lock). Google adapter active; Microsoft (HTTParty/Graph API) and Apple (CalDAV via calendav) adapters built but inactive — activate by expanding `PROVIDERS` constant.
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Migrations for calendar/geocoding tables must be applied on Render.com environment via `rails db:migrate`.
+- **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting via `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows; test boards bypass RETS validation. Board Registrations table has per-row edit/delete CRUD.
 - **Shipped v1.2:** 2026-05-18
+- **Shipped v1.3:** 2026-05-24
 
 ## Constraints
 
@@ -175,4 +182,4 @@ Last updated: 2026-05-21 — Milestone v1.3 started
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-24 — Milestone v1.3 shipped*
+*Last updated: 2026-05-24 — Milestone v1.3 archived*
