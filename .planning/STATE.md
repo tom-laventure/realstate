@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: — Test Board & Board Management
 status: active
-stopped_at: Phase 13 UI-SPEC approved
+stopped_at: Phase 13 planned — ready to execute
 last_updated: "2026-05-23T00:00:00Z"
-last_activity: 2026-05-23 — Phase 13 UI design contract approved — ready to plan
+last_activity: 2026-05-23 — Phase 13 planned (1 plan) — ready to execute
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 6
+  total_plans: 7
   completed_plans: 6
   percent: 50
 ---
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 13 — Board Connect Flow — Frontend
-Plan: not started
-Status: Phase 12 complete — UAT passed; Phase 13 ready to plan
-Last activity: 2026-05-23 — Phase 12 UAT complete (6 passed, 1 skipped — no real boards in dev)
+Plan: 1 plan — ready to execute
+Status: Phase 13 planned — 1 plan in Wave 1 — ready to execute
+Last activity: 2026-05-23 — Phase 13 planned (13-01-PLAN.md)
 
 ## Performance Metrics
 
