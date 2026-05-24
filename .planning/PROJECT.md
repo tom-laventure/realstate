@@ -8,6 +8,22 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
+## Current Milestone: v1.4 — Main Domain Admin Portal
+
+**Goal:** Give brokerage admins a main-domain portal where they can manage all their brokerages in one place — without relying on individual subdomain URLs.
+
+**Target features:**
+- BrokerageAuth extension: resolve `Current.brokerage` from `X-Brokerage-Id` header when Host is main domain
+- New `GET /v1/account/admin_brokerages` endpoint returning all brokerages where user is admin/owner
+- Main domain routing expanded: `/dashboard/*` alongside existing `/create/*`
+- Brokerage selection screen: cards on first sign-in, auto-selects if only one brokerage
+- Main domain admin dashboard: full admin suite with brokerage context via header; nav-bar brokerage dropdown
+- Sign-in routing: main-domain sign-in → admin check → selection screen or no-access screen
+- Post-create redirect: wizard completion lands on main domain dashboard with new brokerage auto-selected
+- Non-admin no-access screen: clear message when signed-in user has no admin roles
+
+---
+
 ## Milestone: v1.3 — Test Board & Board Management — SHIPPED 2026-05-24 ✅
 
 **Goal:** Replace multi-board seed data with a single TEST board (real North Vancouver addresses + coords), add a test board connect flow that skips RETS credentials and auto-associates listings, and add delete/edit CRUD to the Board Registrations table. ✓ Complete.
@@ -92,9 +108,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ BOARD-05: `ConnectBoardDialog` test-board bypass step with blue info notice — v1.3 Phase 13
 - ✓ BOARD-06/07/08: Board credential soft-delete + update CRUD; 5-column table with per-row actions — v1.3 Phase 14
 
-### Active (v1.4 — TBD)
+### Active (v1.4 — Main Domain Admin Portal)
 
-_Next milestone requirements to be defined via `/gsd-new-milestone`._
+_Requirements being defined. See REQUIREMENTS.md._
 
 **Carry-forward from v1.0–v1.3:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
@@ -166,7 +182,7 @@ _Next milestone requirements to be defined via `/gsd-new-milestone`._
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-21 — Milestone v1.3 started
+Last updated: 2026-05-24 — Milestone v1.4 started
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason

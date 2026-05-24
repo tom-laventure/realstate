@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: — Test Board & Board Management
-status: archived
-stopped_at: Milestone v1.3 archived — ready for /gsd-new-milestone v1.4
-last_updated: "2026-05-24T14:00:00Z"
-last_activity: 2026-05-24 -- Milestone v1.3 archived — tag v1.3 created
+milestone: v1.4
+milestone_name: Main Domain Admin Portal
+status: planning
+stopped_at: ""
+last_updated: "2026-05-24T00:00:00Z"
+last_activity: 2026-05-24 -- Milestone v1.4 started
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 
 ## Current Position
 
-Phase: v1.3 Milestone Archived
-Plan: All 11 plans done across 4 phases
-Status: Archived — milestone tagged v1.3, requirements archived, ROADMAP.md collapsed
-Last activity: 2026-05-24 -- Milestone v1.3 archived; tag created; REQUIREMENTS.md removed
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-24 — Milestone v1.4 started
 
 ## Performance Metrics
 
