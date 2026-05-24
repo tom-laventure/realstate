@@ -10,7 +10,7 @@ progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 11
-  completed_plans: 8
+  completed_plans: 9
   percent: 73
 ---
 
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 14 — Board Credential CRUD
-Plan: 02 (14-01 complete)
+Plan: 03 (14-02 complete)
 Status: Executing
-Last activity: 2026-05-24 -- Phase 14 Plan 01 complete (backend endpoints + integration tests)
+Last activity: 2026-05-24 -- Phase 14 Plan 02 complete (frontend data layer: alert-dialog install + API modules + mutation hooks)
 
 ## Performance Metrics
 
@@ -167,6 +167,8 @@ Recent decisions affecting current work:
 - 11-03: city field set to North Vancouver (not cycling through cities list) — all NV_LISTINGS addresses are North Vancouver streets
 - 14-01: separate update_credential_params private method — permits only rets_username/rets_password; never real_estate_board_id (D-10: board reassignment forbidden)
 - 14-01: destroy/update both use Current.brokerage.brokerage_board_credentials.without_deleted.find_by! for IDOR prevention + soft-delete scoping
+- 14-02: useUpdateBoardCredential has no onError — errors re-thrown via mutateAsync rejection for dialog inline serverError display; toast copy differs for test vs real board
+- 14-02: useDeleteBoardCredential uses mutate (fire-and-forget) — AlertDialog closes on confirm; onError toast is sole failure feedback channel
 
 ### Pending Todos
 
@@ -187,6 +189,6 @@ None — Milestone v1.2 complete. v1.3 roadmap defined.
 
 ## Session Continuity
 
-Last session: 2026-05-24T00:00:00Z
-Stopped at: Phase 14 Plan 01 complete — backend DELETE/PATCH endpoints + 10 integration tests
+Last session: 2026-05-24T12:24:00Z
+Stopped at: Phase 14 Plan 02 complete — frontend data layer: shadcn alert-dialog + API modules + mutation hooks
 Resume file: None
