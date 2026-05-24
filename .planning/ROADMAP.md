@@ -103,7 +103,16 @@ Plans:
   1. Selecting the TEST board in `ConnectBoardDialog` never renders the username/password credential fields
   2. An information notice reading "This board contains sample listings for development — no real credentials required" (or equivalent clear copy) is visible when the test board is selected
   3. The connect action completes successfully from the dialog without entering any credentials
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+
+**Wave 1**
+- [x] 13-01-PLAN.md — Add isTestBoard to boardType, expand ConnectBoardStep union, add test-board-info step JSX, route by isTestBoard in select step, conditional handleSubmit payload
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 13-02-PLAN.md — Close C-01: add serverError render block to test-board-info step and clear serverError in its Back button (mirror credentials step)
+
 **UI hint**: yes
 
 ### Phase 14: Board Credential CRUD
@@ -134,5 +143,5 @@ Plans:
 | 10. Listing Detail Map | v1.2 | 1/1 | Complete | 2026-05-18 |
 | 11. DB Migration & Seed Overhaul | v1.3 | 3/3 | Complete | 2026-05-22 |
 | 12. Board Connect Flow — Backend | v1.3 | 3/3 | Complete | 2026-05-23 |
-| 13. Board Connect Flow — Frontend | v1.3 | 0/? | Not started | - |
+| 13. Board Connect Flow — Frontend | v1.3 | 1/2 | In progress | - |
 | 14. Board Credential CRUD | v1.3 | 0/? | Not started | - |
