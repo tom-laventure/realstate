@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-21)
 ## Current Position
 
 Phase: 14 — Board Credential CRUD
-Plan: not yet planned
-Status: Ready to execute
-Last activity: 2026-05-24 -- Phase 14 planning complete
+Plan: 02 (14-01 complete)
+Status: Executing
+Last activity: 2026-05-24 -- Phase 14 Plan 01 complete (backend endpoints + integration tests)
 
 ## Performance Metrics
 
@@ -165,6 +165,8 @@ Recent decisions affecting current work:
 - 11-03: NV_LISTINGS uses per-street base lat bands (49.32nn) with 0.0001 steps — guarantees all 100 lat values are unique without exceeding 4 decimal places
 - 11-03: db:seed:replant used instead of db:reset for verification — neondb (Neon managed PostgreSQL) has persistent connection proxies; drop requires exclusive lock that remote proxy prevents; replant tests identical code path
 - 11-03: city field set to North Vancouver (not cycling through cities list) — all NV_LISTINGS addresses are North Vancouver streets
+- 14-01: separate update_credential_params private method — permits only rets_username/rets_password; never real_estate_board_id (D-10: board reassignment forbidden)
+- 14-01: destroy/update both use Current.brokerage.brokerage_board_credentials.without_deleted.find_by! for IDOR prevention + soft-delete scoping
 
 ### Pending Todos
 
@@ -185,6 +187,6 @@ None — Milestone v1.2 complete. v1.3 roadmap defined.
 
 ## Session Continuity
 
-Last session: 2026-05-23T23:30:00Z
-Stopped at: Phase 12 complete — UAT passed — ready for Phase 13
+Last session: 2026-05-24T00:00:00Z
+Stopped at: Phase 14 Plan 01 complete — backend DELETE/PATCH endpoints + 10 integration tests
 Resume file: None
