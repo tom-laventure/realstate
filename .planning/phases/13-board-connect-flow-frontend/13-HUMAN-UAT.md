@@ -22,12 +22,17 @@ expected: Click Connect on the test-board-info step (TEST board selected) — th
 
 result: [pending]
 
+### 3. Server error displays on failed Connect in test-board-info step (C-01 fix)
+expected: Simulate a backend failure from the test-board-info step (e.g., disconnect network or mock 500 response) — the error message appears below the blue notice in red destructive text. Clicking Back clears the error so it does not carry over to re-selecting a different board.
+
+result: [pending]
+
 ## Summary
 
-total: 2
+total: 3
 passed: 0
 issues: 0
-pending: 2
+pending: 3
 skipped: 0
 blocked: 0
 
