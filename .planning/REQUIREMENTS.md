@@ -53,21 +53,19 @@
 
 ## Traceability
 
-_Filled by roadmapper at phase creation._
-
 | REQ-ID | Phase | Plan |
 |--------|-------|------|
-| PORTAL-01 | — | — |
-| PORTAL-02 | — | — |
-| PORTAL-03 | — | — |
-| AUTH-05 | — | — |
-| AUTH-06 | — | — |
-| AUTH-07 | — | — |
-| BROK-01 | — | — |
-| BROK-02 | — | — |
-| BROK-03 | — | — |
-| BROK-04 | — | — |
-| BE-01 | — | — |
-| BE-02 | — | — |
-| BE-03 | — | — |
-| ONB-04 | — | — |
+| BE-01 | Phase 15 | TBD |
+| BE-02 | Phase 15 | TBD |
+| BE-03 | Phase 15 | TBD |
+| PORTAL-01 | Phase 16 | TBD |
+| AUTH-05 | Phase 16 | TBD |
+| AUTH-06 | Phase 16 | TBD |
+| AUTH-07 | Phase 16 | TBD |
+| BROK-01 | Phase 17 | TBD |
+| BROK-02 | Phase 17 | TBD |
+| ONB-04 | Phase 17 | TBD |
+| PORTAL-02 | Phase 18 | TBD |
+| PORTAL-03 | Phase 18 | TBD |
+| BROK-03 | Phase 18 | TBD |
+| BROK-04 | Phase 18 | TBD |
