@@ -66,9 +66,7 @@ Recent decisions affecting current work:
 - 15-02: Inline render (no serializer) for simple flat list response
 
 ### Code Review Findings (carry-forward)
-- WR-01: Non-numeric X-Brokerage-Id returns 404 instead of 400 (brokerage_auth.rb) — should validate positive? before DB lookup
-- WR-02: AdminBrokeragesController map crashes on nil brokerage (soft-delete race) — use filter_map with nil guard
-- WR-03: BrokerageDomain lookup missing verified: true filter (brokerage_auth.rb) — inconsistent with domains controller
+All WR-01/02/03 findings resolved in fix(15) commits. No open findings.
 
 ### Pending Todos
 
@@ -92,5 +90,5 @@ None — Phase 15 complete, ready to plan Phase 16.
 ## Session Continuity
 
 Last session: 2026-05-24
-Stopped at: Phase 15 executed and verified — ready to plan Phase 16
+Stopped at: Phase 15 UAT complete (4/4 pass) — factory fix applied (verified: true default) — ready to plan Phase 16
 Resume file: None
