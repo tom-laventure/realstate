@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: true
 preset: new-york / zinc / cssVariables
 created: 2026-05-24
+updated: 2026-05-24
 ---
 
 # Phase 16 — UI Design Contract
@@ -33,19 +34,20 @@ Declared values (must be multiples of 4):
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| xs | 4px | Icon-to-label gaps, inline icon padding |
-| sm | 8px | Tight element spacing, button icon gap |
-| md | 16px | Default intra-card spacing, input padding |
-| lg | 24px | Card padding (`p-6`), section gaps |
-| xl | 32px | Vertical layout gaps between card and viewport edge |
-| 2xl | 48px | Full-page vertical centering offset |
+| xs | 4px | Icon-to-label gaps (`gap-1`) |
+| sm | 8px | Inner div vertical gaps (`gap-2`) |
+| md | 16px | Card padding axis, `gap-4` between icon and text block |
+| lg | 24px | Not used directly — `p-8` (32px) is the card inset |
+| xl | 32px | Card inner padding (`p-8`) |
+| 2xl | 48px | Not used in this phase |
 | 3xl | 64px | Not used in this phase |
 
 Exceptions:
-- Full-page centered layouts use `min-h-screen` with `items-center justify-center` — no fixed height token.
+- Full-page centering uses `flex min-h-screen items-center justify-center` — no fixed height token.
 - Card max-width is `max-w-sm` (384px) — established by `LoginSuccessful.tsx` auth screen pattern.
+- Horizontal screen padding is `px-6` — consistent with `LoginSuccessful.tsx`.
 
-Source: `LoginSuccessful.tsx` and `BrokerageContact.tsx` spacing patterns (verified 2026-05-24)
+Source: `LoginSuccessful.tsx` spacing patterns (verified 2026-05-24)
 
 ---
 
@@ -53,18 +55,18 @@ Source: `LoginSuccessful.tsx` and `BrokerageContact.tsx` spacing patterns (verif
 
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
+| Card heading | 18px (`text-lg`) | 600 (semibold) | 1.2 |
 | Body / description | 14px (`text-sm`) | 400 (regular) | 1.5 |
-| Label / muted info | 14px (`text-sm`) | 400 (regular) | 1.5 |
-| Card title / heading | 18px (`text-lg`) | 600 (semibold) | 1.2 |
-| Status / emphasis | 16px (`text-base`) | 600 (semibold) | 1.4 |
+| Muted info / sub-copy | 14px (`text-sm`) | 400 (regular) | 1.5 |
+| Link / action text | 14px (`text-sm`) | 400 (regular) | 1.5 |
 
 Notes:
-- Card title uses `font-semibold text-foreground` — matches `CardTitle` shadcn default.
-- Description text uses `text-muted-foreground text-sm` — matches `CardDescription` shadcn default.
-- No display/hero typography in this phase — all screens are compact centered cards.
-- Font weight is constrained to exactly 2: 400 (regular) and 600 (semibold).
+- Font weight is constrained to exactly 2: 400 (regular) and 600 (semibold). No 500/700.
+- Card headings use `text-lg font-semibold text-foreground` — mirrors `LoginSuccessful.tsx` exactly.
+- Description text uses `text-sm text-muted-foreground` — mirrors `LoginSuccessful.tsx` exactly.
+- No display/hero typography in this phase — all new screens are compact centered cards.
 
-Source: `LoginSuccessful.tsx` existing UI pattern (verified 2026-05-24)
+Source: `LoginSuccessful.tsx` existing UI (verified 2026-05-24)
 
 ---
 
@@ -72,17 +74,37 @@ Source: `LoginSuccessful.tsx` existing UI pattern (verified 2026-05-24)
 
 | Role | Value | Usage |
 |------|-------|-------|
-| Dominant (60%) | `--background` (oklch 1 0 0 — white) | Full-page background (`bg-background`) |
-| Secondary (30%) | `--card` (oklch 1 0 0) + `--border` | Card surfaces, card borders (`bg-card border border-border`) |
-| Accent (10%) | `--primary` (oklch 0.21 0.006 285.885 — near-black) | Sign Out button fill, sign-in link hover |
-| Destructive | `--destructive` (oklch 0.577 0.245 27.325 — red) | Error state icon (`text-destructive`) |
+| Dominant (60%) | `--background` (oklch 1 0 0 — white in light mode) | Full-page background (`bg-background`) |
+| Secondary (30%) | `--card` (oklch 1 0 0) + `--border` | Card surface and border (`bg-card border border-border`) |
+| Accent (10%) | `--primary` (oklch 0.21 0.006 285.885 — near-black) | Sign Out button fill; spinner border-top; back-to-sign-in link |
+| Destructive | `--destructive` (oklch 0.577 0.245 27.325 — red) | Error icon (`text-destructive`), error text — existing states only |
 
 Accent reserved for:
-1. The primary `Button` (Sign Out) in `NoAccess.tsx` — `bg-primary text-primary-foreground`
-2. Back-to-sign-in link in `LoginSuccessful` error state — `text-primary hover:underline`
-3. Spinner border-top in `LoginSuccessful` loading state — `border-t-primary`
+1. The Sign Out `Button` (default variant) in `NoAccess.tsx` — `bg-primary text-primary-foreground`
+2. Spinner `border-t-primary` in `LoginSuccessful.tsx` loading state — existing, do not change
+3. Back-to-sign-in `<a>` in `LoginSuccessful.tsx` error state — `text-primary hover:underline` — existing, do not change
 
-Source: CSS variables from `frontend/src/index.css` (verified 2026-05-24); shadcn preset zinc
+Source: CSS variables from `frontend/src/index.css`; shadcn preset zinc (verified 2026-05-24)
+
+---
+
+## Card Pattern (CRITICAL)
+
+Phase 16 introduces two new screens. Both must follow the **raw div card pattern** established by `LoginSuccessful.tsx`, not the shadcn `<Card>` component pattern used by `BrokerageContact.tsx`.
+
+**Rationale:** `NoAccess.tsx` and `DashboardPlaceholder.tsx` are post-login transient destination screens — semantically they belong to the auth callback flow where the user lands immediately after sign-in and has no app shell. `LoginSuccessful.tsx` is the closest sibling in terms of position in the user journey. Visual consistency requires matching its exact card construction.
+
+### Required card markup pattern
+
+```tsx
+<div className="flex min-h-screen items-center justify-center bg-background px-6 w-full">
+    <div className="flex w-full max-w-sm flex-col items-center gap-4 rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+        {/* card content */}
+    </div>
+</div>
+```
+
+Do NOT use `<Card>`, `<CardHeader>`, `<CardTitle>`, `<CardDescription>`, or `<CardContent>` for these two components. The `BrokerageContact.tsx` Card pattern is appropriate for access-gated content screens (user is in an app context), not for auth-destination screens.
 
 ---
 
@@ -92,9 +114,8 @@ Source: CSS variables from `frontend/src/index.css` (verified 2026-05-24); shadc
 
 | Component | Import Path | Used In |
 |-----------|-------------|---------|
-| `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent` | `@/components/ui/card` | `NoAccess.tsx`, `DashboardPlaceholder.tsx` |
 | `Button` | `@/components/ui/button` | `NoAccess.tsx` Sign Out button |
-| `AlertCircle` (lucide) | `lucide-react` | Already in `LoginSuccessful.tsx` error state |
+| `AlertCircle` (lucide) | `lucide-react` | Existing in `LoginSuccessful.tsx` error state — do not add to new screens |
 | `MainDomainOnly` | `@/components/common/guards/DomainGuard` | `main.tsx` wraps portal routes |
 | `ProtectedRoute` | `@/components/common/guards/ProtectedRoute` | `main.tsx` wraps `/dashboard` tree |
 
@@ -102,8 +123,8 @@ Source: CSS variables from `frontend/src/index.css` (verified 2026-05-24); shadc
 
 | Component | Path | Description |
 |-----------|------|-------------|
-| `NoAccess` | `src/containers/portal/NoAccess.tsx` | No-admin-role screen. Card + Sign Out button. |
-| `DashboardPlaceholder` | `src/containers/portal/DashboardPlaceholder.tsx` | Minimal placeholder rendered for all `/dashboard/*` routes. Replaced in Phase 18. |
+| `NoAccess` | `src/containers/portal/NoAccess.tsx` | No-admin-role terminal screen. Raw div card + Sign Out button. Uses `LoginSuccessful` card pattern. |
+| `DashboardPlaceholder` | `src/containers/portal/DashboardPlaceholder.tsx` | Minimal placeholder for all `/dashboard/*` routes. Raw div card. No actions. Replaced entirely in Phase 18. |
 
 ---
 
@@ -111,41 +132,39 @@ Source: CSS variables from `frontend/src/index.css` (verified 2026-05-24); shadc
 
 ### Screen 1: No-Access Screen (`/no-access`)
 
-**Layout:** Full viewport centered. `flex min-h-screen items-center justify-center bg-background px-6`
+**Purpose:** Terminal landing for authenticated users with no admin/owner roles anywhere.
 
-**Card:** `w-full max-w-sm` — matches all existing auth screens exactly.
+**Layout:** `flex min-h-screen items-center justify-center bg-background px-6 w-full`
 
-**Structure (top to bottom inside card):**
-1. `CardHeader` with `text-center` class
-   - `CardTitle`: "No Admin Access"
-   - `CardDescription`: "Your account doesn't have admin access to any brokerage. Please sign in directly at your brokerage URL."
-2. `CardContent`
-   - `Button` full-width (`w-full`): "Sign Out"
-   - Button variant: default (filled, uses `--primary`)
-   - Button action: Amplify `signOut({ global: true })` + `clearToken()` + `window.location.href = '/auth/login'`
+**Card:** `flex w-full max-w-sm flex-col items-center gap-4 rounded-2xl border border-border bg-card p-8 text-center shadow-sm`
 
-**No icon in card header** — card title alone provides sufficient context. Keeps design consistent with `BrokerageContact.tsx` pattern which omits icons.
+**Structure (top to bottom):**
+1. Heading div: `text-lg font-semibold text-foreground` — "No Admin Access"
+2. Description div: `text-sm text-muted-foreground` — "Your account doesn't have admin access to any brokerage. Please sign in directly at your brokerage URL."
+3. `Button` full-width (`w-full`), default variant — "Sign Out"
+   - Action: `await signOut({ global: true }).catch(() => null)` → `clearToken()` → `window.location.href = '/auth/login'`
 
-**No loading or error sub-states** — this screen is stateless. It renders once and never fetches data.
+**No icon** in this screen — the message is sufficient without an icon. Adding an icon would require a destructive/warning color that is not warranted here (no error occurred; the user simply lacks the role). Keep consistent with how `LoginSuccessful` loading state omits icons.
 
-Source: D-07 from 16-CONTEXT.md + `BrokerageContact.tsx` visual pattern (verified 2026-05-24)
+**No loading or error sub-states** — this screen is static. It renders once, never fetches data.
+
+Source: D-07, D-08 from 16-CONTEXT.md + `LoginSuccessful.tsx` card structure (verified 2026-05-24)
 
 ---
 
 ### Screen 2: Dashboard Placeholder (`/dashboard/*`)
 
-**Layout:** Full viewport centered. `flex min-h-screen items-center justify-center bg-background px-6`
+**Purpose:** Minimal holding page proving `/dashboard/*` routes render correctly. Replaced entirely in Phase 18.
 
-**Card:** `w-full max-w-sm` — matches all existing auth screens.
+**Layout:** `flex min-h-screen items-center justify-center bg-background px-6 w-full`
 
-**Structure (top to bottom inside card):**
-1. `CardHeader` with `text-center` class
-   - `CardTitle`: "Admin Portal"
-   - `CardDescription`: "Your brokerage dashboard is being prepared."
-2. `CardContent`
-   - Single centered line: `text-sm text-muted-foreground` — "Full dashboard coming soon."
+**Card:** `flex w-full max-w-sm flex-col items-center gap-4 rounded-2xl border border-border bg-card p-8 text-center shadow-sm`
 
-**No button, no spinner, no action** — pure informational placeholder per D-09. Phase 18 replaces this component entirely.
+**Structure (top to bottom):**
+1. Heading div: `text-lg font-semibold text-foreground` — "Admin Portal"
+2. Description div: `text-sm text-muted-foreground` — "Your brokerage dashboard is being prepared."
+
+**No button, no spinner, no action.** Pure static informational placeholder per D-09.
 
 Source: D-09 from 16-CONTEXT.md (verified 2026-05-24)
 
@@ -153,7 +172,12 @@ Source: D-09 from 16-CONTEXT.md (verified 2026-05-24)
 
 ### Screen 3: Loading State in `LoginSuccessful` (main domain branch)
 
-**No new UI required.** The existing spinner card in `LoginSuccessful.tsx` persists during the `fetchAdminBrokerages()` call. The existing copy ("Finalizing your sign-in" + "Loading your profile and workspace…") remains unchanged.
+**No new UI.** The existing spinner card persists during the `fetchAdminBrokerages()` API call.
+
+Existing copy is unchanged:
+- Heading: "Finalizing your sign-in"
+- Body: "Loading your profile and workspace…"
+- Spinner: `h-12 w-12 animate-spin rounded-full border-4 border-primary/20 border-t-primary`
 
 Source: D-03 from 16-CONTEXT.md + existing `LoginSuccessful.tsx` (verified 2026-05-24)
 
@@ -161,7 +185,13 @@ Source: D-03 from 16-CONTEXT.md + existing `LoginSuccessful.tsx` (verified 2026-
 
 ### Screen 4: Error State in `LoginSuccessful` (main domain branch)
 
-**No new UI required.** The existing error card in `LoginSuccessful.tsx` renders when the API call fails. Copy unchanged: "Something went wrong" + "We couldn't complete your sign-in. Please try again."
+**No new UI.** The existing error card renders when the `fetchAdminBrokerages()` API call fails (network error or 500).
+
+Existing copy is unchanged:
+- Icon: `AlertCircle` `h-12 w-12 text-destructive`
+- Heading: "Something went wrong"
+- Body: "We couldn't complete your sign-in. Please try again."
+- Link: "Back to sign in" — `href="/"` `text-sm text-primary underline-offset-4 hover:underline`
 
 Source: D-04 from 16-CONTEXT.md + existing `LoginSuccessful.tsx` (verified 2026-05-24)
 
@@ -169,15 +199,17 @@ Source: D-04 from 16-CONTEXT.md + existing `LoginSuccessful.tsx` (verified 2026-
 
 ## Interaction Contracts
 
-### Interaction 1: Sign Out from No-Access
+### Interaction 1: Sign Out from No-Access Screen
 
 | State | Visual |
 |-------|--------|
-| Idle | Button: "Sign Out" — default variant, full width |
-| Loading (after click) | No spinner needed — `window.location.href` navigates immediately after async sign-out. If needed, button disabled during `await signOut()`. |
-| Complete | Redirects to `/auth/login` via `window.location.href` |
+| Idle | `Button` "Sign Out" — default variant, `w-full` |
+| During sign-out | Button `disabled` while `await signOut(...)` resolves — prevents double-tap |
+| Complete | Page navigates via `window.location.href = '/auth/login'` |
 
-Sign-out sequence: `await signOut({ global: true }).catch(() => null)` → `clearToken()` → `window.location.href = '/auth/login'`
+Implementation: wrap the handler in `useState(false)` loading guard, set `disabled={loading}` on the Button. Prevents multiple sign-out attempts.
+
+Sign-out sequence (exact): `await signOut({ global: true }).catch(() => null)` → `clearToken()` → `window.location.href = '/auth/login'`
 
 Source: `BrokerageContact.tsx` sign-out pattern (verified 2026-05-24)
 
@@ -185,21 +217,22 @@ Source: `BrokerageContact.tsx` sign-out pattern (verified 2026-05-24)
 
 ### Interaction 2: Unauthenticated access to `/dashboard/*`
 
-No UI component — handled by `ProtectedRoute` which calls `navigate('/auth/login', { state: { from: location } })`. User sees the existing login page. No new screen needed.
+No UI component change — handled entirely by `ProtectedRoute` which calls `navigate('/auth/login', { state: { from: location } })`. User sees the existing login page. No new screen.
 
 Source: D-10 from 16-CONTEXT.md (verified 2026-05-24)
 
 ---
 
-### Interaction 3: Post-login routing decision
+### Interaction 3: Post-login routing decision (invisible to user)
 
-Invisible to the user — happens inside `LoginSuccessful.tsx` while the spinner is showing. No visual transition. The spinner card holds during the API call, then `navigate()` replaces it.
+Spinner card holds during the API call. No visual transition. `navigate()` replaces the spinner card.
 
-States:
-- API in-flight → existing spinner card (no change)
-- API success, ≥1 brokerage → `navigate('/dashboard', { replace: true })`
-- API success, 0 brokerages → `navigate('/no-access', { replace: true })`
-- API failure → `setError(true)` → existing error card (no change)
+| Branch | Trigger | Outcome |
+|--------|---------|---------|
+| API in-flight | After `setToken(token)` on main domain | Existing spinner card (unchanged) |
+| API success, `adminBrokerages.length >= 1` | Non-empty array | `navigate('/dashboard', { replace: true })` |
+| API success, `adminBrokerages.length === 0` | Empty array | `navigate('/no-access', { replace: true })` |
+| API failure (any error) | `.catch()` | `setError(true)` → existing error card (unchanged) |
 
 Source: D-03 through D-06 from 16-CONTEXT.md (verified 2026-05-24)
 
@@ -207,21 +240,20 @@ Source: D-03 through D-06 from 16-CONTEXT.md (verified 2026-05-24)
 
 ## Copywriting Contract
 
-| Element | Copy |
-|---------|------|
-| No-access card title | No Admin Access |
-| No-access card description | Your account doesn't have admin access to any brokerage. Please sign in directly at your brokerage URL. |
-| No-access primary CTA | Sign Out |
-| Dashboard placeholder title | Admin Portal |
-| Dashboard placeholder description | Your brokerage dashboard is being prepared. |
-| Dashboard placeholder body | Full dashboard coming soon. |
-| Loading state heading (existing — do not change) | Finalizing your sign-in |
-| Loading state body (existing — do not change) | Loading your profile and workspace… |
-| Error state heading (existing — do not change) | Something went wrong |
-| Error state body (existing — do not change) | We couldn't complete your sign-in. Please try again. |
-| Error state link (existing — do not change) | Back to sign in |
+| Element | Copy | Status |
+|---------|------|--------|
+| No-access card heading | No Admin Access | New |
+| No-access card body | Your account doesn't have admin access to any brokerage. Please sign in directly at your brokerage URL. | New (D-07) |
+| No-access primary CTA | Sign Out | New |
+| Dashboard placeholder heading | Admin Portal | New |
+| Dashboard placeholder body | Your brokerage dashboard is being prepared. | New |
+| Loading state heading | Finalizing your sign-in | Existing — do not change |
+| Loading state body | Loading your profile and workspace… | Existing — do not change |
+| Error state heading | Something went wrong | Existing — do not change |
+| Error state body | We couldn't complete your sign-in. Please try again. | Existing — do not change |
+| Error state link | Back to sign in | Existing — do not change |
 
-Destructive actions in this phase: None. Sign Out is a session-termination action on a screen where the user has no valid session context — no confirmation dialog is needed. The user arrived here because they have no access; sign-out is the expected exit action.
+Destructive actions in this phase: None. "Sign Out" on the no-access screen is a session-termination action, not a destructive data operation. No confirmation dialog required — the user has no valid session context; sign-out is the only exit path and the expected action.
 
 ---
 
@@ -231,35 +263,38 @@ Destructive actions in this phase: None. Sign Out is a session-termination actio
 
 | State | Trigger | Visual |
 |-------|---------|--------|
-| Default | Always | Card with title + description + Sign Out button |
+| Default | Always | Card with heading + body + Sign Out button |
+| Sign-out pending | Button clicked | Button `disabled` during `await signOut()` |
 
-No empty state, no loading state, no error state — component is static.
+No empty state, no data-loading state, no error state.
 
 ### `DashboardPlaceholder.tsx`
 
 | State | Trigger | Visual |
 |-------|---------|--------|
-| Default | Always | Card with "Admin Portal" title + placeholder copy |
+| Default | Always | Card with "Admin Portal" heading + body |
 
-No empty state, no loading state, no error state — component is static.
+No empty state, no loading state, no error state — fully static.
 
-### `LoginSuccessful.tsx` (modified)
+### `LoginSuccessful.tsx` (modified — new main-domain branch only)
 
 | State | Trigger | Visual |
 |-------|---------|--------|
-| Loading | On mount (subdomain: until navigate; main domain: until API resolves) | Spinner card — EXISTING, unchanged |
-| Error | Token missing OR API failure | Error card with AlertCircle icon — EXISTING, unchanged |
+| Loading | On mount — token parse + API call in progress | Existing spinner card — unchanged |
+| Error | Token missing OR API failure (network/500) | Existing error card with AlertCircle — unchanged |
+| (Navigation) | API resolves | Component unmounts — no visible state |
 
 ---
 
 ## Accessibility
 
-- All cards use semantic HTML — `CardTitle` maps to `<h3>` via shadcn, `CardDescription` to `<p>`.
-- Sign Out button is a native `<button>` — keyboard accessible, focus ring via `outline-ring/50` (global base style from `index.css`).
-- `AlertCircle` icon in error state is decorative only — no `aria-label` needed; adjacent text provides meaning.
-- No focus trapping required — neither screen has modals or overlays.
+- All heading divs carry readable text — screen readers announce headings in document order. No `role` or `aria-label` needed beyond the native text.
+- Sign Out `Button` is a native `<button>` (via shadcn) — keyboard accessible, visible focus ring via global `outline-ring/50` base style.
+- Error state `AlertCircle` icon in `LoginSuccessful` is decorative — adjacent text provides meaning. No `aria-label` needed.
+- No modals, overlays, or focus traps in this phase.
 - Color contrast: `text-foreground` on `bg-card` (near-black on white) exceeds WCAG AA 4.5:1.
-- `text-muted-foreground` (oklch 0.552) on white background — verified sufficient contrast for 14px text.
+- `text-muted-foreground` (oklch ~0.552) on white background — sufficient for 14px regular text at WCAG AA.
+- `Button` disabled state sets `opacity-50` via shadcn — meets AA contrast for inactive controls (not required to meet 4.5:1 for disabled state per WCAG 1.4.3 exception).
 
 ---
 
@@ -267,9 +302,9 @@ No empty state, no loading state, no error state — component is static.
 
 | Registry | Blocks Used | Safety Gate |
 |----------|-------------|-------------|
-| shadcn official | Card, Button (already installed — no new install) | not required |
+| shadcn official | Card (existing install — not used in new screens), Button (existing install) | not required |
 
-No third-party registries. All components are either shadcn official (already installed) or hand-authored project components.
+No third-party registries. All new components are hand-authored using existing installed primitives.
 
 Source: `frontend/components.json` — `registries: {}` (verified 2026-05-24)
 
