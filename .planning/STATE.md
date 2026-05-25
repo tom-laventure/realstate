@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.4
-milestone_name: Main Domain Admin Portal
+milestone_name: — Main Domain Admin Portal
 status: executing
-stopped_at: Phase 16 context gathered — ready to plan
-last_updated: "2026-05-25T05:57:19.385Z"
+stopped_at: Completed 16-01-PLAN.md
+last_updated: "2026-05-25T06:09:37.610Z"
 last_activity: 2026-05-25 -- Phase 16 planning complete
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 4
-  completed_plans: 2
-  percent: 50
+  completed_plans: 3
+  percent: 75
 ---
 
 # Project State
@@ -53,6 +53,7 @@ Progress: [██░░░░░░░░] 25%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 16 P01 | 4min | 4 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - 15-01: main_domain_request? calls extract_domain_from_request rather than duplicating URI.parse — single source of truth
 - 15-02: AdminBrokeragesController excludes BrokerageAuth — cross-brokerage endpoint uses MainDomainOnly + CognitoAuth only
 - 15-02: Inline render (no serializer) for simple flat list response
+- [Phase ?]: 16-01-A: useFetchAdminBrokerages is imperative passthrough (not useQuery) — fire-once lifecycle hook for LoginSuccessful
+- [Phase ?]: 16-01-B: noAccess route has no ProtectedRoute — avoids redirect loop for unauthenticated users on /no-access
+- [Phase ?]: 16-01-C: Portal components use raw div card pattern (not shadcn Card) per UI-SPEC.md contract and consistency with LoginSuccessful
 
 ### Code Review Findings (carry-forward)
 
@@ -90,6 +94,6 @@ None — Phase 15 complete, ready to plan Phase 16.
 
 ## Session Continuity
 
-Last session: 2026-05-24
-Stopped at: Phase 16 context gathered — ready to plan
+Last session: 2026-05-25T06:09:37.607Z
+Stopped at: Completed 16-01-PLAN.md
 Resume file: None
