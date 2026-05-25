@@ -60,7 +60,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 
 **Milestone Goal:** Give brokerage admins a main-domain portal where they can manage all their brokerages in one place — without relying on individual subdomain URLs.
 
-- [ ] **Phase 15: Backend API & BrokerageAuth Extension** - New admin_brokerages endpoint + X-Brokerage-Id header resolution
+- [x] **Phase 15: Backend API & BrokerageAuth Extension** - New admin_brokerages endpoint + X-Brokerage-Id header resolution — completed 2026-05-24
 - [ ] **Phase 16: Main Domain Routing & Auth Guards** - /dashboard/* routes, sign-in routing, no-access screen
 - [ ] **Phase 17: Brokerage Selection & Post-Create Redirect** - Selection screen, auto-select, post-wizard redirect
 - [ ] **Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher** - Full dashboard UI with brokerage context and nav switcher
@@ -75,7 +75,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
   1. Authenticated admin calling `GET /v1/account/admin_brokerages` from the main domain receives a list of brokerage records (name, id, role) covering all brokerages where they hold admin or owner role
   2. An existing `/v1/admin/**` endpoint called from the main domain with a valid `X-Brokerage-Id` header returns the correct brokerage-scoped data (same response as if called from that brokerage's subdomain)
   3. An existing `/v1/admin/**` endpoint called from the main domain without an `X-Brokerage-Id` header returns HTTP 400 Bad Request (not a 500 or silent resolution failure)
-**Plans**: TBD
+**Plans**: 2/2 complete — 2026-05-24
 
 ### Phase 16: Main Domain Routing & Auth Guards
 **Goal**: The main domain serves a `/dashboard/*` route tree, sign-in correctly routes authenticated users to the admin portal or a no-access screen, and unauthenticated users cannot reach dashboard pages
@@ -130,7 +130,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 12. Board Connect Flow — Backend | v1.3 | 3/3 | Complete | 2026-05-23 |
 | 13. Board Connect Flow — Frontend | v1.3 | 2/2 | Complete | 2026-05-24 |
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |
-| 15. Backend API & BrokerageAuth Extension | v1.4 | 0/TBD | Not started | - |
+| 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 0/TBD | Not started | - |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 0/TBD | Not started | - |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |
