@@ -83,7 +83,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 **Requirements**: PORTAL-01, AUTH-05, AUTH-06, AUTH-07
 **Success Criteria** (what must be TRUE):
   1. Navigating to any `/dashboard/*` URL on the main domain renders the portal shell (no 404, no redirect to `/create`)
-  2. A user who signs in on the main domain and holds at least one admin or owner role is redirected to the brokerage selection screen
+  2. A user who signs in on the main domain and holds at least one admin or owner role is redirected to /dashboard (brokerage selection placeholder — full selection screen ships in Phase 17 per D-05)
   3. A user who signs in on the main domain with no admin roles anywhere sees a no-access screen explaining they must use their brokerage subdomain
   4. An unauthenticated user who navigates directly to any `/dashboard/*` URL is redirected to the sign-in page
 **Plans**: TBD

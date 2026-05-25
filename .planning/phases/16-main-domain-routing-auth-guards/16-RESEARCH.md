@@ -513,7 +513,7 @@ export default NoAccess
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Does `ProtectedRoute` need to be duplicated as `MainProtectedRoute` for domain scoping?**
    - What we know: D-10 says "existing `ProtectedRoute` component (or a new `MainProtectedRoute` if domain scoping is needed)"
