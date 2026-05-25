@@ -5,7 +5,7 @@ milestone_name: Main Domain Admin Portal
 status: ready_to_plan
 stopped_at: ""
 last_updated: "2026-05-24T00:00:00Z"
-last_activity: 2026-05-24 -- Phase 15 complete — BrokerageAuth extension + admin_brokerages endpoint (BE-01, BE-02, BE-03)
+last_activity: 2026-05-24 -- Phase 16 context gathered — Main Domain Routing & Auth Guards (PORTAL-01, AUTH-05, AUTH-06, AUTH-07)
 progress:
   total_phases: 4
   completed_phases: 1
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 Phase: 16 of 18 (Main Domain Routing & Auth Guards)
 Plan: —
 Status: Ready to plan
-Last activity: 2026-05-24 — Phase 15 complete: BrokerageAuth extension + admin_brokerages endpoint (BE-01, BE-02, BE-03 ✓)
+Last activity: 2026-05-24 — Phase 16 context gathered (PORTAL-01, AUTH-05, AUTH-06, AUTH-07 ✓)
 
 Progress: [██░░░░░░░░] 25%
 
@@ -90,5 +90,5 @@ None — Phase 15 complete, ready to plan Phase 16.
 ## Session Continuity
 
 Last session: 2026-05-24
-Stopped at: Phase 15 UAT complete (4/4 pass) — factory fix applied (verified: true default) — ready to plan Phase 16
+Stopped at: Phase 16 context gathered — ready to plan
 Resume file: None
