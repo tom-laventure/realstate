@@ -62,7 +62,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 
 - [x] **Phase 15: Backend API & BrokerageAuth Extension** - New admin_brokerages endpoint + X-Brokerage-Id header resolution — completed 2026-05-24
 - [x] **Phase 16: Main Domain Routing & Auth Guards** - /dashboard/* routes, sign-in routing, no-access screen — completed 2026-05-25
-- [ ] **Phase 17: Brokerage Selection & Post-Create Redirect** - Selection screen, auto-select, post-wizard redirect
+- [x] **Phase 17: Brokerage Selection & Post-Create Redirect** - Selection screen, auto-select, post-wizard redirect (completed 2026-05-26)
 - [ ] **Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher** - Full dashboard UI with brokerage context and nav switcher
 
 ## Phase Details
@@ -102,8 +102,8 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
   - [x] 17-01-PLAN.md — Create activeBrokerage Redux slice + register in root store + wire into renderWithProviders
 
 **Wave 2** *(blocked on Wave 1 completion)*
-  - [ ] 17-02-PLAN.md — BrokerageSelection container + PortalShell container + portal route updates (BROK-01, BROK-02)
-  - [ ] 17-03-PLAN.md — LoginSuccessful dispatch + SuccessStep main-domain redirect (D-03, ONB-04)
+  - [x] 17-02-PLAN.md — BrokerageSelection container + PortalShell container + portal route updates (BROK-01, BROK-02)
+  - [x] 17-03-PLAN.md — LoginSuccessful dispatch + SuccessStep main-domain redirect (D-03, ONB-04)
 
 **Cross-cutting constraints:**
   - All portal components must use raw div card pattern (not shadcn Card) — D-10, established in Phase 16
@@ -142,5 +142,5 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
-| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 1/3 | In Progress|  |
+| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete   | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |
