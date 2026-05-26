@@ -142,5 +142,5 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
-| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete   | 2026-05-26 |
+| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete    | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |

@@ -20,8 +20,8 @@
 
 ## Brok — Brokerage Selection & Switching
 
-- [ ] **BROK-01**: User can see a card per brokerage they admin (with brokerage name and role) on the brokerage selection screen
-- [ ] **BROK-02**: User admining exactly one brokerage bypasses the selection screen and lands directly on the dashboard
+- [x] **BROK-01**: User can see a card per brokerage they admin (with brokerage name and role) on the brokerage selection screen
+- [x] **BROK-02**: User admining exactly one brokerage bypasses the selection screen and lands directly on the dashboard
 - [ ] **BROK-03**: User can switch the active brokerage via a dropdown in the nav bar without leaving the current page
 - [ ] **BROK-04**: Switching brokerage via the nav dropdown updates all visible admin panel data to the newly selected brokerage
 
@@ -33,7 +33,7 @@
 
 ## ONB — Post-Create Flow
 
-- [ ] **ONB-04**: User completing the brokerage creation wizard is redirected to the main domain dashboard with the newly created brokerage auto-selected
+- [x] **ONB-04**: User completing the brokerage creation wizard is redirected to the main domain dashboard with the newly created brokerage auto-selected
 
 ---
 
