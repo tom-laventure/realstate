@@ -99,7 +99,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 **Plans**: 3 plans
 
 **Wave 1** *(no dependencies)*
-  - [ ] 17-01-PLAN.md — Create activeBrokerage Redux slice + register in root store + wire into renderWithProviders
+  - [x] 17-01-PLAN.md — Create activeBrokerage Redux slice + register in root store + wire into renderWithProviders
 
 **Wave 2** *(blocked on Wave 1 completion)*
   - [ ] 17-02-PLAN.md — BrokerageSelection container + PortalShell container + portal route updates (BROK-01, BROK-02)
@@ -142,5 +142,5 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
-| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 0/3 | Not started | - |
+| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 1/3 | In Progress|  |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |
