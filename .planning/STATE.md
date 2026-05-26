@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: — Main Domain Admin Portal
 status: executing
-stopped_at: Completed 16-01-PLAN.md
-last_updated: "2026-05-25T06:09:37.610Z"
-last_activity: 2026-05-25 -- Phase 16 planning complete
+stopped_at: "Checkpoint:human-verify — Task 3 of 16-02-PLAN.md. Tasks 1+2 complete."
+last_updated: "2026-05-26T01:20:00Z"
+last_activity: 2026-05-26 -- Phase 16 Plan 02 tasks 1+2 complete, paused at human-verify checkpoint
 progress:
   total_phases: 4
   completed_phases: 1
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 ## Current Position
 
 Phase: 16 of 18 (Main Domain Routing & Auth Guards)
-Plan: —
-Status: Ready to execute
-Last activity: 2026-05-25 -- Phase 16 planning complete
+Plan: 02 (paused at checkpoint:human-verify — Task 3)
+Status: Awaiting human verification
+Last activity: 2026-05-26 -- Phase 16 Plan 02 tasks 1+2 complete, paused at human-verify checkpoint
 
 Progress: [██░░░░░░░░] 25%
 
@@ -54,6 +54,7 @@ Progress: [██░░░░░░░░] 25%
 
 *Updated after each plan completion*
 | Phase 16 P01 | 4min | 4 tasks | 6 files |
+| Phase 16 P02 | 1min | 2 tasks | 2 files | (paused at checkpoint)
 
 ## Accumulated Context
 
@@ -68,6 +69,9 @@ Recent decisions affecting current work:
 - [Phase ?]: 16-01-A: useFetchAdminBrokerages is imperative passthrough (not useQuery) — fire-once lifecycle hook for LoginSuccessful
 - [Phase ?]: 16-01-B: noAccess route has no ProtectedRoute — avoids redirect loop for unauthenticated users on /no-access
 - [Phase ?]: 16-01-C: Portal components use raw div card pattern (not shadcn Card) per UI-SPEC.md contract and consistency with LoginSuccessful
+- 16-02-A: LoginSuccessful calls useFetchAdminBrokerages() at component top level, invokes inside useEffect — Rules of Hooks compliance with fire-once semantics
+- 16-02-B: setToken(token) placed before fetchAdminBrokerages() call — axios interceptor reads localStorage auth_token; reversed order causes 401
+- 16-02-C: auth route at top-level in createBrowserRouter array — enables /auth/login on both main domain and subdomains (D-01)
 
 ### Code Review Findings (carry-forward)
 
@@ -94,6 +98,6 @@ None — Phase 15 complete, ready to plan Phase 16.
 
 ## Session Continuity
 
-Last session: 2026-05-25T06:09:37.607Z
-Stopped at: Completed 16-01-PLAN.md
+Last session: 2026-05-26T01:20:00Z
+Stopped at: Checkpoint:human-verify — Task 3 of 16-02-PLAN.md. Tasks 1+2 committed. Awaiting human verification of 8 routing scenarios.
 Resume file: None
