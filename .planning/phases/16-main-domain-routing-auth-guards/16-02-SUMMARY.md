@@ -30,6 +30,7 @@ key-files:
   modified:
     - frontend/src/containers/auth/LoginSuccessful.tsx
     - frontend/src/router/main.tsx
+    - frontend/src/containers/auth/Login.tsx
 
 key-decisions:
   - "16-02-A: LoginSuccessful calls useFetchAdminBrokerages() at component top level and invokes the returned function inside useEffect — satisfies React Rules of Hooks while preserving fire-once semantics"
@@ -87,7 +88,9 @@ Task 3 (checkpoint:human-verify) — pending human verification.
 
 ## Deviations from Plan
 
-None — both files were already correctly implemented by a prior execution of this plan. All acceptance criteria passed on initial verification. Build succeeded without modification.
+**Login.tsx added to scope (unplanned file):** The plan covered `LoginSuccessful.tsx` (OAuth/hosted-UI redirect flow) and `main.tsx`. During human verification (Scenario C), no call to `GET /v1/account/admin_brokerages` appeared in the Network tab. Root cause: the standard email/password sign-in flow uses `CreateAccount` → `signIn.ts` → `setToken()` → `onAuthenticated()`, bypassing `LoginSuccessful.tsx` entirely. `Login.tsx`'s `onAuthenticated` was just doing `navigate(from, { replace: true })` without any admin-brokerages check.
+
+Fix: added `isMainDomain` + `useFetchAdminBrokerages` to `Login.tsx`, with the same domain-branching logic as `LoginSuccessful.tsx`. The token is already set by `signIn.ts` before `onAuthenticated` fires, so the API call is safe. Commit: `c4fa826`.
 
 ## Issues Encountered
 
@@ -127,10 +130,10 @@ All Task 2 acceptance criteria: PASS
 
 | Requirement | Verification Scenario | Status |
 |-------------|----------------------|--------|
-| PORTAL-01 | Scenario A: /dashboard/* renders portal placeholder on main domain | Pending human-verify (Task 3) |
-| AUTH-05 | Scenario C: Main domain login with ≥1 admin role → /dashboard | Pending human-verify (Task 3) |
-| AUTH-06 | Scenario D: Main domain login with 0 admin roles → /no-access | Pending human-verify (Task 3) |
-| AUTH-07 | Scenario B: Unauthenticated /dashboard redirects to /auth/login | Pending human-verify (Task 3) |
+| PORTAL-01 | Scenario A: /dashboard/* renders portal placeholder on main domain | ✓ Verified |
+| AUTH-05 | Scenario C: Main domain login with ≥1 admin role → /dashboard | ✓ Verified (after Login.tsx deviation) |
+| AUTH-06 | Scenario D: Main domain login with 0 admin roles → /no-access | ✓ Verified |
+| AUTH-07 | Scenario B: Unauthenticated /dashboard redirects to /auth/login | ✓ Verified |
 
 ## User Setup Required
 
@@ -148,5 +151,9 @@ Pending Task 3 checkpoint verification. After human verification passes:
 - `DashboardPlaceholder.tsx` (created in Plan 01) — the entire component is an intentional static placeholder rendering "Admin Portal — Your brokerage dashboard is being prepared." Phase 18 replaces this with the real brokerage selection and portal shell. The plan explicitly sanctions this stub as the Phase 16 deliverable per D-05.
 
 ---
+## Self-Check: PASSED
+
+All 8 human-verify scenarios passed. PORTAL-01, AUTH-05, AUTH-06, AUTH-07 confirmed in browser.
+
 *Phase: 16-main-domain-routing-auth-guards*
 *Completed: 2026-05-25*
