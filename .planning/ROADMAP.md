@@ -96,7 +96,10 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
   1. An admin with multiple brokerages sees one card per brokerage on the selection screen, each showing the brokerage name and the user's role in that brokerage
   2. An admin who manages exactly one brokerage is automatically redirected to the dashboard without seeing the selection screen
   3. A user who completes the brokerage creation wizard lands on the main domain dashboard with the newly created brokerage already selected as the active context
-**Plans**: TBD
+**Plans**: 3 plans
+  - [ ] 17-01-PLAN.md — Create activeBrokerage Redux slice + register in root store + wire into renderWithProviders
+  - [ ] 17-02-PLAN.md — BrokerageSelection container + PortalShell container + portal route updates (BROK-01, BROK-02)
+  - [ ] 17-03-PLAN.md — LoginSuccessful dispatch + SuccessStep main-domain redirect (D-03, ONB-04)
 **UI hint**: yes
 
 ### Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher
@@ -131,5 +134,5 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
-| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 0/TBD | Not started | - |
+| 17. Brokerage Selection & Post-Create Redirect | v1.4 | 0/3 | Not started | - |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |
