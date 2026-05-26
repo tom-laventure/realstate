@@ -114,6 +114,10 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ BE-02: `BrokerageAuth` resolves `Current.brokerage` from `X-Brokerage-Id` header on main-domain requests — v1.4 Phase 15
 - ✓ BE-03: Main-domain `/v1/admin/**` requests without `X-Brokerage-Id` header return HTTP 400 — v1.4 Phase 15
 
+- ✓ BROK-01: `BrokerageSelection` screen renders admin brokerage cards; auto-redirects on single brokerage; handles empty-Redux recovery via fetch — v1.4 Phase 17
+- ✓ BROK-02: Single-brokerage auto-redirect to `/dashboard/:brokerageId` with no flash — v1.4 Phase 17
+- ✓ ONB-04: Post-create wizard redirect to `https://{MAIN_DOMAIN}/dashboard/:brokerageId` via `SuccessStep` — v1.4 Phase 17
+
 ### Active (v1.4 — Main Domain Admin Portal)
 
 **Carry-forward from v1.0–v1.3:**
