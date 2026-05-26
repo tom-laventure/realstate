@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: — Main Domain Admin Portal
-status: executing
-stopped_at: "Checkpoint:human-verify — Task 3 of 16-02-PLAN.md. Tasks 1+2 complete."
-last_updated: "2026-05-26T01:20:00Z"
-last_activity: 2026-05-26 -- Phase 16 Plan 02 tasks 1+2 complete, paused at human-verify checkpoint
+status: ready
+stopped_at: ""
+last_updated: "2026-05-25T00:00:00Z"
+last_activity: 2026-05-25 -- Phase 16 complete (2/2 plans, all 8 verification scenarios passed)
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
-  percent: 75
+  completed_plans: 4
+  percent: 50
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-24)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.4 — Phase 16 ready to plan (Main Domain Routing & Auth Guards)
+**Current focus:** v1.4 — Phase 17 ready to plan (Brokerage Selection & Post-Create Redirect)
 
 ## Current Position
 
-Phase: 16 of 18 (Main Domain Routing & Auth Guards)
-Plan: 02 (paused at checkpoint:human-verify — Task 3)
-Status: Awaiting human verification
-Last activity: 2026-05-26 -- Phase 16 Plan 02 tasks 1+2 complete, paused at human-verify checkpoint
+Phase: 17 of 18 (Brokerage Selection & Post-Create Redirect)
+Plan: —
+Status: Ready to plan
+Last activity: 2026-05-25 -- Phase 16 complete — PORTAL-01, AUTH-05, AUTH-06, AUTH-07 verified
 
-Progress: [██░░░░░░░░] 25%
+Progress: [████░░░░░░] 50%
 
 ## Performance Metrics
 

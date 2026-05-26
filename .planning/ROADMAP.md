@@ -61,7 +61,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 **Milestone Goal:** Give brokerage admins a main-domain portal where they can manage all their brokerages in one place — without relying on individual subdomain URLs.
 
 - [x] **Phase 15: Backend API & BrokerageAuth Extension** - New admin_brokerages endpoint + X-Brokerage-Id header resolution — completed 2026-05-24
-- [ ] **Phase 16: Main Domain Routing & Auth Guards** - /dashboard/* routes, sign-in routing, no-access screen
+- [x] **Phase 16: Main Domain Routing & Auth Guards** - /dashboard/* routes, sign-in routing, no-access screen — completed 2026-05-25
 - [ ] **Phase 17: Brokerage Selection & Post-Create Redirect** - Selection screen, auto-select, post-wizard redirect
 - [ ] **Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher** - Full dashboard UI with brokerage context and nav switcher
 
@@ -86,8 +86,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
   2. A user who signs in on the main domain and holds at least one admin or owner role is redirected to /dashboard (brokerage selection placeholder — full selection screen ships in Phase 17 per D-05)
   3. A user who signs in on the main domain with no admin roles anywhere sees a no-access screen explaining they must use their brokerage subdomain
   4. An unauthenticated user who navigates directly to any `/dashboard/*` URL is redirected to the sign-in page
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 2/2 complete — 2026-05-25
 
 ### Phase 17: Brokerage Selection & Post-Create Redirect
 **Goal**: Users land on the right brokerage context after sign-in and after completing the creation wizard — one-brokerage admins skip the selection screen, multi-brokerage admins choose from cards
@@ -131,6 +130,6 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 13. Board Connect Flow — Frontend | v1.3 | 2/2 | Complete | 2026-05-24 |
 | 14. Board Credential CRUD | v1.3 | 3/3 | Complete | 2026-05-24 |
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
-| 16. Main Domain Routing & Auth Guards | v1.4 | 1/2 | In Progress|  |
+| 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 0/TBD | Not started | - |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |
