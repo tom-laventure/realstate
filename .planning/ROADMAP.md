@@ -97,9 +97,17 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
   2. An admin who manages exactly one brokerage is automatically redirected to the dashboard without seeing the selection screen
   3. A user who completes the brokerage creation wizard lands on the main domain dashboard with the newly created brokerage already selected as the active context
 **Plans**: 3 plans
+
+**Wave 1** *(no dependencies)*
   - [ ] 17-01-PLAN.md — Create activeBrokerage Redux slice + register in root store + wire into renderWithProviders
+
+**Wave 2** *(blocked on Wave 1 completion)*
   - [ ] 17-02-PLAN.md — BrokerageSelection container + PortalShell container + portal route updates (BROK-01, BROK-02)
   - [ ] 17-03-PLAN.md — LoginSuccessful dispatch + SuccessStep main-domain redirect (D-03, ONB-04)
+
+**Cross-cutting constraints:**
+  - All portal components must use raw div card pattern (not shadcn Card) — D-10, established in Phase 16
+  - All imports use `@/` alias — CLAUDE.md project convention
 **UI hint**: yes
 
 ### Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher

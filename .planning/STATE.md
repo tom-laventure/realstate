@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: — Main Domain Admin Portal
 status: planning
-stopped_at: Phase 17 context gathered
-last_updated: "2026-05-26T02:52:06.266Z"
-last_activity: 2026-05-25 -- Phase 16 complete — PORTAL-01, AUTH-05, AUTH-06, AUTH-07 verified
+stopped_at: Phase 17 plans verified — ready to execute
+last_updated: "2026-05-25T00:00:00Z"
+last_activity: 2026-05-25 -- Phase 17 planned — 3 plans across 2 waves, all verified
 progress:
   total_phases: 4
   completed_phases: 2
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-24)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.4 — Phase 17 ready to plan (Brokerage Selection & Post-Create Redirect)
+**Current focus:** v1.4 — Phase 17 ready to execute (3 plans verified)
 
 ## Current Position
 
 Phase: 17 of 18 (Brokerage Selection & Post-Create Redirect)
 Plan: —
-Status: Ready to plan
-Last activity: 2026-05-25 -- Phase 16 complete — PORTAL-01, AUTH-05, AUTH-06, AUTH-07 verified
+Status: Ready to execute
+Last activity: 2026-05-25 -- Phase 17 planned — 3 plans across 2 waves (BROK-01, BROK-02, ONB-04)
 
 Progress: [████░░░░░░] 50%
 
