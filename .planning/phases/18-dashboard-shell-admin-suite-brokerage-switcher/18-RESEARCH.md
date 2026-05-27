@@ -444,17 +444,19 @@ Step 2.6: SKIPPED — phase is pure frontend code changes with no external tool,
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **RequireRole blocking admin panels on main domain (CRITICAL)**
    - What we know: `RequireRole` reads `account.membership?.role`. This is `null` on main domain because `GET /v1/user` is never called in the main domain portal flow.
    - What's unclear: Which approach the planner selects — suppress `RequireRole` for the main domain admin path, add `useGetCurrentUser` to the portal flow, or accept that only portal-entry users reach `/admin/*` and remove the guard.
    - Recommendation: The simplest fix is to wrap the `admin` route in `MainDomainOnly` without `RequireRole`, relying on `PortalShell`'s existing brokerage validation as the access gate. This matches D-05's intent ("register the full route tree") without requiring `AppShellAdmin` modification. The planner must decide.
+   - **RESOLVED:** Plan 18-01 Task 2 adds `if (isMainDomain()) return <>{children}</>` as the first check in `RequireRole.tsx`, bypassing the role guard on the main domain. Defense-in-depth preserved via `ProtectedRoute` in main.tsx, `PortalShell` brokerage validation, and backend re-validation (Phase 15 BE-02) on every `/v1/admin/**` request.
 
 2. **`AppShellAdmin` NavBar on main domain — missing brokerage data**
    - What we know: `AppShellAdmin` calls `useFetchBrokerage` → `GET /v1/admin/brokerage`. On the main domain, this call now goes through the interceptor and gets `X-Brokerage-Id`. After Phase 18, this should work correctly — `brokerageData.name` and `brokerageData.logoUrl` will be populated from the main domain API call.
    - What's unclear: Whether the color scheme (`applyColorScheme`) applied from `useFetchBrokerage` causes visual conflicts when the user switches brokerages.
    - Recommendation: Acceptable for Phase 18. Color scheme re-application when navigating between brokerages' admin panels is a v1.5 polish item.
+   - **RESOLVED:** Accepted for Phase 18. Color scheme re-application on brokerage switch is deferred to v1.5 as documented in CONTEXT.md Deferred section.
 
 ---
 
