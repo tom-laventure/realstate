@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.4
-milestone_name: — Main Domain Admin Portal
-status: complete
-stopped_at: Milestone v1.4 archived
+milestone: v1.5
+milestone_name: Domain Management
+status: planning
+stopped_at: ""
 last_updated: "2026-05-27"
 last_activity: 2026-05-27
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_phases: 3
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,9 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 ## Current Position
 
-Milestone v1.4 — Main Domain Admin Portal: **SHIPPED 2026-05-27**
-
-All 18 phases complete. All milestones v1.0–v1.4 archived.
+Phase: Not started (defining requirements)
+Plan: —
+Status: Planning
+Last activity: 2026-05-27 — Milestone v1.5 started
 
 ## Deferred Items
 
@@ -39,7 +40,8 @@ All 18 phases complete. All milestones v1.0–v1.4 archived.
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| CR-01 | BrokerageDomain.exists? missing .active scope | Pre-existing; carry to v1.5 | v1.1 close |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.5 | v1.1 close |
-| UX | Brokerage switch preserving active tab position | Deferred from v1.4 | v1.4 close |
-| UX | Deep-link into admin panel with brokerage context preserved | Deferred from v1.4 | v1.4 close |
+| CR-01 | BrokerageDomain.exists? missing .active scope | Fixed in Phase 19 (DINT-04) | v1.1 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.6 | v1.1 close |
+| UX | Brokerage switch preserving active tab position | Carry to v1.6 | v1.4 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.6 | v1.4 close |
+| Domains | DNS verification for custom domains | Known gap; v1.6 milestone | v1.5 scope |

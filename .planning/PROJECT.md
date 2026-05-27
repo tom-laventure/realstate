@@ -1,5 +1,18 @@
 # RealState SaaS Platform
 
+## Current Milestone: v1.5 — Domain Management
+
+**Goal:** Give brokerage admins full control over their domains — a Domains admin page to view, edit, and manage their subdomain and optional custom domain (Pro), designate a primary domain, and understand phase-out timelines for retiring domains.
+
+**Target features:**
+- Domain schema: extend `brokerage_domains` with `domain_type`, `status`, `is_primary`, `phase_out_at`
+- Domain lifecycle: 30-day phase-out period; max 2 phasing-out domains per type; force-decommission escape hatch
+- Primary domain: any active domain can be promoted; system links (emails) use primary; non-primary domains redirect to primary on app init
+- Domain validation: uniqueness across all non-decommissioned records, slug format + reserved-word list, Pro-tier gate on custom domains
+- Domains admin page UI: status cards, phase-out countdowns, primary toggle, Pro upgrade prompt
+
+---
+
 ## What This Is
 
 A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, and a main-domain admin portal where brokerage admins can manage all their brokerages in one place with a nav-bar brokerage switcher.
@@ -125,17 +138,42 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ BROK-03: Brokerage switcher dropdown in nav bar switches active context without page navigation — v1.4 Phase 18
 - ✓ BROK-04: Switching brokerage via nav dropdown updates all admin panel data to the selected brokerage — v1.4 Phase 18
 
-### Active (v1.5 — Next Milestone)
+### Active (v1.5 — Domain Management)
 
-**Carry-forward from v1.0–v1.4:**
-- [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
-- [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
-- [ ] Two-way calendar sync — requires webhooks and conflict resolution
-- [ ] Expanded test coverage: context hooks, calendar UI states
-- [ ] CR-01: `BrokerageDomain.exists?` missing `.active` scope in `DomainsController#check`
+- [ ] **DMOD-01**: `brokerage_domains` schema extended with `domain_type`, `status`, `is_primary`, `phase_out_at`
+- [ ] **DMOD-02**: Data migration backfills existing rows as subdomain / active / is_primary: true
+- [ ] **DMOD-03**: Uniqueness check covers all non-decommissioned records; errors don't reveal owning brokerage
+- [ ] **DMOD-04**: Subdomain slug validated for format + reserved-word list
+- [ ] **DMOD-05**: Custom domain endpoints require `plan == 'premium'`
+- [ ] **DMOD-06**: `GET /v1/admin/domains` — full domain list with lifecycle fields
+- [ ] **DMOD-07**: `PATCH /v1/admin/domains/subdomain` — edit subdomain with phase-out of old
+- [ ] **DMOD-08**: `POST /v1/admin/domains/custom` — add custom domain (Pro only) with phase-out of replaced
+- [ ] **DMOD-09**: `DELETE /v1/admin/domains/:id` — phase out an active custom domain
+- [ ] **DMOD-10**: `PATCH /v1/admin/domains/:id/set_primary` — promote active domain to primary
+- [ ] **DMOD-11**: Phase-out warning when action results in exactly 2 phasing-out domains
+- [ ] **DMOD-12**: Phase-out blocked when 2 phasing-out domains already exist (returns `earliest_slot_available_at`)
+- [ ] **DMOD-13**: `GET /v1/domains/lookup?domain=X` — public endpoint returning primary domain
+- [ ] **DMOD-14**: `DELETE /v1/admin/domains/:id` on phasing-out domain → immediate decommission
+- [ ] **DINT-01**: Frontend app-init redirect guard for non-primary domains
+- [ ] **DINT-02**: `InvitationMailer` uses `is_primary: true` domain
+- [ ] **DINT-03**: `BrokerageAuth` resolves by status (active/phasing_out), not verified flag
+- [ ] **DINT-04**: `V1::DomainsController#check` (Caddy) updated to filter by `status: active`
+- [ ] **DUI-01**: `/admin/domains` route + "Domains" nav item on both sidebars
+- [ ] **DUI-02**: Domain cards: name, type badge, status badge, phase-out countdown
+- [ ] **DUI-03**: Primary badge + "Set as primary" action for active domains
+- [ ] **DUI-04**: Subdomain edit form with client-side validation
+- [ ] **DUI-05**: Custom domain add/remove (Pro only)
+- [ ] **DUI-06/07**: Phase-out slot warning and blocked state with dates
+- [ ] **DUI-08**: Non-Pro locked section with upgrade prompt
+- [ ] **DUI-09**: Phasing-out domain "Remove now" with confirmation dialog
+
+**Carry-forward (deferred to v1.6+):**
+- [ ] DNS verification for custom domains (DINT knowledge gap documented)
 - [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure
 - [ ] Brokerage switch data refresh preserving active tab position (UX polish — deferred from v1.4)
 - [ ] Deep-link into specific admin panel by URL (e.g. `/dashboard/boards`) with brokerage context preserved
+- [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0
+- [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0
 
 ### Out of Scope
 
@@ -208,7 +246,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-24 — Milestone v1.4 started
+Last updated: 2026-05-27 — Milestone v1.5 started
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
