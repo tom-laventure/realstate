@@ -246,7 +246,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
-Last updated: 2026-05-27 — Milestone v1.5 started
+Last updated: 2026-05-27 — Phase 19 complete (domain schema & auth integration)
 
 **After each phase transition** (via `/gsd-transition`):
 1. Requirements invalidated? → Move to Out of Scope with reason
