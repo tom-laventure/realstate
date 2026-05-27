@@ -83,7 +83,7 @@ Full details: [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
 Plans:
 
 **Wave 1**
-- [ ] 19-01-PLAN.md — Lifecycle columns migration (add 4 columns, backfill, replace unique index)
+- [x] 19-01-PLAN.md — Lifecycle columns migration (add 4 columns, backfill, replace unique index)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 19-02-PLAN.md — BrokerageDomain model (enums, RESERVED_SLUGS, routable scope, validations)
@@ -160,6 +160,6 @@ Cross-cutting constraints:
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
-| 19. Domain Schema & Auth Integration | v1.5 | 0/3 | Pending | — |
+| 19. Domain Schema & Auth Integration | v1.5 | 1/3 | In Progress|  |
 | 20. Backend Domain API | v1.5 | 0/TBD | Pending | — |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 0/TBD | Pending | — |
