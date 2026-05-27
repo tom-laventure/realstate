@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-24)
 ## Current Position
 
 Phase: 18
-Plan: 18-03 (completed), 18-04 (next)
+Plan: 18-02 (completed), 18-03 (next)
 Status: Executing
 Last activity: 2026-05-27
 
@@ -75,6 +75,7 @@ Recent decisions affecting current work:
 - 16-02-C: auth route at top-level in createBrowserRouter array — enables /auth/login on both main domain and subdomains (D-01)
 - 18-01-A: Axios interceptor reads Redux store via store.getState() — cannot use useSelector outside React tree
 - 18-01-B: RequireRole isMainDomain() bypass placed before isUserLoaded check — bypass must short-circuit loading state
+- 18-02-A: admin route registered as fourth entry in MainDomainOnly children under its own ProtectedRoute — shares admin import with SubdomainOnly block, no duplicate imports needed
 
 ### Code Review Findings (carry-forward)
 
@@ -101,6 +102,6 @@ None — Phase 15 complete, ready to plan Phase 16.
 
 ## Session Continuity
 
-Last session: 2026-05-27T02:55:01Z
-Stopped at: Completed 18-03-PLAN.md
+Last session: 2026-05-27T03:03:00Z
+Stopped at: Completed 18-02-PLAN.md
 Resume file: None

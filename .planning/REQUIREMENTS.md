@@ -9,7 +9,7 @@
 ## Portal — Main Domain Dashboard Shell
 
 - [ ] **PORTAL-01**: User can access `/dashboard/*` on the main domain (routes exist alongside `/create/*`)
-- [ ] **PORTAL-02**: User can reach board registrations, user management, group management, and invitations from the main domain dashboard
+- [x] **PORTAL-02**: User can reach board registrations, user management, group management, and invitations from the main domain dashboard
 - [ ] **PORTAL-03**: User can see the active brokerage name and their role displayed in the dashboard nav bar
 
 ## Auth — Authentication Routing & Access Control
@@ -65,7 +65,7 @@
 | BROK-01 | Phase 17 | TBD |
 | BROK-02 | Phase 17 | TBD |
 | ONB-04 | Phase 17 | TBD |
-| PORTAL-02 | Phase 18 | TBD |
+| PORTAL-02 | Phase 18 | 18-02 |
 | PORTAL-03 | Phase 18 | TBD |
 | BROK-03 | Phase 18 | TBD |
 | BROK-04 | Phase 18 | TBD |
