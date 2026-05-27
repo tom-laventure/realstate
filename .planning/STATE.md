@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: — Main Domain Admin Portal
-status: ready_to_execute
-stopped_at: Phase 18 planned
-last_updated: "2026-05-26T09:00:00.000Z"
-last_activity: 2026-05-26 -- Phase 18 planning complete
+status: executing
+stopped_at: Phase 17 context gathered
+last_updated: "2026-05-27T02:53:32.593Z"
+last_activity: 2026-05-26
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 11
-  completed_plans: 7
-  percent: 75
+  completed_plans: 8
+  percent: 73
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-24)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 17 — brokerage-selection-post-create-redirect
+**Current focus:** Phase 18 — dashboard-shell-admin-suite-brokerage-switcher
 
 ## Current Position
 
 Phase: 18
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-05-26
+Plan: 18-02 (next)
+Status: Executing
+Last activity: 2026-05-27
 
 Progress: [████░░░░░░] 50%
 
@@ -73,6 +73,8 @@ Recent decisions affecting current work:
 - 16-02-A: LoginSuccessful calls useFetchAdminBrokerages() at component top level, invokes inside useEffect — Rules of Hooks compliance with fire-once semantics
 - 16-02-B: setToken(token) placed before fetchAdminBrokerages() call — axios interceptor reads localStorage auth_token; reversed order causes 401
 - 16-02-C: auth route at top-level in createBrowserRouter array — enables /auth/login on both main domain and subdomains (D-01)
+- 18-01-A: Axios interceptor reads Redux store via store.getState() — cannot use useSelector outside React tree
+- 18-01-B: RequireRole isMainDomain() bypass placed before isUserLoaded check — bypass must short-circuit loading state
 
 ### Code Review Findings (carry-forward)
 
@@ -99,6 +101,6 @@ None — Phase 15 complete, ready to plan Phase 16.
 
 ## Session Continuity
 
-Last session: 2026-05-26T02:52:06.256Z
-Stopped at: Phase 17 context gathered
-Resume file: .planning/phases/17-brokerage-selection-post-create-redirect/17-CONTEXT.md
+Last session: 2026-05-27T02:51:09Z
+Stopped at: Completed 18-01-PLAN.md
+Resume file: None
