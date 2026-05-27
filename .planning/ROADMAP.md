@@ -89,7 +89,7 @@ Plans:
 - [x] 19-02-PLAN.md — BrokerageDomain model (enums, RESERVED_SLUGS, routable scope, validations)
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 19-03-PLAN.md — Routing integration (BrokerageAuth + DomainsController + factory + tests)
+- [x] 19-03-PLAN.md — Routing integration (BrokerageAuth + DomainsController + factory + tests)
 
 Cross-cutting constraints:
 - All tasks: migration must run before model changes; model scopes must exist before routing changes
@@ -160,6 +160,6 @@ Cross-cutting constraints:
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
-| 19. Domain Schema & Auth Integration | v1.5 | 2/3 | In Progress|  |
+| 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete   | 2026-05-27 |
 | 20. Backend Domain API | v1.5 | 0/TBD | Pending | — |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 0/TBD | Pending | — |
