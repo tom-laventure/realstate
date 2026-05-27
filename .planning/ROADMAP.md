@@ -119,7 +119,21 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
   2. The nav bar displays the name of the active brokerage and the user's role within it at all times while on the dashboard
   3. The user can open a brokerage dropdown in the nav bar and select a different brokerage without navigating away from the current page
   4. After switching brokerage via the nav dropdown, all visible admin panel data updates to reflect the newly selected brokerage
-**Plans**: TBD
+**Plans**: 4 plans
+
+**Wave 1** *(no dependencies)*
+  - [ ] 18-01-PLAN.md — Axios X-Brokerage-Id interceptor injection + RequireRole main-domain bypass (BROK-03, BROK-04)
+  - [ ] 18-03-PLAN.md — New PortalNavBar component: brokerage switcher dropdown, role badge, sign-out (PORTAL-03, BROK-03, BROK-04)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+  - [ ] 18-02-PLAN.md — Admin route registration in MainDomainOnly with ProtectedRoute wrapper (PORTAL-02)
+  - [ ] 18-04-PLAN.md — PortalShell resolved state: PortalNavBar + heading + 4 section cards grid (PORTAL-02, PORTAL-03, BROK-03, BROK-04)
+
+**Cross-cutting constraints:**
+  - All portal components must use raw div card pattern (not shadcn Card) — D-09, established in Phase 16
+  - All imports use `@/` alias — CLAUDE.md project convention
+  - RequireRole bypass must land before admin route is registered (Plan 01 → Plan 02 dependency)
+  - PortalNavBar must exist before PortalShell can import it (Plan 03 → Plan 04 dependency)
 **UI hint**: yes
 
 ## Progress
@@ -143,4 +157,4 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete    | 2026-05-26 |
-| 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/TBD | Not started | - |
+| 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 0/4 | Not started | - |
