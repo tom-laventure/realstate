@@ -123,7 +123,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 
 **Wave 1** *(no dependencies)*
   - [x] 18-01-PLAN.md — Axios X-Brokerage-Id interceptor injection + RequireRole main-domain bypass (BROK-03, BROK-04) — completed 2026-05-27
-  - [ ] 18-03-PLAN.md — New PortalNavBar component: brokerage switcher dropdown, role badge, sign-out (PORTAL-03, BROK-03, BROK-04)
+  - [x] 18-03-PLAN.md — New PortalNavBar component: brokerage switcher dropdown, role badge, sign-out (PORTAL-03, BROK-03, BROK-04) — completed 2026-05-27
 
 **Wave 2** *(blocked on Wave 1 completion)*
   - [ ] 18-02-PLAN.md — Admin route registration in MainDomainOnly with ProtectedRoute wrapper (PORTAL-02)
@@ -157,4 +157,4 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete    | 2026-05-26 |
-| 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 1/4 | Executing | - |
+| 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 2/4 | Executing | - |
