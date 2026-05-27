@@ -78,7 +78,12 @@ Full details: [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
 **Goal**: Extend brokerage_domains with lifecycle columns, backfill existing data as active primary subdomains, and update BrokerageAuth + the Caddy TLS endpoint to route by status — so phasing-out domains still resolve and decommissioned ones don't
 **Depends on**: Phase 18
 **Requirements**: DMOD-01, DMOD-02, DMOD-03, DMOD-04, DINT-03, DINT-04
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 19-01-PLAN.md — Lifecycle columns migration (add 4 columns, backfill, replace unique index)
+- [ ] 19-02-PLAN.md — BrokerageDomain model (enums, RESERVED_SLUGS, routable scope, validations)
+- [ ] 19-03-PLAN.md — Routing integration (BrokerageAuth + DomainsController + factory + tests)
 
 **Success criteria:**
 1. Migration runs cleanly; all current brokerage_domains rows show `domain_type: subdomain`, `status: active`, `is_primary: true`
@@ -146,6 +151,6 @@ Full details: [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
-| 19. Domain Schema & Auth Integration | v1.5 | 0/TBD | Pending | — |
+| 19. Domain Schema & Auth Integration | v1.5 | 0/3 | Pending | — |
 | 20. Backend Domain API | v1.5 | 0/TBD | Pending | — |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 0/TBD | Pending | — |
