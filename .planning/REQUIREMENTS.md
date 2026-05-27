@@ -7,10 +7,10 @@
 
 ## DMOD — Domain Model & Backend API
 
-- [ ] **DMOD-01**: `brokerage_domains` extended with `domain_type` (enum: subdomain/custom), `status` (enum: active/phasing_out/decommissioned), `is_primary` (boolean, not null, default false), `phase_out_at` (datetime, nullable)
-- [ ] **DMOD-02**: Data migration backfills all existing rows as `domain_type: subdomain`, `status: active`, `is_primary: true`
-- [ ] **DMOD-03**: API uniqueness check covers all records with `status != decommissioned`; error messages do not reveal which brokerage owns a claimed domain
-- [ ] **DMOD-04**: Subdomain slug validated: alphanumeric and hyphens only; cannot match a reserved word (app, admin, api, www, mail, smtp, ftp, staging, dev, test — full list enumerated during implementation)
+- [x] **DMOD-01**: `brokerage_domains` extended with `domain_type` (enum: subdomain/custom), `status` (enum: active/phasing_out/decommissioned), `is_primary` (boolean, not null, default false), `phase_out_at` (datetime, nullable)
+- [x] **DMOD-02**: Data migration backfills all existing rows as `domain_type: subdomain`, `status: active`, `is_primary: true`
+- [x] **DMOD-03**: API uniqueness check covers all records with `status != decommissioned`; error messages do not reveal which brokerage owns a claimed domain
+- [x] **DMOD-04**: Subdomain slug validated: alphanumeric and hyphens only; cannot match a reserved word (app, admin, api, www, mail, smtp, ftp, staging, dev, test — full list enumerated during implementation)
 - [ ] **DMOD-05**: Custom domain endpoints require `plan == 'premium'`; basic-tier brokerages receive HTTP 403 with an upgrade message
 - [ ] **DMOD-06**: `GET /v1/admin/domains` returns all active and phasing-out domains for the brokerage with `id`, `domain`, `domain_type`, `status`, `is_primary`, `phase_out_at`
 - [ ] **DMOD-07**: `PATCH /v1/admin/domains/subdomain` transitions the current active subdomain to 30-day phase-out and creates a new active subdomain; blocked when 2 phasing-out subdomains already exist
@@ -26,8 +26,8 @@
 
 - [ ] **DINT-01**: On app init, frontend detects if `window.location.hostname` ≠ brokerage's primary domain and redirects to `https://{primary_domain}/{same_path+query}`
 - [ ] **DINT-02**: `InvitationMailer#primary_domain` updated to query `is_primary: true` instead of `first`
-- [ ] **DINT-03**: `BrokerageAuth` resolves brokerage from domains with `status: active` or `status: phasing_out`; decommissioned domains return 404
-- [ ] **DINT-04**: `V1::DomainsController#check` (Caddy TLS endpoint) updated to filter by `status: active` instead of `deleted_at: nil`
+- [x] **DINT-03**: `BrokerageAuth` resolves brokerage from domains with `status: active` or `status: phasing_out`; decommissioned domains return 404
+- [x] **DINT-04**: `V1::DomainsController#check` (Caddy TLS endpoint) updated to filter by `status: active` instead of `deleted_at: nil`
 
 ## DUI — Admin Domains Page
 

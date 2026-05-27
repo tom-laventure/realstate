@@ -160,6 +160,6 @@ Cross-cutting constraints:
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
-| 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete   | 2026-05-27 |
+| 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete    | 2026-05-27 |
 | 20. Backend Domain API | v1.5 | 0/TBD | Pending | — |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 0/TBD | Pending | — |
