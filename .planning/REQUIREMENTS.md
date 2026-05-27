@@ -8,15 +8,15 @@
 
 ## Portal — Main Domain Dashboard Shell
 
-- [ ] **PORTAL-01**: User can access `/dashboard/*` on the main domain (routes exist alongside `/create/*`)
+- [x] **PORTAL-01**: User can access `/dashboard/*` on the main domain (routes exist alongside `/create/*`)
 - [x] **PORTAL-02**: User can reach board registrations, user management, group management, and invitations from the main domain dashboard
 - [x] **PORTAL-03**: User can see the active brokerage name and their role displayed in the dashboard nav bar
 
 ## Auth — Authentication Routing & Access Control
 
-- [ ] **AUTH-05**: User signing in on the main domain with ≥1 admin role is redirected to the brokerage selection screen
-- [ ] **AUTH-06**: User signing in on the main domain with no admin roles anywhere sees a no-access screen explaining they must use their brokerage subdomain
-- [ ] **AUTH-07**: Unauthenticated user accessing `/dashboard/*` is redirected to sign-in
+- [x] **AUTH-05**: User signing in on the main domain with ≥1 admin role is redirected to the brokerage selection screen
+- [x] **AUTH-06**: User signing in on the main domain with no admin roles anywhere sees a no-access screen explaining they must use their brokerage subdomain
+- [x] **AUTH-07**: Unauthenticated user accessing `/dashboard/*` is redirected to sign-in
 
 ## Brok — Brokerage Selection & Switching
 
@@ -27,9 +27,9 @@
 
 ## BE — Backend API
 
-- [ ] **BE-01**: Admin user can call `GET /v1/account/admin_brokerages` and receive a list of all brokerages where they hold an admin or owner role
-- [ ] **BE-02**: Backend resolves `Current.brokerage` from `X-Brokerage-Id` request header when the request Host is the main domain, enabling existing `/v1/admin/**` endpoints to serve main-domain requests
-- [ ] **BE-03**: Admin endpoint called from main domain without a valid `X-Brokerage-Id` header returns HTTP 400 Bad Request
+- [x] **BE-01**: Admin user can call `GET /v1/account/admin_brokerages` and receive a list of all brokerages where they hold an admin or owner role
+- [x] **BE-02**: Backend resolves `Current.brokerage` from `X-Brokerage-Id` request header when the request Host is the main domain, enabling existing `/v1/admin/**` endpoints to serve main-domain requests
+- [x] **BE-03**: Admin endpoint called from main domain without a valid `X-Brokerage-Id` header returns HTTP 400 Bad Request
 
 ## ONB — Post-Create Flow
 

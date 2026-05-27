@@ -1,5 +1,41 @@
 # Milestones
 
+## v1.4 — Main Domain Admin Portal
+
+**Shipped:** 2026-05-27
+**Phases:** 4 (15–18) | **Plans:** 11
+**Timeline:** 2026-05-24 → 2026-05-27 (3 days)
+
+### Delivered
+
+Backend: `BrokerageAuth` extended with X-Brokerage-Id header resolution for main-domain requests; `GET /v1/account/admin_brokerages` endpoint returning cross-brokerage admin/owner membership list (Phase 15). Frontend routing: `/dashboard/*` route tree alongside `/create/*`; `LoginSuccessful` and `Login` both extended with domain-aware post-sign-in routing — ≥1 admin role → /dashboard, 0 roles → /no-access; `NoAccess` screen with Amplify signOut + clearToken (Phase 16). Brokerage selection: `activeBrokerage` Redux slice; `BrokerageSelection` screen with single-brokerage auto-redirect anti-flash guard; `PortalShell` with D-12 URL param validation and D-13 empty-Redux re-fetch; `SuccessStep` wizard redirect to main domain (Phase 17). Full portal: `PortalNavBar` brokerage switcher dropdown + role badge; `PortalShell` 4-section admin landing page; Axios X-Brokerage-Id interceptor injection; `RequireRole` isMainDomain() bypass; `AdminDomainShell` domain-adaptive shell delegating to `PortalAdminShell` on main domain and `AppShellAdmin` on subdomain (Phase 18). All 14 requirements validated.
+
+### Key Accomplishments
+
+1. `BrokerageAuth` X-Brokerage-Id branch: `main_domain_request?` reuses `extract_domain_from_request`; `.to_i` injection-safe; 400 on missing header — BE-02, BE-03
+2. `V1::Account::AdminBrokeragesController` with `MainDomainOnly + CognitoAuth`, cross-brokerage design, 4 integration tests — BE-01
+3. `useFetchAdminBrokerages` imperative hook (not useQuery) + `Login.tsx` deviation catch: email/password sign-in bypasses `LoginSuccessful` — PORTAL-01, AUTH-05, AUTH-06, AUTH-07
+4. `activeBrokerage` Redux slice + `BrokerageSelection` anti-flash guard + `PortalShell` D-13 re-fetch pattern — BROK-01, BROK-02, ONB-04
+5. `PortalNavBar` brokerage DropdownMenu switcher with dispatch-then-navigate ordering; null guard when activeBrokerage is null — PORTAL-03, BROK-03, BROK-04
+6. `AdminDomainShell` single-route domain-adaptive delegation: avoids React Router path conflicts from domain-guarded duplicate /admin/ blocks — PORTAL-02
+
+### Known Deferred Items at Close: 4
+
+| Category | Item | Status |
+|----------|------|--------|
+| CAL-04 | Microsoft Calendar sync | Adapter built, activate by expanding PROVIDERS |
+| CAL-05 | Apple CalDAV sync | Adapter built, activate by expanding PROVIDERS |
+| CR-01 | `BrokerageDomain.exists?` missing `.active` scope | Pre-existing since v1.1 |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing since v1.1 |
+
+### Archive
+
+- Roadmap: [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
+- Requirements: [milestones/v1.4-REQUIREMENTS.md](milestones/v1.4-REQUIREMENTS.md)
+- Tag: `v1.4`
+
+---
+
 ## v1.3 — Test Board & Board Management
 
 **Shipped:** 2026-05-24

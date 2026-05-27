@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: — Main Domain Admin Portal
-status: executing
-stopped_at: Completed 18-02-PLAN.md
-last_updated: "2026-05-27T03:03:54.857Z"
+status: complete
+stopped_at: Milestone v1.4 archived
+last_updated: "2026-05-27"
 last_activity: 2026-05-27
 progress:
   total_phases: 4
@@ -18,76 +18,16 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-24)
+See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 18 — dashboard-shell-admin-suite-brokerage-switcher
+**Current focus:** Milestone v1.4 complete — ready for /gsd-new-milestone
 
 ## Current Position
 
-Phase: 18
-Plan: 18-02 (completed), 18-03 (next)
-Status: Executing
-Last activity: 2026-05-27
+Milestone v1.4 — Main Domain Admin Portal: **SHIPPED 2026-05-27**
 
-Progress: [██████████] 100%
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 18
-- Average duration: 6 min
-- Total execution time: 53 min
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 8 | 2 | - | - |
-| 09 | 4 | - | - |
-| 17 | 3 | - | - |
-
-**Recent Trend:**
-
-- Last 5 plans: —
-- Trend: —
-
-*Updated after each plan completion*
-| Phase 16 P01 | 4min | 4 tasks | 6 files |
-| Phase 16 P02 | 1min | 2 tasks | 2 files | (paused at checkpoint)
-
-## Accumulated Context
-
-### Decisions
-
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- 15-01: main_domain_request? calls extract_domain_from_request rather than duplicating URI.parse — single source of truth
-- 15-02: AdminBrokeragesController excludes BrokerageAuth — cross-brokerage endpoint uses MainDomainOnly + CognitoAuth only
-- 15-02: Inline render (no serializer) for simple flat list response
-- [Phase ?]: 16-01-A: useFetchAdminBrokerages is imperative passthrough (not useQuery) — fire-once lifecycle hook for LoginSuccessful
-- [Phase ?]: 16-01-B: noAccess route has no ProtectedRoute — avoids redirect loop for unauthenticated users on /no-access
-- [Phase ?]: 16-01-C: Portal components use raw div card pattern (not shadcn Card) per UI-SPEC.md contract and consistency with LoginSuccessful
-- 16-02-A: LoginSuccessful calls useFetchAdminBrokerages() at component top level, invokes inside useEffect — Rules of Hooks compliance with fire-once semantics
-- 16-02-B: setToken(token) placed before fetchAdminBrokerages() call — axios interceptor reads localStorage auth_token; reversed order causes 401
-- 16-02-C: auth route at top-level in createBrowserRouter array — enables /auth/login on both main domain and subdomains (D-01)
-- 18-01-A: Axios interceptor reads Redux store via store.getState() — cannot use useSelector outside React tree
-- 18-01-B: RequireRole isMainDomain() bypass placed before isUserLoaded check — bypass must short-circuit loading state
-- 18-02-A: admin route registered as fourth entry in MainDomainOnly children under its own ProtectedRoute — shares admin import with SubdomainOnly block, no duplicate imports needed
-
-### Code Review Findings (carry-forward)
-
-All WR-01/02/03 findings resolved in fix(15) commits. No open findings.
-
-### Pending Todos
-
-None yet.
-
-### Blockers/Concerns
-
-None — Phase 15 complete, ready to plan Phase 16.
+All 18 phases complete. All milestones v1.0–v1.4 archived.
 
 ## Deferred Items
 
@@ -97,11 +37,9 @@ None — Phase 15 complete, ready to plan Phase 16.
 | Calendar | Two-way calendar sync | v2 | Requirements |
 | Security | JWT → HttpOnly cookies migration | v2 | Requirements |
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
-| CR-01 | BrokerageDomain.exists? missing .active scope | Carry-forward | v1.3 close |
-| CR-02 | S3 favicon upload outside transaction | Carry-forward | v1.3 close |
-
-## Session Continuity
-
-Last session: 2026-05-27T03:03:54.844Z
-Stopped at: Completed 18-02-PLAN.md
-Resume file: None
+| CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
+| CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
+| CR-01 | BrokerageDomain.exists? missing .active scope | Pre-existing; carry to v1.5 | v1.1 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.5 | v1.1 close |
+| UX | Brokerage switch preserving active tab position | Deferred from v1.4 | v1.4 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Deferred from v1.4 | v1.4 close |

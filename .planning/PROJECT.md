@@ -2,25 +2,25 @@
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, and geographic map views of listings via Mapbox GL.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, and a main-domain admin portal where brokerage admins can manage all their brokerages in one place with a nav-bar brokerage switcher.
 
 ## Core Value
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Current Milestone: v1.4 — Main Domain Admin Portal
+## Milestone: v1.4 — Main Domain Admin Portal — SHIPPED 2026-05-27 ✅
 
-**Goal:** Give brokerage admins a main-domain portal where they can manage all their brokerages in one place — without relying on individual subdomain URLs.
+**Goal:** Give brokerage admins a main-domain portal where they can manage all their brokerages in one place — without relying on individual subdomain URLs. ✓ Complete.
 
-**Target features:**
-- BrokerageAuth extension: resolve `Current.brokerage` from `X-Brokerage-Id` header when Host is main domain
-- New `GET /v1/account/admin_brokerages` endpoint returning all brokerages where user is admin/owner
-- Main domain routing expanded: `/dashboard/*` alongside existing `/create/*`
-- Brokerage selection screen: cards on first sign-in, auto-selects if only one brokerage
-- Main domain admin dashboard: full admin suite with brokerage context via header; nav-bar brokerage dropdown
-- Sign-in routing: main-domain sign-in → admin check → selection screen or no-access screen
-- Post-create redirect: wizard completion lands on main domain dashboard with new brokerage auto-selected
-- Non-admin no-access screen: clear message when signed-in user has no admin roles
+**Delivered:**
+- BrokerageAuth extended: resolves `Current.brokerage` from `X-Brokerage-Id` header on main-domain requests; 400 if absent — Phase 15
+- `GET /v1/account/admin_brokerages` endpoint: cross-brokerage admin/owner membership list — Phase 15
+- Main domain routing: `/dashboard/*` alongside `/create/*`; auth route promoted to top-level for cross-domain accessibility — Phase 16
+- Sign-in routing: `LoginSuccessful` + `Login.tsx` both extended with domain-aware post-sign-in routing — ≥1 admin → /dashboard, 0 → /no-access — Phase 16
+- Brokerage selection screen: per-brokerage cards; single-brokerage auto-redirect with anti-flash guard; `PortalShell` D-12 URL validation + D-13 empty-Redux re-fetch — Phase 17
+- Post-create redirect: `SuccessStep` sends to `https://{VITE_MAIN_DOMAIN}/dashboard/:brokerageId` — Phase 17
+- Portal landing page: `PortalNavBar` brokerage switcher + role badge; 4-section admin suite grid — Phase 18
+- Domain-adaptive admin shell: `AdminDomainShell` delegates to `PortalAdminShell` (main domain) or `AppShellAdmin` (subdomain) — Phase 18
 
 ---
 
@@ -113,20 +113,29 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ BE-01: `GET /v1/account/admin_brokerages` returns brokerage list (id, name, role) for authenticated user's admin/owner memberships — v1.4 Phase 15
 - ✓ BE-02: `BrokerageAuth` resolves `Current.brokerage` from `X-Brokerage-Id` header on main-domain requests — v1.4 Phase 15
 - ✓ BE-03: Main-domain `/v1/admin/**` requests without `X-Brokerage-Id` header return HTTP 400 — v1.4 Phase 15
-
+- ✓ PORTAL-01: `/dashboard/*` routes exist on main domain alongside `/create/*` — v1.4 Phase 16
+- ✓ AUTH-05: Main-domain sign-in with ≥1 admin role routes to `/dashboard` — v1.4 Phase 16
+- ✓ AUTH-06: Main-domain sign-in with 0 admin roles routes to `/no-access` with clear message — v1.4 Phase 16
+- ✓ AUTH-07: Unauthenticated user accessing `/dashboard/*` is redirected to sign-in — v1.4 Phase 16
 - ✓ BROK-01: `BrokerageSelection` screen renders admin brokerage cards; auto-redirects on single brokerage; handles empty-Redux recovery via fetch — v1.4 Phase 17
 - ✓ BROK-02: Single-brokerage auto-redirect to `/dashboard/:brokerageId` with no flash — v1.4 Phase 17
 - ✓ ONB-04: Post-create wizard redirect to `https://{MAIN_DOMAIN}/dashboard/:brokerageId` via `SuccessStep` — v1.4 Phase 17
+- ✓ PORTAL-02: Board registrations, user management, group management, and settings reachable from main-domain dashboard — v1.4 Phase 18
+- ✓ PORTAL-03: Active brokerage name and user role displayed in dashboard nav bar — v1.4 Phase 18
+- ✓ BROK-03: Brokerage switcher dropdown in nav bar switches active context without page navigation — v1.4 Phase 18
+- ✓ BROK-04: Switching brokerage via nav dropdown updates all admin panel data to the selected brokerage — v1.4 Phase 18
 
-### Active (v1.4 — Main Domain Admin Portal)
+### Active (v1.5 — Next Milestone)
 
-**Carry-forward from v1.0–v1.3:**
+**Carry-forward from v1.0–v1.4:**
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0, activate by expanding `PROVIDERS` + `providerOrder`
 - [ ] Two-way calendar sync — requires webhooks and conflict resolution
 - [ ] Expanded test coverage: context hooks, calendar UI states
 - [ ] CR-01: `BrokerageDomain.exists?` missing `.active` scope in `DomainsController#check`
 - [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure
+- [ ] Brokerage switch data refresh preserving active tab position (UX polish — deferred from v1.4)
+- [ ] Deep-link into specific admin panel by URL (e.g. `/dashboard/boards`) with brokerage context preserved
 
 ### Out of Scope
 
@@ -144,14 +153,15 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Stack:** Ruby 4.0.2 / Rails 7.1 JSON API + Vite/React 18 SPA. Monorepo with `backend/` and `frontend/` as separate git repos.
 - **Auth:** AWS Cognito + Amplify for identity; custom HS256 JWT (`TokenService`) issued on sign-in, stored in `localStorage`. Google OAuth federated identity via Cognito + PreSignUp Lambda. `CognitoAuth` concern verifies per-request.
 - **Multi-tenancy:** `BrokerageAuth` concern resolves `Current.brokerage` from Host header (subdomain path) or `X-Brokerage-Id` header (main-domain path). All queries must scope to `Current.brokerage`.
+- **Main domain portal:** `/dashboard/*` and `/create/*` routes coexist on the main domain. `LoginSuccessful` + `Login.tsx` both perform domain-aware post-sign-in routing. `activeBrokerage` Redux slice stores the active portal brokerage context. `AdminDomainShell` delegates to `PortalAdminShell` (main domain) or `AppShellAdmin` (subdomain) based on `isMainDomain()`.
 - **Soft deletes:** `acts_as_paranoid` on all user-facing models. Every query must call `.without_deleted`; joins require explicit `where(table: { deleted_at: nil })`.
 - **Test suite:** 17 backend integration tests (Minitest) + 7 frontend unit tests (Vitest 4.x + MSW 2.x). Covers tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController, ProtectedRoute, RequireRole, GoogleSignInButton.
 - **Calendar sync:** `UserCalendarConnection` (encrypted credentials) + `EstateDateCalendarEvent` + `CalendarSyncJob` (SolidQueue, advisory lock). Google adapter active; Microsoft (HTTParty/Graph API) and Apple (CalDAV via calendav) adapters built but inactive — activate by expanding `PROVIDERS` constant.
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Migrations for calendar/geocoding tables must be applied on Render.com environment via `rails db:migrate`.
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting via `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows; test boards bypass RETS validation. Board Registrations table has per-row edit/delete CRUD.
-- **Shipped v1.2:** 2026-05-18
 - **Shipped v1.3:** 2026-05-24
+- **Shipped v1.4:** 2026-05-27
 
 ## Constraints
 
@@ -183,6 +193,14 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | Custom Marker child with `stopPropagation()` | Childless Mapbox `<Marker>` doesn't reliably forward click events through react-map-gl v8 | ✓ Good — pin click popup works reliably |
 | Controlled AlertDialog for delete (outside Radix tree) | AlertDialogTrigger inside DropdownMenuItem causes portal/focus conflicts across Radix contexts | ✓ Good — delete flow works reliably with `deleteTarget` state pointer |
 | `useUpdateBoardCredential` no onError — propagates to dialog | Dialog uses `mutateAsync` to display inline serverError; toast-only failure feedback is insufficient for form re-entry | ✓ Good — inline error shown in EditBoardCredentialDialog catch block |
+| `main_domain_request?` reuses `extract_domain_from_request` | No URI.parse duplication — single source of truth for host extraction | ✓ Good — consistent domain detection across BrokerageAuth and MainDomainOnly |
+| `AdminBrokeragesController` excludes BrokerageAuth | Cross-brokerage endpoint by design; no single brokerage context applies | ✓ Good — MainDomainOnly + CognitoAuth only; `skip_brokerage_membership? = true` defense-in-depth |
+| `useFetchAdminBrokerages` is imperative (not useQuery) | `LoginSuccessful` is a fire-once lifecycle component that navigates away on completion; a useQuery would be orphaned by unmount | ✓ Good — satisfies CLAUDE.md "through a hook" rule without TanStack overhead |
+| `setToken` before `fetchAdminBrokerages` in sign-in flows | Axios interceptor reads `localStorage auth_token`; reversed order causes 401 | ✓ Good — critical ordering constraint for both LoginSuccessful and Login.tsx |
+| `Login.tsx` deviation catch — email/password bypasses `LoginSuccessful` | `CreateAccount` → `signIn.ts` → `onAuthenticated()` never mounts `LoginSuccessful`; must extend both sign-in paths | ✓ Good — both paths now perform domain-aware routing |
+| `activeBrokerage` Redux state is in-memory only | Never persisted to localStorage/sessionStorage; token already in localStorage covers auth; brokerage context is session state | ✓ Good — T-17-01 accepted; PortalShell D-13 handles empty Redux on page reload |
+| `AdminDomainShell` single-route delegation | One route definition avoids React Router path conflicts from domain-guarded duplicate /admin/ blocks | ✓ Good — avoids path conflicts, subdomain AdminShell unchanged |
+| `RequireRole` isMainDomain() bypass before isUserLoaded check | `account.id` never populated on main domain (no NavBar calling useGetCurrentUser); isUserLoaded always false | ✓ Good — portal access validated upstream by PortalShell brokerage validation |
 
 ---
 
@@ -206,4 +224,4 @@ Last updated: 2026-05-24 — Milestone v1.4 started
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-24 — Milestone v1.3 archived*
+*Last updated: 2026-05-27 after v1.4 milestone*

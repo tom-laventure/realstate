@@ -1,5 +1,53 @@
 # Retrospective
 
+## Milestone: v1.4 — Main Domain Admin Portal
+
+**Shipped:** 2026-05-27
+**Phases:** 4 (15–18) | **Plans:** 11 | **Timeline:** 3 days (2026-05-24 → 2026-05-27)
+
+### What Was Built
+
+1. `BrokerageAuth` X-Brokerage-Id branch; `GET /v1/account/admin_brokerages` cross-brokerage endpoint with `MainDomainOnly + CognitoAuth`; 8 integration tests covering BE-01–03 (Phase 15)
+2. `useFetchAdminBrokerages` imperative hook; `NoAccess` screen; `LoginSuccessful` + `Login.tsx` domain-aware post-sign-in routing; portal routes in `main.tsx`; auth promoted to top-level router array (Phase 16)
+3. `activeBrokerage` Redux slice; `BrokerageSelection` screen with anti-flash guard; `PortalShell` with D-12/D-13 patterns; `SuccessStep` wizard redirect to main domain (Phase 17)
+4. Axios X-Brokerage-Id interceptor injection; `RequireRole` isMainDomain() bypass; `PortalNavBar` brokerage switcher; `PortalShell` real landing page with 4 admin section cards; `AdminDomainShell` domain-adaptive delegation (Phase 18)
+
+### What Worked
+
+- **Login.tsx deviation caught fast** — Phase 16 human verification (Scenario C) revealed that email/password sign-in bypasses `LoginSuccessful` entirely. The test was specific enough to catch it; the fix was targeted and clean. This is the value of scenario-level human verification, not just "did the build pass."
+- **Redux store for brokerage context** — using Redux for `activeBrokerage` meant `PortalNavBar`, `PortalShell`, and the Axios interceptor could all read the same state without prop drilling or additional API calls. The D-13 pattern (re-fetch on empty Redux on page reload) handled the edge case cleanly.
+- **`AdminDomainShell` single-route pattern** — delegating to either `PortalAdminShell` or `AppShellAdmin` from one route definition avoided React Router path conflicts from domain-guarded duplicate /admin/ blocks. Straightforward solution to a subtle router constraint.
+- **`isMainDomain()` bypass BEFORE `isUserLoaded` in RequireRole** — pre-execution analysis identified that `account.id` is never populated on the main domain; placing the bypass first prevented the blank-panel trap before execution began.
+- **Wave-based parallel planning worked cleanly** — Plan 18-03 (PortalNavBar) and 18-01 (Axios interceptor) ran in Wave 1 in parallel; both were independent and completed without merge conflicts.
+
+### What Was Inefficient
+
+- **REQUIREMENTS.md checkbox sync** — fifth consecutive milestone with the same gap. 7 of 14 requirements were unchecked at milestone close despite being implemented weeks earlier. The fix is clear: update checkboxes at each phase close, not just at milestone close. Still not on the phase-close checklist.
+- **Phase 18 plan count growth** — started at 4 plans (2 waves), ended at 5 plans (3 waves) after `AdminDomainShell` was added as Wave 3. The domain-adaptive shell requirement was discoverable earlier during Phase 18 planning; a discuss step would have caught it.
+- **No milestone audit** — proceeding without `gsd-audit-milestone` for the second consecutive milestone. Human UAT covered the main flows; cross-phase integration gaps remain unaudited.
+
+### Patterns Established
+
+- **Cross-brokerage endpoint module order**: `include MainDomainOnly` first, `include CognitoAuth` second, no BrokerageAuth + `skip_brokerage_membership? = true` defense-in-depth
+- **Imperative hook for fire-once lifecycle components**: thin hook returning the API function directly for `useEffect` fire-once patterns (vs. useQuery for reactive data)
+- **`setToken` before API calls in sign-in flows**: axios interceptor reads `localStorage auth_token`; reversed order → 401. Document this ordering constraint explicitly.
+- **D-13 empty-Redux re-fetch pattern**: check `adminBrokerages.length === 0` on mount, re-fetch via hook, show accessible spinner, validate on resolve — handles page reload without extra state
+- **Domain-adaptive shell delegation**: `isMainDomain()` called directly in render (stable per page lifecycle, no hook needed); delegate to correct shell component
+
+### Key Lessons
+
+- **REQUIREMENTS.md sync is a persistent gap across five milestones** — the lesson is now five iterations old. The correct fix: add checkbox updates to the SUMMARY.md generation step in `/gsd-execute-phase`, not just at milestone close.
+- **Both sign-in paths need the same domain-aware logic** — any feature that hooks into post-sign-in behavior must be wired into both `LoginSuccessful.tsx` (OAuth/hosted-UI) and `Login.tsx` (email/password). These paths are always both active. Add this to the new-feature checklist.
+- **Redux is worth the overhead for cross-component shared state** — the `activeBrokerage` slice was used by 5+ components across 4 phases. The upfront cost of Plan 17-01 paid off immediately in Plans 17-02, 17-03, 18-01, 18-03, and 18-04.
+
+### Cost Observations
+
+- Sessions: ~3 across 3 days
+- Model: Claude Sonnet 4.6 throughout
+- Notable: 11 plans in 3 days at ~3.7 plans/day; consistent with v1.3 velocity; most plans completed in 2–10 minutes
+
+---
+
 ## Milestone: v1.3 — Test Board & Board Management
 
 **Shipped:** 2026-05-24
@@ -174,12 +222,13 @@
 
 ## Cross-Milestone Trends
 
-| Metric | v1.0 | v1.1 | v1.2 | v1.3 |
-|--------|------|------|------|------|
-| Phases | 5 | 2 | 3 | 4 |
-| Plans | 30 | 2 | 7 | 11 |
-| Days | 14 | 3 | 2 | 3 |
-| Avg plans/day | 2.1 | 0.7 | 3.5 | 3.7 |
-| Deferred items at close | 2 (CAL-04, CAL-05) | 2 (CR-01, CR-02) | 0 | 4 (CAL-04, CAL-05, CR-01, CR-02) |
+| Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 |
+|--------|------|------|------|------|------|
+| Phases | 5 | 2 | 3 | 4 | 4 |
+| Plans | 30 | 2 | 7 | 11 | 11 |
+| Days | 14 | 3 | 2 | 3 | 3 |
+| Avg plans/day | 2.1 | 0.7 | 3.5 | 3.7 | 3.7 |
+| Deferred items at close | 2 | 2 | 0 | 4 | 4 |
+| REQUIREMENTS.md sync gap | ✗ | ✗ | ✗ | ✗ | ✗ |
 
-**Trend:** Velocity stable at ~3.5–3.7 plans/day since v1.2. REQUIREMENTS.md checkbox sync gap now four consecutive milestones — must add to phase-close checklist.
+**Trend:** Velocity stable at 3.7 plans/day for three consecutive milestones. REQUIREMENTS.md checkbox sync gap is now five consecutive milestones — add checkbox update to phase-close SUMMARY generation, not milestone-close. Both sign-in paths (`LoginSuccessful` + `Login.tsx`) require the same domain-aware logic — establish as new-feature checklist rule.
