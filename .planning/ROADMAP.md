@@ -63,7 +63,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 - [x] **Phase 15: Backend API & BrokerageAuth Extension** - New admin_brokerages endpoint + X-Brokerage-Id header resolution — completed 2026-05-24
 - [x] **Phase 16: Main Domain Routing & Auth Guards** - /dashboard/* routes, sign-in routing, no-access screen — completed 2026-05-25
 - [x] **Phase 17: Brokerage Selection & Post-Create Redirect** - Selection screen, auto-select, post-wizard redirect (completed 2026-05-26)
-- [ ] **Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher** - Full dashboard UI with brokerage context and nav switcher
+- [x] **Phase 18: Dashboard Shell, Admin Suite & Brokerage Switcher** - Full dashboard UI with brokerage context and nav switcher (completed 2026-05-27)
 
 ## Phase Details
 
@@ -127,7 +127,7 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 
 **Wave 2** *(blocked on Wave 1 completion)*
   - [x] 18-02-PLAN.md — Admin route registration in MainDomainOnly with ProtectedRoute wrapper (PORTAL-02) — completed 2026-05-27
-  - [ ] 18-04-PLAN.md — PortalShell resolved state: PortalNavBar + heading + 4 section cards grid (PORTAL-02, PORTAL-03, BROK-03, BROK-04)
+  - [x] 18-04-PLAN.md — PortalShell resolved state: PortalNavBar + heading + 4 section cards grid (PORTAL-02, PORTAL-03, BROK-03, BROK-04)
 
 **Cross-cutting constraints:**
   - All portal components must use raw div card pattern (not shadcn Card) — D-09, established in Phase 16
@@ -157,4 +157,4 @@ Full details: [milestones/v1.3-ROADMAP.md](milestones/v1.3-ROADMAP.md)
 | 15. Backend API & BrokerageAuth Extension | v1.4 | 2/2 | Complete | 2026-05-24 |
 | 16. Main Domain Routing & Auth Guards | v1.4 | 2/2 | Complete | 2026-05-25 |
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete    | 2026-05-26 |
-| 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 3/4 | Executing | - |
+| 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 4/4 | Complete   | 2026-05-27 |

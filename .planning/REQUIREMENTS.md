@@ -10,7 +10,7 @@
 
 - [ ] **PORTAL-01**: User can access `/dashboard/*` on the main domain (routes exist alongside `/create/*`)
 - [x] **PORTAL-02**: User can reach board registrations, user management, group management, and invitations from the main domain dashboard
-- [ ] **PORTAL-03**: User can see the active brokerage name and their role displayed in the dashboard nav bar
+- [x] **PORTAL-03**: User can see the active brokerage name and their role displayed in the dashboard nav bar
 
 ## Auth — Authentication Routing & Access Control
 
@@ -22,8 +22,8 @@
 
 - [x] **BROK-01**: User can see a card per brokerage they admin (with brokerage name and role) on the brokerage selection screen
 - [x] **BROK-02**: User admining exactly one brokerage bypasses the selection screen and lands directly on the dashboard
-- [ ] **BROK-03**: User can switch the active brokerage via a dropdown in the nav bar without leaving the current page
-- [ ] **BROK-04**: Switching brokerage via the nav dropdown updates all visible admin panel data to the newly selected brokerage
+- [x] **BROK-03**: User can switch the active brokerage via a dropdown in the nav bar without leaving the current page
+- [x] **BROK-04**: Switching brokerage via the nav dropdown updates all visible admin panel data to the newly selected brokerage
 
 ## BE — Backend API
 
