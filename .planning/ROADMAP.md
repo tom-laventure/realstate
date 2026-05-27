@@ -81,9 +81,18 @@ Full details: [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
 **Plans**: 3 plans
 
 Plans:
+
+**Wave 1**
 - [ ] 19-01-PLAN.md — Lifecycle columns migration (add 4 columns, backfill, replace unique index)
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 19-02-PLAN.md — BrokerageDomain model (enums, RESERVED_SLUGS, routable scope, validations)
+
+**Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 19-03-PLAN.md — Routing integration (BrokerageAuth + DomainsController + factory + tests)
+
+Cross-cutting constraints:
+- All tasks: migration must run before model changes; model scopes must exist before routing changes
 
 **Success criteria:**
 1. Migration runs cleanly; all current brokerage_domains rows show `domain_type: subdomain`, `status: active`, `is_primary: true`
