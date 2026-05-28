@@ -113,7 +113,7 @@ Cross-cutting constraints:
 Plans:
 
 **Wave 1**
-- [ ] 20-01-PLAN.md — Lifecycle helpers + serializer (BrokerageDomain#phase_out!/decommission!, Brokerage#phasing_out_count_for, BrokerageDomainSerializer)
+- [x] 20-01-PLAN.md — Lifecycle helpers + serializer (BrokerageDomain#phase_out!/decommission!, Brokerage#phasing_out_count_for, BrokerageDomainSerializer)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 20-02-PLAN.md — Admin domains controller rebuild + admin routes + integration tests (index, subdomain, custom, destroy, set_primary)
