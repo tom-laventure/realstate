@@ -108,7 +108,18 @@ Cross-cutting constraints:
 **Goal**: Implement the full domain management API — CRUD endpoints for subdomain editing and custom domain management, lifecycle validation (phase-out blocking/warnings), Pro-tier gating, public primary-domain lookup, and invitation email canonicalization
 **Depends on**: Phase 19
 **Requirements**: DMOD-05, DMOD-06, DMOD-07, DMOD-08, DMOD-09, DMOD-10, DMOD-11, DMOD-12, DMOD-13, DMOD-14, DINT-02
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+
+**Wave 1**
+- [ ] 20-01-PLAN.md — Lifecycle helpers + serializer (BrokerageDomain#phase_out!/decommission!, Brokerage#phasing_out_count_for, BrokerageDomainSerializer)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 20-02-PLAN.md — Admin domains controller rebuild + admin routes + integration tests (index, subdomain, custom, destroy, set_primary)
+
+**Wave 3** *(blocked on Wave 2 completion — shared routes.rb file)*
+- [ ] 20-03-PLAN.md — Public lookup endpoint (DMOD-13) + InvitationMailer fix (DINT-02) + public route
 
 **Success criteria:**
 1. `GET /v1/admin/domains` returns all active + phasing-out domains with correct fields
@@ -161,5 +172,5 @@ Cross-cutting constraints:
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
 | 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete    | 2026-05-27 |
-| 20. Backend Domain API | v1.5 | 0/TBD | Pending | — |
+| 20. Backend Domain API | v1.5 | 0/3 | Pending | — |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 0/TBD | Pending | — |
