@@ -116,7 +116,7 @@ Plans:
 - [x] 20-01-PLAN.md — Lifecycle helpers + serializer (BrokerageDomain#phase_out!/decommission!, Brokerage#phasing_out_count_for, BrokerageDomainSerializer)
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 20-02-PLAN.md — Admin domains controller rebuild + admin routes + integration tests (index, subdomain, custom, destroy, set_primary)
+- [x] 20-02-PLAN.md — Admin domains controller rebuild + admin routes + integration tests (index, subdomain, custom, destroy, set_primary)
 
 **Wave 3** *(blocked on Wave 2 completion — shared routes.rb file)*
 - [ ] 20-03-PLAN.md — Public lookup endpoint (DMOD-13) + InvitationMailer fix (DINT-02) + public route
