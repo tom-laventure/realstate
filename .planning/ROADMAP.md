@@ -119,7 +119,7 @@ Plans:
 - [x] 20-02-PLAN.md — Admin domains controller rebuild + admin routes + integration tests (index, subdomain, custom, destroy, set_primary)
 
 **Wave 3** *(blocked on Wave 2 completion — shared routes.rb file)*
-- [ ] 20-03-PLAN.md — Public lookup endpoint (DMOD-13) + InvitationMailer fix (DINT-02) + public route
+- [x] 20-03-PLAN.md — Public lookup endpoint (DMOD-13) + InvitationMailer fix (DINT-02) + public route
 
 **Success criteria:**
 1. `GET /v1/admin/domains` returns all active + phasing-out domains with correct fields
