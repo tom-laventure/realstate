@@ -108,7 +108,7 @@ All components used in this phase, sourced from shadcn/ui unless noted.
 
 ### Already installed
 - `Badge` — status badges, type badges, "Primary" badge
-- `Button` — all action buttons (Edit, Save, Cancel, Set as primary, Remove now, Add domain)
+- `Button` — all action buttons (Edit, Save, Discard changes, Set as primary, Remove now, Add domain)
 - `Card`, `CardContent`, `CardHeader`, `CardTitle` — domain cards, sections
 - `Input` — subdomain slug edit field
 - `Label` — field label in inline edit form
@@ -147,7 +147,7 @@ No third-party registries. shadcn official only.
 Card **toggles in place** — display content replaced by inline form:
 - `DomainSlugInput` (slug input + static `.realstate.app` suffix)
 - Validation error text: `text-xs text-destructive` below input, visible on-change
-- Button row: "Save" (default, disabled when invalid or unchanged) + "Cancel" (outline)
+- Button row: "Save" (default, disabled when invalid or unchanged) + "Discard changes" (outline)
 - Card does not move in the grid — same dimensions as read mode
 
 ### Slot Banner — 1 slot remaining (DUI-06, D-12)
@@ -174,7 +174,7 @@ Appears **below the "Subdomains" section heading**, above the card list.
 shadcn `AlertDialog`:
 - Title: `"Remove [domain]?"`
 - Description: `"This domain will stop resolving immediately and cannot be undone. Any links using this domain will break."`
-- Cancel button: `variant="outline"`, label "Cancel"
+- Cancel button: `variant="outline"`, label "Keep domain"
 - Confirm button: `variant="destructive"`, label "Remove domain"
 
 ### Custom Domain — Add Form (DUI-05)
@@ -182,7 +182,7 @@ Button `"Add domain"` opens an inline form (not a modal dialog) below the sectio
 - Input: full custom domain (e.g., `app.acme.com`)
 - Validation: non-empty, basic hostname format
 - Save button: primary (`variant="default"`), label "Add domain"
-- Cancel button: ghost/outline, label "Cancel"
+- Cancel button: ghost/outline, label "Discard"
 
 ### Pro Gate — Locked Custom Domains (DUI-08)
 The Custom Domains section body (card area) replaced with a locked state card:
@@ -297,7 +297,8 @@ Source: CONTEXT.md D-01, D-02, D-03, D-04
 | Primary CTA (add custom domain) | `Add domain` |
 | Inline edit placeholder | `your-brokerage` |
 | Inline edit suffix | `.realstate.app` |
-| Inline edit cancel | `Cancel` |
+| Inline edit cancel | `Discard changes` |
+| Add domain form cancel | `Discard` |
 | Set primary action | `Set as primary` |
 | Edit action | `Edit` |
 | Remove action (active custom domain) | `Remove` |
@@ -313,7 +314,7 @@ Source: CONTEXT.md D-01, D-02, D-03, D-04
 | Remove now dialog title | `Remove {domain}?` |
 | Remove now dialog body | `This domain will stop resolving immediately and cannot be undone. Any links using this domain will break.` |
 | Remove now dialog confirm | `Remove domain` |
-| Remove now dialog cancel | `Cancel` |
+| Remove now dialog cancel | `Keep domain` |
 | Validation — invalid slug format | `Slug must contain only letters, numbers, and hyphens.` |
 | Validation — leading/trailing hyphen | `Slug cannot start or end with a hyphen.` |
 | Validation — reserved word | `"{slug}" is a reserved name and cannot be used.` |
@@ -359,7 +360,7 @@ No third-party registries declared for this phase.
 
 ## Accessibility Contract
 
-- All `button` elements have descriptive `aria-label` when icon-only (e.g. close inline edit): `aria-label="Cancel edit"`
+- All `button` elements have descriptive `aria-label` when icon-only (e.g. close inline edit): `aria-label="Discard edit"`
 - `aria-current="page"` on active nav items — already enforced by `NavButton` and `PortalAdminSideNav` patterns
 - `AlertDialog` uses Radix focus trap — no additional work needed
 - "Remove domain" confirm button: receives focus automatically via Radix `AlertDialogAction`
