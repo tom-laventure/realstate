@@ -145,7 +145,7 @@ Plans:
 - [x] 21-01-PLAN.md — Foundation: install accordion, create domainType.ts + RESERVED_SLUGS, lookupDomain.ts (BASE axios), PrimaryDomainRedirect layout-route guard + Vitest, wire into main.tsx (DINT-01)
 
 **Wave 2** *(blocked on Wave 1 — needs domainType.ts)*
-- [ ] 21-02-PLAN.md — Data layer: 4 admin API modules + 5 TanStack mutation hooks + fetchDomains type swap
+- [x] 21-02-PLAN.md — Data layer: 4 admin API modules + 5 TanStack mutation hooks + fetchDomains type swap
 
 **Wave 3** *(blocked on Wave 2 — needs mutation hooks)*
 - [ ] 21-03-PLAN.md — Shell: nav items in both sidebars + /admin/domains route + DomainsAdminBoard container + useDomainsAdminContext brain + DomainsAdminView shell + CustomDomainsProGate + AddCustomDomainForm (DUI-01, DUI-05 form, DUI-08)
@@ -187,4 +187,4 @@ Plans:
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
 | 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete    | 2026-05-27 |
 | 20. Backend Domain API | v1.5 | 0/3 | Pending | — |
-| 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 1/4 | In Progress|  |
+| 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 2/4 | In Progress|  |
