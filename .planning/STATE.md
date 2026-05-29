@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Domain Management
 status: executing
-last_updated: "2026-05-29T06:55:16.519Z"
-last_activity: 2026-05-29 -- Phase 21 planning complete
+last_updated: "2026-05-29T07:06:31.838Z"
+last_activity: 2026-05-29 -- Completed 21-01 (PrimaryDomainRedirect guard + domainType.ts + accordion)
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 10
-  completed_plans: 6
-  percent: 60
+  completed_plans: 7
+  percent: 70
 ---
 
 # Project State
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 20 — backend-domain-api
+**Current focus:** Phase 21 — frontend-redirect-guard-and-domains-admin
 
 ## Current Position
 
-Phase: 20
-Plan: Ready to execute (3 plans)
+Phase: 21 (frontend-redirect-guard-and-domains-admin) — EXECUTING
+Plan: 2 of 4
 Status: Ready to execute
-Last activity: 2026-05-29 -- Phase 21 planning complete
+Last activity: 2026-05-29 -- Completed 21-01: PrimaryDomainRedirect guard + domainType.ts + shadcn accordion installed
 
 ## Deferred Items
 

@@ -24,7 +24,7 @@
 
 ## DINT — System Integration
 
-- [ ] **DINT-01**: On app init, frontend detects if `window.location.hostname` ≠ brokerage's primary domain and redirects to `https://{primary_domain}/{same_path+query}`
+- [x] **DINT-01**: On app init, frontend detects if `window.location.hostname` ≠ brokerage's primary domain and redirects to `https://{primary_domain}/{same_path+query}`
 - [ ] **DINT-02**: `InvitationMailer#primary_domain` updated to query `is_primary: true` instead of `first`
 - [x] **DINT-03**: `BrokerageAuth` resolves brokerage from domains with `status: active` or `status: phasing_out`; decommissioned domains return 404
 - [x] **DINT-04**: `V1::DomainsController#check` (Caddy TLS endpoint) updated to filter by `status: active` instead of `deleted_at: nil`
