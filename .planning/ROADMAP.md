@@ -151,7 +151,7 @@ Plans:
 - [x] 21-03-PLAN.md — Shell: nav items in both sidebars + /admin/domains route + DomainsAdminBoard container + useDomainsAdminContext brain + DomainsAdminView shell + CustomDomainsProGate + AddCustomDomainForm (DUI-01, DUI-05 form, DUI-08)
 
 **Wave 4** *(blocked on Wave 3 — fills section slots on DomainsAdminView)*
-- [ ] 21-04-PLAN.md — Cards + slot UI: validateSlug + DomainSlugInput + DomainCard + SubdomainCardEditForm + SubdomainsSection + FreeSlotAccordion + SlotBanner + RemoveNowDialog + CustomDomainList + wire DomainsAdminBoard render-props (DUI-02, DUI-03, DUI-04, DUI-06, DUI-07, DUI-09)
+- [x] 21-04-PLAN.md — Cards + slot UI: validateSlug + DomainSlugInput + DomainCard + SubdomainCardEditForm + SubdomainsSection + FreeSlotAccordion + SlotBanner + RemoveNowDialog + CustomDomainList + wire DomainsAdminBoard render-props (DUI-02, DUI-03, DUI-04, DUI-06, DUI-07, DUI-09)
 
 **Success criteria:**
 1. Visiting a phasing-out domain URL in the browser redirects to the same path + query on the primary domain
@@ -187,4 +187,4 @@ Plans:
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
 | 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete    | 2026-05-27 |
 | 20. Backend Domain API | v1.5 | 0/3 | Pending | — |
-| 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 3/4 | In Progress|  |
+| 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete   | 2026-05-29 |
