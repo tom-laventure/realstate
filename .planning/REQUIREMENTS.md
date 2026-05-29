@@ -31,14 +31,14 @@
 
 ## DUI — Admin Domains Page
 
-- [ ] **DUI-01**: `/admin/domains` route added to both the subdomain admin router and the main-domain portal admin; "Domains" nav item added to both sidebars (PortalAdminSideNav and AppShellAdmin)
+- [x] **DUI-01**: `/admin/domains` route added to both the subdomain admin router and the main-domain portal admin; "Domains" nav item added to both sidebars (PortalAdminSideNav and AppShellAdmin)
 - [ ] **DUI-02**: Domain cards display: name, type badge (Subdomain / Custom Domain), status badge (Active / Phasing Out), and a countdown for phasing-out domains showing days remaining and decommission date
 - [x] **DUI-03**: Primary domain card has a "Primary" badge; active non-primary domain cards have a "Set as primary" action
 - [x] **DUI-04**: Subdomain card has an "Edit" action opening an inline form with client-side slug validation (format + reserved-word list) before submit
 - [x] **DUI-05**: Custom domain section (Pro): "Add domain" button opens a form; existing active custom domain has a "Remove" action with a confirmation dialog
 - [ ] **DUI-06**: When an action succeeds but would leave exactly 1 slot remaining, the success state shows a yellow warning: "Next change will be your last until [date]"
 - [ ] **DUI-07**: When 0 phase-out slots remain, the relevant action button is disabled with an inline message: "Unavailable until [date]"; force-removing a phasing-out domain is surfaced as a way to free a slot immediately
-- [ ] **DUI-08**: Non-Pro brokerage: custom domain section shows a locked card with an upgrade prompt; no management controls visible
+- [x] **DUI-08**: Non-Pro brokerage: custom domain section shows a locked card with an upgrade prompt; no management controls visible
 - [x] **DUI-09**: Phasing-out domain cards have a "Remove now" action that opens a confirmation dialog warning the domain stops resolving immediately and cannot be undone
 
 ---
