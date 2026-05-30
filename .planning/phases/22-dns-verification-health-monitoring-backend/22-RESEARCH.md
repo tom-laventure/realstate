@@ -660,22 +660,25 @@ end
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **DADD-04: single-send vs multi-send for day-5 warning email**
    - What we know: `DomainVerificationJob` runs every 30 min; each run between day 5 and day 7 will see the domain in the warning window
    - What's unclear: Should the warning email be sent exactly once, or is idempotent re-send acceptable?
    - Recommendation: If single-send is required, add `verification_warning_sent boolean default false` to the migration. If idempotent (acceptable to send ~48 times), no extra column needed.
+   - **RESOLVED:** Multi-send / idempotent. Plan 22-05 implements `DomainVerificationJob` with idempotent warning email dispatch on each 30-min run while domain is in the 5–7 day window. No extra tracking column added to the migration.
 
 2. **DELETE on pending domains in Phase 22**
    - What we know: The existing `destroy` action handles active (phase_out!) and phasing_out (decommission!) but doesn't mention pending
    - What's unclear: Should `DELETE /v1/admin/domains/:id` on a pending domain immediately decommission it (skip phase-out since no CNAME is live), or be blocked by Phase 22?
    - Recommendation: Pending domains should decommission immediately on delete (no live traffic to protect). Update the destroy action to handle `status_pending? → decommission!`.
+   - **RESOLVED:** Immediate decommission. Plan 22-04 updates `DomainsController#destroy` to call `decommission!` directly when `domain.status_pending?` — no phase-out window because no CNAME record is live.
 
 3. **`phase_out!` constant extraction: model vs job?**
    - What we know: `BrokerageDomain#phase_out!` uses `30.days.from_now` inline (line 36); DHLT-05 requires a named constant
    - What's unclear: Should `PHASE_OUT_DURATION` live in `BrokerageDomain` model or in the job?
    - Recommendation: Define `PHASE_OUT_DURATION = 30.days` in `BrokerageDomain` (since `phase_out!` lives there) and reference it from both the model method and the jobs.
+   - **RESOLVED:** Constant defined in `BrokerageDomain` model. Plan 22-01 adds `PHASE_OUT_DURATION = 30.days` to `brokerage_domain.rb` and replaces the inline `30.days.from_now` in `phase_out!` with `PHASE_OUT_DURATION.from_now`.
 
 ---
 
