@@ -103,7 +103,14 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
   3. When a phasing-out domain passes CNAME verification before its decommission date, its status is restored to active and phase_out_at is cleared
   4. When a brokerage plan downgrades from Pro, all custom domains are frozen (status transition), the subdomain is promoted to primary, and Owner-role users receive an email explaining the effect; on re-upgrade frozen domains are restored to active
   5. Health check interval and phase-out duration are defined as named constants in the codebase; no inline magic numbers
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
+- [ ] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
+- [ ] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
+- [ ] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
+- [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
 
 ### Phase 23: 301 Redirect & Primary Domain Enforcement
 **Goal**: Requests arriving at any non-primary domain are transparently redirected to the same path on the primary domain at the server layer; frozen domains also redirect
@@ -113,7 +120,14 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
   1. A request to `https://old.example.com/some/path` on a non-primary active domain receives an HTTP 301 response with Location pointing to the equivalent path on the brokerage's current primary domain
   2. A request arriving at a frozen custom domain receives a redirect to the brokerage's subdomain (no full app load on frozen domains)
   3. All system-generated emails (invitations, health-failure notifications, downgrade notices) use the current primary domain in links; changing the primary domain propagates to the next email sent
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
+- [ ] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
+- [ ] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
+- [ ] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
+- [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
 **UI hint**: no
 
 ### Phase 24: Domain UI Overhaul
@@ -126,7 +140,14 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
   3. A "Verify now" button appears on pending and phasing-out domain cards; pressing it enqueues an on-demand verification job; each card shows the last-checked timestamp and a plain-language failure reason when verification has failed
   4. Deleting the current primary domain requires selecting a replacement first (subdomain pre-selected); the confirmation dialog shows the decommission date; when a phasing-out domain is rescued a confirmation message appears on the dashboard
   5. Admins see full domain status and can trigger verification but cannot mutate; roles below Admin see a read-only list; frozen custom domain cards display a Frozen badge with an explanation and re-upgrade prompt
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
+- [ ] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
+- [ ] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
+- [ ] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
+- [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
 **UI hint**: yes
 
 ---
