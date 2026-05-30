@@ -9,8 +9,8 @@ progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 5
-  completed_plans: 4
-  percent: 36
+  completed_plans: 5
+  percent: 100
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 22 — DNS Verification & Health Monitoring Backend
-Plan: 04 complete, 05 next
-Status: Plan 22-04 complete; executing phase 22
-Last activity: 2026-05-30 — Plan 22-04 complete (DomainsController D-08 pending creation + pending destroy + index/mutation_payload scope updates)
+Plan: 05 complete — Phase 22 complete
+Status: Phase 22 complete; Phase 23 (301 Redirect & Primary Domain Enforcement) is next
+Last activity: 2026-05-30 — Plan 22-05 complete (DomainVerificationJob + DomainHealthJob + recurring.yml)
 
 ```
-Progress: [==========                    ] 36% (0/3 phases, 4/5 plans)
+Progress: [==============================] 100% (0/3 phases, 5/5 plans — Phase 22 complete)
 ```
 
 ## Phase Summary
@@ -86,9 +86,11 @@ Progress: [==========                    ] 36% (0/3 phases, 4/5 plans)
 | D-08: custom domains created as pending (not active) | DomainVerificationJob promotes to active after CNAME check; bypasses old phase-out-on-create logic |
 | Pending destroy: immediate decommission, no phase-out | Pending domains have no live traffic — slot checks and phase-out period do not apply |
 | index and mutation_payload include pending domains | .routable.or(.status_pending) ensures Phase 24 UI can display verification state immediately after creation |
+| FakeJob subclass for DNS testing in Minitest 6 | Minitest 6.0.3 (Ruby 4.0.0) removed Minitest::Mock and .stub — test subclass overrides cname_resolves_to_subdomain? directly |
+| No without_deleted on BrokerageDomain job scopes | BrokerageDomain does not include acts_as_paranoid; plain status scopes are correct |
 
 ## Session Continuity
 
-Stopped at: Plan 22-04 complete
-Next action: Execute plan 22-05
-Last session: 2026-05-30T20:55:00Z — Completed 22-04 (DomainsController D-08 pending creation + pending destroy + index/mutation_payload scope updates)
+Stopped at: Plan 22-05 complete — Phase 22 complete
+Next action: Execute Phase 23 (301 Redirect & Primary Domain Enforcement)
+Last session: 2026-05-30T21:20:00Z — Completed 22-05 (DomainVerificationJob + DomainHealthJob + recurring.yml — 20 tests passing)

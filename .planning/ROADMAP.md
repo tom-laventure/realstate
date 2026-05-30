@@ -85,7 +85,7 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 
 **v1.6 — Domain Management v2 (Phases 22–24)**
 
-- [ ] **Phase 22: DNS Verification & Health Monitoring Backend** — Background verification and health check jobs, auto-phase-out, rescue logic, owner email notifications, downgrade handling, domain state constraints
+- [x] **Phase 22: DNS Verification & Health Monitoring Backend** — Background verification and health check jobs, auto-phase-out, rescue logic, owner email notifications, downgrade handling, domain state constraints (completed 2026-05-30)
 - [ ] **Phase 23: 301 Redirect & Primary Domain Enforcement** — Rails redirect middleware for non-primary domains, frozen domain redirects, system-link primary domain enforcement
 - [ ] **Phase 24: Domain UI Overhaul** — Revamped card list with role-gating, 4-step add wizard, on-demand verify, delete flow with primary replacement, rescue confirmation, frozen badge
 
@@ -110,7 +110,7 @@ Plans:
 - [x] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
 - [x] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
 - [x] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
-- [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
+- [x] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
 
 ### Phase 23: 301 Redirect & Primary Domain Enforcement
 **Goal**: Requests arriving at any non-primary domain are transparently redirected to the same path on the primary domain at the server layer; frozen domains also redirect
