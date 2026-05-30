@@ -9,8 +9,8 @@ progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 5
-  completed_plans: 2
-  percent: 14
+  completed_plans: 3
+  percent: 28
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 22 — DNS Verification & Health Monitoring Backend
-Plan: 02 complete, 03 next
-Status: Plan 22-02 complete; executing phase 22
-Last activity: 2026-05-30 — Plan 22-02 complete (DomainMailer: 3 methods, 6 ERB templates, 13 tests)
+Plan: 03 complete, 04 next
+Status: Plan 22-03 complete; executing phase 22
+Last activity: 2026-05-30 — Plan 22-03 complete (Brokerage freeze/unfreeze service methods + Ops::PlanController + 14 tests)
 
 ```
-Progress: [====                          ] 14% (0/3 phases, 2/5 plans)
+Progress: [========                      ] 28% (0/3 phases, 3/5 plans)
 ```
 
 ## Phase Summary
@@ -80,9 +80,12 @@ Progress: [====                          ] 14% (0/3 phases, 2/5 plans)
 | owner_emails resolves at send time via BrokerageMembership.without_deleted | Soft-deleted members must never receive email; paranoid guard is required at query time |
 | primary_domain helper copied to DomainMailer from InvitationMailer (not extracted) | Only two callers; premature abstraction to ApplicationMailer deferred until third caller exists |
 | DHLT-04 fallback language in ERB template (not mailer method) | Keeps mailer method signatures clean; template-layer conditional is the established pattern |
+| Email dispatch in Ops::PlanController (not Brokerage model) | Model method stays mailer-free and testable without mailer dependency; email sent only after transaction commits |
+| unfreeze_custom_domains! uses verified flag to determine restore target | verified:true -> active, verified:false -> pending; avoids tracking pre-freeze status separately |
+| alias_method :create, :update in Ops::PlanController | Enables POST alongside PATCH/PUT for JSON ops endpoint without duplicate action code |
 
 ## Session Continuity
 
-Stopped at: Plan 22-02 complete
-Next action: Execute plan 22-03 (DomainHealthJob)
-Last session: 2026-05-30T20:08:00Z — Completed 22-02 (DomainMailer: 3 methods, 6 ERB templates, 13 tests)
+Stopped at: Plan 22-03 complete
+Next action: Execute plan 22-04
+Last session: 2026-05-30T20:25:00Z — Completed 22-03 (Brokerage freeze/unfreeze service methods + Ops::PlanController + 14 tests)
