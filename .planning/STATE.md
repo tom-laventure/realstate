@@ -2,7 +2,7 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Domain Management v2
-status: ready
+status: planning-complete
 last_updated: "2026-05-30T00:00:00.000Z"
 last_activity: 2026-05-30
 progress:
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 
 ## Current Position
 
-Phase: 22 — DNS Verification & Health Monitoring Backend (not started)
+Phase: 22 — DNS Verification & Health Monitoring Backend (planned, 5 plans ready)
 Plan: —
-Status: Roadmap created; ready for Phase 22 planning
-Last activity: 2026-05-30 — Roadmap created
+Status: Phase 22 planned (5 plans, 3 waves); ready to execute
+Last activity: 2026-05-30 — Phase 22 planned (5 plans)
 
 ```
 Progress: [                              ] 0% (0/3 phases)
@@ -77,4 +77,4 @@ Progress: [                              ] 0% (0/3 phases)
 
 ## Session Continuity
 
-Next action: `/gsd-plan-phase 22`
+Next action: `/gsd-execute-phase 22`
