@@ -1,5 +1,51 @@
 # Retrospective
 
+## Milestone: v1.5 — Domain Management
+
+**Shipped:** 2026-05-29
+**Phases:** 3 (19–21) | **Plans:** 10 | **Timeline:** 3 days (2026-05-27 → 2026-05-29)
+
+### What Was Built
+
+1. `brokerage_domains` lifecycle schema: 4 columns (`domain_type`, `status`, `is_primary`, `phase_out_at`), SQL backfill, partial unique index `WHERE status != 'decommissioned'`; `BrokerageDomain` model enums + `RESERVED_SLUGS` + routable scope + slug validations; `BrokerageAuth` + `DomainsController#check` updated to status-based scopes (Phase 19)
+2. Domain backend API: `phase_out!/decommission!` lifecycle helpers, `phasing_out_count_for`, `BrokerageDomainSerializer`; rebuilt `V1::Admin::DomainsController` with 5 actions + 21 integration tests + Pro-tier gate + slot-block/warning logic; public `GET /v1/domains/lookup` (9 tests); `InvitationMailer` → `is_primary: true` (3 mailer tests) (Phase 20)
+3. Frontend redirect guard: `PrimaryDomainRedirect` layout-route using `window.location.replace`, `lookupDomain` BASE axios, Vitest coverage (Phase 21)
+4. Full Domains admin page: `DomainsAdminView` + `useDomainsAdminContext` brain; `DomainCard` with type/status/countdown badges; `SubdomainCardEditForm` with `validateSlug`; `FreeSlotAccordion` + `SlotBanner` slot management; `RemoveNowDialog`; `CustomDomainsProGate`; "Domains" nav in both sidebars; UAT 6/7 passed + 2 bugs fixed (Phase 21)
+
+### What Worked
+
+- **Phase 20 backend was highly modular** — splitting into lifecycle foundation (20-01), controller rebuild (20-02), and public endpoint + mailer (20-03) allowed each plan to complete independently without merge conflicts. The 3-wave approach was well-calibrated to the actual dependency graph.
+- **`window.location.replace` for redirect guard** — the decision to use `replace()` over `window.location.href =` eliminated the back-button redirect loop before it could become a bug. UAT test 7 validated this directly.
+- **UAT caught two important bugs** — missing Domains card in the PortalShell 2×2 grid and `isPrimary` badge showing on phasing-out domains. Both were concrete functional bugs that test suite couldn't catch; human verification was essential.
+- **Pro-tier gate + slot logic co-located in controller** — keeping `phasing_out_count_for` on the model and slot checking in the controller (not in a query object) kept the API layer readable and testable; 21 integration tests verified all edge cases.
+
+### What Was Inefficient
+
+- **REQUIREMENTS.md checkbox sync** — sixth consecutive milestone with the same gap. Phase 20 completed all 11 DMOD/DINT requirements but zero checkboxes were updated. The fix is clear and has been stated five times: update at phase close in `/gsd-execute-phase`. This is now the recurring issue of the project.
+- **Phase 21 UAT needed a second pass** — two bugs found in UAT required immediate fixes before milestone close. Both were testable behaviors (card presence, badge conditional logic) that could have been caught in Phase 21 code review. Review was completed but these were missed.
+- **No milestone audit** — third consecutive milestone without `gsd-audit-milestone`. Human UAT covered the main flows; cross-phase integration gaps remain unaudited.
+
+### Patterns Established
+
+- **Lifecycle state machine in model**: `phase_out!` and `decommission!` as named transitions on the model; slot counting (`phasing_out_count_for(type)`) on the parent model — not in the controller
+- **Partial unique index pattern**: `WHERE status != 'decommissioned'` allows reusing domain names after decommission without a separate deleted_at guard
+- **`window.location.replace` for transparent redirect guards**: prevents history pollution; use over `href =` whenever the redirect should be invisible to back-button navigation
+- **BASE axios for public endpoints**: unauthenticated API calls use BASE axios instance (no auth token); authenticated calls use the default Axios instance
+
+### Key Lessons
+
+- **REQUIREMENTS.md sync is now a 6-milestone pattern** — the lesson is concrete: the workflow change must happen at `/gsd-execute-phase` level, not documentation. Adding a post-SUMMARY step to mark requirements checked would close this gap permanently.
+- **Slot-block/warning logic is a good candidate for model-level helpers** — `phasing_out_count_for` on `Brokerage` makes the controller thin and the logic testable in isolation. Expand this pattern for any future resource-constrained operations.
+- **UAT before milestone close is non-negotiable for UI features** — both v1.4 and v1.5 found functional bugs in UAT that passed code review. Keep UAT as a required step before every milestone close with UI changes.
+
+### Cost Observations
+
+- Sessions: ~3 across 3 days
+- Model: Claude Sonnet 4.6 throughout
+- Notable: 10 plans in 3 days at ~3.3 plans/day; consistent velocity with previous milestones; Phase 20 backend plans were thorough (21 integration tests)
+
+---
+
 ## Milestone: v1.4 — Main Domain Admin Portal
 
 **Shipped:** 2026-05-27

@@ -7,7 +7,7 @@
 - ✅ **v1.2 — Listing Map View** — Phases 8–10 (shipped 2026-05-18)
 - ✅ **v1.3 — Test Board & Board Management** — Phases 11–14 (shipped 2026-05-24)
 - ✅ **v1.4 — Main Domain Admin Portal** — Phases 15–18 (shipped 2026-05-27)
-- 🔄 **v1.5 — Domain Management** — Phases 19–21 (in progress)
+- ✅ **v1.5 — Domain Management** — Phases 19–21 (shipped 2026-05-29)
 
 ## Phases
 
@@ -71,95 +71,16 @@ Full details: [milestones/v1.4-ROADMAP.md](milestones/v1.4-ROADMAP.md)
 
 ---
 
-## v1.5 — Domain Management (Phases 19–21)
+<details>
+<summary>✅ v1.5 — Domain Management (Phases 19–21) — SHIPPED 2026-05-29</summary>
 
-### Phase 19: Domain Schema & Auth Integration
+- [x] Phase 19: Domain Schema & Auth Integration (3/3 plans) — completed 2026-05-27
+- [x] Phase 20: Backend Domain API (3/3 plans) — completed 2026-05-28
+- [x] Phase 21: Frontend — Redirect Guard & Domains Admin Page (4/4 plans) — completed 2026-05-29
 
-**Goal**: Extend brokerage_domains with lifecycle columns, backfill existing data as active primary subdomains, and update BrokerageAuth + the Caddy TLS endpoint to route by status — so phasing-out domains still resolve and decommissioned ones don't
-**Depends on**: Phase 18
-**Requirements**: DMOD-01, DMOD-02, DMOD-03, DMOD-04, DINT-03, DINT-04
-**Plans**: 3 plans
+Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 
-Plans:
-
-**Wave 1**
-- [x] 19-01-PLAN.md — Lifecycle columns migration (add 4 columns, backfill, replace unique index)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-- [x] 19-02-PLAN.md — BrokerageDomain model (enums, RESERVED_SLUGS, routable scope, validations)
-
-**Wave 3** *(blocked on Wave 2 completion)*
-- [x] 19-03-PLAN.md — Routing integration (BrokerageAuth + DomainsController + factory + tests)
-
-Cross-cutting constraints:
-- All tasks: migration must run before model changes; model scopes must exist before routing changes
-
-**Success criteria:**
-1. Migration runs cleanly; all current brokerage_domains rows show `domain_type: subdomain`, `status: active`, `is_primary: true`
-2. `BrokerageAuth` resolves a brokerage from a domain with `status: phasing_out` and returns 404 for `status: decommissioned`
-3. `GET /v1/domains/check` returns 404 for a decommissioned domain
-4. A subdomain slug with a space or reserved word (`admin`, `api`, etc.) fails model validation with a clear message
-5. All existing backend integration tests continue to pass after the migration
-
----
-
-### Phase 20: Backend Domain API
-
-**Goal**: Implement the full domain management API — CRUD endpoints for subdomain editing and custom domain management, lifecycle validation (phase-out blocking/warnings), Pro-tier gating, public primary-domain lookup, and invitation email canonicalization
-**Depends on**: Phase 19
-**Requirements**: DMOD-05, DMOD-06, DMOD-07, DMOD-08, DMOD-09, DMOD-10, DMOD-11, DMOD-12, DMOD-13, DMOD-14, DINT-02
-**Plans**: 3 plans
-
-Plans:
-
-**Wave 1**
-- [x] 20-01-PLAN.md — Lifecycle helpers + serializer (BrokerageDomain#phase_out!/decommission!, Brokerage#phasing_out_count_for, BrokerageDomainSerializer)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-- [x] 20-02-PLAN.md — Admin domains controller rebuild + admin routes + integration tests (index, subdomain, custom, destroy, set_primary)
-
-**Wave 3** *(blocked on Wave 2 completion — shared routes.rb file)*
-- [x] 20-03-PLAN.md — Public lookup endpoint (DMOD-13) + InvitationMailer fix (DINT-02) + public route
-
-**Success criteria:**
-1. `GET /v1/admin/domains` returns all active + phasing-out domains with correct fields
-2. `PATCH /v1/admin/domains/subdomain` creates a new active subdomain and transitions the old one to phasing-out (phase_out_at = 30 days from now)
-3. A third subdomain change attempt when 2 phasing-out subdomains exist returns HTTP 422 with `earliest_slot_available_at`
-4. `DELETE /v1/admin/domains/:id` on a phasing-out domain sets `status: decommissioned` and `deleted_at: now` immediately
-5. `PATCH /v1/admin/domains/:id/set_primary` rejects a phasing-out domain with HTTP 422
-6. `GET /v1/domains/lookup?domain=X` returns the primary domain for the owning brokerage; 404 for unknown domains
-7. Invitation emails reference the `is_primary: true` domain, not the first record
-
----
-
-### Phase 21: Frontend — Redirect Guard & Domains Admin Page
-
-**Goal**: Deliver the full Domains admin page where admins can view and manage all brokerage domains, and add an app-init redirect guard so users arriving on a non-primary domain are silently sent to the equivalent path on the primary domain
-**Depends on**: Phase 20
-**Requirements**: DINT-01, DUI-01, DUI-02, DUI-03, DUI-04, DUI-05, DUI-06, DUI-07, DUI-08, DUI-09
-**Plans**: 4 plans
-
-Plans:
-
-**Wave 1**
-- [x] 21-01-PLAN.md — Foundation: install accordion, create domainType.ts + RESERVED_SLUGS, lookupDomain.ts (BASE axios), PrimaryDomainRedirect layout-route guard + Vitest, wire into main.tsx (DINT-01)
-
-**Wave 2** *(blocked on Wave 1 — needs domainType.ts)*
-- [x] 21-02-PLAN.md — Data layer: 4 admin API modules + 5 TanStack mutation hooks + fetchDomains type swap
-
-**Wave 3** *(blocked on Wave 2 — needs mutation hooks)*
-- [x] 21-03-PLAN.md — Shell: nav items in both sidebars + /admin/domains route + DomainsAdminBoard container + useDomainsAdminContext brain + DomainsAdminView shell + CustomDomainsProGate + AddCustomDomainForm (DUI-01, DUI-05 form, DUI-08)
-
-**Wave 4** *(blocked on Wave 3 — fills section slots on DomainsAdminView)*
-- [x] 21-04-PLAN.md — Cards + slot UI: validateSlug + DomainSlugInput + DomainCard + SubdomainCardEditForm + SubdomainsSection + FreeSlotAccordion + SlotBanner + RemoveNowDialog + CustomDomainList + wire DomainsAdminBoard render-props (DUI-02, DUI-03, DUI-04, DUI-06, DUI-07, DUI-09)
-
-**Success criteria:**
-1. Visiting a phasing-out domain URL in the browser redirects to the same path + query on the primary domain
-2. Domains admin page lists all active and phasing-out domains with type badges, status badges, and phase-out countdowns
-3. Admin can edit subdomain (client-side slug validation before submit), add/remove custom domain (Pro), and set a domain as primary
-4. Phasing-out domain shows "Remove now"; confirmation dialog warns the domain stops resolving immediately
-5. Non-Pro brokerage sees the custom domain section locked with an upgrade prompt
-6. "Domains" nav item appears in both the subdomain admin sidebar and the main-domain portal admin sidebar
+</details>
 
 ---
 
@@ -186,5 +107,5 @@ Plans:
 | 17. Brokerage Selection & Post-Create Redirect | v1.4 | 3/3 | Complete | 2026-05-26 |
 | 18. Dashboard Shell, Admin Suite & Brokerage Switcher | v1.4 | 5/5 | Complete | 2026-05-27 |
 | 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete    | 2026-05-27 |
-| 20. Backend Domain API | v1.5 | 0/3 | Pending | — |
+| 20. Backend Domain API | v1.5 | 3/3 | Complete | 2026-05-28 |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete   | 2026-05-29 |

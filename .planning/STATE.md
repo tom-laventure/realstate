@@ -1,33 +1,32 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.5
-milestone_name: Domain Management
-status: verifying
-last_updated: "2026-05-29T07:26:13.089Z"
+milestone: v1.6
+milestone_name: TBD
+status: planning
+last_updated: "2026-05-29T12:00:00.000Z"
 last_activity: 2026-05-29
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 10
-  completed_plans: 10
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-27)
+See: .planning/PROJECT.md (updated 2026-05-29)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 21 — frontend-redirect-guard-and-domains-admin
+**Current focus:** Planning v1.6 — next milestone
 
 ## Current Position
 
-Phase: 21 (frontend-redirect-guard-and-domains-admin) — COMPLETE
-Plan: 4 of 4
-Status: Phase complete — ready for verification
-Last activity: 2026-05-29 -- Completed 21-04: Domain admin cards, slot management UI, render-prop wiring
+Milestone v1.5 — Domain Management — SHIPPED 2026-05-29
+All 3 phases (19–21), 10 plans complete. Git tag: v1.5.
+Ready to start v1.6 milestone planning.
 
 ## Deferred Items
 

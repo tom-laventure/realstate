@@ -1,21 +1,22 @@
 # RealState SaaS Platform
 
-## Current Milestone: v1.5 — Domain Management
+## Milestone: v1.5 — Domain Management — SHIPPED 2026-05-29 ✅
 
-**Goal:** Give brokerage admins full control over their domains — a Domains admin page to view, edit, and manage their subdomain and optional custom domain (Pro), designate a primary domain, and understand phase-out timelines for retiring domains.
+**Goal:** Give brokerage admins full control over their domains — a Domains admin page to view, edit, and manage their subdomain and optional custom domain (Pro), designate a primary domain, and understand phase-out timelines for retiring domains. ✓ Complete.
 
-**Target features:**
-- Domain schema: extend `brokerage_domains` with `domain_type`, `status`, `is_primary`, `phase_out_at`
-- Domain lifecycle: 30-day phase-out period; max 2 phasing-out domains per type; force-decommission escape hatch
-- Primary domain: any active domain can be promoted; system links (emails) use primary; non-primary domains redirect to primary on app init
-- Domain validation: uniqueness across all non-decommissioned records, slug format + reserved-word list, Pro-tier gate on custom domains
-- Domains admin page UI: status cards, phase-out countdowns, primary toggle, Pro upgrade prompt
+**Delivered:**
+- `brokerage_domains` extended with 4 lifecycle columns; SQL backfill; partial unique index on non-decommissioned records — Phase 19
+- `BrokerageDomain` model: string enums, `RESERVED_SLUGS`, routable scope, slug validations; `BrokerageAuth` → `.routable` scope; `DomainsController#check` → `.status_active` — Phase 19
+- Domain lifecycle backend: `phase_out!/decommission!` helpers, slot counting, `BrokerageDomainSerializer`; rebuilt admin domains controller with 5 actions + 21 integration tests; Pro-tier gate; slot-block/warning responses — Phase 20
+- Public `GET /v1/domains/lookup` (unauthenticated); `InvitationMailer` updated to `is_primary: true` — Phase 20
+- `PrimaryDomainRedirect` layout-route guard using `window.location.replace` — Phase 21
+- Full Domains admin page: status cards, phase-out countdowns, primary badge/toggle, slot management, Pro gate, "Remove now" confirm — Phase 21
 
 ---
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, and a main-domain admin portal where brokerage admins can manage all their brokerages in one place with a nav-bar brokerage switcher.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, and a full domain management system with lifecycle-tracked subdomains and custom domains (Pro), primary domain enforcement, and a Domains admin page.
 
 ## Core Value
 
@@ -138,39 +139,41 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ BROK-03: Brokerage switcher dropdown in nav bar switches active context without page navigation — v1.4 Phase 18
 - ✓ BROK-04: Switching brokerage via nav dropdown updates all admin panel data to the selected brokerage — v1.4 Phase 18
 
-### Active (v1.5 — Domain Management)
+### Validated (v1.5 additions)
 
-- [ ] **DMOD-01**: `brokerage_domains` schema extended with `domain_type`, `status`, `is_primary`, `phase_out_at`
-- [ ] **DMOD-02**: Data migration backfills existing rows as subdomain / active / is_primary: true
-- [ ] **DMOD-03**: Uniqueness check covers all non-decommissioned records; errors don't reveal owning brokerage
-- [ ] **DMOD-04**: Subdomain slug validated for format + reserved-word list
-- [ ] **DMOD-05**: Custom domain endpoints require `plan == 'premium'`
-- [ ] **DMOD-06**: `GET /v1/admin/domains` — full domain list with lifecycle fields
-- [ ] **DMOD-07**: `PATCH /v1/admin/domains/subdomain` — edit subdomain with phase-out of old
-- [ ] **DMOD-08**: `POST /v1/admin/domains/custom` — add custom domain (Pro only) with phase-out of replaced
-- [ ] **DMOD-09**: `DELETE /v1/admin/domains/:id` — phase out an active custom domain
-- [ ] **DMOD-10**: `PATCH /v1/admin/domains/:id/set_primary` — promote active domain to primary
-- [ ] **DMOD-11**: Phase-out warning when action results in exactly 2 phasing-out domains
-- [ ] **DMOD-12**: Phase-out blocked when 2 phasing-out domains already exist (returns `earliest_slot_available_at`)
-- [ ] **DMOD-13**: `GET /v1/domains/lookup?domain=X` — public endpoint returning primary domain
-- [ ] **DMOD-14**: `DELETE /v1/admin/domains/:id` on phasing-out domain → immediate decommission
-- [ ] **DINT-01**: Frontend app-init redirect guard for non-primary domains
-- [ ] **DINT-02**: `InvitationMailer` uses `is_primary: true` domain
-- [ ] **DINT-03**: `BrokerageAuth` resolves by status (active/phasing_out), not verified flag
-- [ ] **DINT-04**: `V1::DomainsController#check` (Caddy) updated to filter by `status: active`
-- [ ] **DUI-01**: `/admin/domains` route + "Domains" nav item on both sidebars
-- [ ] **DUI-02**: Domain cards: name, type badge, status badge, phase-out countdown
-- [ ] **DUI-03**: Primary badge + "Set as primary" action for active domains
-- [ ] **DUI-04**: Subdomain edit form with client-side validation
-- [ ] **DUI-05**: Custom domain add/remove (Pro only)
-- [ ] **DUI-06/07**: Phase-out slot warning and blocked state with dates
-- [ ] **DUI-08**: Non-Pro locked section with upgrade prompt
-- [ ] **DUI-09**: Phasing-out domain "Remove now" with confirmation dialog
+- ✓ DMOD-01: `brokerage_domains` schema extended with `domain_type`, `status`, `is_primary`, `phase_out_at` — v1.5 Phase 19
+- ✓ DMOD-02: Data migration backfills existing rows as subdomain / active / is_primary: true — v1.5 Phase 19
+- ✓ DMOD-03: Uniqueness check covers all non-decommissioned records; errors don't reveal owning brokerage — v1.5 Phase 19
+- ✓ DMOD-04: Subdomain slug validated for format + reserved-word list (10 reserved words) — v1.5 Phase 19
+- ✓ DMOD-05: Custom domain endpoints require `plan == 'premium'`; HTTP 403 + upgrade message for basic — v1.5 Phase 20
+- ✓ DMOD-06: `GET /v1/admin/domains` returns all active and phasing-out domains with 6 lifecycle fields — v1.5 Phase 20
+- ✓ DMOD-07: `PATCH /v1/admin/domains/subdomain` transitions old subdomain to 30-day phase-out; creates new active — v1.5 Phase 20
+- ✓ DMOD-08: `POST /v1/admin/domains/custom` adds custom domain (Pro only) with slot enforcement — v1.5 Phase 20
+- ✓ DMOD-09: `DELETE /v1/admin/domains/:id` on active custom domain → 30-day phase-out — v1.5 Phase 20
+- ✓ DMOD-10: `PATCH /v1/admin/domains/:id/set_primary` promotes active domain to primary; rejects phasing-out — v1.5 Phase 20
+- ✓ DMOD-11: Phase-out warning (`phase_out_warning`) when action results in exactly 2 phasing-out domains — v1.5 Phase 20
+- ✓ DMOD-12: Phase-out blocked (HTTP 422 + `earliest_slot_available_at`) when 2 phasing-out already exist — v1.5 Phase 20
+- ✓ DMOD-13: `GET /v1/domains/lookup?domain=X` — public unauthenticated endpoint; returns primary domain — v1.5 Phase 20
+- ✓ DMOD-14: `DELETE /v1/admin/domains/:id` on phasing-out domain → immediate decommission — v1.5 Phase 20
+- ✓ DINT-01: Frontend app-init `PrimaryDomainRedirect` guard using `window.location.replace` — v1.5 Phase 21
+- ✓ DINT-02: `InvitationMailer#primary_domain` queries `is_primary: true` — v1.5 Phase 20
+- ✓ DINT-03: `BrokerageAuth` resolves by `.routable` scope (active/phasing_out); decommissioned → 404 — v1.5 Phase 19
+- ✓ DINT-04: `V1::DomainsController#check` (Caddy) updated to `.status_active` scope — v1.5 Phase 19
+- ✓ DUI-01: `/admin/domains` route + "Domains" nav item in both PortalAdminSideNav and AppShellAdmin — v1.5 Phase 21
+- ✓ DUI-02: Domain cards with name, type badge, status badge, phase-out countdown — v1.5 Phase 21
+- ✓ DUI-03: Primary badge (active only) + "Set as primary" action for active non-primary domains — v1.5 Phase 21
+- ✓ DUI-04: Subdomain edit form with `validateSlug` + reserved-word list client-side validation — v1.5 Phase 21
+- ✓ DUI-05: Custom domain section (Pro): "Add domain" form + "Remove" action with confirmation — v1.5 Phase 21
+- ✓ DUI-06/07: `SlotBanner` warning + `FreeSlotAccordion` + disabled buttons with "Unavailable until" message — v1.5 Phase 21
+- ✓ DUI-08: Non-Pro locked section with `CustomDomainsProGate` upgrade prompt — v1.5 Phase 21
+- ✓ DUI-09: Phasing-out domain "Remove now" with `RemoveNowDialog` confirmation — v1.5 Phase 21
 
-**Carry-forward (deferred to v1.6+):**
-- [ ] DNS verification for custom domains (DINT knowledge gap documented)
+### Active (v1.6 — Next Milestone)
+
+**Carry-forward (deferred from v1.5):**
+- [ ] DNS verification for custom domains — best-effort uniqueness at input time; true ownership enforcement
 - [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure
-- [ ] Brokerage switch data refresh preserving active tab position (UX polish — deferred from v1.4)
+- [ ] Brokerage switch data refresh preserving active tab position (UX polish)
 - [ ] Deep-link into specific admin panel by URL (e.g. `/dashboard/boards`) with brokerage context preserved
 - [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0
 - [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0
@@ -200,6 +203,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting via `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows; test boards bypass RETS validation. Board Registrations table has per-row edit/delete CRUD.
 - **Shipped v1.3:** 2026-05-24
 - **Shipped v1.4:** 2026-05-27
+- **Shipped v1.5:** 2026-05-29
 
 ## Constraints
 
@@ -239,6 +243,10 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `activeBrokerage` Redux state is in-memory only | Never persisted to localStorage/sessionStorage; token already in localStorage covers auth; brokerage context is session state | ✓ Good — T-17-01 accepted; PortalShell D-13 handles empty Redux on page reload |
 | `AdminDomainShell` single-route delegation | One route definition avoids React Router path conflicts from domain-guarded duplicate /admin/ blocks | ✓ Good — avoids path conflicts, subdomain AdminShell unchanged |
 | `RequireRole` isMainDomain() bypass before isUserLoaded check | `account.id` never populated on main domain (no NavBar calling useGetCurrentUser); isUserLoaded always false | ✓ Good — portal access validated upstream by PortalShell brokerage validation |
+| `phase_out!` sets 30-day window; max 2 phasing-out per type | Soft transition window; bounded number prevents unbounded lock-out | ✓ Good — slot block enforced at controller level; warning at slot=2 |
+| `PrimaryDomainRedirect` uses `window.location.replace` | Back-button to phasing-out domain creates redirect loop; replace() prevents history entry | ✓ Good — UAT test 7 verified no back-button loop |
+| `lookupDomain` uses BASE axios (no auth token) | Public endpoint is unauthenticated by design — sending auth token would be incorrect | ✓ Good — correct for public domain lookup |
+| DNS verification deferred to v1.6 | Uniqueness is input-time only; full DNS ownership verification requires separate infrastructure milestone | — Pending — documented gap in v1.5-ROADMAP.md |
 
 ---
 
@@ -262,4 +270,4 @@ Last updated: 2026-05-27 — Phase 19 complete (domain schema & auth integration
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-27 after v1.4 milestone*
+*Last updated: 2026-05-29 after v1.5 milestone*

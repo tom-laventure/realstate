@@ -1,5 +1,38 @@
 # Milestones
 
+## v1.5 — Domain Management
+
+**Shipped:** 2026-05-29
+**Phases:** 3 (19–21) | **Plans:** 10
+**Timeline:** 2026-05-27 → 2026-05-29 (3 days)
+
+### Delivered
+
+Domain schema: 4 lifecycle columns added to `brokerage_domains` (`domain_type`, `status`, `is_primary`, `phase_out_at`), SQL backfill, partial unique index on non-decommissioned domains; `BrokerageDomain` model with string-backed enums, `RESERVED_SLUGS`, routable scope, slug validations; `BrokerageAuth` and `DomainsController#check` updated to status-based scopes (Phase 19). Full domain management backend: `phase_out!/decommission!` lifecycle helpers, `phasing_out_count_for` slot counter, `BrokerageDomainSerializer`; rebuilt `V1::Admin::DomainsController` with 5 owner-gated actions (index, subdomain, custom, destroy, set_primary), Pro-tier gate, slot-block/warning logic, 21 integration tests; public `GET /v1/domains/lookup`; `InvitationMailer` updated to `is_primary: true` with 3 mailer tests (Phase 20). Full Domains admin page: `PrimaryDomainRedirect` layout-route guard with `window.location.replace`; 4 admin API modules + 5 TanStack mutation hooks; `DomainsAdminView` with live status cards, type/status/countdown badges, primary badge, slot management, Pro gate, edit/add/remove/set-primary actions; "Domains" nav wired into both sidebars; UAT passed 6/7 + 2 bugs fixed (Phase 21). All 27 requirements delivered.
+
+### Key Accomplishments
+
+1. `brokerage_domains` lifecycle schema: atomic migration with SQL backfill + partial unique index `WHERE status != 'decommissioned'` — DMOD-01/02/03
+2. `BrokerageDomain` model: string enums + `RESERVED_SLUGS` + routable scope + slug validation; `BrokerageAuth` → `.routable`; `DomainsController#check` → `.status_active` — DMOD-04, DINT-03, DINT-04
+3. Full admin domains REST API: 5 actions with slot-block/warning logic + Pro gate + 21 integration tests — DMOD-05–12, DMOD-14
+4. Public `GET /v1/domains/lookup` (unauthenticated) + `InvitationMailer` `is_primary: true` fix — DMOD-13, DINT-02
+5. `PrimaryDomainRedirect` layout-route guard using `window.location.replace` + `lookupDomain` BASE axios — DINT-01
+6. Full Domains admin page: status cards, phase-out countdowns, slot management, Pro gate, all 9 DUI requirements — DUI-01–09
+
+### Known Deferred Items at Close: 1
+
+| Category | Item | Status |
+|----------|------|--------|
+| Domains | DNS verification for custom domains | Known gap; v1.6 milestone |
+
+### Archive
+
+- Roadmap: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
+- Requirements: [milestones/v1.5-REQUIREMENTS.md](milestones/v1.5-REQUIREMENTS.md)
+- Tag: `v1.5`
+
+---
+
 ## v1.4 — Main Domain Admin Portal
 
 **Shipped:** 2026-05-27
