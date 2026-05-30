@@ -107,7 +107,7 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 
 Plans:
 - [x] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
-- [ ] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
+- [x] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
 - [ ] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
 - [ ] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
 - [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
@@ -177,6 +177,6 @@ Plans:
 | 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete | 2026-05-27 |
 | 20. Backend Domain API | v1.5 | 3/3 | Complete | 2026-05-28 |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
-| 22. DNS Verification & Health Monitoring Backend | v1.6 | 1/5 | In Progress | — |
+| 22. DNS Verification & Health Monitoring Backend | v1.6 | 2/5 | In Progress | — |
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 0/? | Not started | — |
 | 24. Domain UI Overhaul | v1.6 | 0/? | Not started | — |

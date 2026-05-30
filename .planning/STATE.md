@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Domain Management v2
 status: executing
-last_updated: "2026-05-30T19:54:00.000Z"
+last_updated: "2026-05-30T20:08:00.000Z"
 last_activity: 2026-05-30
 progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 5
-  completed_plans: 1
-  percent: 7
+  completed_plans: 2
+  percent: 14
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 22 — DNS Verification & Health Monitoring Backend
-Plan: 01 complete, 02 next
-Status: Plan 22-01 complete; executing phase 22
-Last activity: 2026-05-30 — Plan 22-01 complete (DB foundation: columns, enum, serializer)
+Plan: 02 complete, 03 next
+Status: Plan 22-02 complete; executing phase 22
+Last activity: 2026-05-30 — Plan 22-02 complete (DomainMailer: 3 methods, 6 ERB templates, 13 tests)
 
 ```
-Progress: [==                            ] 7% (0/3 phases, 1/5 plans)
+Progress: [====                          ] 14% (0/3 phases, 2/5 plans)
 ```
 
 ## Phase Summary
@@ -77,9 +77,12 @@ Progress: [==                            ] 7% (0/3 phases, 1/5 plans)
 | PHASE_OUT_DURATION constant at model class level | Duration constant placed before RESERVED_SLUGS in BrokerageDomain — visible, centralized, and used by phase_out! instead of inline 30.days |
 | pending/frozen enum values require no migration | String enum in Rails — adding values to the hash is model-only, no ALTER TYPE or migration needed |
 | verified exposed in BrokerageDomainSerializer | Phase 24 UI needs verification state; endpoint is behind require_admin! (T-22-02: accept disposition) |
+| owner_emails resolves at send time via BrokerageMembership.without_deleted | Soft-deleted members must never receive email; paranoid guard is required at query time |
+| primary_domain helper copied to DomainMailer from InvitationMailer (not extracted) | Only two callers; premature abstraction to ApplicationMailer deferred until third caller exists |
+| DHLT-04 fallback language in ERB template (not mailer method) | Keeps mailer method signatures clean; template-layer conditional is the established pattern |
 
 ## Session Continuity
 
-Stopped at: Plan 22-01 complete
-Next action: Execute plan 22-02 (DomainVerificationJob)
-Last session: 2026-05-30T19:54:00Z — Completed 22-01 (DB foundation, model extension, serializer)
+Stopped at: Plan 22-02 complete
+Next action: Execute plan 22-03 (DomainHealthJob)
+Last session: 2026-05-30T20:08:00Z — Completed 22-02 (DomainMailer: 3 methods, 6 ERB templates, 13 tests)
