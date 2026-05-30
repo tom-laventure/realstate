@@ -1,5 +1,21 @@
 # RealState SaaS Platform
 
+## Current Milestone: v1.6 — Domain Management v2
+
+**Goal:** Give brokerage owners full DNS-verified custom domain management with automated health monitoring, lifecycle notifications, and a polished role-gated domain list UI.
+
+**Target features:**
+- Domain list page: card list, lock icon + tooltip on subdomain, Primary badge, role-gated controls
+- Add custom domain: 4-step wizard (enter → DNS instructions → primary preference → confirm), Pending verification state
+- DNS verification: CNAME check on-demand (Verify now) + 30-min background polling, last-checked timestamp, failure explanation
+- Domain health checks: 30-min monitoring, auto phase-out after 3 consecutive failures, owner email notifications
+- Rescue flow: verification success before decommission cancels phase-out, restores Active
+- Delete flow: phase-out with decommission date; primary domains require selecting replacement first
+- Primary domain: Owner-only, active domains only; 301 redirect from non-primary; all emails use primary
+- Pro downgrade: frozen custom domains (redirect to subdomain only), auto-promote subdomain to primary, owner notification; re-upgrade restores
+
+---
+
 ## Milestone: v1.5 — Domain Management — SHIPPED 2026-05-29 ✅
 
 **Goal:** Give brokerage admins full control over their domains — a Domains admin page to view, edit, and manage their subdomain and optional custom domain (Pro), designate a primary domain, and understand phase-out timelines for retiring domains. ✓ Complete.
@@ -168,15 +184,56 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DUI-08: Non-Pro locked section with `CustomDomainsProGate` upgrade prompt — v1.5 Phase 21
 - ✓ DUI-09: Phasing-out domain "Remove now" with `RemoveNowDialog` confirmation — v1.5 Phase 21
 
-### Active (v1.6 — Next Milestone)
+### Active (v1.6 — Domain Management v2)
 
-**Carry-forward (deferred from v1.5):**
-- [ ] DNS verification for custom domains — best-effort uniqueness at input time; true ownership enforcement
-- [ ] CR-02: S3 favicon upload outside transaction — orphaned on DB failure
-- [ ] Brokerage switch data refresh preserving active tab position (UX polish)
-- [ ] Deep-link into specific admin panel by URL (e.g. `/dashboard/boards`) with brokerage context preserved
-- [ ] Microsoft Calendar sync (CAL-04) — adapter built in v1.0
-- [ ] Apple CalDAV sync (CAL-05) — adapter built in v1.0
+**Domain UI:**
+- [ ] DNS-01: Domain list renders as vertical card list (no table headers); each card shows domain URL, plain-language status description, relevant dates, and applicable action controls
+- [ ] DNS-02: Subdomain card shows a lock icon; hovering shows a tooltip explaining the domain is permanent and was assigned at registration
+- [ ] DNS-03: Primary badge displayed on whichever domain is currently primary
+- [ ] DNS-04: Owner-only controls: add domain, delete domain, set as primary, trigger verification
+- [ ] DNS-05: Admin-only controls: trigger manual verification check, view domain status
+- [ ] DNS-06: All other roles see read-only domain list
+
+**Add Custom Domain:**
+- [ ] ADD-01: 4-step add flow: enter domain → DNS instructions (exact CNAME record) → primary preference → confirm
+- [ ] ADD-02: Primary preference step shown only when another active domain exists; auto-sets as primary if no other active domain
+- [ ] ADD-03: Domain appears in list with Pending verification status after submission
+- [ ] ADD-04: Unverified domains auto-removed after 7 days; Owner notified at day 5 with dashboard link
+
+**DNS Verification:**
+- [ ] VER-01: "Verify now" button on any pending or phasing-out domain triggers on-demand verification job
+- [ ] VER-02: Background verification polling every 30 minutes for unverified and phasing-out domains
+- [ ] VER-03: Domain card shows last-checked timestamp and current verification state
+- [ ] VER-04: Verification failure shows plain-language explanation of what was not found
+- [ ] VER-05: First-to-verify wins; no conflict resolution for simultaneous registrations
+
+**Domain Health:**
+- [ ] HLT-01: Active custom domains checked every 30 minutes for valid CNAME
+- [ ] HLT-02: After 3 consecutive failed checks (~90 min), domain auto-moves to Phasing out status
+- [ ] HLT-03: All Owner-role users notified by email: which domain failed, reason, decommission date, dashboard link
+- [ ] HLT-04: If failed domain was primary, email calls this out explicitly and notes subdomain serves as fallback primary
+- [ ] HLT-05: Health check cadence and phase-out duration exposed as configurable constants (not hardcoded)
+
+**Rescue Flow:**
+- [ ] RSC-01: Verification success before decommission restores domain to Active and cancels phase-out
+- [ ] RSC-02: Confirmation shown on dashboard when a phasing-out domain is rescued
+
+**Delete Flow:**
+- [ ] DEL-01: Delete triggers phase-out; deletion confirmation shows decommission date
+- [ ] DEL-02: Deleting the current primary requires selecting a new primary first; subdomain pre-selected as suggestion
+
+**Primary Domain:**
+- [ ] PRI-01: Any fully active domain can be set as primary (Owner only)
+- [ ] PRI-02: Phasing-out and pending-verification domains cannot be set as primary
+- [ ] PRI-03: All system-generated links (emails, notifications) use the primary domain
+- [ ] PRI-04: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
+
+**Pro Downgrade:**
+- [ ] PRO-01: On downgrade, all custom domains frozen (no management, serve redirect to subdomain only)
+- [ ] PRO-02: Subdomain automatically becomes primary domain on downgrade
+- [ ] PRO-03: Frozen domain card shows Frozen badge with plain-language explanation and re-upgrade prompt
+- [ ] PRO-04: Owner notified by email of downgrade and its effect on custom domains
+- [ ] PRO-05: Re-upgrade to Pro restores all frozen domains to previous active state
 
 ### Out of Scope
 
@@ -270,4 +327,4 @@ Last updated: 2026-05-27 — Phase 19 complete (domain schema & auth integration
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-29 after v1.5 milestone*
+*Last updated: 2026-05-30 — v1.6 milestone started*

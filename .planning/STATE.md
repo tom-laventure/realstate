@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.6
-milestone_name: TBD
+milestone_name: Domain Management v2
 status: planning
-last_updated: "2026-05-29T12:00:00.000Z"
-last_activity: 2026-05-29
+last_updated: "2026-05-30T00:00:00.000Z"
+last_activity: 2026-05-30
 progress:
   total_phases: 0
   completed_phases: 0
@@ -17,16 +17,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-29)
+See: .planning/PROJECT.md (updated 2026-05-30)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Planning v1.6 — next milestone
+**Current focus:** v1.6 — Domain Management v2
 
 ## Current Position
 
-Milestone v1.5 — Domain Management — SHIPPED 2026-05-29
-All 3 phases (19–21), 10 plans complete. Git tag: v1.5.
-Ready to start v1.6 milestone planning.
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-30 — Milestone v1.6 started
 
 ## Deferred Items
 
