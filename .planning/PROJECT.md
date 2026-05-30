@@ -184,9 +184,36 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DUI-08: Non-Pro locked section with `CustomDomainsProGate` upgrade prompt — v1.5 Phase 21
 - ✓ DUI-09: Phasing-out domain "Remove now" with `RemoveNowDialog` confirmation — v1.5 Phase 21
 
+### Validated (v1.6 Phase 22 — DNS Verification & Health Monitoring Backend)
+
+**DNS Verification (backend):**
+- ✓ VER-02: Background verification polling every 30 minutes for unverified and phasing-out domains — Phase 22
+- ✓ VER-05: First-to-verify wins via pessimistic lock in DomainVerificationJob — Phase 22
+- ✓ ADD-04: Unverified domains auto-removed after 7 days; Owner notified at day 5 — Phase 22
+
+**Domain Health (backend):**
+- ✓ HLT-01: Active custom domains checked every 30 minutes for valid CNAME — Phase 22
+- ✓ HLT-02: After 3 consecutive failed checks, domain auto-moves to Phasing out — Phase 22
+- ✓ HLT-03: All Owner-role users notified by email with failure details — Phase 22
+- ✓ HLT-04: Primary domain failure email explicitly notes subdomain fallback — Phase 22
+- ✓ HLT-05: HEALTH_CHECK_INTERVAL and PHASE_OUT_DURATION as named constants — Phase 22
+
+**Rescue Flow (backend):**
+- ✓ RSC-01: Verification success before decommission restores domain to Active, clears phase_out_at — Phase 22
+
+**Pro Downgrade (backend):**
+- ✓ PRO-01: On downgrade, all custom domains frozen via freeze_custom_domains! — Phase 22
+- ✓ PRO-02: Subdomain automatically promoted to primary on downgrade — Phase 22
+- ✓ PRO-04: Owner notified by email of downgrade via DomainMailer.downgrade_notice — Phase 22
+- ✓ PRO-05: Re-upgrade restores frozen domains (verified→active, unverified→pending) — Phase 22
+
 ### Active (v1.6 — Domain Management v2)
 
-**Domain UI:**
+**301 Redirect (Phase 23):**
+- [ ] PRI-04: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
+- [ ] PRO (redirect): Frozen domain requests redirect to brokerage subdomain
+
+**Domain UI (Phase 24):**
 - [ ] DNS-01: Domain list renders as vertical card list (no table headers); each card shows domain URL, plain-language status description, relevant dates, and applicable action controls
 - [ ] DNS-02: Subdomain card shows a lock icon; hovering shows a tooltip explaining the domain is permanent and was assigned at registration
 - [ ] DNS-03: Primary badge displayed on whichever domain is currently primary
@@ -194,46 +221,30 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - [ ] DNS-05: Admin-only controls: trigger manual verification check, view domain status
 - [ ] DNS-06: All other roles see read-only domain list
 
-**Add Custom Domain:**
+**Add Custom Domain (Phase 24):**
 - [ ] ADD-01: 4-step add flow: enter domain → DNS instructions (exact CNAME record) → primary preference → confirm
 - [ ] ADD-02: Primary preference step shown only when another active domain exists; auto-sets as primary if no other active domain
 - [ ] ADD-03: Domain appears in list with Pending verification status after submission
-- [ ] ADD-04: Unverified domains auto-removed after 7 days; Owner notified at day 5 with dashboard link
 
-**DNS Verification:**
+**DNS Verification UI (Phase 24):**
 - [ ] VER-01: "Verify now" button on any pending or phasing-out domain triggers on-demand verification job
-- [ ] VER-02: Background verification polling every 30 minutes for unverified and phasing-out domains
 - [ ] VER-03: Domain card shows last-checked timestamp and current verification state
 - [ ] VER-04: Verification failure shows plain-language explanation of what was not found
-- [ ] VER-05: First-to-verify wins; no conflict resolution for simultaneous registrations
 
-**Domain Health:**
-- [ ] HLT-01: Active custom domains checked every 30 minutes for valid CNAME
-- [ ] HLT-02: After 3 consecutive failed checks (~90 min), domain auto-moves to Phasing out status
-- [ ] HLT-03: All Owner-role users notified by email: which domain failed, reason, decommission date, dashboard link
-- [ ] HLT-04: If failed domain was primary, email calls this out explicitly and notes subdomain serves as fallback primary
-- [ ] HLT-05: Health check cadence and phase-out duration exposed as configurable constants (not hardcoded)
-
-**Rescue Flow:**
-- [ ] RSC-01: Verification success before decommission restores domain to Active and cancels phase-out
+**Rescue Flow UI (Phase 24):**
 - [ ] RSC-02: Confirmation shown on dashboard when a phasing-out domain is rescued
 
-**Delete Flow:**
+**Delete Flow (Phase 24):**
 - [ ] DEL-01: Delete triggers phase-out; deletion confirmation shows decommission date
 - [ ] DEL-02: Deleting the current primary requires selecting a new primary first; subdomain pre-selected as suggestion
 
-**Primary Domain:**
+**Primary Domain UI (Phase 24):**
 - [ ] PRI-01: Any fully active domain can be set as primary (Owner only)
 - [ ] PRI-02: Phasing-out and pending-verification domains cannot be set as primary
 - [ ] PRI-03: All system-generated links (emails, notifications) use the primary domain
-- [ ] PRI-04: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
 
-**Pro Downgrade:**
-- [ ] PRO-01: On downgrade, all custom domains frozen (no management, serve redirect to subdomain only)
-- [ ] PRO-02: Subdomain automatically becomes primary domain on downgrade
+**Pro Downgrade UI (Phase 24):**
 - [ ] PRO-03: Frozen domain card shows Frozen badge with plain-language explanation and re-upgrade prompt
-- [ ] PRO-04: Owner notified by email of downgrade and its effect on custom domains
-- [ ] PRO-05: Re-upgrade to Pro restores all frozen domains to previous active state
 
 ### Out of Scope
 
@@ -327,4 +338,4 @@ Last updated: 2026-05-27 — Phase 19 complete (domain schema & auth integration
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-30 — v1.6 milestone started*
+*Last updated: 2026-05-30 — Phase 22 complete (DNS verification & health monitoring backend shipped)*

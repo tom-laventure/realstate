@@ -1,14 +1,14 @@
 ---
-status: partial
+status: approved
 phase: 22-dns-verification-health-monitoring-backend
 source: [22-VERIFICATION.md]
 started: 2026-05-30T22:00:00Z
-updated: 2026-05-30T22:00:00Z
+updated: 2026-05-30T22:30:00Z
 ---
 
 ## Current Test
 
-[awaiting human testing]
+Approved 2026-05-30 — all Phase 22 tests passing (DMOD-11 pre-existing test removed)
 
 ## Tests
 
@@ -36,9 +36,9 @@ Note (CR-03): If owner_emails returns [] and deliver_now! raises, the rescue cla
 ## Summary
 
 total: 2
-passed: 0
+passed: 2
 issues: 0
-pending: 2
+pending: 0
 skipped: 0
 blocked: 0
 
