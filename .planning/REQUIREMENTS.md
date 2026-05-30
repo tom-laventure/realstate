@@ -83,37 +83,37 @@
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| DUIV-01 | — | Pending |
-| DUIV-02 | — | Pending |
-| DUIV-03 | — | Pending |
-| DUIV-04 | — | Pending |
-| DUIV-05 | — | Pending |
-| DUIV-06 | — | Pending |
-| DADD-01 | — | Pending |
-| DADD-02 | — | Pending |
-| DADD-03 | — | Pending |
-| DADD-04 | — | Pending |
-| DVER-01 | — | Pending |
-| DVER-02 | — | Pending |
-| DVER-03 | — | Pending |
-| DVER-04 | — | Pending |
-| DVER-05 | — | Pending |
-| DHLT-01 | — | Pending |
-| DHLT-02 | — | Pending |
-| DHLT-03 | — | Pending |
-| DHLT-04 | — | Pending |
-| DHLT-05 | — | Pending |
-| DLCX-01 | — | Pending |
-| DLCX-02 | — | Pending |
-| DLCX-03 | — | Pending |
-| DLCX-04 | — | Pending |
-| DPRI-01 | — | Pending |
-| DPRI-02 | — | Pending |
-| DPRI-03 | — | Pending |
-| DPRI-04 | — | Pending |
-| DPRD-01 | — | Pending |
-| DPRD-02 | — | Pending |
-| DPRD-03 | — | Pending |
-| DPRD-04 | — | Pending |
-| DPRD-05 | — | Pending |
-| DPRD-06 | — | Pending |
+| DUIV-01 | Phase 24 | Pending |
+| DUIV-02 | Phase 24 | Pending |
+| DUIV-03 | Phase 24 | Pending |
+| DUIV-04 | Phase 24 | Pending |
+| DUIV-05 | Phase 24 | Pending |
+| DUIV-06 | Phase 24 | Pending |
+| DADD-01 | Phase 24 | Pending |
+| DADD-02 | Phase 24 | Pending |
+| DADD-03 | Phase 24 | Pending |
+| DADD-04 | Phase 24 | Pending |
+| DVER-01 | Phase 24 | Pending |
+| DVER-02 | Phase 22 | Pending |
+| DVER-03 | Phase 24 | Pending |
+| DVER-04 | Phase 24 | Pending |
+| DVER-05 | Phase 22 | Pending |
+| DHLT-01 | Phase 22 | Pending |
+| DHLT-02 | Phase 22 | Pending |
+| DHLT-03 | Phase 22 | Pending |
+| DHLT-04 | Phase 22 | Pending |
+| DHLT-05 | Phase 22 | Pending |
+| DLCX-01 | Phase 22 | Pending |
+| DLCX-02 | Phase 24 | Pending |
+| DLCX-03 | Phase 24 | Pending |
+| DLCX-04 | Phase 24 | Pending |
+| DPRI-01 | Phase 22 | Pending |
+| DPRI-02 | Phase 22 | Pending |
+| DPRI-03 | Phase 23 | Pending |
+| DPRI-04 | Phase 23 | Pending |
+| DPRD-01 | Phase 22 | Pending |
+| DPRD-02 | Phase 23 | Pending |
+| DPRD-03 | Phase 22 | Pending |
+| DPRD-04 | Phase 24 | Pending |
+| DPRD-05 | Phase 22 | Pending |
+| DPRD-06 | Phase 22 | Pending |
