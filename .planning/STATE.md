@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Domain Management v2
-status: planning-complete
-last_updated: "2026-05-30T00:00:00.000Z"
+status: executing
+last_updated: "2026-05-30T19:54:00.000Z"
 last_activity: 2026-05-30
 progress:
   total_phases: 3
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 5
+  completed_plans: 1
+  percent: 7
 ---
 
 # Project State
@@ -24,13 +24,13 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 
 ## Current Position
 
-Phase: 22 — DNS Verification & Health Monitoring Backend (planned, 5 plans ready)
-Plan: —
-Status: Phase 22 planned (5 plans, 3 waves); ready to execute
-Last activity: 2026-05-30 — Phase 22 planned (5 plans)
+Phase: 22 — DNS Verification & Health Monitoring Backend
+Plan: 01 complete, 02 next
+Status: Plan 22-01 complete; executing phase 22
+Last activity: 2026-05-30 — Plan 22-01 complete (DB foundation: columns, enum, serializer)
 
 ```
-Progress: [                              ] 0% (0/3 phases)
+Progress: [==                            ] 7% (0/3 phases, 1/5 plans)
 ```
 
 ## Phase Summary
@@ -74,7 +74,12 @@ Progress: [                              ] 0% (0/3 phases)
 | Phase 23 isolated for redirect middleware | 301 redirect affects every HTTP request; isolated phase allows focused testing before UI work in Phase 24 |
 | DPRI-01/02 backend constraints in Phase 22 | Pending-verification is a new status introduced in Phase 22; primary eligibility rules must be updated atomically with the status machine |
 | DVER-01 (Verify now button) in Phase 24 not Phase 22 | The button enqueues an existing job; the UI trigger belongs with the UI phase; the job implementation belongs in Phase 22 |
+| PHASE_OUT_DURATION constant at model class level | Duration constant placed before RESERVED_SLUGS in BrokerageDomain — visible, centralized, and used by phase_out! instead of inline 30.days |
+| pending/frozen enum values require no migration | String enum in Rails — adding values to the hash is model-only, no ALTER TYPE or migration needed |
+| verified exposed in BrokerageDomainSerializer | Phase 24 UI needs verification state; endpoint is behind require_admin! (T-22-02: accept disposition) |
 
 ## Session Continuity
 
-Next action: `/gsd-execute-phase 22`
+Stopped at: Plan 22-01 complete
+Next action: Execute plan 22-02 (DomainVerificationJob)
+Last session: 2026-05-30T19:54:00Z — Completed 22-01 (DB foundation, model extension, serializer)
