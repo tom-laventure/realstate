@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: — Domain Management v2
 status: executing
-stopped_at: Plan 24-02 complete — frontend type contract (domain types, verifyDomain hook, add/remove hooks, Tooltip)
-last_updated: "2026-05-31T06:20:00Z"
-last_activity: 2026-05-31 -- Phase 24 Plan 02 executed
+stopped_at: Plan 24-03 complete — DomainCard (status-variant), DomainCardList (sorted + gated Add), AddDomainWizard (4-step)
+last_updated: "2026-05-31T06:11:00Z"
+last_activity: 2026-05-31 -- Phase 24 Plan 03 executed
 progress:
   total_phases: 3
   completed_phases: 2
@@ -26,12 +26,12 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 24 — Domain UI Overhaul
-Plan: 03 (next) — 4 plans across 3 waves, Plans 01-02 complete
+Plan: 04 (next) — 4 plans across 3 waves, Plans 01-03 complete
 Status: Executing
-Last activity: 2026-05-31 -- Phase 24 Plan 02 complete
+Last activity: 2026-05-31 -- Phase 24 Plan 03 complete
 
 ```
-Progress: [=======================       ] 75% (2/3 phases complete, 9/11 plans complete)
+Progress: [=========================     ] 82% (2/3 phases complete, 10/11 plans complete)
 ```
 
 ## Phase Summary
@@ -96,9 +96,13 @@ Progress: [=======================       ] 75% (2/3 phases complete, 9/11 plans 
 | In-memory .find on .includes() collection for primary lookup | Avoids second AR query per redirected request — eager-loaded collection handles primary resolution with no N+1 |
 | useVerifyDomain uses onMutate snapshot for rescue detection | Captures previousStatus before mutation fires; avoids relying solely on response data which may not include prior state |
 | FetchDomainsResponse used as getQueryData generic in useVerifyDomain | More type-safe than inline shape; matches actual cache shape exactly |
+| DomainCard drives verify spinner from actions.verifyingDomainId (not useVerifyDomain) | Component -> Context -> Hook pattern; card holds no network state per CLAUDE.md |
+| onDelete no-op default in DomainCardList | Delete dialogs owned by Plan 04 context layer; Plan 04 passes the handler |
+| wizard totalVisibleSteps is 3 when step 3 skipped; visualStep remaps step 4 -> dot 3 | Correct dot indicator display when conditional step is absent |
+| Frozen Upgrade plan CTA navigates window.location.href = /admin/plan | No mutation; T-24-10 accept disposition — in-app route already auth-gated |
 
 ## Session Continuity
 
-Stopped at: Plan 24-02 complete — frontend type contract (domain types, verifyDomain hook, add/remove hooks, Tooltip)
-Next action: Execute Phase 24 Plan 03 (DomainCard, DomainCardList, AddDomainWizard components)
-Last session: 2026-05-31T06:20:00Z — Completed 24-02 (domain types, verifyDomain, useAddCustomDomain, useRemoveCustomDomain, Tooltip)
+Stopped at: Plan 24-03 complete — DomainCard (status-variant), DomainCardList (sorted + gated Add), AddDomainWizard (4-step)
+Next action: Execute Phase 24 Plan 04 (context, page wiring, delete dialogs, checkpoint)
+Last session: 2026-05-31T06:11:00Z — Completed 24-03 (DomainCard, DomainCardList, AddDomainWizard)

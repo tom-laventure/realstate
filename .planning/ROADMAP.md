@@ -142,7 +142,7 @@ Plans:
 Plans:
 - [x] 24-01-PLAN.md — Backend: verify endpoint, frozen scope, set_primary_on_verify migration + job, test fixes
 - [x] 24-02-PLAN.md — Frontend contract: domain types, verifyDomain hook (rescue), add/remove hooks, Tooltip install
-- [ ] 24-03-PLAN.md — Components: DomainCard, DomainCardList, 4-step AddDomainWizard
+- [x] 24-03-PLAN.md — Components: DomainCard, DomainCardList, 4-step AddDomainWizard
 - [ ] 24-04-PLAN.md — Delete dialogs, context/container wiring, file deletions, human verification
 **UI hint**: yes
 
@@ -175,4 +175,4 @@ Plans:
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
-| 24. Domain UI Overhaul | v1.6 | 2/4 | In Progress | — |
+| 24. Domain UI Overhaul | v1.6 | 3/4 | In Progress | — |
