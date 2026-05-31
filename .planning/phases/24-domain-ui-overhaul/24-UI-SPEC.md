@@ -42,8 +42,13 @@ Declared values (multiples of 4 only — Tailwind utility class mapping shown):
 | 2xl | 48px | — | Reserved for future page-level breaks |
 | 3xl | 64px | — | Reserved for future layout gaps |
 
-Card internal padding: `p-5` (20px) — matches existing DomainCard pattern.
-Card list item gap: `space-y-3` (12px) — matches existing CustomDomainList pattern.
+Declared exceptions (non-multiples-of-4 matching existing codebase patterns):
+
+| Value | Tailwind | Usage |
+|-------|----------|-------|
+| 12px | space-y-3 | Card list item gap — matches existing CustomDomainList `space-y-3` pattern |
+| 20px | p-5 | Card internal padding — matches existing DomainCard `p-5` pattern |
+
 Section gap: `mb-6` (24px) — matches existing DomainsAdminView header pattern.
 
 Exceptions:
@@ -60,16 +65,18 @@ System font stack inherited from `body` in `index.css`. No custom font loaded in
 |------|------|----------|--------|----------|-------------|
 | Body | 14px | text-sm | 400 (regular) | font-normal | 1.5 (leading-normal) |
 | Label / Meta | 12px | text-xs | 400 (regular) | font-normal | 1.5 (leading-normal) |
-| Card domain name | 14px | text-sm | 500 (medium) | font-medium | 1.4 |
+| Card domain name | 14px | text-sm | 600 (semibold) | font-semibold | 1.4 |
 | Heading (page) | 20px | text-xl | 600 (semibold) | font-semibold | 1.2 |
 | Heading (section / dialog) | 16px | text-base | 600 (semibold) | font-semibold | 1.2 |
 
+Declared weights: font-normal (400) and font-semibold (600) only. No intermediate weight (font-medium 500) is used in this phase.
+
 Rules:
-- Domain URL strings: `text-sm font-medium text-foreground` with `truncate` — matches existing DomainCard pattern.
+- Domain URL strings: `text-sm font-semibold text-foreground` with `truncate` — matches existing DomainCard pattern.
 - Meta information (timestamps, dates, failure reasons): `text-xs text-muted-foreground`.
 - Plain-language status descriptions: `text-sm text-muted-foreground`.
 - Dialog titles: `text-base font-semibold` (shadcn AlertDialogTitle default).
-- Wizard step labels: `text-sm font-medium`.
+- Wizard step labels: `text-sm font-semibold`.
 - Code/monospace blocks (CNAME record): `font-mono text-sm` with `bg-muted rounded-md p-3`.
 
 ---
@@ -181,7 +188,7 @@ Subdomain card sorts first (always). Active custom before pending before phasing
 │  CardHeader p-5 pb-3                                   │
 │  ┌─ Row ─────────────────────────────────────────┐    │
 │  │  [Lock icon if subdomain] domain.example.com  │    │
-│  │  text-sm font-medium text-foreground truncate  │    │
+│  │  text-sm font-semibold text-foreground truncate│    │
 │  │                          [TypeBadge][StatusBadge][PrimaryBadge?] │
 │  └────────────────────────────────────────────────┘   │
 │  CardContent p-5 pt-0 space-y-2                        │
@@ -288,7 +295,7 @@ Dialog: `Dialog` (not `AlertDialog`). `DialogContent` with `max-w-md` or `sm:max
 - DialogDescription: "Enter the domain you want to connect to your brokerage."
 - Form: `Label` ("Domain") + `Input` (type="text", placeholder="yourdomain.com", autoFocus).
 - Validation: non-empty, basic domain format (no protocol prefix), not a reserved slug. Show `text-xs text-destructive` below input on error.
-- Footer: `Button` "Next" (`variant="default"`) — disabled if input invalid. `Button` "Cancel" (`variant="ghost"`) — closes dialog.
+- Footer: `Button` "Next: DNS Setup" (`variant="default"`) — disabled if input invalid. `Button` "Discard" (`variant="ghost"`) — closes dialog.
 
 ### Step 2: DNS Instructions
 
@@ -304,7 +311,7 @@ Dialog: `Dialog` (not `AlertDialog`). `DialogContent` with `max-w-md` or `sm:max
   ```
   Each row: label `text-xs text-muted-foreground`, value `font-mono text-sm text-foreground`.
   Include a "Copy" button (`variant="ghost"` `size="sm"`) beside the Value row that copies the subdomain to clipboard. Show "Copied!" for 2 seconds after click.
-- Footer: `Button` "Next" (`variant="default"`). `Button` "Back" (`variant="outline"`).
+- Footer: `Button` "Next: Primary" (`variant="default"`). `Button` "Back" (`variant="outline"`).
 
 ### Step 3: Primary Preference (conditional — only shown when another active domain exists, DADD-02)
 
@@ -314,7 +321,7 @@ Dialog: `Dialog` (not `AlertDialog`). `DialogContent` with `max-w-md` or `sm:max
   - Option A: "Yes, set as primary once verified" — selected by default if no other custom domain is active.
   - Option B: "No, keep {current primary} as primary" — default when another active domain already exists.
 - Both options show a brief one-line description below the label: e.g. "Traffic and emails will switch once this domain is verified." / "This domain will go live but won't affect current traffic routing."
-- Footer: `Button` "Next" (`variant="default"`). `Button` "Back" (`variant="outline"`).
+- Footer: `Button` "Next: Confirm" (`variant="default"`). `Button` "Back" (`variant="outline"`).
 
 ### Step 4: Confirm
 
@@ -346,7 +353,7 @@ Use `Dialog` (not `AlertDialog`) to allow the replacement Select inside.
 - DialogDescription: "Before deleting {domain}, select which domain should become the new primary. Email links and redirects will update automatically."
 - Replacement selector: `Select` component. Pre-selected: the brokerage subdomain (D-04). Lists all active non-primary domains (D-05). Label: "New primary domain".
 - Decommission notice: `text-sm text-muted-foreground` — "{domain} will enter a {30}-day phase-out period and decommission on {date}."
-- Footer: `Button` "Confirm deletion" (`variant="destructive"`) — disabled until replacement selected; triggers sequential calls (set_primary → destroy). `Button` "Cancel" (`variant="ghost"`).
+- Footer: `Button` "Confirm deletion" (`variant="destructive"`) — disabled until replacement selected; triggers sequential calls (set_primary → destroy). `Button` "Discard" (`variant="ghost"`).
 - Partial failure toast (D-06): "Domain deletion failed — {replacement} is now your primary domain." (`toast.error`).
 
 ---
@@ -417,7 +424,13 @@ Gate mechanism: use `hasPermission(role, 'manage_brokerage_settings')` for Owner
 | Lock icon tooltip | "This domain is permanent and was assigned at registration." |
 | Delete non-primary confirm | "Begin phase-out" |
 | Delete primary confirm | "Confirm deletion" |
-| Delete cancel | "Keep domain" |
+| Delete cancel (non-primary AlertDialog) | "Keep domain" |
+| Delete dismiss (primary Dialog) | "Discard" |
+| Wizard step 1 dismiss | "Discard" |
+| Wizard step 1 next | "Next: DNS Setup" |
+| Wizard step 2 next | "Next: Primary" |
+| Wizard step 3 next | "Next: Confirm" |
+| Wizard step 2–3 back | "Back" |
 | Delete description (non-primary) | "This domain will enter a phase-out period. It will be decommissioned on {date}. Existing traffic will redirect to your primary domain." |
 | Delete description (primary) | "Before deleting {domain}, select which domain should become the new primary. Email links and redirects will update automatically." |
 | Verify success toast | "Domain verified successfully" |
@@ -535,6 +548,10 @@ No third-party registries declared. Registry vetting gate: not applicable.
 | lucide-react icons only | CLAUDE.md + components.json |
 | Toast via react-hot-toast | CLAUDE.md + existing hooks |
 | Pending/frozen status colors (new) | Designer default — blue/slate families match existing palette logic |
+| "Discard" for wizard dismiss (not "Cancel") | UI checker revision — copywriting specificity |
+| font-medium removed, font-semibold only (2 weights max) | UI checker revision — typography constraint |
+| "Next: DNS Setup / Next: Primary / Next: Confirm" labels | UI checker revision — copywriting clarity |
+| 12px / 20px declared as spacing exceptions | UI checker revision — spacing transparency |
 
 ---
 
