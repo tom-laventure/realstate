@@ -483,17 +483,17 @@ Step 2.5: Not applicable — this is a greenfield middleware addition, not a ren
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Test file location for middleware tests**
    - What we know: No `test/middleware/` directory exists; existing tests are in `test/integration/`, `test/models/`, `test/mailers/`, `test/jobs/`
    - What's unclear: Convention preference — `test/middleware/` (mirrors `app/middleware/`) vs `test/integration/` (where similar request-lifecycle tests live)
-   - Recommendation: Create `test/middleware/domain_redirect_middleware_test.rb` using `ActionDispatch::IntegrationTest` — mirrors the app directory and is self-documenting
+   - RESOLVED: Create `test/middleware/domain_redirect_middleware_test.rb` using `ActionDispatch::IntegrationTest` — mirrors the app directory and is self-documenting
 
 2. **DPRI-03 test placement**
    - What we know: DPRI-03 tests add assertions about primary domain usage to existing mailer test files
    - What's unclear: Whether to add to existing test classes or create a new `test/integration/dpri03_primary_domain_links_test.rb`
-   - Recommendation: Add directly to `DomainMailerTest` and `InvitationMailerTest` — they already have appropriate setup fixtures; a new file would duplicate the setup
+   - RESOLVED: Add directly to `DomainMailerTest` and `InvitationMailerTest` — they already have appropriate setup fixtures; a new file would duplicate the setup
 
 ---
 
