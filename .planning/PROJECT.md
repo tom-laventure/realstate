@@ -11,8 +11,10 @@
 - Domain health checks: 30-min monitoring, auto phase-out after 3 consecutive failures, owner email notifications
 - Rescue flow: verification success before decommission cancels phase-out, restores Active
 - Delete flow: phase-out with decommission date; primary domains require selecting replacement first
-- Primary domain: Owner-only, active domains only; 301 redirect from non-primary; all emails use primary
-- Pro downgrade: frozen custom domains (redirect to subdomain only), auto-promote subdomain to primary, owner notification; re-upgrade restores
+- Primary domain: Owner-only, active domains only; 301 redirect from non-primary; all emails use primary ✓ Validated in Phase 23
+- Pro downgrade: frozen custom domains (redirect to subdomain only), auto-promote subdomain to primary, owner notification; re-upgrade restores ✓ Validated in Phase 23
+
+**Phase 23 complete (2026-05-31):** 301 redirect middleware live — non-primary active/phasing-out/frozen domains redirect to primary at Rack layer; all system emails proven to embed primary domain (DPRI-03, DPRI-04, DPRD-02).
 
 ---
 
