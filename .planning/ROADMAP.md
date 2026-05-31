@@ -120,14 +120,11 @@ Plans:
   1. A request to `https://old.example.com/some/path` on a non-primary active domain receives an HTTP 301 response with Location pointing to the equivalent path on the brokerage's current primary domain
   2. A request arriving at a frozen custom domain receives a redirect to the brokerage's subdomain (no full app load on frozen domains)
   3. All system-generated emails (invitations, health-failure notifications, downgrade notices) use the current primary domain in links; changing the primary domain propagates to the next email sent
-**Plans**: 5 plans
+**Plans**: 2 plans
 
 Plans:
-- [ ] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
-- [ ] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
-- [ ] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
-- [ ] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
-- [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
+- [ ] 23-01-PLAN.md — DomainRedirectMiddleware + registration in application.rb + integration tests (DPRI-04, DPRD-02)
+- [ ] 23-02-PLAN.md — DPRI-03 mailer integration tests (DomainMailer + InvitationMailer, test-only)
 **UI hint**: no
 
 ### Phase 24: Domain UI Overhaul
@@ -177,6 +174,6 @@ Plans:
 | 19. Domain Schema & Auth Integration | v1.5 | 3/3 | Complete | 2026-05-27 |
 | 20. Backend Domain API | v1.5 | 3/3 | Complete | 2026-05-28 |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
-| 22. DNS Verification & Health Monitoring Backend | v1.6 | 4/5 | In Progress | — |
-| 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 0/? | Not started | — |
+| 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
+| 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 0/2 | Not started | — |
 | 24. Domain UI Overhaul | v1.6 | 0/? | Not started | — |
