@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.7
 milestone_name: Board Registrations Nav Separation
 status: executing
-stopped_at: Phase 25 Plan 01 complete — /admin/boards route and BoardsAdminBoard created
-last_updated: "2026-05-31T22:32:29Z"
-last_activity: 2026-05-31 -- Phase 25 Plan 01 executed
+stopped_at: Phase 25 Plan 02 complete — /admin/brokerage trimmed to Brokerage Information + Branding only
+last_updated: "2026-05-31T22:37:00Z"
+last_activity: 2026-05-31 -- Phase 25 Plan 02 executed
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 33
+  completed_plans: 2
+  percent: 67
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-31)
 ## Current Position
 
 Phase: 25 of 25 (Board Registrations Nav Separation)
-Plan: 02 (next to execute)
+Plan: 03 (next to execute)
 Status: Executing
-Last activity: 2026-05-31 -- Phase 25 Plan 01 complete
+Last activity: 2026-05-31 -- Phase 25 Plan 02 complete
 
-Progress: [███░░░░░░░] 33%
+Progress: [██████░░░░] 67%
 
 ## Performance Metrics
 
@@ -59,6 +59,8 @@ Recent decisions affecting current work:
 - Phase 14: `BoardRegistrations` table lives inside `BrokerageAdminBoard` container — Phase 25 extracts it into a new `BoardsAdminBoard` container
 - Phase 25 Plan 01: `isLoading` derived from `useFetchBoardCredentials` (not boards) — credentials drive board registrations page readiness
 - Phase 25 Plan 01: No error guard added to `BoardsAdminBoard` — `BoardRegistrations` handles empty arrays gracefully with its own empty state
+- Phase 25 Plan 02: `BoardRegistrations` component file NOT deleted — reused by `/admin/boards` (Plan 01); only import + render removed from `/admin/brokerage`
+- Phase 25 Plan 02: `BrokerageAdminBoardContext` now exports brokerage-only state/actions satisfying NAV-07
 
 ### Pending Todos
 
@@ -85,6 +87,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Phase 25 Plan 01 complete — /admin/boards route and BoardsAdminBoard created
-Next action: Execute Plan 02 — trim /admin/brokerage to remove BoardRegistrations
-Last session: 2026-05-31 — Plan 01 executed: useBoardsAdminContext + BoardsAdminBoard + /admin/boards route
+Stopped at: Phase 25 Plan 02 complete — /admin/brokerage trimmed to Brokerage Information + Branding only
+Next action: Execute Plan 03 — update AdminBoardSideNav and PortalAdminSideNav with Board Registrations nav item
+Last session: 2026-05-31 — Plan 02 executed: BrokerageAdminBoardContext trimmed, BoardRegistrations removed from BrokerageAdminBoard
