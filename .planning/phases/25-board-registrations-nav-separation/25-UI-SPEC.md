@@ -45,8 +45,6 @@ Exceptions:
 - Nav item icon container: `h-8 w-8` (32px square) with `flex items-center justify-center` — matches existing `AdminBoardSideNav` icon wrapper pattern
 - Nav item touch target: minimum `py-2 px-3` per item (32px effective height) — existing pattern; no 44px override needed as this is a desktop admin shell
 - Card `mt-6` (24px) top margin before the Board Registrations card — inherited from existing `BoardRegistrations` component
-- `space-y-0.5` (2px) on the nav item list in `PortalAdminSideNav` — not a multiple of 4; inherited from the existing `PortalAdminSideNav` implementation. Phase 25 does not introduce or modify this value; kept to match the existing component exactly.
-
 Source: Direct read of `AdminBoardSideNav.tsx`, `PortalAdminSideNav.tsx`, `BrokerageAdminBoard.tsx`, `BoardRegistrations.tsx` (all verified)
 
 ---
@@ -306,11 +304,11 @@ No third-party registries declared. `components.json` `registries: {}` confirms.
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: FLAG (non-blocking — "Delete" confirm button inherits AlertDialog title context)
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: FLAG (non-blocking — px-3/gap-3 are inherited, justified)
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** APPROVED — 2026-05-31
