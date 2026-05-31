@@ -410,7 +410,7 @@ return (
 
 **Claims verified or cited in this session:** All structural claims above are verified by direct file reads.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should SideNav.tsx admin section also add "Board Registrations"?**
    - What we know: `SideNav.tsx` has an "Admin" collapsible section with nav items including "Brokerage" — visible on the dashboard SideNav on subdomains
