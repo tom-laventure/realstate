@@ -123,7 +123,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 23-01-PLAN.md — DomainRedirectMiddleware + registration in application.rb + integration tests (DPRI-04, DPRD-02)
+- [x] 23-01-PLAN.md — DomainRedirectMiddleware + registration in application.rb + integration tests (DPRI-04, DPRD-02)
 - [ ] 23-02-PLAN.md — DPRI-03 mailer integration tests (DomainMailer + InvitationMailer, test-only)
 **UI hint**: no
 
@@ -175,5 +175,5 @@ Plans:
 | 20. Backend Domain API | v1.5 | 3/3 | Complete | 2026-05-28 |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
-| 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 0/2 | Not started | — |
+| 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 1/2 | In progress | — |
 | 24. Domain UI Overhaul | v1.6 | 0/? | Not started | — |

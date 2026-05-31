@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: milestone
 status: executing
-stopped_at: Plan 22-05 complete — Phase 22 complete
-last_updated: "2026-05-31T00:27:15.092Z"
-last_activity: 2026-05-31 -- Phase 23 planning complete
+stopped_at: Plan 23-01 complete
+last_updated: "2026-05-31T00:53:44Z"
+last_activity: 2026-05-31 -- Phase 23 Plan 01 complete (DomainRedirectMiddleware)
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
-  percent: 71
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 23 — 301 Redirect & Primary Domain Enforcement
-Plan: —
-Status: Ready to execute
-Last activity: 2026-05-31 -- Phase 23 planning complete
+Plan: 01 complete — 23-02 next
+Status: Executing
+Last activity: 2026-05-31 -- Plan 23-01 complete (DomainRedirectMiddleware + 10 integration tests)
 
 ```
 Progress: [==========                    ] 33% (1/3 phases complete)
@@ -89,9 +89,12 @@ Progress: [==========                    ] 33% (1/3 phases complete)
 | index and mutation_payload include pending domains | .routable.or(.status_pending) ensures Phase 24 UI can display verification state immediately after creation |
 | FakeJob subclass for DNS testing in Minitest 6 | Minitest 6.0.3 (Ruby 4.0.0) removed Minitest::Mock and .stub — test subclass overrides cname_resolves_to_subdomain? directly |
 | No without_deleted on BrokerageDomain job scopes | BrokerageDomain does not include acts_as_paranoid; plain status scopes are correct |
+| require_relative in application.rb for DomainRedirectMiddleware | Zeitwerk autoload not yet active when application.rb runs — class must be resolvable at middleware registration time |
+| insert_before ActionDispatch::Static for middleware position | Places DomainRedirectMiddleware after Rack::Cors (position 2) so CORS preflight OPTIONS requests are handled before redirect logic |
+| In-memory .find on .includes() collection for primary lookup | Avoids second AR query per redirected request — eager-loaded collection handles primary resolution with no N+1 |
 
 ## Session Continuity
 
-Stopped at: Plan 22-05 complete — Phase 22 complete
-Next action: Execute Phase 23 (301 Redirect & Primary Domain Enforcement)
-Last session: 2026-05-30T21:20:00Z — Completed 22-05 (DomainVerificationJob + DomainHealthJob + recurring.yml — 20 tests passing)
+Stopped at: Plan 23-01 complete
+Next action: Execute Phase 23 Plan 02 (DPRI-03 mailer integration tests)
+Last session: 2026-05-31T00:53:44Z — Completed 23-01 (DomainRedirectMiddleware + 10 integration tests passing)

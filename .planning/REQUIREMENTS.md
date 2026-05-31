@@ -49,12 +49,12 @@
 - [ ] **DPRI-01**: Any fully active domain can be set as primary (Owner only)
 - [ ] **DPRI-02**: Domains in Phasing out or Pending verification status cannot be set as primary
 - [ ] **DPRI-03**: All system-generated links (invitation emails, notifications) use the primary domain
-- [ ] **DPRI-04**: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
+- [x] **DPRI-04**: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
 
 ## DPRD — Pro Plan Downgrade
 
 - [x] **DPRD-01**: When a brokerage plan downgrades from Pro, all custom domains are frozen — no adding, deleting, or setting as primary is permitted while frozen
-- [ ] **DPRD-02**: Frozen custom domains remain live but serve only a redirect to the subdomain rather than the full brokerage site
+- [x] **DPRD-02**: Frozen custom domains remain live but serve only a redirect to the subdomain rather than the full brokerage site
 - [x] **DPRD-03**: The subdomain automatically becomes the primary domain when a brokerage downgrades from Pro
 - [ ] **DPRD-04**: Frozen domain cards display a Frozen badge with a plain-language explanation ("This domain is inactive due to your current plan") and a prompt to re-upgrade to restore full functionality
 - [x] **DPRD-05**: Owner-role users receive an email notification when the brokerage plan downgrades, explaining the effect on their custom domains
@@ -110,9 +110,9 @@
 | DPRI-01 | Phase 22 | Pending |
 | DPRI-02 | Phase 22 | Pending |
 | DPRI-03 | Phase 23 | Pending |
-| DPRI-04 | Phase 23 | Pending |
+| DPRI-04 | Phase 23 | Complete |
 | DPRD-01 | Phase 22 | Complete |
-| DPRD-02 | Phase 23 | Pending |
+| DPRD-02 | Phase 23 | Complete |
 | DPRD-03 | Phase 22 | Complete |
 | DPRD-04 | Phase 24 | Pending |
 | DPRD-05 | Phase 22 | Complete |
