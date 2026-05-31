@@ -137,14 +137,13 @@ Plans:
   3. A "Verify now" button appears on pending and phasing-out domain cards; pressing it enqueues an on-demand verification job; each card shows the last-checked timestamp and a plain-language failure reason when verification has failed
   4. Deleting the current primary domain requires selecting a replacement first (subdomain pre-selected); the confirmation dialog shows the decommission date; when a phasing-out domain is rescued a confirmation message appears on the dashboard
   5. Admins see full domain status and can trigger verification but cannot mutate; roles below Admin see a read-only list; frozen custom domain cards display a Frozen badge with an explanation and re-upgrade prompt
-**Plans**: 5 plans
+**Plans**: 4 plans
 
 Plans:
-- [ ] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
-- [ ] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
-- [ ] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
-- [ ] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
-- [ ] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
+- [ ] 24-01-PLAN.md — Backend: verify endpoint, frozen scope, set_primary_on_verify migration + job, test fixes
+- [ ] 24-02-PLAN.md — Frontend contract: domain types, verifyDomain hook (rescue), add/remove hooks, Tooltip install
+- [ ] 24-03-PLAN.md — Components: DomainCard, DomainCardList, 4-step AddDomainWizard
+- [ ] 24-04-PLAN.md — Delete dialogs, context/container wiring, file deletions, human verification
 **UI hint**: yes
 
 ---
@@ -176,4 +175,4 @@ Plans:
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
-| 24. Domain UI Overhaul | v1.6 | 0/? | Not started | — |
+| 24. Domain UI Overhaul | v1.6 | 0/4 | Planned | — |
