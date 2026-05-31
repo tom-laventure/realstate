@@ -34,7 +34,7 @@ Declared values (must be multiples of 4):
 | Token | Value | Usage |
 |-------|-------|-------|
 | xs | 4px | Icon gap within nav button label (`gap-3` = 12px in nav items is inherited) |
-| sm | 8px | Nav item vertical stack gap (`space-y-0.5` in PortalAdminSideNav) |
+| sm | 8px | Nav item vertical stack gap |
 | md | 16px | Default element spacing, card content padding |
 | lg | 24px | Page content padding (`p-6`) inside AdminBoard |
 | xl | 32px | — |
@@ -45,6 +45,7 @@ Exceptions:
 - Nav item icon container: `h-8 w-8` (32px square) with `flex items-center justify-center` — matches existing `AdminBoardSideNav` icon wrapper pattern
 - Nav item touch target: minimum `py-2 px-3` per item (32px effective height) — existing pattern; no 44px override needed as this is a desktop admin shell
 - Card `mt-6` (24px) top margin before the Board Registrations card — inherited from existing `BoardRegistrations` component
+- `space-y-0.5` (2px) on the nav item list in `PortalAdminSideNav` — not a multiple of 4; inherited from the existing `PortalAdminSideNav` implementation. Phase 25 does not introduce or modify this value; kept to match the existing component exactly.
 
 Source: Direct read of `AdminBoardSideNav.tsx`, `PortalAdminSideNav.tsx`, `BrokerageAdminBoard.tsx`, `BoardRegistrations.tsx` (all verified)
 
@@ -55,14 +56,13 @@ Source: Direct read of `AdminBoardSideNav.tsx`, `PortalAdminSideNav.tsx`, `Broke
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body | 14px (text-sm) | 400 (regular) | 1.5 |
-| Label | 12px (text-xs) | 500 (medium) | 1.4 |
 | Heading | 16px (text-base) | 600 (semibold) | 1.2 |
 | Nav item label | 14px (text-sm) | 400 (regular) | 1.5 |
 
 Notes:
 - "Administration Settings" section title in `AdminBoardSideNav` uses a CSS Module class (`admin-board-sidenav--title`) — not overriding, leaving as-is
 - `CardTitle` in `BoardRegistrations` is `text-base font-semibold` (16px, weight 600) — heading role
-- Table column headers use `text-xs font-medium text-muted-foreground uppercase tracking-wide` — label role
+- Table column headers in `BoardRegistrations` carry `text-xs font-medium text-muted-foreground uppercase tracking-wide` (`font-medium` = weight 500). This is a pre-existing pattern that Phase 25 does not introduce or modify — it is inherited unchanged from the existing `BoardRegistrations` component and is therefore not declared as a new typographic weight in this contract.
 
 Source: Direct read of `BoardRegistrations.tsx`, `AdminBoardSideNav.tsx` (verified)
 
