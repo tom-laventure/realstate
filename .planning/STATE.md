@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.7
 milestone_name: Board Registrations Nav Separation
 status: executing
-stopped_at: Roadmap created — ready to plan Phase 25
-last_updated: "2026-05-31T22:27:13.554Z"
-last_activity: 2026-05-31 -- Phase 25 planning complete
+stopped_at: Phase 25 Plan 01 complete — /admin/boards route and BoardsAdminBoard created
+last_updated: "2026-05-31T22:32:29Z"
+last_activity: 2026-05-31 -- Phase 25 Plan 01 executed
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 33
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-31)
 ## Current Position
 
 Phase: 25 of 25 (Board Registrations Nav Separation)
-Plan: — (not yet planned)
-Status: Ready to execute
-Last activity: 2026-05-31 -- Phase 25 planning complete
+Plan: 02 (next to execute)
+Status: Executing
+Last activity: 2026-05-31 -- Phase 25 Plan 01 complete
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
@@ -44,7 +44,7 @@ Progress: [░░░░░░░░░░] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 25 | 1/3 | 82s | 82s |
 
 *Updated after each plan completion*
 
@@ -57,6 +57,8 @@ Recent decisions affecting current work:
 
 - Phase 18: `AdminDomainShell` delegates to `PortalAdminShell` (main domain) or `AppShellAdmin` (subdomain) — both sidebars must be updated for Phase 25
 - Phase 14: `BoardRegistrations` table lives inside `BrokerageAdminBoard` container — Phase 25 extracts it into a new `BoardsAdminBoard` container
+- Phase 25 Plan 01: `isLoading` derived from `useFetchBoardCredentials` (not boards) — credentials drive board registrations page readiness
+- Phase 25 Plan 01: No error guard added to `BoardsAdminBoard` — `BoardRegistrations` handles empty arrays gracefully with its own empty state
 
 ### Pending Todos
 
@@ -83,6 +85,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Roadmap created — ready to plan Phase 25
-Next action: `/gsd-plan-phase 25` — plan the implementation
-Last session: 2026-05-31 — Roadmap written for v1.7 (Board Registrations Nav Separation)
+Stopped at: Phase 25 Plan 01 complete — /admin/boards route and BoardsAdminBoard created
+Next action: Execute Plan 02 — trim /admin/brokerage to remove BoardRegistrations
+Last session: 2026-05-31 — Plan 01 executed: useBoardsAdminContext + BoardsAdminBoard + /admin/boards route

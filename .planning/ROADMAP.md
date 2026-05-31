@@ -113,7 +113,7 @@ Full details: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
   3. Both the subdomain side nav (`AdminBoardSideNav`) and the portal side nav (`PortalAdminSideNav`) show a "Board Registrations" item between "Brokerage" and "Users"
   4. Board credential actions (connect, edit, delete) on `/admin/boards` work correctly without any dependency on brokerage data fetches
 **Plans**: 3 plans
-- [ ] 25-01-PLAN.md — Create /admin/boards page (BoardsAdminBoard + useBoardsAdminContext) and register route
+- [x] 25-01-PLAN.md — Create /admin/boards page (BoardsAdminBoard + useBoardsAdminContext) and register route
 - [ ] 25-02-PLAN.md — Trim /admin/brokerage: remove BoardRegistrations render + board hooks from context
 - [ ] 25-03-PLAN.md — Update AdminBoardSideNav and PortalAdminSideNav with Board Registrations nav item
 **UI hint**: yes
@@ -148,4 +148,4 @@ Full details: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
 | 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
-| 25. Board Registrations Nav Separation | v1.7 | 0/? | Not started | - |
+| 25. Board Registrations Nav Separation | v1.7 | 1/3 | In progress | - |
