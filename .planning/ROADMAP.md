@@ -112,7 +112,10 @@ Full details: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
   2. Admin navigating to `/admin/boards` sees the Realtor Board Registrations table with connect, edit, and delete actions fully functional
   3. Both the subdomain side nav (`AdminBoardSideNav`) and the portal side nav (`PortalAdminSideNav`) show a "Board Registrations" item between "Brokerage" and "Users"
   4. Board credential actions (connect, edit, delete) on `/admin/boards` work correctly without any dependency on brokerage data fetches
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 25-01-PLAN.md — Create /admin/boards page (BoardsAdminBoard + useBoardsAdminContext) and register route
+- [ ] 25-02-PLAN.md — Trim /admin/brokerage: remove BoardRegistrations render + board hooks from context
+- [ ] 25-03-PLAN.md — Update AdminBoardSideNav and PortalAdminSideNav with Board Registrations nav item
 **UI hint**: yes
 
 ---
