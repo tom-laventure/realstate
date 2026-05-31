@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: — Domain Management v2
 status: executing
-stopped_at: Plan 24-01 complete — backend slice (verify endpoint, set_primary_on_verify, frozen scope)
-last_updated: "2026-05-31T05:59:45Z"
-last_activity: 2026-05-31 -- Phase 24 Plan 01 executed
+stopped_at: Plan 24-02 complete — frontend type contract (domain types, verifyDomain hook, add/remove hooks, Tooltip)
+last_updated: "2026-05-31T06:20:00Z"
+last_activity: 2026-05-31 -- Phase 24 Plan 02 executed
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 11
-  completed_plans: 8
-  percent: 73
+  completed_plans: 9
+  percent: 75
 ---
 
 # Project State
@@ -26,12 +26,12 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 24 — Domain UI Overhaul
-Plan: 02 (next) — 4 plans across 3 waves, Plan 01 complete
+Plan: 03 (next) — 4 plans across 3 waves, Plans 01-02 complete
 Status: Executing
-Last activity: 2026-05-31 -- Phase 24 Plan 01 complete
+Last activity: 2026-05-31 -- Phase 24 Plan 02 complete
 
 ```
-Progress: [======================        ] 73% (2/3 phases complete, 8/11 plans complete)
+Progress: [=======================       ] 75% (2/3 phases complete, 9/11 plans complete)
 ```
 
 ## Phase Summary
@@ -94,9 +94,11 @@ Progress: [======================        ] 73% (2/3 phases complete, 8/11 plans 
 | require_relative in application.rb for DomainRedirectMiddleware | Zeitwerk autoload not yet active when application.rb runs — class must be resolvable at middleware registration time |
 | insert_before ActionDispatch::Static for middleware position | Places DomainRedirectMiddleware after Rack::Cors (position 2) so CORS preflight OPTIONS requests are handled before redirect logic |
 | In-memory .find on .includes() collection for primary lookup | Avoids second AR query per redirected request — eager-loaded collection handles primary resolution with no N+1 |
+| useVerifyDomain uses onMutate snapshot for rescue detection | Captures previousStatus before mutation fires; avoids relying solely on response data which may not include prior state |
+| FetchDomainsResponse used as getQueryData generic in useVerifyDomain | More type-safe than inline shape; matches actual cache shape exactly |
 
 ## Session Continuity
 
-Stopped at: Plan 24-01 complete — backend slice (verify endpoint, set_primary_on_verify, frozen scope)
-Next action: Execute Phase 24 Plan 02 (frontend domain UI)
-Last session: 2026-05-31T05:59:00Z — Completed 24-01 (verify action, migration, frozen scope, 31 tests passing)
+Stopped at: Plan 24-02 complete — frontend type contract (domain types, verifyDomain hook, add/remove hooks, Tooltip)
+Next action: Execute Phase 24 Plan 03 (DomainCard, DomainCardList, AddDomainWizard components)
+Last session: 2026-05-31T06:20:00Z — Completed 24-02 (domain types, verifyDomain, useAddCustomDomain, useRemoveCustomDomain, Tooltip)
