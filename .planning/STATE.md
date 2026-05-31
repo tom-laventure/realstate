@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: — Domain Management v2
-status: executing
-stopped_at: Plan 24-03 complete — DomainCard (status-variant), DomainCardList (sorted + gated Add), AddDomainWizard (4-step)
-last_updated: "2026-05-31T06:11:00Z"
-last_activity: 2026-05-31 -- Phase 24 Plan 03 executed
+status: complete
+stopped_at: Phase 24 complete — all 4 plans executed, human checkpoint passed
+last_updated: "2026-05-31T07:30:00Z"
+last_activity: 2026-05-31 -- Phase 24 Plan 04 executed and verified
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 11
-  completed_plans: 9
-  percent: 75
+  completed_plans: 11
+  percent: 100
 ---
 
 # Project State
@@ -26,12 +26,12 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 ## Current Position
 
 Phase: 24 — Domain UI Overhaul
-Plan: 04 (next) — 4 plans across 3 waves, Plans 01-03 complete
-Status: Executing
-Last activity: 2026-05-31 -- Phase 24 Plan 03 complete
+Plan: 04 — Complete
+Status: Milestone v1.6 Complete ✓
+Last activity: 2026-05-31 -- Phase 24 Plan 04 executed and human-verified
 
 ```
-Progress: [=========================     ] 82% (2/3 phases complete, 10/11 plans complete)
+Progress: [==============================] 100% (3/3 phases complete, 11/11 plans complete)
 ```
 
 ## Phase Summary
@@ -40,7 +40,7 @@ Progress: [=========================     ] 82% (2/3 phases complete, 10/11 plans
 |-------|------|--------------|--------|
 | 22 | DNS Verification & Health Monitoring Backend | 14 | Complete ✓ |
 | 23 | 301 Redirect & Primary Domain Enforcement | 3 | Complete ✓ |
-| 24 | Domain UI Overhaul | 17 | In Progress |
+| 24 | Domain UI Overhaul | 17 | Complete ✓ |
 
 ## Deferred Items
 
@@ -100,9 +100,10 @@ Progress: [=========================     ] 82% (2/3 phases complete, 10/11 plans
 | onDelete no-op default in DomainCardList | Delete dialogs owned by Plan 04 context layer; Plan 04 passes the handler |
 | wizard totalVisibleSteps is 3 when step 3 skipped; visualStep remaps step 4 -> dot 3 | Correct dot indicator display when conditional step is absent |
 | Frozen Upgrade plan CTA navigates window.location.href = /admin/plan | No mutation; T-24-10 accept disposition — in-app route already auth-gated |
+| useRole falls back to activeBrokerage.role on main domain | PortalAdminShell never calls useGetCurrentUser; activeBrokerage is always populated for portal users via fetchAdminBrokerages — correct source of truth in that context |
 
 ## Session Continuity
 
-Stopped at: Plan 24-03 complete — DomainCard (status-variant), DomainCardList (sorted + gated Add), AddDomainWizard (4-step)
-Next action: Execute Phase 24 Plan 04 (context, page wiring, delete dialogs, checkpoint)
-Last session: 2026-05-31T06:11:00Z — Completed 24-03 (DomainCard, DomainCardList, AddDomainWizard)
+Stopped at: Milestone v1.6 complete — all 11 plans across 3 phases executed and verified
+Next action: Begin next milestone (v1.7 or beyond)
+Last session: 2026-05-31T07:30:00Z — Completed 24-04 (delete dialogs, context wiring, verification)

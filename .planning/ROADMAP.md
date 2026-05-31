@@ -8,7 +8,7 @@
 - ✅ **v1.3 — Test Board & Board Management** — Phases 11–14 (shipped 2026-05-24)
 - ✅ **v1.4 — Main Domain Admin Portal** — Phases 15–18 (shipped 2026-05-27)
 - ✅ **v1.5 — Domain Management** — Phases 19–21 (shipped 2026-05-29)
-- 🔄 **v1.6 — Domain Management v2** — Phases 22–24 (active)
+- ✅ **v1.6 — Domain Management v2** — Phases 22–24 (shipped 2026-05-31)
 
 ## Phases
 
@@ -87,7 +87,7 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 
 - [x] **Phase 22: DNS Verification & Health Monitoring Backend** — Background verification and health check jobs, auto-phase-out, rescue logic, owner email notifications, downgrade handling, domain state constraints (completed 2026-05-30)
 - [x] **Phase 23: 301 Redirect & Primary Domain Enforcement** — Rails redirect middleware for non-primary domains, frozen domain redirects, system-link primary domain enforcement (completed 2026-05-31)
-- [ ] **Phase 24: Domain UI Overhaul** — Revamped card list with role-gating, 4-step add wizard, on-demand verify, delete flow with primary replacement, rescue confirmation, frozen badge
+- [x] **Phase 24: Domain UI Overhaul** — Revamped card list with role-gating, 4-step add wizard, on-demand verify, delete flow with primary replacement, rescue confirmation, frozen badge (completed 2026-05-31)
 
 ---
 
@@ -143,7 +143,7 @@ Plans:
 - [x] 24-01-PLAN.md — Backend: verify endpoint, frozen scope, set_primary_on_verify migration + job, test fixes
 - [x] 24-02-PLAN.md — Frontend contract: domain types, verifyDomain hook (rescue), add/remove hooks, Tooltip install
 - [x] 24-03-PLAN.md — Components: DomainCard, DomainCardList, 4-step AddDomainWizard
-- [ ] 24-04-PLAN.md — Delete dialogs, context/container wiring, file deletions, human verification
+- [x] 24-04-PLAN.md — Delete dialogs, context/container wiring, file deletions, human verification
 **UI hint**: yes
 
 ---
@@ -175,4 +175,4 @@ Plans:
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
-| 24. Domain UI Overhaul | v1.6 | 3/4 | In Progress | — |
+| 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
