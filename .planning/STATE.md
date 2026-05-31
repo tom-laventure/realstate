@@ -2,7 +2,7 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Domain Management v2
-status: planning-complete
+status: context-gathered
 last_updated: "2026-05-30T22:30:00.000Z"
 last_activity: 2026-05-30
 progress:
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 
 Phase: 23 — 301 Redirect & Primary Domain Enforcement
 Plan: —
-Status: Phase 22 complete (approved 2026-05-30); Phase 23 ready to plan
+Status: Phase 23 context gathered; ready to plan
 Last activity: 2026-05-30 — Phase 22 approved (5/5 plans, all tests passing)
 
 ```
