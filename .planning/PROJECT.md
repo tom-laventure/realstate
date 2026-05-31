@@ -8,10 +8,14 @@ A multi-tenant real estate SaaS platform serving brokerages via domain-based iso
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Current State: Between Milestones (v1.6 Complete)
+## Current Milestone: v1.7 — Board Registrations Nav Separation
 
-**Shipped v1.6:** 2026-05-31 — Domain Management v2
-**Next:** v1.7 — to be defined via `/gsd-new-milestone`
+**Goal:** Give Realtor Board Registrations its own admin nav item and page, separate from the Brokerage info/branding tab.
+
+**Target features:**
+- New `/admin/boards` route and `BoardsAdminBoard` container with dedicated context
+- `BrokerageAdminBoard` trimmed to Brokerage Information + Branding only
+- Both admin side navs updated: new "Board Registrations" item between "Brokerage" and "Users"
 
 ---
 
@@ -103,12 +107,16 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-### Active (v1.7+)
+### Active (v1.7)
 
-*(To be defined via `/gsd-new-milestone`)*
+- [ ] **NAV-01**: Board Registrations has its own admin nav item at `/admin/boards`
+- [ ] **NAV-02**: `/admin/brokerage` shows Brokerage Information and Branding only
+- [ ] **NAV-03**: Both admin nav sidebars (subdomain + portal) reflect the split with correct labels
+
+### Deferred to v1.8+
 
 - [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over)
-- [ ] S3 favicon upload outside transaction (CR-02, pre-existing, carry to v1.7)
+- [ ] S3 favicon upload outside transaction (CR-02, pre-existing)
 - [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
 - [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
 
@@ -211,4 +219,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-05-31 — v1.6 complete (Domain Management v2 shipped)*
+*Last updated: 2026-05-31 — v1.7 started (Board Registrations Nav Separation)*
