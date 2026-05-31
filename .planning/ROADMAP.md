@@ -9,6 +9,7 @@
 - ✅ **v1.4 — Main Domain Admin Portal** — Phases 15–18 (shipped 2026-05-27)
 - ✅ **v1.5 — Domain Management** — Phases 19–21 (shipped 2026-05-29)
 - ✅ **v1.6 — Domain Management v2** — Phases 22–24 (shipped 2026-05-31)
+- 🚧 **v1.7 — Board Registrations Nav Separation** — Phase 25 (in progress)
 
 ## Phases
 
@@ -94,6 +95,28 @@ Full details: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
 
 ---
 
+### 🚧 v1.7 — Board Registrations Nav Separation (In Progress)
+
+**Milestone Goal:** Give Realtor Board Registrations its own admin nav item and page, cleanly separated from Brokerage information and branding.
+
+- [ ] **Phase 25: Board Registrations Nav Separation** - Extract boards into `/admin/boards`, trim `/admin/brokerage`, update both sidebars
+
+## Phase Details
+
+### Phase 25: Board Registrations Nav Separation
+**Goal**: Board Registrations lives at its own `/admin/boards` route with its own context; `/admin/brokerage` shows only Brokerage Information and Branding; both admin sidebars reflect the split
+**Depends on**: Phase 24
+**Requirements**: NAV-01, NAV-02, NAV-03, NAV-04, NAV-05, NAV-06, NAV-07
+**Success Criteria** (what must be TRUE):
+  1. Admin navigating to `/admin/brokerage` sees only the Brokerage Information and Branding sections — no Board Registrations table
+  2. Admin navigating to `/admin/boards` sees the Realtor Board Registrations table with connect, edit, and delete actions fully functional
+  3. Both the subdomain side nav (`AdminBoardSideNav`) and the portal side nav (`PortalAdminSideNav`) show a "Board Registrations" item between "Brokerage" and "Users"
+  4. Board credential actions (connect, edit, delete) on `/admin/boards` work correctly without any dependency on brokerage data fetches
+**Plans**: TBD
+**UI hint**: yes
+
+---
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -122,3 +145,4 @@ Full details: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
 | 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
+| 25. Board Registrations Nav Separation | v1.7 | 0/? | Not started | - |
