@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: — Domain Management v2
 status: executing
-stopped_at: Plan 23-02 complete — Phase 23 done
-last_updated: "2026-05-31T05:48:51.139Z"
-last_activity: 2026-05-31 -- Phase 24 planning complete
+stopped_at: Plan 24-01 complete — backend slice (verify endpoint, set_primary_on_verify, frozen scope)
+last_updated: "2026-05-31T05:59:45Z"
+last_activity: 2026-05-31 -- Phase 24 Plan 01 executed
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 11
-  completed_plans: 7
-  percent: 64
+  completed_plans: 8
+  percent: 73
 ---
 
 # Project State
@@ -25,13 +25,13 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 
 ## Current Position
 
-Phase: 23 — 301 Redirect & Primary Domain Enforcement
-Plan: 02 complete — Phase 23 done, Phase 24 next
-Status: Ready to execute
-Last activity: 2026-05-31 -- Phase 24 planning complete
+Phase: 24 — Domain UI Overhaul
+Plan: 02 (next) — 4 plans across 3 waves, Plan 01 complete
+Status: Executing
+Last activity: 2026-05-31 -- Phase 24 Plan 01 complete
 
 ```
-Progress: [====================          ] 67% (2/3 phases complete)
+Progress: [======================        ] 73% (2/3 phases complete, 8/11 plans complete)
 ```
 
 ## Phase Summary
@@ -40,7 +40,7 @@ Progress: [====================          ] 67% (2/3 phases complete)
 |-------|------|--------------|--------|
 | 22 | DNS Verification & Health Monitoring Backend | 14 | Complete ✓ |
 | 23 | 301 Redirect & Primary Domain Enforcement | 3 | Complete ✓ |
-| 24 | Domain UI Overhaul | 17 | Not started |
+| 24 | Domain UI Overhaul | 17 | In Progress |
 
 ## Deferred Items
 
@@ -85,6 +85,8 @@ Progress: [====================          ] 67% (2/3 phases complete)
 | unfreeze_custom_domains! uses verified flag to determine restore target | verified:true -> active, verified:false -> pending; avoids tracking pre-freeze status separately |
 | alias_method :create, :update in Ops::PlanController | Enables POST alongside PATCH/PUT for JSON ops endpoint without duplicate action code |
 | D-08: custom domains created as pending (not active) | DomainVerificationJob promotes to active after CNAME check; bypasses old phase-out-on-create logic |
+| DNS stub via define_method/remove_method (Phase 24) | Cleanest Minitest 6 compatible stub — no module prepend teardown complexity; matches FakeJob subclass precedent from Phase 22 |
+| verify action uses synchronous dns_resolves? inline | Frontend useVerifyDomain expects direct { verified } response; mirrors onboarding verify pattern |
 | Pending destroy: immediate decommission, no phase-out | Pending domains have no live traffic — slot checks and phase-out period do not apply |
 | index and mutation_payload include pending domains | .routable.or(.status_pending) ensures Phase 24 UI can display verification state immediately after creation |
 | FakeJob subclass for DNS testing in Minitest 6 | Minitest 6.0.3 (Ruby 4.0.0) removed Minitest::Mock and .stub — test subclass overrides cname_resolves_to_subdomain? directly |
@@ -95,6 +97,6 @@ Progress: [====================          ] 67% (2/3 phases complete)
 
 ## Session Continuity
 
-Stopped at: Plan 23-02 complete — Phase 23 done
-Next action: Execute Phase 24 (Domain UI Overhaul)
-Last session: 2026-05-31T01:15:00Z — Completed 23-02 (DPRI-03 mailer integration tests, 22 runs all passing)
+Stopped at: Plan 24-01 complete — backend slice (verify endpoint, set_primary_on_verify, frozen scope)
+Next action: Execute Phase 24 Plan 02 (frontend domain UI)
+Last session: 2026-05-31T05:59:00Z — Completed 24-01 (verify action, migration, frozen scope, 31 tests passing)

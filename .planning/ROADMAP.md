@@ -140,7 +140,7 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 24-01-PLAN.md — Backend: verify endpoint, frozen scope, set_primary_on_verify migration + job, test fixes
+- [x] 24-01-PLAN.md — Backend: verify endpoint, frozen scope, set_primary_on_verify migration + job, test fixes
 - [ ] 24-02-PLAN.md — Frontend contract: domain types, verifyDomain hook (rescue), add/remove hooks, Tooltip install
 - [ ] 24-03-PLAN.md — Components: DomainCard, DomainCardList, 4-step AddDomainWizard
 - [ ] 24-04-PLAN.md — Delete dialogs, context/container wiring, file deletions, human verification
