@@ -599,22 +599,19 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **DADD-02: Primary preference storage approach**
-   - What we know: No `set_primary_on_verify` column exists in the schema. The verification job's `promote_to_active!` currently only auto-sets primary when no primary exists at all.
-   - What's unclear: Is a migration the intended approach, or should the wizard step 3 preference be handled differently (e.g., a separate `set_primary` call enqueued for post-verification)?
-   - Recommendation: Add `set_primary_on_verify` boolean migration. It is the clean, atomic approach. Update `custom` action to accept the param, update `promote_to_active!` in the job to check it.
+   - RESOLVED: Add a `set_primary_on_verify` boolean migration (`add_column :brokerage_domains, :set_primary_on_verify, :boolean, default: false, null: false`). The wizard step 3 preference is persisted on the domain record; the `custom` action accepts the param and `DomainVerificationJob#promote_to_active!` (and the new verify action) read it to auto-promote on verification. Plan 01 adds the migration + backend wiring; Plan 03 captures the preference in the wizard; Plan 04 sends it via `addCustomDomain`. This is the clean, atomic approach over a transient or separately-enqueued `set_primary` call.
+   - What we know: No `set_primary_on_verify` column existed in the schema. The verification job's `promote_to_active!` previously only auto-set primary when no primary existed at all.
 
 2. **`verifyDomain.ts` response shape for rescue detection**
-   - What we know: The current response type is `{ verified: boolean, domain?: string, ... }`. Rescue detection requires knowing the domain's new status in the response.
-   - What's unclear: The new admin verify action needs to return a full serialized domain object, not just a domain name string, for the hook to compare statuses.
-   - Recommendation: Return `mutation_payload` shape on success (same as other mutations). On DNS failure, return `{ verified: false, error: ..., domain: serialized_domain }` so the card can update `lastCheckedAt` after a manual check.
+   - RESOLVED: The admin verify action returns the `mutation_payload` shape (`{ domain: serialized, domains: [...] }`) on success, and `{ verified: false, error, domain: serialized_domain }` on DNS failure so the card can update `lastCheckedAt` after a manual check. `VerifyDomainResponse` is updated to `{ verified: boolean; domain?: BrokerageDomain; domains?: BrokerageDomain[]; error?: string }` (full serialized domain object, not a bare string). The hook compares the pre-mutation cached status (via `onMutate` snapshot) against the response `domain.status` to detect the phasing_out → active rescue. Plan 01 implements the backend action; Plan 02 updates the response type and `useVerifyDomain`.
+   - What we know: The prior response type was `{ verified: boolean, domain?: string, ... }`, which lacked the new status needed for rescue detection.
 
-3. **SubdomainCardEditForm / DomainSlugInput / slugValidation.ts**
-   - What we know: These files exist in the domainsAdminView directory. Phase 24 removes the subdomain edit-in-card UX (D-08 says full replacement).
-   - What's unclear: Whether subdomain editing is explicitly out of scope or implicitly retained.
-   - Recommendation: The UI-SPEC subdomain card variant has no "Edit" action — only "Set as primary". These files can be deleted. If subdomain slug editing is needed in future, it can be reintroduced.
+3. **SubdomainCardEditForm / DomainSlugInput / slugValidation.ts deletion scope**
+   - RESOLVED: These files are out of scope for the new UI and are deleted per D-08 (full replacement). The UI-SPEC subdomain card variant has no "Edit" action — only "Set as primary" — so subdomain slug editing is intentionally removed. Plan 04 Task 3 deletes `SubdomainCardEditForm.tsx`, `DomainSlugInput.tsx`, `slugValidation.ts`, and `slugValidation.test.ts` (each gated on a grep confirming no remaining importer). If subdomain slug editing is needed later, it can be reintroduced as a separate phase.
+   - What we know: These files existed in the domainsAdminView directory; Phase 24 removes the subdomain edit-in-card UX.
 
 ---
 
