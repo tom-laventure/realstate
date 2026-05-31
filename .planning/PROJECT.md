@@ -1,90 +1,19 @@
 # RealState SaaS Platform
 
-## Current Milestone: v1.6 — Domain Management v2
-
-**Goal:** Give brokerage owners full DNS-verified custom domain management with automated health monitoring, lifecycle notifications, and a polished role-gated domain list UI.
-
-**Target features:**
-- Domain list page: card list, lock icon + tooltip on subdomain, Primary badge, role-gated controls
-- Add custom domain: 4-step wizard (enter → DNS instructions → primary preference → confirm), Pending verification state
-- DNS verification: CNAME check on-demand (Verify now) + 30-min background polling, last-checked timestamp, failure explanation
-- Domain health checks: 30-min monitoring, auto phase-out after 3 consecutive failures, owner email notifications
-- Rescue flow: verification success before decommission cancels phase-out, restores Active
-- Delete flow: phase-out with decommission date; primary domains require selecting replacement first
-- Primary domain: Owner-only, active domains only; 301 redirect from non-primary; all emails use primary ✓ Validated in Phase 23
-- Pro downgrade: frozen custom domains (redirect to subdomain only), auto-promote subdomain to primary, owner notification; re-upgrade restores ✓ Validated in Phase 23
-
-**Phase 23 complete (2026-05-31):** 301 redirect middleware live — non-primary active/phasing-out/frozen domains redirect to primary at Rack layer; all system emails proven to embed primary domain (DPRI-03, DPRI-04, DPRD-02).
-
----
-
-## Milestone: v1.5 — Domain Management — SHIPPED 2026-05-29 ✅
-
-**Goal:** Give brokerage admins full control over their domains — a Domains admin page to view, edit, and manage their subdomain and optional custom domain (Pro), designate a primary domain, and understand phase-out timelines for retiring domains. ✓ Complete.
-
-**Delivered:**
-- `brokerage_domains` extended with 4 lifecycle columns; SQL backfill; partial unique index on non-decommissioned records — Phase 19
-- `BrokerageDomain` model: string enums, `RESERVED_SLUGS`, routable scope, slug validations; `BrokerageAuth` → `.routable` scope; `DomainsController#check` → `.status_active` — Phase 19
-- Domain lifecycle backend: `phase_out!/decommission!` helpers, slot counting, `BrokerageDomainSerializer`; rebuilt admin domains controller with 5 actions + 21 integration tests; Pro-tier gate; slot-block/warning responses — Phase 20
-- Public `GET /v1/domains/lookup` (unauthenticated); `InvitationMailer` updated to `is_primary: true` — Phase 20
-- `PrimaryDomainRedirect` layout-route guard using `window.location.replace` — Phase 21
-- Full Domains admin page: status cards, phase-out countdowns, primary badge/toggle, slot management, Pro gate, "Remove now" confirm — Phase 21
-
----
-
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, and a full domain management system with lifecycle-tracked subdomains and custom domains (Pro), primary domain enforcement, and a Domains admin page.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, and a complete domain management system: lifecycle-tracked subdomains and custom domains (Pro), automated DNS verification and health monitoring, 301 redirect enforcement, Pro-downgrade freeze/restore, and a polished role-gated Domains admin UI.
 
 ## Core Value
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-## Milestone: v1.4 — Main Domain Admin Portal — SHIPPED 2026-05-27 ✅
+## Current State: Between Milestones (v1.6 Complete)
 
-**Goal:** Give brokerage admins a main-domain portal where they can manage all their brokerages in one place — without relying on individual subdomain URLs. ✓ Complete.
-
-**Delivered:**
-- BrokerageAuth extended: resolves `Current.brokerage` from `X-Brokerage-Id` header on main-domain requests; 400 if absent — Phase 15
-- `GET /v1/account/admin_brokerages` endpoint: cross-brokerage admin/owner membership list — Phase 15
-- Main domain routing: `/dashboard/*` alongside `/create/*`; auth route promoted to top-level for cross-domain accessibility — Phase 16
-- Sign-in routing: `LoginSuccessful` + `Login.tsx` both extended with domain-aware post-sign-in routing — ≥1 admin → /dashboard, 0 → /no-access — Phase 16
-- Brokerage selection screen: per-brokerage cards; single-brokerage auto-redirect with anti-flash guard; `PortalShell` D-12 URL validation + D-13 empty-Redux re-fetch — Phase 17
-- Post-create redirect: `SuccessStep` sends to `https://{VITE_MAIN_DOMAIN}/dashboard/:brokerageId` — Phase 17
-- Portal landing page: `PortalNavBar` brokerage switcher + role badge; 4-section admin suite grid — Phase 18
-- Domain-adaptive admin shell: `AdminDomainShell` delegates to `PortalAdminShell` (main domain) or `AppShellAdmin` (subdomain) — Phase 18
+**Shipped v1.6:** 2026-05-31 — Domain Management v2
+**Next:** v1.7 — to be defined via `/gsd-new-milestone`
 
 ---
-
-## Milestone: v1.3 — Test Board & Board Management — SHIPPED 2026-05-24 ✅
-
-**Goal:** Replace multi-board seed data with a single TEST board (real North Vancouver addresses + coords), add a test board connect flow that skips RETS credentials and auto-associates listings, and add delete/edit CRUD to the Board Registrations table. ✓ Complete.
-
-**Delivered:**
-- Seeder overhaul: single "TEST" board replaces REBGV/FVREB/CADREB; 100 listings with real NV addresses + hardcoded lat/lng — Phase 11
-- Auto-associate listings on board connect: `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows — Phase 12
-- Test board connect flow: `ConnectBoardDialog` detects `is_test_board` → skips credentials step, shows blue info notice — Phase 13
-- Board credential CRUD: soft-delete + credential-update per row in Board Registrations table — Phase 14
-
----
-
-## Milestone: v1.2 — Listing Map View — SHIPPED 2026-05-18 ✅
-
-**Goal:** Give agents a geographic view of their listings — an interactive Mapbox panel on the group dashboard (filter-synced, clustered) and a location map on each individual listing detail page. ✓ Complete.
-
-**Delivered:**
-- lat/lng columns on `listing_details` via `GeocodingService` + `GeocodeListingsJob` + geocode:backfill rake task — Phase 8
-- Group dashboard Mapbox panel with filter-synced pins, use-supercluster clustering, popup cards — Phase 9
-- Individual listing detail: `EstateLocationMap` single-pin Mapbox component between summary card and section tabs — Phase 10
-
-## Milestone: v1.1 Domain Access Control — SHIPPED 2026-05-16
-
-**Goal:** Enforce strict domain-based routing — main domain serves only the brokerage creation flow; brokerage subdomains never expose `/create`. ✓ Complete.
-
-**Delivered:**
-- Frontend domain guard (configurable `VITE_MAIN_DOMAIN`, main domain shows only `/create/*`, subdomains redirect `/create` → `/`) — Phase 6
-- Backend onboarding guard (all `/v1/onboarding/*` endpoints require main-domain origin, 403 otherwise) — Phase 7
-- Configurable main domain via env vars on both frontend and backend (ready for `realtybase.ca → app.realtybase.ca` migration)
 
 ## Requirements
 
@@ -129,19 +58,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ Group dashboard Mapbox GL map panel with filter-synced pins, use-supercluster clustering, popup cards — v1.2 (MAP-02, MAP-03, MAP-05, MAP-06)
 - ✓ Individual listing detail page `EstateLocationMap` — single-pin Mapbox, conditional on coordinates — v1.2 (MAP-04)
 - ✓ Admin can delete a board credential (soft delete, row removed from table) — v1.3 Phase 14 (BOARD-06)
-- ✓ Admin can update credentials for an existing board registration (test board re-verify / real board re-enter RETS) — v1.3 Phase 14 (BOARD-07)
+- ✓ Admin can update credentials for an existing board registration — v1.3 Phase 14 (BOARD-07)
 - ✓ Board Registrations table has per-row delete/edit actions — v1.3 Phase 14 (BOARD-08)
-
-### Validated (v1.3 additions)
-
 - ✓ SEED-01–04: Single TEST board; 100 NV listings with real coords; no pre-attached BrokerageEstate rows — v1.3 Phase 11
 - ✓ BOARD-01/02: `is_test_board` column + serializer; TEST board seeded — v1.3 Phase 11
 - ✓ BOARD-03/04: Board connect auto-inserts BrokerageEstate rows; test boards bypass RETS validation — v1.3 Phase 12
 - ✓ BOARD-05: `ConnectBoardDialog` test-board bypass step with blue info notice — v1.3 Phase 13
 - ✓ BOARD-06/07/08: Board credential soft-delete + update CRUD; 5-column table with per-row actions — v1.3 Phase 14
-
-### Validated (v1.4 additions)
-
 - ✓ BE-01: `GET /v1/account/admin_brokerages` returns brokerage list (id, name, role) for authenticated user's admin/owner memberships — v1.4 Phase 15
 - ✓ BE-02: `BrokerageAuth` resolves `Current.brokerage` from `X-Brokerage-Id` header on main-domain requests — v1.4 Phase 15
 - ✓ BE-03: Main-domain `/v1/admin/**` requests without `X-Brokerage-Id` header return HTTP 400 — v1.4 Phase 15
@@ -156,108 +79,54 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ PORTAL-03: Active brokerage name and user role displayed in dashboard nav bar — v1.4 Phase 18
 - ✓ BROK-03: Brokerage switcher dropdown in nav bar switches active context without page navigation — v1.4 Phase 18
 - ✓ BROK-04: Switching brokerage via nav dropdown updates all admin panel data to the selected brokerage — v1.4 Phase 18
+- ✓ DMOD-01–14: Full `brokerage_domains` lifecycle schema, backend API (5 actions), slot logic, public lookup — v1.5 Phases 19–20
+- ✓ DINT-01–04: `PrimaryDomainRedirect` guard; `InvitationMailer` primary domain; `BrokerageAuth` routable scope; `DomainsController#check` status_active scope — v1.5 Phases 19–21
+- ✓ DUI-01–09: Full Domains admin page with status cards, phase-out countdowns, slot management, Pro gate, all domain actions — v1.5 Phase 21
 
-### Validated (v1.5 additions)
+### Validated (v1.6 — Domain Management v2)
 
-- ✓ DMOD-01: `brokerage_domains` schema extended with `domain_type`, `status`, `is_primary`, `phase_out_at` — v1.5 Phase 19
-- ✓ DMOD-02: Data migration backfills existing rows as subdomain / active / is_primary: true — v1.5 Phase 19
-- ✓ DMOD-03: Uniqueness check covers all non-decommissioned records; errors don't reveal owning brokerage — v1.5 Phase 19
-- ✓ DMOD-04: Subdomain slug validated for format + reserved-word list (10 reserved words) — v1.5 Phase 19
-- ✓ DMOD-05: Custom domain endpoints require `plan == 'premium'`; HTTP 403 + upgrade message for basic — v1.5 Phase 20
-- ✓ DMOD-06: `GET /v1/admin/domains` returns all active and phasing-out domains with 6 lifecycle fields — v1.5 Phase 20
-- ✓ DMOD-07: `PATCH /v1/admin/domains/subdomain` transitions old subdomain to 30-day phase-out; creates new active — v1.5 Phase 20
-- ✓ DMOD-08: `POST /v1/admin/domains/custom` adds custom domain (Pro only) with slot enforcement — v1.5 Phase 20
-- ✓ DMOD-09: `DELETE /v1/admin/domains/:id` on active custom domain → 30-day phase-out — v1.5 Phase 20
-- ✓ DMOD-10: `PATCH /v1/admin/domains/:id/set_primary` promotes active domain to primary; rejects phasing-out — v1.5 Phase 20
-- ✓ DMOD-11: Phase-out warning (`phase_out_warning`) when action results in exactly 2 phasing-out domains — v1.5 Phase 20
-- ✓ DMOD-12: Phase-out blocked (HTTP 422 + `earliest_slot_available_at`) when 2 phasing-out already exist — v1.5 Phase 20
-- ✓ DMOD-13: `GET /v1/domains/lookup?domain=X` — public unauthenticated endpoint; returns primary domain — v1.5 Phase 20
-- ✓ DMOD-14: `DELETE /v1/admin/domains/:id` on phasing-out domain → immediate decommission — v1.5 Phase 20
-- ✓ DINT-01: Frontend app-init `PrimaryDomainRedirect` guard using `window.location.replace` — v1.5 Phase 21
-- ✓ DINT-02: `InvitationMailer#primary_domain` queries `is_primary: true` — v1.5 Phase 20
-- ✓ DINT-03: `BrokerageAuth` resolves by `.routable` scope (active/phasing_out); decommissioned → 404 — v1.5 Phase 19
-- ✓ DINT-04: `V1::DomainsController#check` (Caddy) updated to `.status_active` scope — v1.5 Phase 19
-- ✓ DUI-01: `/admin/domains` route + "Domains" nav item in both PortalAdminSideNav and AppShellAdmin — v1.5 Phase 21
-- ✓ DUI-02: Domain cards with name, type badge, status badge, phase-out countdown — v1.5 Phase 21
-- ✓ DUI-03: Primary badge (active only) + "Set as primary" action for active non-primary domains — v1.5 Phase 21
-- ✓ DUI-04: Subdomain edit form with `validateSlug` + reserved-word list client-side validation — v1.5 Phase 21
-- ✓ DUI-05: Custom domain section (Pro): "Add domain" form + "Remove" action with confirmation — v1.5 Phase 21
-- ✓ DUI-06/07: `SlotBanner` warning + `FreeSlotAccordion` + disabled buttons with "Unavailable until" message — v1.5 Phase 21
-- ✓ DUI-08: Non-Pro locked section with `CustomDomainsProGate` upgrade prompt — v1.5 Phase 21
-- ✓ DUI-09: Phasing-out domain "Remove now" with `RemoveNowDialog` confirmation — v1.5 Phase 21
+- ✓ DVER-01: "Verify now" button on pending/phasing-out domains; on-demand verify endpoint with synchronous DNS check — v1.6 Phase 24
+- ✓ DVER-02: Background verification polling every 30 minutes for unverified and phasing-out domains — v1.6 Phase 22
+- ✓ DVER-03: Domain card shows last-checked timestamp and verification state — v1.6 Phase 24
+- ✓ DVER-04: Verification failure shows plain-language explanation — v1.6 Phase 24
+- ✓ DVER-05: First-to-verify wins via pessimistic lock in `DomainVerificationJob` — v1.6 Phase 22
+- ✓ DHLT-01: Active custom domains checked every 30 minutes for valid CNAME — v1.6 Phase 22
+- ✓ DHLT-02: After 3 consecutive failed checks, domain auto-moves to Phasing out — v1.6 Phase 22
+- ✓ DHLT-03/04: Owner email notification on health failure; primary-domain failure calls out subdomain fallback — v1.6 Phase 22
+- ✓ DHLT-05: `HEALTH_CHECK_INTERVAL` and `PHASE_OUT_DURATION` as named constants — v1.6 Phase 22
+- ✓ DLCX-01: Verification success before decommission restores domain to Active, clears `phase_out_at` — v1.6 Phase 22
+- ✓ DLCX-02: Rescue confirmation shown on dashboard when phasing-out domain is rescued — v1.6 Phase 24
+- ✓ DLCX-03: Delete triggers phase-out; dialog shows decommission date — v1.6 Phase 24
+- ✓ DLCX-04: Deleting primary requires selecting replacement first; subdomain pre-selected — v1.6 Phase 24
+- ✓ DUIV-01–06: Domain card list with role-gated controls, lock icon tooltip, primary badge, status badges — v1.6 Phase 24
+- ✓ DADD-01–04: 4-step add wizard; conditional primary preference step; pending card appears immediately; 7-day auto-remove with day-5 warning — v1.6 Phases 22/24
+- ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
+- ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-### Validated (v1.6 Phase 22 — DNS Verification & Health Monitoring Backend)
+### Active (v1.7+)
 
-**DNS Verification (backend):**
-- ✓ VER-02: Background verification polling every 30 minutes for unverified and phasing-out domains — Phase 22
-- ✓ VER-05: First-to-verify wins via pessimistic lock in DomainVerificationJob — Phase 22
-- ✓ ADD-04: Unverified domains auto-removed after 7 days; Owner notified at day 5 — Phase 22
+*(To be defined via `/gsd-new-milestone`)*
 
-**Domain Health (backend):**
-- ✓ HLT-01: Active custom domains checked every 30 minutes for valid CNAME — Phase 22
-- ✓ HLT-02: After 3 consecutive failed checks, domain auto-moves to Phasing out — Phase 22
-- ✓ HLT-03: All Owner-role users notified by email with failure details — Phase 22
-- ✓ HLT-04: Primary domain failure email explicitly notes subdomain fallback — Phase 22
-- ✓ HLT-05: HEALTH_CHECK_INTERVAL and PHASE_OUT_DURATION as named constants — Phase 22
-
-**Rescue Flow (backend):**
-- ✓ RSC-01: Verification success before decommission restores domain to Active, clears phase_out_at — Phase 22
-
-**Pro Downgrade (backend):**
-- ✓ PRO-01: On downgrade, all custom domains frozen via freeze_custom_domains! — Phase 22
-- ✓ PRO-02: Subdomain automatically promoted to primary on downgrade — Phase 22
-- ✓ PRO-04: Owner notified by email of downgrade via DomainMailer.downgrade_notice — Phase 22
-- ✓ PRO-05: Re-upgrade restores frozen domains (verified→active, unverified→pending) — Phase 22
-
-### Active (v1.6 — Domain Management v2)
-
-**301 Redirect (Phase 23):**
-- [ ] PRI-04: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
-- [ ] PRO (redirect): Frozen domain requests redirect to brokerage subdomain
-
-**Domain UI (Phase 24):**
-- [ ] DNS-01: Domain list renders as vertical card list (no table headers); each card shows domain URL, plain-language status description, relevant dates, and applicable action controls
-- [ ] DNS-02: Subdomain card shows a lock icon; hovering shows a tooltip explaining the domain is permanent and was assigned at registration
-- [ ] DNS-03: Primary badge displayed on whichever domain is currently primary
-- [ ] DNS-04: Owner-only controls: add domain, delete domain, set as primary, trigger verification
-- [ ] DNS-05: Admin-only controls: trigger manual verification check, view domain status
-- [ ] DNS-06: All other roles see read-only domain list
-
-**Add Custom Domain (Phase 24):**
-- [ ] ADD-01: 4-step add flow: enter domain → DNS instructions (exact CNAME record) → primary preference → confirm
-- [ ] ADD-02: Primary preference step shown only when another active domain exists; auto-sets as primary if no other active domain
-- [ ] ADD-03: Domain appears in list with Pending verification status after submission
-
-**DNS Verification UI (Phase 24):**
-- [ ] VER-01: "Verify now" button on any pending or phasing-out domain triggers on-demand verification job
-- [ ] VER-03: Domain card shows last-checked timestamp and current verification state
-- [ ] VER-04: Verification failure shows plain-language explanation of what was not found
-
-**Rescue Flow UI (Phase 24):**
-- [ ] RSC-02: Confirmation shown on dashboard when a phasing-out domain is rescued
-
-**Delete Flow (Phase 24):**
-- [ ] DEL-01: Delete triggers phase-out; deletion confirmation shows decommission date
-- [ ] DEL-02: Deleting the current primary requires selecting a new primary first; subdomain pre-selected as suggestion
-
-**Primary Domain UI (Phase 24):**
-- [ ] PRI-01: Any fully active domain can be set as primary (Owner only)
-- [ ] PRI-02: Phasing-out and pending-verification domains cannot be set as primary
-- [ ] PRI-03: All system-generated links (emails, notifications) use the primary domain
-
-**Pro Downgrade UI (Phase 24):**
-- [ ] PRO-03: Frozen domain card shows Frozen badge with plain-language explanation and re-upgrade prompt
+- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over)
+- [ ] S3 favicon upload outside transaction (CR-02, pre-existing, carry to v1.7)
+- [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
+- [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
 
 ### Out of Scope
 
-- Apple / Microsoft social login — only Google OAuth for this milestone; others in a future auth milestone
+- Apple / Microsoft social login — only Google OAuth; separate auth milestone when demand warrants
 - JWT → HttpOnly cookies migration — architectural change requiring significant backend/frontend coordination; separate security milestone
 - Redux → Context migration — 3 slices, low-risk but high churn; separate cleanup milestone
-- SCSS → Tailwind migration — incremental only; do not migrate proactively in this milestone
+- SCSS → Tailwind migration — incremental only; do not migrate proactively
 - Admin directory restructure (`adminBoard/` vs `view/admin/`) — separate refactor milestone
 - TanStack Query v4 → v5 upgrade — breaking API changes; separate upgrade milestone
-- `ActivityQuery` SQL UNION optimization — performance improvement deferred; acceptable at current scale
-- `User#current_brokerage_membership` job-context fix — low impact; document constraint and defer
+- `ActivityQuery` SQL UNION optimization — acceptable at current scale
+- `User#current_brokerage_membership` job-context fix — low impact; documented constraint
+- Multi-domain round-robin / load balancing — not needed at current scale; future milestone
+- Server-side 301 at the Caddy/proxy layer — Rack middleware satisfies the requirement; proxy-layer is a future infrastructure milestone
+- Deeper conflict resolution for simultaneous domain claims — first-to-verify sufficient
+
+---
 
 ## Context
 
@@ -265,24 +134,28 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Auth:** AWS Cognito + Amplify for identity; custom HS256 JWT (`TokenService`) issued on sign-in, stored in `localStorage`. Google OAuth federated identity via Cognito + PreSignUp Lambda. `CognitoAuth` concern verifies per-request.
 - **Multi-tenancy:** `BrokerageAuth` concern resolves `Current.brokerage` from Host header (subdomain path) or `X-Brokerage-Id` header (main-domain path). All queries must scope to `Current.brokerage`.
 - **Main domain portal:** `/dashboard/*` and `/create/*` routes coexist on the main domain. `LoginSuccessful` + `Login.tsx` both perform domain-aware post-sign-in routing. `activeBrokerage` Redux slice stores the active portal brokerage context. `AdminDomainShell` delegates to `PortalAdminShell` (main domain) or `AppShellAdmin` (subdomain) based on `isMainDomain()`.
-- **Soft deletes:** `acts_as_paranoid` on all user-facing models. Every query must call `.without_deleted`; joins require explicit `where(table: { deleted_at: nil })`.
-- **Test suite:** 17 backend integration tests (Minitest) + 7 frontend unit tests (Vitest 4.x + MSW 2.x). Covers tenant isolation, RBAC, FilterSets, GroupEstatesQuery, InvitationsController, ProtectedRoute, RequireRole, GoogleSignInButton.
+- **Domain management:** `BrokerageDomain` with string enum status (`active`, `phasing_out`, `decommissioned`, `pending`, `frozen`), `PHASE_OUT_DURATION = 30.days`, `HEALTH_CHECK_INTERVAL = 30.minutes`. `DomainVerificationJob` + `DomainHealthJob` run every 30 minutes via SolidQueue recurring jobs. `DomainRedirectMiddleware` at Rack layer handles 301 redirects from non-primary domains. `Ops::PlanController` handles Pro downgrade/upgrade via `freeze_custom_domains!`/`unfreeze_custom_domains!`. Domain list UI uses role-gated `DomainCard` + 4-step `AddDomainWizard`.
+- **Soft deletes:** `acts_as_paranoid` on all user-facing models. Every query must call `.without_deleted`; joins require explicit `where(table: { deleted_at: nil })`. Note: `BrokerageDomain` does NOT include `acts_as_paranoid` — plain status scopes are correct.
+- **Test suite:** Backend: Minitest 6.0.3 (Ruby 4.0.0) — `Minitest::Mock` and `.stub` removed; use `FakeJob` subclass pattern for DNS/job testing. Frontend: Vitest 4.x + MSW 2.x.
 - **Calendar sync:** `UserCalendarConnection` (encrypted credentials) + `EstateDateCalendarEvent` + `CalendarSyncJob` (SolidQueue, advisory lock). Google adapter active; Microsoft (HTTParty/Graph API) and Apple (CalDAV via calendav) adapters built but inactive — activate by expanding `PROVIDERS` constant.
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
-- **Background jobs:** SolidQueue (DB-backed, no Redis). Migrations for calendar/geocoding tables must be applied on Render.com environment via `rails db:migrate`.
-- **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting via `POST /v1/admin/board_credentials` bulk-inserts `BrokerageEstate` rows; test boards bypass RETS validation. Board Registrations table has per-row edit/delete CRUD.
-- **Shipped v1.3:** 2026-05-24
-- **Shipped v1.4:** 2026-05-27
-- **Shipped v1.5:** 2026-05-29
+- **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
+- **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31
+
+---
 
 ## Constraints
 
 - **Tech Stack:** Must use existing Rails + React stack; no new backend framework introductions
-- **Auth Provider:** Google OAuth must integrate via Cognito federated identity (not a direct OAuth implementation) to maintain single token issuance point
+- **Auth Provider:** Google OAuth must integrate via Cognito federated identity to maintain single token issuance point
 - **Calendar APIs:** Google Calendar (REST), Apple Calendar (CalDAV), Microsoft (Graph API) — each requires per-user OAuth tokens stored server-side
-- **Soft Deletes:** Every new query must call `.without_deleted`; joined models must add explicit `deleted_at: nil` where clauses
+- **Soft Deletes:** Every new query must call `.without_deleted`; joined models must add explicit `deleted_at: nil` where clauses. `BrokerageDomain` is paranoid-free — use plain status scopes.
 - **Serializer N+1:** New collection endpoints must bulk-compute per-record data in the controller; serializers must never query per-record
-- **Testing:** Backend uses Minitest (not RSpec); Frontend uses `@testing-library/react`
+- **Testing:** Backend uses Minitest 6.0.3 (Ruby 4.0.0); no `Minitest::Mock` or `.stub` — use `FakeJob` subclass pattern. Frontend uses `@testing-library/react`.
+- **Middleware registration:** Middleware loaded at boot time before Zeitwerk must use `require_relative` in `application.rb`, not rely on autoload
+
+---
 
 ## Key Decisions
 
@@ -296,42 +169,39 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `CalendarSyncJob` with advisory lock on connection ID | Concurrent token refresh races cause invalid_grant errors | ✓ Good — advisory lock serializes refresh per connection |
 | Microsoft + Apple adapters built but not exposed (v1.0) | Google verified working; Microsoft/Apple require more external setup | ✓ Good — activate by expanding PROVIDERS constant, no code changes needed |
 | Fix onboarding bugs in-place (not rewrite) | Flows exist; specific steps are broken — surgical fixes preferred | ✓ Good — minimal churn, all ONB requirements satisfied |
-
-| `MainDomainOnly` concern — duplicate Origin extraction vs shared helper | Separate concerns have different semantics; sharing couples orthogonal security boundaries | ✓ Good — duplication is deliberate per research guidance |
-| Frontend guards are UX-only; backend 403 is the real security boundary (decision 06-01) | JavaScript guards can be bypassed; API layer is the trust boundary | ✓ Good — Phase 7 closes the gap with a proper server-side check |
-| Mapbox GL instead of Google Maps for map panels | Phase 9 CONTEXT.md established Mapbox as project standard; Google Maps requires billing + Map ID setup overhead | ✓ Good — consistent across group dashboard map and listing detail map |
-| `react-map-gl/mapbox` entry point (not `react-map-gl`) | Mapbox GL JS v3 requires the mapbox-specific bundle; generic entry point produces runtime errors | ✓ Good — both Phase 9 and Phase 10 use same import path |
+| `MainDomainOnly` concern — duplicate Origin extraction vs shared helper | Separate concerns have different semantics; sharing couples orthogonal security boundaries | ✓ Good — duplication is deliberate |
+| Frontend guards are UX-only; backend 403 is the real security boundary | JavaScript guards can be bypassed; API layer is the trust boundary | ✓ Good — Phase 7 closes the gap with a proper server-side check |
+| Mapbox GL instead of Google Maps for map panels | Phase 9 CONTEXT.md established Mapbox as project standard | ✓ Good — consistent across group dashboard map and listing detail map |
 | `hasFitBoundsRef` guard — fitBounds only on initial load | Without guard, every filter change re-centers the map, disrupting user pan/zoom state | ✓ Good — UX stays stable across filter interactions |
-| Custom Marker child with `stopPropagation()` | Childless Mapbox `<Marker>` doesn't reliably forward click events through react-map-gl v8 | ✓ Good — pin click popup works reliably |
-| Controlled AlertDialog for delete (outside Radix tree) | AlertDialogTrigger inside DropdownMenuItem causes portal/focus conflicts across Radix contexts | ✓ Good — delete flow works reliably with `deleteTarget` state pointer |
-| `useUpdateBoardCredential` no onError — propagates to dialog | Dialog uses `mutateAsync` to display inline serverError; toast-only failure feedback is insufficient for form re-entry | ✓ Good — inline error shown in EditBoardCredentialDialog catch block |
+| Controlled AlertDialog for delete (outside Radix tree) | AlertDialogTrigger inside DropdownMenuItem causes portal/focus conflicts | ✓ Good — delete flow works reliably with `deleteTarget` state pointer |
 | `main_domain_request?` reuses `extract_domain_from_request` | No URI.parse duplication — single source of truth for host extraction | ✓ Good — consistent domain detection across BrokerageAuth and MainDomainOnly |
-| `AdminBrokeragesController` excludes BrokerageAuth | Cross-brokerage endpoint by design; no single brokerage context applies | ✓ Good — MainDomainOnly + CognitoAuth only; `skip_brokerage_membership? = true` defense-in-depth |
-| `useFetchAdminBrokerages` is imperative (not useQuery) | `LoginSuccessful` is a fire-once lifecycle component that navigates away on completion; a useQuery would be orphaned by unmount | ✓ Good — satisfies CLAUDE.md "through a hook" rule without TanStack overhead |
+| `AdminBrokeragesController` excludes BrokerageAuth | Cross-brokerage endpoint by design; no single brokerage context applies | ✓ Good — MainDomainOnly + CognitoAuth only |
+| `useFetchAdminBrokerages` is imperative (not useQuery) | `LoginSuccessful` is a fire-once lifecycle component that navigates away on completion | ✓ Good — satisfies CLAUDE.md "through a hook" rule without TanStack overhead |
 | `setToken` before `fetchAdminBrokerages` in sign-in flows | Axios interceptor reads `localStorage auth_token`; reversed order causes 401 | ✓ Good — critical ordering constraint for both LoginSuccessful and Login.tsx |
 | `Login.tsx` deviation catch — email/password bypasses `LoginSuccessful` | `CreateAccount` → `signIn.ts` → `onAuthenticated()` never mounts `LoginSuccessful`; must extend both sign-in paths | ✓ Good — both paths now perform domain-aware routing |
-| `activeBrokerage` Redux state is in-memory only | Never persisted to localStorage/sessionStorage; token already in localStorage covers auth; brokerage context is session state | ✓ Good — T-17-01 accepted; PortalShell D-13 handles empty Redux on page reload |
-| `AdminDomainShell` single-route delegation | One route definition avoids React Router path conflicts from domain-guarded duplicate /admin/ blocks | ✓ Good — avoids path conflicts, subdomain AdminShell unchanged |
-| `RequireRole` isMainDomain() bypass before isUserLoaded check | `account.id` never populated on main domain (no NavBar calling useGetCurrentUser); isUserLoaded always false | ✓ Good — portal access validated upstream by PortalShell brokerage validation |
-| `phase_out!` sets 30-day window; max 2 phasing-out per type | Soft transition window; bounded number prevents unbounded lock-out | ✓ Good — slot block enforced at controller level; warning at slot=2 |
-| `PrimaryDomainRedirect` uses `window.location.replace` | Back-button to phasing-out domain creates redirect loop; replace() prevents history entry | ✓ Good — UAT test 7 verified no back-button loop |
-| `lookupDomain` uses BASE axios (no auth token) | Public endpoint is unauthenticated by design — sending auth token would be incorrect | ✓ Good — correct for public domain lookup |
-| DNS verification deferred to v1.6 | Uniqueness is input-time only; full DNS ownership verification requires separate infrastructure milestone | — Pending — documented gap in v1.5-ROADMAP.md |
+| `phase_out!` sets 30-day window; max 2 phasing-out per type | Soft transition window; bounded number prevents unbounded lock-out | ✓ Good — slot block enforced at controller level |
+| `PrimaryDomainRedirect` uses `window.location.replace` | Back-button to phasing-out domain creates redirect loop; replace() prevents history entry | ✓ Good |
+| `lookupDomain` uses BASE axios (no auth token) | Public endpoint is unauthenticated by design | ✓ Good |
+| `AdminDomainShell` single-route delegation | One route definition avoids React Router path conflicts from domain-guarded duplicate /admin/ blocks | ✓ Good |
+| `RequireRole` isMainDomain() bypass before isUserLoaded check | `account.id` never populated on main domain; isUserLoaded always false | ✓ Good |
+| `PHASE_OUT_DURATION` constant at model class level | Visible, centralized, used by `phase_out!` instead of inline 30.days | ✓ Good |
+| `pending`/`frozen` enum values require no migration | String enum in Rails — adding values to the hash is model-only, no ALTER TYPE needed | ✓ Good |
+| `DomainRedirectMiddleware` uses `insert_before ActionDispatch::Static` | Places after Rack::Cors (position 2) so CORS OPTIONS requests are handled before redirect logic | ✓ Good |
+| In-memory `.find` on `.includes()` collection for primary lookup | Avoids second AR query per redirected request — eager-loaded collection handles N+1 in hot path | ✓ Good |
+| `unfreeze_custom_domains!` uses `verified` flag to determine restore target | `verified:true → active`, `verified:false → pending`; avoids tracking pre-freeze status separately | ✓ Good |
+| `alias_method :create, :update` in `Ops::PlanController` | Enables POST alongside PATCH/PUT for JSON ops endpoint without duplicate action code | ✓ Good |
+| `verify` action uses synchronous `dns_resolves?` inline | Frontend `useVerifyDomain` expects direct `{ verified }` response; mirrors onboarding verify pattern | ✓ Good |
+| `FakeJob` subclass for DNS testing in Minitest 6 | Minitest 6.0.3 (Ruby 4.0.0) removed `Minitest::Mock` and `.stub` — test subclass overrides `cname_resolves_to_subdomain?` directly | ✓ Good — canonical pattern for this codebase |
+| `useVerifyDomain` uses `onMutate` snapshot for rescue detection | Captures previousStatus before mutation fires; avoids relying solely on response data | ✓ Good |
+| `DomainCard` drives verify spinner from `actions.verifyingDomainId` (not hook) | Component → Context → Hook pattern; card holds no network state per CLAUDE.md | ✓ Good |
+| Pending domain destroy: immediate decommission, no phase-out | Pending domains have no live traffic — slot checks and phase-out period do not apply | ✓ Good |
+| `require_relative` in application.rb for `DomainRedirectMiddleware` | Zeitwerk autoload not yet active when application.rb runs — class must be resolvable at middleware registration time | ✓ Good |
 
 ---
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
-
-Last updated: 2026-05-27 — Phase 19 complete (domain schema & auth integration)
-
-**After each phase transition** (via `/gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
 
 **After each milestone** (via `/gsd-complete-milestone`):
 1. Full review of all sections
@@ -340,4 +210,5 @@ Last updated: 2026-05-27 — Phase 19 complete (domain schema & auth integration
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-30 — Phase 22 complete (DNS verification & health monitoring backend shipped)*
+
+*Last updated: 2026-05-31 — v1.6 complete (Domain Management v2 shipped)*

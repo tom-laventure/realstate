@@ -1,5 +1,38 @@
 # Milestones
 
+## v1.6 — Domain Management v2
+
+**Shipped:** 2026-05-31
+**Phases:** 3 (22–24) | **Plans:** 11
+**Timeline:** 2026-05-30 → 2026-05-31 (2 days)
+
+### Delivered
+
+DNS verification & health monitoring backend: `consecutive_failures` + `last_checked_at` columns, `pending`/`frozen` enum values, `PHASE_OUT_DURATION`/`HEALTH_CHECK_INTERVAL` constants, `freeze_domain!`/`unfreeze_domain!` methods; `DomainVerificationJob` + `DomainHealthJob` SolidQueue recurring jobs (30-min CNAME polling, 3-failure auto-phase-out, 7-day unverified auto-remove); `DomainMailer` with 3 templates (health_failure, downgrade_notice, unverified_warning); `Ops::PlanController` freeze/unfreeze endpoint; pending domain creation + pending destroy branch (Phase 22). `DomainRedirectMiddleware` Rack middleware: 301 from non-primary active/phasing-out/frozen domains; eager-loaded collection for N+1-free primary lookup; DPRI-03 mailer integration tests proving all system emails embed primary domain (Phase 23). Domain UI overhaul: `DomainCard` (5 status variants, role-gated controls), `DomainCardList` (STATUS_ORDER sort, gated Add button), 4-step `AddDomainWizard` (conditional primary preference, live CNAME display), on-demand verify endpoint with rescue detection, delete dialogs for primary vs non-primary domains; header status legend + help popover with registrar guidance (Phase 24). All 34 requirements delivered.
+
+### Key Accomplishments
+
+1. `DomainVerificationJob` + `DomainHealthJob`: 30-min SolidQueue recurring jobs; pessimistic lock for first-to-verify race condition; `FakeJob` subclass for Minitest 6 DNS testing — DVER-02, DVER-05, DHLT-01/02
+2. `DomainMailer` 3-template owner notification system with `BrokerageMembership.without_deleted` dispatch guard — DHLT-03/04, DADD-04
+3. `Ops::PlanController` + `freeze_custom_domains!`/`unfreeze_custom_domains!`: Pro downgrade/upgrade domain lifecycle; `verified` flag drives restore target (active vs pending) — DPRD-01/03/05/06
+4. `DomainRedirectMiddleware`: Rack-layer 301 for non-primary/frozen domains; `insert_before ActionDispatch::Static`; in-memory primary lookup via eager-loaded `.includes()` — DPRI-04, DPRD-02
+5. `POST /v1/admin/domains/:id/verify`: synchronous on-demand DNS check + `set_primary_on_verify` promotion + frozen-domain inclusion in all list scopes — DVER-01
+6. Phase 24 Domain UI: 5-status `DomainCard`, 4-step `AddDomainWizard`, `useVerifyDomain` rescue detection, `DeletePrimaryDomainDialog` replacement flow — DUIV-01–06, DADD-01–03, DLCX-02–04, DPRD-04
+
+### Known Deferred Items at Close: 1
+
+| Category | Item | Status |
+|----------|------|--------|
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.7 |
+
+### Archive
+
+- Roadmap: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
+- Requirements: [milestones/v1.6-REQUIREMENTS.md](milestones/v1.6-REQUIREMENTS.md)
+- Tag: `v1.6`
+
+---
+
 ## v1.5 — Domain Management
 
 **Shipped:** 2026-05-29

@@ -81,70 +81,16 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 
 </details>
 
----
+<details>
+<summary>✅ v1.6 — Domain Management v2 (Phases 22–24) — SHIPPED 2026-05-31</summary>
 
-**v1.6 — Domain Management v2 (Phases 22–24)**
+- [x] Phase 22: DNS Verification & Health Monitoring Backend (5/5 plans) — completed 2026-05-30
+- [x] Phase 23: 301 Redirect & Primary Domain Enforcement (2/2 plans) — completed 2026-05-31
+- [x] Phase 24: Domain UI Overhaul (4/4 plans) — completed 2026-05-31
 
-- [x] **Phase 22: DNS Verification & Health Monitoring Backend** — Background verification and health check jobs, auto-phase-out, rescue logic, owner email notifications, downgrade handling, domain state constraints (completed 2026-05-30)
-- [x] **Phase 23: 301 Redirect & Primary Domain Enforcement** — Rails redirect middleware for non-primary domains, frozen domain redirects, system-link primary domain enforcement (completed 2026-05-31)
-- [x] **Phase 24: Domain UI Overhaul** — Revamped card list with role-gating, 4-step add wizard, on-demand verify, delete flow with primary replacement, rescue confirmation, frozen badge (completed 2026-05-31)
+Full details: [milestones/v1.6-ROADMAP.md](milestones/v1.6-ROADMAP.md)
 
----
-
-## Phase Details
-
-### Phase 22: DNS Verification & Health Monitoring Backend
-**Goal**: The system autonomously monitors all custom domains, heals DNS changes without manual intervention, and notifies owners when action is required
-**Depends on**: Phase 21 (existing domain model with status, phase_out_at, is_primary)
-**Requirements**: DVER-02, DVER-05, DHLT-01, DHLT-02, DHLT-03, DHLT-04, DHLT-05, DLCX-01, DPRI-01, DPRI-02, DPRD-01, DPRD-03, DPRD-05, DPRD-06
-**Success Criteria** (what must be TRUE):
-  1. A SolidQueue recurring job runs every 30 minutes and checks CNAME records for all pending and phasing-out custom domains; verified domains are promoted to active
-  2. A separate SolidQueue recurring job runs every 30 minutes against active custom domains; after 3 consecutive failures the domain is moved to phasing-out and Owner-role users receive an email naming the failed domain, failure reason, decommission date, and a dashboard link; if the domain was primary the email explicitly notes the subdomain is now serving as fallback
-  3. When a phasing-out domain passes CNAME verification before its decommission date, its status is restored to active and phase_out_at is cleared
-  4. When a brokerage plan downgrades from Pro, all custom domains are frozen (status transition), the subdomain is promoted to primary, and Owner-role users receive an email explaining the effect; on re-upgrade frozen domains are restored to active
-  5. Health check interval and phase-out duration are defined as named constants in the codebase; no inline magic numbers
-**Plans**: 5 plans
-
-Plans:
-- [x] 22-01-PLAN.md — DB migration, BrokerageDomain enum/constants/methods, serializer update
-- [x] 22-02-PLAN.md — DomainMailer (health_failure, downgrade_notice, unverified_warning) + ERB templates
-- [x] 22-03-PLAN.md — Brokerage freeze/unfreeze service methods + Ops::PlanController + routes
-- [x] 22-04-PLAN.md — DomainsController D-08 pending creation + destroy pending branch
-- [x] 22-05-PLAN.md — DomainVerificationJob + DomainHealthJob + recurring.yml
-
-### Phase 23: 301 Redirect & Primary Domain Enforcement
-**Goal**: Requests arriving at any non-primary domain are transparently redirected to the same path on the primary domain at the server layer; frozen domains also redirect
-**Depends on**: Phase 22 (domain state machine complete, frozen state and primary promotion reliable)
-**Requirements**: DPRI-03, DPRI-04, DPRD-02
-**Success Criteria** (what must be TRUE):
-  1. A request to `https://old.example.com/some/path` on a non-primary active domain receives an HTTP 301 response with Location pointing to the equivalent path on the brokerage's current primary domain
-  2. A request arriving at a frozen custom domain receives a redirect to the brokerage's subdomain (no full app load on frozen domains)
-  3. All system-generated emails (invitations, health-failure notifications, downgrade notices) use the current primary domain in links; changing the primary domain propagates to the next email sent
-**Plans**: 2 plans
-
-Plans:
-- [x] 23-01-PLAN.md — DomainRedirectMiddleware + registration in application.rb + integration tests (DPRI-04, DPRD-02)
-- [x] 23-02-PLAN.md — DPRI-03 mailer integration tests (DomainMailer + InvitationMailer, test-only)
-**UI hint**: no
-
-### Phase 24: Domain UI Overhaul
-**Goal**: Brokerage owners and admins manage their domains through a polished, role-aware UI that surfaces verification state, guides through add and delete flows, and exposes all v1.6 lifecycle states
-**Depends on**: Phase 22, Phase 23 (backend jobs, verification endpoints, redirect infrastructure all in place)
-**Requirements**: DUIV-01, DUIV-02, DUIV-03, DUIV-04, DUIV-05, DUIV-06, DADD-01, DADD-02, DADD-03, DADD-04, DVER-01, DVER-03, DVER-04, DLCX-02, DLCX-03, DLCX-04, DPRD-04
-**Success Criteria** (what must be TRUE):
-  1. The Domains page renders a vertical card list with no column headers; each card shows the domain URL, a plain-language status description, relevant dates, and role-appropriate action controls; the subdomain card has a lock icon with tooltip; the primary domain has a Primary badge
-  2. An Owner triggering "Add domain" enters a 4-step wizard ending with the domain appearing in the list as Pending; the DNS instructions step shows the exact CNAME record; the primary preference step appears only when another active domain exists
-  3. A "Verify now" button appears on pending and phasing-out domain cards; pressing it enqueues an on-demand verification job; each card shows the last-checked timestamp and a plain-language failure reason when verification has failed
-  4. Deleting the current primary domain requires selecting a replacement first (subdomain pre-selected); the confirmation dialog shows the decommission date; when a phasing-out domain is rescued a confirmation message appears on the dashboard
-  5. Admins see full domain status and can trigger verification but cannot mutate; roles below Admin see a read-only list; frozen custom domain cards display a Frozen badge with an explanation and re-upgrade prompt
-**Plans**: 4 plans
-
-Plans:
-- [x] 24-01-PLAN.md — Backend: verify endpoint, frozen scope, set_primary_on_verify migration + job, test fixes
-- [x] 24-02-PLAN.md — Frontend contract: domain types, verifyDomain hook (rescue), add/remove hooks, Tooltip install
-- [x] 24-03-PLAN.md — Components: DomainCard, DomainCardList, 4-step AddDomainWizard
-- [x] 24-04-PLAN.md — Delete dialogs, context/container wiring, file deletions, human verification
-**UI hint**: yes
+</details>
 
 ---
 

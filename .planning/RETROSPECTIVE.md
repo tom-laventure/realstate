@@ -1,5 +1,54 @@
 # Retrospective
 
+## Milestone: v1.6 — Domain Management v2
+
+**Shipped:** 2026-05-31
+**Phases:** 3 (22–24) | **Plans:** 11 | **Timeline:** 2 days (2026-05-30 → 2026-05-31)
+
+### What Was Built
+
+1. DNS verification & health monitoring backend: `consecutive_failures` + `last_checked_at` columns, `pending`/`frozen` enum values, `PHASE_OUT_DURATION`/`HEALTH_CHECK_INTERVAL` constants, `freeze_domain!`/`unfreeze_domain!` methods; `BrokerageDomainSerializer` updated to 10 fields (Phase 22-01)
+2. `DomainMailer` with 3 ERB templates (`health_failure`, `downgrade_notice`, `unverified_warning`); owner-gated dispatch via `BrokerageMembership.without_deleted` (Phase 22-02)
+3. `Ops::PlanController` + `freeze_custom_domains!`/`unfreeze_custom_domains!`; pending domain creation (D-08) + pending destroy branch; `DomainVerificationJob` + `DomainHealthJob` SolidQueue recurring jobs; `FakeJob` subclass pattern for Minitest 6 DNS testing (Phases 22-03 → 22-05)
+4. `DomainRedirectMiddleware` Rack middleware: 301 from non-primary active/phasing-out/frozen domains; `insert_before ActionDispatch::Static`; eager-loaded primary lookup; DPRI-03 mailer integration tests (Phase 23)
+5. `POST /v1/admin/domains/:id/verify` on-demand endpoint + `set_primary_on_verify` migration + frozen-domain inclusion in all list scopes (Phase 24-01)
+6. Frontend: `DomainCard` (5-status variants, role-gated controls), `DomainCardList` (STATUS_ORDER sort), 4-step `AddDomainWizard` (conditional primary preference, live CNAME display), `useVerifyDomain` with rescue detection, delete dialogs for primary vs non-primary; status legend + help popover in header (Phases 24-02 → 24-04)
+
+### What Worked
+
+- **`FakeJob` subclass pattern** — Minitest 6.0.3 (Ruby 4.0.0) removed `Minitest::Mock` and `.stub`. The FakeJob subclass override was the cleanest solution and is now a canonical testing pattern for this codebase. Discovered early in Phase 22-05 and reused across Phase 24 tests.
+- **Synchronous `verify` action pattern** — using `dns_resolves?` inline in the controller (rather than enqueuing a job and polling) gave the frontend a direct `{ verified }` response. Simple, testable, and mirrors the existing onboarding verify pattern. No state machine complexity needed.
+- **`unfreeze_custom_domains!` using the `verified` flag** — restoring to `active` vs `pending` based on the existing `verified` column avoided any need to track pre-freeze status separately. The flag already captures the right state.
+- **Rack middleware positioned correctly** — `insert_before ActionDispatch::Static` placed the redirect middleware after Rack::Cors. CORS OPTIONS preflight requests are handled correctly; no double-middleware bugs.
+- **2-day velocity** — 11 plans across 3 phases in 2 days. The domain model was well-understood from v1.5; v1.6 added depth (jobs, mailers, middleware, UI) without requiring re-learning the data layer.
+
+### What Was Inefficient
+
+- **REQUIREMENTS.md checkbox sync** — seventh consecutive milestone with this gap. The traceability table in REQUIREMENTS.md still showed "Pending" for all Phase 24 requirements at close, despite all work being complete. The fix remains the same: update checkboxes at phase-close SUMMARY time, not milestone-close time.
+- **Phase 24 had more surface area than estimated** — 4 plans covered backend endpoint, frontend types, components, and wiring. Plan 24-04 (context wiring + delete dialogs) was the heaviest; splitting off the context brain into its own plan earlier would have made each plan more focused.
+
+### Patterns Established
+
+- **`FakeJob` subclass for DNS testing**: `class FakeJob < RealJob; def cname_resolves_to_subdomain?(...) = false; end` — canonical for Minitest 6 in this codebase; no module prepend, no teardown complexity
+- **`alias_method :create, :update` for dual-method endpoints**: enables POST alongside PATCH/PUT without duplicating action code — use for operational/JSON-ops endpoints
+- **`require_relative` for middleware in application.rb**: any middleware loaded at boot time (before Zeitwerk autoload) must use `require_relative`; Zeitwerk is not yet active at middleware registration
+- **Rescue detection via `onMutate` snapshot**: capture `previousStatus` before mutation fires; compare in `onSuccess` to detect state change (phasing_out → active = rescue)
+- **Domain UI header pattern**: status legend (badge + description row) + help popover (HelpCircle icon inline with h1) — established for any complex admin page with multiple status types
+
+### Key Lessons
+
+- **REQUIREMENTS.md sync is now a 7-milestone pattern** — this will not self-resolve. The intervention must happen at the workflow level: add a `## Requirements covered` section to the PLAN.md template and check off REQ-IDs as part of SUMMARY generation.
+- **`BrokerageDomain` is not paranoid** — unlike every other user-facing model, `BrokerageDomain` does not include `acts_as_paranoid`. Plain status scopes (`where(status: ...)`) are correct. Do not add `.without_deleted` to `BrokerageDomain` queries. Document this exception explicitly in CLAUDE.md.
+- **Minitest 6 stub incompatibility is now a known constraint** — Ruby 4.0.0 ships with Minitest 6.0.3 which removed `Minitest::Mock` and `.stub`. Every test that needs to stub DNS, HTTP, or job behavior must use a subclass override pattern. Add this to CLAUDE.md testing constraints.
+
+### Cost Observations
+
+- Sessions: ~2 across 2 days
+- Model: Claude Sonnet 4.6 throughout
+- Notable: 11 plans in 2 days at 5.5 plans/day — fastest milestone to date; domain model familiarity from v1.5 and v1.6 Phase 22 removed all exploratory overhead from Phases 23–24
+
+---
+
 ## Milestone: v1.5 — Domain Management
 
 **Shipped:** 2026-05-29
@@ -268,13 +317,13 @@
 
 ## Cross-Milestone Trends
 
-| Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 |
-|--------|------|------|------|------|------|
-| Phases | 5 | 2 | 3 | 4 | 4 |
-| Plans | 30 | 2 | 7 | 11 | 11 |
-| Days | 14 | 3 | 2 | 3 | 3 |
-| Avg plans/day | 2.1 | 0.7 | 3.5 | 3.7 | 3.7 |
-| Deferred items at close | 2 | 2 | 0 | 4 | 4 |
-| REQUIREMENTS.md sync gap | ✗ | ✗ | ✗ | ✗ | ✗ |
+| Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 | v1.5 | v1.6 |
+|--------|------|------|------|------|------|------|------|
+| Phases | 5 | 2 | 3 | 4 | 4 | 3 | 3 |
+| Plans | 30 | 2 | 7 | 11 | 11 | 10 | 11 |
+| Days | 14 | 3 | 2 | 3 | 3 | 3 | 2 |
+| Avg plans/day | 2.1 | 0.7 | 3.5 | 3.7 | 3.7 | 3.3 | 5.5 |
+| Deferred items at close | 2 | 2 | 0 | 4 | 4 | 1 | 1 |
+| REQUIREMENTS.md sync gap | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
 
-**Trend:** Velocity stable at 3.7 plans/day for three consecutive milestones. REQUIREMENTS.md checkbox sync gap is now five consecutive milestones — add checkbox update to phase-close SUMMARY generation, not milestone-close. Both sign-in paths (`LoginSuccessful` + `Login.tsx`) require the same domain-aware logic — establish as new-feature checklist rule.
+**Trend:** Velocity peaked at 5.5 plans/day in v1.6 — domain model familiarity from v1.5 eliminated exploratory overhead. REQUIREMENTS.md checkbox sync gap is now seven consecutive milestones — fix must be at the workflow level (PLAN.md template, not milestone-close checklist). Deferred items trending down (4 → 1 → 1). Both sign-in paths (`LoginSuccessful` + `Login.tsx`) require the same domain-aware logic — established as new-feature checklist rule.
