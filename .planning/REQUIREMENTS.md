@@ -48,7 +48,7 @@
 
 - [ ] **DPRI-01**: Any fully active domain can be set as primary (Owner only)
 - [ ] **DPRI-02**: Domains in Phasing out or Pending verification status cannot be set as primary
-- [ ] **DPRI-03**: All system-generated links (invitation emails, notifications) use the primary domain
+- [x] **DPRI-03**: All system-generated links (invitation emails, notifications) use the primary domain
 - [x] **DPRI-04**: Requests to any non-primary domain are 301-redirected to the equivalent path on the primary domain
 
 ## DPRD — Pro Plan Downgrade
@@ -109,7 +109,7 @@
 | DLCX-04 | Phase 24 | Pending |
 | DPRI-01 | Phase 22 | Pending |
 | DPRI-02 | Phase 22 | Pending |
-| DPRI-03 | Phase 23 | Pending |
+| DPRI-03 | Phase 23 | Complete |
 | DPRI-04 | Phase 23 | Complete |
 | DPRD-01 | Phase 22 | Complete |
 | DPRD-02 | Phase 23 | Complete |

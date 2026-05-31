@@ -86,7 +86,7 @@ Full details: [milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md)
 **v1.6 — Domain Management v2 (Phases 22–24)**
 
 - [x] **Phase 22: DNS Verification & Health Monitoring Backend** — Background verification and health check jobs, auto-phase-out, rescue logic, owner email notifications, downgrade handling, domain state constraints (completed 2026-05-30)
-- [ ] **Phase 23: 301 Redirect & Primary Domain Enforcement** — Rails redirect middleware for non-primary domains, frozen domain redirects, system-link primary domain enforcement
+- [x] **Phase 23: 301 Redirect & Primary Domain Enforcement** — Rails redirect middleware for non-primary domains, frozen domain redirects, system-link primary domain enforcement (completed 2026-05-31)
 - [ ] **Phase 24: Domain UI Overhaul** — Revamped card list with role-gating, 4-step add wizard, on-demand verify, delete flow with primary replacement, rescue confirmation, frozen badge
 
 ---
@@ -124,7 +124,7 @@ Plans:
 
 Plans:
 - [x] 23-01-PLAN.md — DomainRedirectMiddleware + registration in application.rb + integration tests (DPRI-04, DPRD-02)
-- [ ] 23-02-PLAN.md — DPRI-03 mailer integration tests (DomainMailer + InvitationMailer, test-only)
+- [x] 23-02-PLAN.md — DPRI-03 mailer integration tests (DomainMailer + InvitationMailer, test-only)
 **UI hint**: no
 
 ### Phase 24: Domain UI Overhaul
@@ -175,5 +175,5 @@ Plans:
 | 20. Backend Domain API | v1.5 | 3/3 | Complete | 2026-05-28 |
 | 21. Frontend — Redirect Guard & Domains Admin Page | v1.5 | 4/4 | Complete | 2026-05-29 |
 | 22. DNS Verification & Health Monitoring Backend | v1.6 | 5/5 | Complete | 2026-05-30 |
-| 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 1/2 | In progress | — |
+| 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
 | 24. Domain UI Overhaul | v1.6 | 0/? | Not started | — |
