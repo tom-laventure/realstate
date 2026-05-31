@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: milestone
 status: executing
-stopped_at: Phase 24 context gathered
+stopped_at: Phase 24 UI-SPEC approved
 last_updated: "2026-05-30T00:00:00Z"
-last_activity: 2026-05-30 -- Phase 24 context captured (Domain UI Overhaul)
+last_activity: 2026-05-30 -- Phase 24 UI design contract approved (Domain UI Overhaul)
 progress:
   total_phases: 3
   completed_phases: 1
