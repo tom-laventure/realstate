@@ -1,5 +1,46 @@
 # Retrospective
 
+## Milestone: v1.7 — Board Registrations Nav Separation
+
+**Shipped:** 2026-05-31
+**Phases:** 1 (25) | **Plans:** 3 | **Timeline:** 1 day (2026-05-31)
+
+### What Was Built
+
+1. `useBoardsAdminContext.ts` — boards-only context hook extracting the board credential slice from `BrokerageAdminBoardContext`: 5 board hooks, 3 board handlers, zero brokerage dependency (Plan 25-01)
+2. `BoardsAdminBoard.tsx` + `/admin/boards` route registration in `admin.tsx` — self-contained container with loading guard, wires all 7 `BoardRegistrations` props from context (Plan 25-01)
+3. `BrokerageAdminBoardContext.ts` trimmed — all 5 board hooks, `boardType` import, `isConnectBoardOpen` state, 3 board handlers removed; context now exports only `{ brokerage, isLoading, error }` + `handleUpdateBrokerage`; `BoardRegistrations` import + JSX render removed from `BrokerageAdminBoard.tsx` (Plan 25-02)
+4. `SideNav.tsx` (subdomain) + `PortalAdminSideNav.tsx` (portal) — `ClipboardList`-icon "Board Registrations" nav item inserted at index 1 in both sidebars; portal nav mislabeled first item corrected from "Board Registrations" to "Brokerage" (Plan 25-03 + audit fix)
+
+### What Worked
+
+- **Subset extraction pattern** — `useBoardsAdminContext` as a strict subset of `BrokerageAdminBoardContext` (identical hook calls, no added logic) made the split clean and zero-risk. No shared state, no coordination required.
+- **Audit caught a real gap** — `AdminBoardSideNav` was implemented correctly but never mounted anywhere. `SideNav.tsx` (the actual subdomain admin sidebar) was the right fix target. Without the audit, NAV-02 would have shipped as invisible functionality.
+- **`BoardRegistrations` component reuse** — preserving the component file (only removing the import+render from the brokerage page) let both pages share it without duplication.
+
+### What Was Inefficient
+
+- **REQUIREMENTS.md checkboxes again** — NAV-02 and NAV-03 remained `[ ]` throughout execution; updated only at milestone close. Same 8-milestone pattern.
+- **`AdminBoardSideNav` was the wrong target** — the plan specified updating `AdminBoardSideNav.tsx`, but the component was never wired into the app. Should have traced the component mounting chain before writing the plan (AppShellAdmin → SideNav, not AdminBoardSideNav).
+
+### Patterns Established
+
+- **Sidebar fix goes to `SideNav.tsx`** — for subdomain admin nav changes, the correct file is `src/components/sidenav/SideNav.tsx` (mounted by `AppShellAdmin`), not `AdminBoardSideNav.tsx` (orphaned component never used). Future nav changes must trace the mounting chain first.
+- **Context subset extraction** — when splitting a page, extract the new context as a strict subset (same hook imports, same return shape subset). Do not introduce new logic during extraction; refactor separately.
+
+### Key Lessons
+
+- **Trace component mounting before planning nav changes** — `AdminBoardSideNav` was a dead component. The correct fix target (`SideNav.tsx`) was discoverable by searching `AppShellAdmin` imports. Add "grep for mounting location" to the RESEARCH step for any nav-related plan.
+- **Audit-then-complete is the right sequence** — the audit caught the NAV-02 wiring gap before archiving. The 2-minute fix (`SideNav.tsx` + one import) was trivial; shipping without it would have been a UX bug.
+
+### Cost Observations
+
+- Sessions: 1 (single day)
+- Model: Claude Sonnet 4.6 throughout
+- Notable: 3 plans in ~15 minutes of execution time; smallest milestone to date; audit added ~10 minutes and caught a real bug
+
+---
+
 ## Milestone: v1.6 — Domain Management v2
 
 **Shipped:** 2026-05-31

@@ -8,8 +8,8 @@
 ### Navigation & Routing
 
 - [x] **NAV-01**: New `/admin/boards` route exists and renders a dedicated Board Registrations page
-- [ ] **NAV-02**: `AdminBoardSideNav` (subdomain) has a "Board Registrations" nav item pointing to `/admin/boards`, positioned between "Brokerage" and "Users"
-- [ ] **NAV-03**: `PortalAdminSideNav` (main domain portal) has "Brokerage" item pointing to `/admin/brokerage` and "Board Registrations" item pointing to `/admin/boards`, in that order before "Users"
+- [x] **NAV-02**: `AdminBoardSideNav` (subdomain) has a "Board Registrations" nav item pointing to `/admin/boards`, positioned between "Brokerage" and "Users"
+- [x] **NAV-03**: `PortalAdminSideNav` (main domain portal) has "Brokerage" item pointing to `/admin/brokerage` and "Board Registrations" item pointing to `/admin/boards`, in that order before "Users"
 
 ### Page Content
 
@@ -38,8 +38,8 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | NAV-01 | Phase 25 Plan 01 | Complete |
-| NAV-02 | Phase 25 Plan 03 | Pending |
-| NAV-03 | Phase 25 Plan 03 | Pending |
+| NAV-02 | Phase 25 Plan 03 | Complete |
+| NAV-03 | Phase 25 Plan 03 | Complete |
 | NAV-04 | Phase 25 Plan 02 | Complete |
 | NAV-05 | Phase 25 Plan 01 | Complete |
 | NAV-06 | Phase 25 Plan 01 | Complete |

@@ -2,35 +2,34 @@
 gsd_state_version: 1.0
 milestone: v1.7
 milestone_name: Board Registrations Nav Separation
-status: executing
-stopped_at: Phase 25 Plan 02 complete — /admin/brokerage trimmed to Brokerage Information + Branding only
-last_updated: "2026-05-31T22:37:00Z"
-last_activity: 2026-05-31 -- Phase 25 Plan 02 executed
+status: complete
+stopped_at: v1.7 milestone closed — all 7 NAV requirements satisfied
+last_updated: "2026-05-31T23:20:00Z"
+last_activity: 2026-05-31 -- v1.7 milestone archived and tagged
 progress:
   total_phases: 1
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 67
+  completed_plans: 3
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-31)
+See: .planning/PROJECT.md (updated 2026-05-31 after v1.7)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.7 — Board Registrations Nav Separation (Phase 25)
+**Current focus:** Planning v1.8 — run /gsd-new-milestone to define next milestone
 
 ## Current Position
 
-Phase: 25 of 25 (Board Registrations Nav Separation)
-Plan: 03 (next to execute)
-Status: Executing
-Last activity: 2026-05-31 -- Phase 25 Plan 02 complete
+Phase: 25 of 25 (Board Registrations Nav Separation) — COMPLETE
+Status: Milestone closed
+Last activity: 2026-05-31 -- v1.7 archived (7/7 requirements satisfied)
 
-Progress: [██████░░░░] 67%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -87,6 +86,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Phase 25 Plan 02 complete — /admin/brokerage trimmed to Brokerage Information + Branding only
-Next action: Execute Plan 03 — update AdminBoardSideNav and PortalAdminSideNav with Board Registrations nav item
-Last session: 2026-05-31 — Plan 02 executed: BrokerageAdminBoardContext trimmed, BoardRegistrations removed from BrokerageAdminBoard
+Stopped at: v1.7 milestone closed
+Next action: /gsd-new-milestone to define v1.8 scope
+Last session: 2026-05-31 — v1.7 complete: Board Registrations Nav Separation shipped (7/7 NAV requirements)

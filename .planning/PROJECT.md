@@ -2,20 +2,11 @@
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, and a complete domain management system: lifecycle-tracked subdomains and custom domains (Pro), automated DNS verification and health monitoring, 301 redirect enforcement, Pro-downgrade freeze/restore, and a polished role-gated Domains admin UI.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), and a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page.
 
 ## Core Value
 
 Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-
-## Current Milestone: v1.7 — Board Registrations Nav Separation
-
-**Goal:** Give Realtor Board Registrations its own admin nav item and page, separate from the Brokerage info/branding tab.
-
-**Target features:**
-- New `/admin/boards` route and `BoardsAdminBoard` container with dedicated context
-- `BrokerageAdminBoard` trimmed to Brokerage Information + Branding only
-- Both admin side navs updated: new "Board Registrations" item between "Brokerage" and "Users"
 
 ---
 
@@ -87,6 +78,16 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DINT-01–04: `PrimaryDomainRedirect` guard; `InvitationMailer` primary domain; `BrokerageAuth` routable scope; `DomainsController#check` status_active scope — v1.5 Phases 19–21
 - ✓ DUI-01–09: Full Domains admin page with status cards, phase-out countdowns, slot management, Pro gate, all domain actions — v1.5 Phase 21
 
+### Validated (v1.7 — Board Registrations Nav Separation)
+
+- ✓ NAV-01: New `/admin/boards` route with `BoardsAdminBoard` container and boards-only context — v1.7
+- ✓ NAV-02: Subdomain admin sidebar (`SideNav.tsx`) shows "Board Registrations" between "Brokerage" and "Users" — v1.7
+- ✓ NAV-03: Portal admin sidebar (`PortalAdminSideNav`) shows correctly-labeled "Brokerage" then "Board Registrations" before "Users" — v1.7
+- ✓ NAV-04: `/admin/brokerage` shows Brokerage Information and Branding only — v1.7
+- ✓ NAV-05: `/admin/boards` shows Realtor Board Registrations table with connect/edit/delete — v1.7
+- ✓ NAV-06: `useBoardsAdminContext` owns board credential fetches/mutations; zero brokerage dependency — v1.7
+- ✓ NAV-07: `BrokerageAdminBoardContext` exports only brokerage state/actions — v1.7
+
 ### Validated (v1.6 — Domain Management v2)
 
 - ✓ DVER-01: "Verify now" button on pending/phasing-out domains; on-demand verify endpoint with synchronous DNS check — v1.6 Phase 24
@@ -107,11 +108,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-### Active (v1.7)
+### Active (v1.8)
 
-- [ ] **NAV-01**: Board Registrations has its own admin nav item at `/admin/boards`
-- [ ] **NAV-02**: `/admin/brokerage` shows Brokerage Information and Branding only
-- [ ] **NAV-03**: Both admin nav sidebars (subdomain + portal) reflect the split with correct labels
+*(No requirements defined yet — run /gsd-new-milestone to define v1.8 scope)*
 
 ### Deferred to v1.8+
 
@@ -149,7 +148,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31
 
 ---
 
@@ -204,6 +203,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `DomainCard` drives verify spinner from `actions.verifyingDomainId` (not hook) | Component → Context → Hook pattern; card holds no network state per CLAUDE.md | ✓ Good |
 | Pending domain destroy: immediate decommission, no phase-out | Pending domains have no live traffic — slot checks and phase-out period do not apply | ✓ Good |
 | `require_relative` in application.rb for `DomainRedirectMiddleware` | Zeitwerk autoload not yet active when application.rb runs — class must be resolvable at middleware registration time | ✓ Good |
+| `useBoardsAdminContext` is strict subset of `BrokerageAdminBoardContext` (not a refactor) | Extracts only board credential slice; brokerage context remains independent | ✓ Good — NAV-06 satisfied without coupling |
+| NAV-02 fix targets `SideNav.tsx` not `AdminBoardSideNav` | `AdminBoardSideNav` was never mounted; `SideNav.tsx` is the actual subdomain admin sidebar | ✓ Good — audit caught this before milestone close |
+| `BoardRegistrations` component preserved (not deleted in Plan 02) | Reused by `/admin/boards` (Plan 01); deletion would break the new boards page | ✓ Good — component reuse across two containers |
 
 ---
 
@@ -219,4 +221,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-05-31 — v1.7 started (Board Registrations Nav Separation)*
+*Last updated: 2026-05-31 — v1.7 shipped (Board Registrations Nav Separation)*

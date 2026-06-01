@@ -1,5 +1,32 @@
 # Milestones
 
+## v1.7 — Board Registrations Nav Separation
+
+**Shipped:** 2026-05-31
+**Phases:** 1 (25) | **Plans:** 3
+**Timeline:** 2026-05-31 (single day)
+
+### Delivered
+
+Board Registrations extracted from `BrokerageAdminBoard` into a dedicated `/admin/boards` route with its own `useBoardsAdminContext` (board credential fetches/mutations, zero brokerage dependency). `/admin/brokerage` trimmed to Brokerage Information and Branding only. Both admin sidebars updated: subdomain `SideNav.tsx` and main-domain `PortalAdminSideNav` now show "Board Registrations" between "Brokerage" and "Users". Portal nav mislabeled first item corrected from "Board Registrations" to "Brokerage". All 7 NAV requirements satisfied.
+
+### Key Accomplishments
+
+1. `useBoardsAdminContext.ts` — boards-only context hook: `useFetchBoardCredentials`, `useFetchBoards`, 3 credential mutations; zero `useFetchBrokerage` dependency — NAV-06
+2. `BoardsAdminBoard.tsx` + route registration in `admin.tsx` — self-contained `/admin/boards` container rendering full `BoardRegistrations` with all 7 props — NAV-01, NAV-05
+3. `BrokerageAdminBoardContext.ts` trimmed — board hooks and handlers removed; context exports only `{ brokerage, isLoading, error }` + `handleUpdateBrokerage` — NAV-07
+4. `SideNav.tsx` (subdomain) + `PortalAdminSideNav.tsx` (portal) updated — `ClipboardList`-icon Board Registrations nav item inserted at index 1 in both sidebars; portal mislabel fixed — NAV-02, NAV-03
+5. Audit caught orphaned `AdminBoardSideNav` component before milestone close — fixed by targeting `SideNav.tsx` directly
+
+### Archive
+
+- Roadmap: [milestones/v1.7-ROADMAP.md](milestones/v1.7-ROADMAP.md)
+- Requirements: [milestones/v1.7-REQUIREMENTS.md](milestones/v1.7-REQUIREMENTS.md)
+- Audit: [milestones/v1.7-MILESTONE-AUDIT.md](milestones/v1.7-MILESTONE-AUDIT.md)
+- Tag: `v1.7`
+
+---
+
 ## v1.6 — Domain Management v2
 
 **Shipped:** 2026-05-31
