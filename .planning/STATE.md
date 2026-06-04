@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.8
 milestone_name: Root Route Fix
-status: planning
+status: ready_to_execute
 stopped_at: —
 last_updated: "2026-06-03T00:00:00Z"
-last_activity: 2026-06-03 -- Milestone v1.8 started
+last_activity: 2026-06-03 -- Phase 26 planned (1 plan, 1 wave)
 progress:
-  total_phases: 0
+  total_phases: 1
   completed_phases: 0
-  total_plans: 0
+  total_plans: 1
   completed_plans: 0
   percent: 0
 ---
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-06-03 after v1.8 start)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-06-03 — Milestone v1.8 started
+Phase: 26 — Root Route Fix (1 plan, ready to execute)
+Plan: 26-01 (Wave 1)
+Status: Ready to execute
+Last activity: 2026-06-03 — Phase 26 planned
 
 ## Performance Metrics
 
@@ -71,6 +71,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Milestone v1.8 requirements definition
-Next action: /gsd-plan-phase 26 to plan and execute
-Last session: 2026-06-03 — v1.8 started: Root Route Fix
+Stopped at: Phase 26 planning complete
+Next action: /gsd-execute-phase 26
+Last session: 2026-06-03 — Phase 26 planned: 26-01 (main.tsx index redirect + PrimaryDomainRedirect auth check)

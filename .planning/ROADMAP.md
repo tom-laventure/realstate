@@ -110,7 +110,10 @@ Full details: [milestones/v1.7-ROADMAP.md](milestones/v1.7-ROADMAP.md)
 
 **Requirements:** ROUTE-01, ROUTE-02 | **Files:** `frontend/src/router/main.tsx`
 
-- [ ] Phase 26: Root Route Fix — ROUTE-01 (main domain `/` → `/dashboard`), ROUTE-02 (subdomain `/` → immediate login redirect)
+- [ ] Phase 26: Root Route Fix — ROUTE-01 (main domain `/` → `/dashboard`), ROUTE-02 (subdomain `/` → immediate login redirect) *(1 plan planned — ready to execute)*
+
+**Wave 1** *(single wave — 2 surgical file changes)*
+- 26-01: Root Route Fix (main.tsx index redirect + PrimaryDomainRedirect auth check)
 
 **Success Criteria:**
 1. Unauthenticated user on main domain visits `/` and lands on login page (via `/dashboard` → ProtectedRoute → `/auth/login`)
