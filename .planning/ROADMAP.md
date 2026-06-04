@@ -10,6 +10,7 @@
 - ✅ **v1.5 — Domain Management** — Phases 19–21 (shipped 2026-05-29)
 - ✅ **v1.6 — Domain Management v2** — Phases 22–24 (shipped 2026-05-31)
 - ✅ **v1.7 — Board Registrations Nav Separation** — Phase 25 (shipped 2026-05-31)
+- 🚧 **v1.8 — Root Route Fix** — Phase 26 (in progress)
 
 ## Phases
 
@@ -103,6 +104,20 @@ Full details: [milestones/v1.7-ROADMAP.md](milestones/v1.7-ROADMAP.md)
 
 </details>
 
+### 🚧 v1.8 — Root Route Fix
+
+**Goal:** Fix both root route edge cases so unauthenticated users always land on the login page — never a 404 or blank screen.
+
+**Requirements:** ROUTE-01, ROUTE-02 | **Files:** `frontend/src/router/main.tsx`
+
+- [ ] Phase 26: Root Route Fix — ROUTE-01 (main domain `/` → `/dashboard`), ROUTE-02 (subdomain `/` → immediate login redirect)
+
+**Success Criteria:**
+1. Unauthenticated user on main domain visits `/` and lands on login page (via `/dashboard` → ProtectedRoute → `/auth/login`)
+2. Unauthenticated user on subdomain visits `/` and is immediately redirected to `/auth/login` — no blank screen visible
+3. Authenticated user flows on both domains are unaffected
+4. `joinBrokerage` invite links on subdomains still work without authentication
+
 ---
 
 ## Progress
@@ -134,3 +149,4 @@ Full details: [milestones/v1.7-ROADMAP.md](milestones/v1.7-ROADMAP.md)
 | 23. 301 Redirect & Primary Domain Enforcement | v1.6 | 2/2 | Complete | 2026-05-31 |
 | 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
 | 25. Board Registrations Nav Separation | v1.7 | 3/3 | Complete | 2026-05-31 |
+| 26. Root Route Fix | v1.8 | 0/? | Pending | — |
