@@ -108,9 +108,15 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-### Active (v1.8)
+## Current Milestone: v1.8 Root Route Fix
 
-*(No requirements defined yet — run /gsd-new-milestone to define v1.8 scope)*
+**Goal:** Fix both root route edge cases so unauthenticated users always land on the login page, never a blank screen or 404.
+
+**Target features:**
+- Main domain `/` redirects to `/dashboard` (which routes to login if not signed in)
+- Subdomain `/` when unauthenticated redirects immediately to `/auth/login` with no blank-screen flash
+
+### Active (v1.8)
 
 ### Deferred to v1.8+
 
@@ -221,4 +227,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-05-31 — v1.7 shipped (Board Registrations Nav Separation)*
+*Last updated: 2026-06-03 — v1.8 started (Root Route Fix)*
