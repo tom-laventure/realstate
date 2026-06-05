@@ -9,8 +9,8 @@ Requirements for v1.8 release. Each maps to roadmap phases.
 
 ### Routing
 
-- [ ] **ROUTE-01**: Unauthenticated user visiting `/` on the main domain is redirected to `/dashboard`, which then redirects to `/auth/login` if not signed in
-- [ ] **ROUTE-02**: Unauthenticated user visiting `/` on any brokerage subdomain is redirected to `/auth/login` immediately — no blank-screen flash from domain lookup
+- [x] **ROUTE-01**: Unauthenticated user visiting `/` on the main domain is redirected to `/dashboard`, which then redirects to `/auth/login` if not signed in
+- [x] **ROUTE-02**: Unauthenticated user visiting `/` on any brokerage subdomain is redirected to `/auth/login` immediately — no blank-screen flash from domain lookup
 
 ## Future Requirements
 
@@ -35,8 +35,8 @@ Deferred from prior milestones — not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ROUTE-01 | Phase 26 | Pending |
-| ROUTE-02 | Phase 26 | Pending |
+| ROUTE-01 | Phase 26 | Complete |
+| ROUTE-02 | Phase 26 | Complete |
 
 **Coverage:**
 - v1 requirements: 2 total
