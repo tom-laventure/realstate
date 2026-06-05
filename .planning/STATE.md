@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.8
 milestone_name: Root Route Fix
-status: complete
+status: archived
 stopped_at: —
-last_updated: "2026-06-04T06:17:14Z"
-last_activity: 2026-06-04 -- Phase 26 complete (1/1 plans)
+last_updated: "2026-06-04T00:00:00Z"
+last_activity: 2026-06-04 -- v1.8 milestone archived
 progress:
   total_phases: 1
   completed_phases: 1
@@ -18,16 +18,16 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-03 after v1.8 start)
+See: .planning/PROJECT.md (updated 2026-06-04 after v1.8 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.8 — Root Route Fix
+**Current focus:** v1.8 archived — planning next milestone
 
 ## Current Position
 
 Phase: 26 — Root Route Fix (1/1 plans complete)
-Status: Complete — v1.8 shipped
-Last activity: 2026-06-04 — Phase 26 complete (ROUTE-01 + ROUTE-02)
+Status: Archived — v1.8 milestone closed 2026-06-04
+Last activity: 2026-06-04 — v1.8 milestone archived (ROUTE-01 + ROUTE-02 shipped)
 
 ## Performance Metrics
 
@@ -70,6 +70,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: v1.8 complete
-Next action: /gsd-complete-milestone or /gsd-new-milestone
-Last session: 2026-06-04 — Phase 26 executed and verified: DomainGuard.tsx (ROUTE-01) + PrimaryDomainRedirect.tsx (ROUTE-02)
+Stopped at: v1.8 archived
+Next action: /gsd-new-milestone
+Last session: 2026-06-04 — v1.8 milestone archived; DomainGuard.tsx (ROUTE-01) + PrimaryDomainRedirect.tsx (ROUTE-02) shipped; tag v1.8 pending

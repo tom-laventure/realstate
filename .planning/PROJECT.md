@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), and a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, and correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain.
 
 ## Core Value
 
@@ -78,6 +78,11 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DINT-01–04: `PrimaryDomainRedirect` guard; `InvitationMailer` primary domain; `BrokerageAuth` routable scope; `DomainsController#check` status_active scope — v1.5 Phases 19–21
 - ✓ DUI-01–09: Full Domains admin page with status cards, phase-out countdowns, slot management, Pro gate, all domain actions — v1.5 Phase 21
 
+### Validated (v1.8 — Root Route Fix)
+
+- ✓ ROUTE-01: `SubdomainOnly` (DomainGuard.tsx) redirects main domain `/` → `/dashboard` → `/auth/login` for unauthenticated users — v1.8
+- ✓ ROUTE-02: `PrimaryDomainRedirect` skips async `lookupDomain()` call for unauthenticated users, routing them immediately to `/auth/login` — v1.8
+
 ### Validated (v1.7 — Board Registrations Nav Separation)
 
 - ✓ NAV-01: New `/admin/boards` route with `BoardsAdminBoard` container and boards-only context — v1.7
@@ -108,17 +113,10 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-## Current Milestone: v1.8 Root Route Fix — SHIPPED 2026-06-04
+## Deferred to v1.9+
 
-**Goal:** Fix both root route edge cases so unauthenticated users always land on the login page, never a blank screen or 404.
-
-✓ ROUTE-01: `SubdomainOnly` (DomainGuard.tsx) redirects main domain `/` → `/dashboard` → `/auth/login` — validated Phase 26
-✓ ROUTE-02: `PrimaryDomainRedirect` (PrimaryDomainRedirect.tsx) skips async domain lookup for unauthenticated users — validated Phase 26
-
-### Deferred to v1.9+
-
-- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over)
-- [ ] S3 favicon upload outside transaction (CR-02, pre-existing)
+- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6)
+- [ ] S3 favicon upload outside transaction (CR-02, pre-existing from v1.1)
 - [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
 - [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
 
@@ -151,7 +149,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04
 
 ---
 
@@ -209,6 +207,8 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `useBoardsAdminContext` is strict subset of `BrokerageAdminBoardContext` (not a refactor) | Extracts only board credential slice; brokerage context remains independent | ✓ Good — NAV-06 satisfied without coupling |
 | NAV-02 fix targets `SideNav.tsx` not `AdminBoardSideNav` | `AdminBoardSideNav` was never mounted; `SideNav.tsx` is the actual subdomain admin sidebar | ✓ Good — audit caught this before milestone close |
 | `BoardRegistrations` component preserved (not deleted in Plan 02) | Reused by `/admin/boards` (Plan 01); deletion would break the new boards page | ✓ Good — component reuse across two containers |
+| ROUTE-01 fix targets `SubdomainOnly` (DomainGuard.tsx), not an index route in `MainDomainOnly` | `dashboard` route at `path: '/'` in Block 1 always wins over Block 2 due to React Router array-order tiebreaker — any index in `MainDomainOnly` is dead code | ✓ Good — code review caught dead-code approach before execution |
+| `isAuthenticated()` guard added alongside `isMainDomain()` in `PrimaryDomainRedirect` | Unauthenticated users have no domain context; skipping `lookupDomain()` removes blank-screen flash and unnecessary API call | ✓ Good — both guards in same early-return expression |
 
 ---
 
@@ -224,4 +224,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-06-04 — v1.8 complete (Root Route Fix shipped)*
+*Last updated: 2026-06-04 — v1.8 archived (Root Route Fix shipped and milestone closed)*

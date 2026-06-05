@@ -1,5 +1,43 @@
 # Retrospective
 
+## Milestone: v1.8 — Root Route Fix
+
+**Shipped:** 2026-06-04
+**Phases:** 1 (26) | **Plans:** 1 | **Timeline:** 2 days (2026-06-03 → 2026-06-04)
+
+### What Was Built
+
+1. `DomainGuard.tsx` (`SubdomainOnly`): `useLocation` added; pathname check at exactly `/` redirects main domain root → `/dashboard` instead of `<NotFound />` (Plan 26-01, ROUTE-01)
+2. `PrimaryDomainRedirect.tsx`: `isAuthenticated()` guard added alongside `isMainDomain()` early-return; unauthenticated subdomain visitors bypass `lookupDomain()` API call entirely (Plan 26-01, ROUTE-02)
+
+### What Worked
+
+- **Code review as a safety net** — the initial PLAN.md approach (adding an index route inside `MainDomainOnly` Block 2) was dead code: React Router's array-order tiebreaker means Block 1 always wins at URL `/`. Code review caught this before execution; the corrected fix (redirect inside `SubdomainOnly` itself) required 4 lines of code.
+- **Minimal diff** — both ROUTE-01 and ROUTE-02 were 3–5 line changes. Surgical fixes with no refactoring scope creep.
+- **AUTH-aware guard** — the `isAuthenticated()` pattern in `PrimaryDomainRedirect` follows the established `isMainDomain()` idiom. Reads naturally as "skip if main domain or unauthenticated."
+
+### What Was Inefficient
+
+- **PLAN.md proposed wrong fix** — the root cause (React Router Block 1 tiebreaker) should have been traceable during research. A `grep` for `dashboard` in the router config would have revealed the `path: '/'` conflict. Planning should include "trace the existing routing structure before proposing an index route."
+
+### Patterns Established
+
+- **React Router array-order tiebreaker** — when two route blocks match the same URL, Block 1 wins. Never add an index route in Block 2 if Block 1 has a `path: '/'` entry. Trace `router.tsx` match order before writing any root-path plan.
+- **`isAuthenticated()` early-return in layout guards** — guard components that perform async work (domain lookup, API calls) should short-circuit for unauthenticated users before firing network requests. Add this check alongside any existing guard conditions.
+
+### Key Lessons
+
+- **Trace React Router match order before planning root-path changes** — the dead-code issue was avoidable. For any plan that touches `path: '/'` routes, verify which block takes precedence before proposing the fix.
+- **Two surgical changes can ship a milestone** — ROUTE-01 and ROUTE-02 were each ~4 lines in a single file. Not everything needs multiple plans.
+
+### Cost Observations
+
+- Sessions: 1 (2 days)
+- Model: Claude Sonnet 4.6 throughout
+- Notable: Smallest deliverable milestone to date (2 changed files, 1 plan); plan had to be corrected post-code-review — research step should have traced router structure
+
+---
+
 ## Milestone: v1.7 — Board Registrations Nav Separation
 
 **Shipped:** 2026-05-31

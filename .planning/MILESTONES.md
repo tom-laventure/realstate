@@ -1,5 +1,38 @@
 # Milestones
 
+## v1.8 — Root Route Fix
+
+**Shipped:** 2026-06-04
+**Phases:** 1 (26) | **Plans:** 1
+**Timeline:** 2026-06-03 → 2026-06-04 (2 days)
+
+### Delivered
+
+Two surgical frontend-only fixes for root route edge cases. `SubdomainOnly` (DomainGuard.tsx) updated with a pathname check: main domain at `/` now renders `<Navigate to="/dashboard" replace />` instead of `<NotFound />`, routing unauthenticated users through the `ProtectedRoute` wrapper to `/auth/login`. `PrimaryDomainRedirect` extended with an `isAuthenticated()` early-return guard alongside the existing `isMainDomain()` check, eliminating the `lookupDomain()` API call and blank-screen flash for unauthenticated subdomain visitors. Initial PLAN.md approach (index route in `MainDomainOnly`) was dead code caught by code review before execution.
+
+### Key Accomplishments
+
+1. `DomainGuard.tsx` (`SubdomainOnly`): pathname check redirects main domain `/` → `/dashboard` instead of NotFound — ROUTE-01
+2. `PrimaryDomainRedirect.tsx`: `isAuthenticated()` guard short-circuits async domain lookup for unauthenticated users — ROUTE-02
+3. Code review caught dead-code approach (unreachable index route in Block 2) before execution; corrected to Block 1 fix
+
+### Known Deferred Items at Close: 4
+
+| Category | Item | Status |
+|----------|------|--------|
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.9 |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.9 |
+| UX | Brokerage switch preserving active tab position | Carry to v1.9 |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.9 |
+
+### Archive
+
+- Roadmap: [milestones/v1.8-ROADMAP.md](milestones/v1.8-ROADMAP.md)
+- Requirements: [milestones/v1.8-REQUIREMENTS.md](milestones/v1.8-REQUIREMENTS.md)
+- Tag: `v1.8`
+
+---
+
 ## v1.7 — Board Registrations Nav Separation
 
 **Shipped:** 2026-05-31
