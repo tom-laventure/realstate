@@ -108,17 +108,14 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-## Current Milestone: v1.8 Root Route Fix
+## Current Milestone: v1.8 Root Route Fix — SHIPPED 2026-06-04
 
 **Goal:** Fix both root route edge cases so unauthenticated users always land on the login page, never a blank screen or 404.
 
-**Target features:**
-- Main domain `/` redirects to `/dashboard` (which routes to login if not signed in)
-- Subdomain `/` when unauthenticated redirects immediately to `/auth/login` with no blank-screen flash
+✓ ROUTE-01: `SubdomainOnly` (DomainGuard.tsx) redirects main domain `/` → `/dashboard` → `/auth/login` — validated Phase 26
+✓ ROUTE-02: `PrimaryDomainRedirect` (PrimaryDomainRedirect.tsx) skips async domain lookup for unauthenticated users — validated Phase 26
 
-### Active (v1.8)
-
-### Deferred to v1.8+
+### Deferred to v1.9+
 
 - [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over)
 - [ ] S3 favicon upload outside transaction (CR-02, pre-existing)
@@ -227,4 +224,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-06-03 — v1.8 started (Root Route Fix)*
+*Last updated: 2026-06-04 — v1.8 complete (Root Route Fix shipped)*
