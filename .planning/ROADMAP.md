@@ -11,6 +11,7 @@
 - ✅ **v1.6 — Domain Management v2** — Phases 22–24 (shipped 2026-05-31)
 - ✅ **v1.7 — Board Registrations Nav Separation** — Phase 25 (shipped 2026-05-31)
 - ✅ **v1.8 — Root Route Fix** — Phase 26 (shipped 2026-06-04)
+- 🔄 **v1.9 — Dashboard & Navbar Enhancement** — Phases 27–29 (in progress)
 
 ## Phases
 
@@ -113,6 +114,50 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 </details>
 
+### v1.9 — Dashboard & Navbar Enhancement
+
+- [ ] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, agent count, and owner names; align frontend `AdminBrokerage` interface
+- [ ] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
+- [ ] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
+
+---
+
+## Phase Details
+
+### Phase 27: Backend Enrichment + Frontend Types
+
+**Goal:** The admin brokerages endpoint returns per-brokerage context (client count, agent count, owner names) in a single response, and the frontend type system is ready to consume it.
+**Depends on:** Nothing (first phase of milestone)
+**Requirements:** DASH-01, DASH-02
+**Success Criteria** (what must be TRUE):
+  1. A call to `GET /v1/account/admin_brokerages` returns `client_count`, `agent_count`, and `owners` (array of name objects) for each brokerage with no additional network requests
+  2. The frontend `AdminBrokerage` TypeScript interface includes `clientCount`, `agentCount`, and `owners: { firstName: string; lastName: string }[]` fields, usable by downstream components without type errors
+**Plans**: TBD
+
+### Phase 28: Brokerage Selection Page Redesign
+
+**Goal:** The `/dashboard` brokerage selection screen uses a full-width layout and each card surfaces the enriched per-brokerage data delivered by Phase 27.
+**Depends on:** Phase 27
+**Requirements:** DASH-03, DASH-04
+**Success Criteria** (what must be TRUE):
+  1. The `/dashboard` page no longer centers brokerage cards in a narrow panel — the layout spans the full viewport width
+  2. Each brokerage card displays the brokerage name, the user's role badge, client count, agent count, and all owner full names
+  3. The redesigned cards render correctly across edge cases: zero clients, multiple owners, single brokerage auto-redirect still fires without layout breakage
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 29: Navbar Brand Unification
+
+**Goal:** Both main-domain navbars display the SaaS brand logo sourced from a single env var, and the `/dashboard` selection screen has its own dedicated navbar with account menu only.
+**Depends on:** Phase 28
+**Requirements:** DASH-05, DASH-06, DASH-07
+**Success Criteria** (what must be TRUE):
+  1. The `/dashboard` page shows a navbar with the brand logo on the left and an account menu (account settings + sign out) on the right — no brokerage selector or role badge is present
+  2. The `/dashboard/:brokerageId` navbar (`PortalNavBar`) shows the brand logo immediately to the left of the brokerage selector dropdown
+  3. `VITE_BRAND_LOGO_URL` is the single env-var source for the logo in both navbar variants — it renders in both places and its absence gracefully hides the logo in both places
+**Plans**: TBD
+**UI hint**: yes
+
 ---
 
 ## Progress
@@ -145,3 +190,6 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 | 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
 | 25. Board Registrations Nav Separation | v1.7 | 3/3 | Complete | 2026-05-31 |
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
+| 27. Backend Enrichment + Frontend Types | v1.9 | 0/? | Not started | - |
+| 28. Brokerage Selection Page Redesign | v1.9 | 0/? | Not started | - |
+| 29. Navbar Brand Unification | v1.9 | 0/? | Not started | - |
