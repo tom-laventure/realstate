@@ -90,6 +90,11 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DINT-01–04: `PrimaryDomainRedirect` guard; `InvitationMailer` primary domain; `BrokerageAuth` routable scope; `DomainsController#check` status_active scope — v1.5 Phases 19–21
 - ✓ DUI-01–09: Full Domains admin page with status cards, phase-out countdowns, slot management, Pro gate, all domain actions — v1.5 Phase 21
 
+### Validated (v1.9 — Phase 28: Brokerage Selection Page Redesign)
+
+- ✓ DASH-03: `/dashboard` BrokerageSelection page uses full-width layout with `max-w-7xl` container and responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` card grid — no narrow `max-w-sm` centered panel in main render path — v1.9 Phase 28
+- ✓ DASH-04: Each brokerage card (BrokerageCard.tsx) surfaces: name (`text-xl font-semibold`), role badge (`secondary` variant, capitalized), stats line (`clientCount clients · memberCount members`), and conditional owners row (omitted entirely when empty) — v1.9 Phase 28
+
 ### Validated (v1.8 — Root Route Fix)
 
 - ✓ ROUTE-01: `SubdomainOnly` (DomainGuard.tsx) redirects main domain `/` → `/dashboard` → `/auth/login` for unauthenticated users — v1.8
@@ -236,4 +241,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-06-05 — v1.9 started (Dashboard & Navbar Enhancement)*
+*Last updated: 2026-06-06 — Phase 28 complete (BrokerageCard extraction + full-width BrokerageSelection; DASH-03, DASH-04 validated)*
