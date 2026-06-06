@@ -147,8 +147,11 @@ Plans:
   1. The `/dashboard` page no longer centers brokerage cards in a narrow panel — the layout spans the full viewport width
   2. Each brokerage card displays the brokerage name, the user's role badge, client count, agent count, and all owner full names
   3. The redesigned cards render correctly across edge cases: zero clients, multiple owners, single brokerage auto-redirect still fires without layout breakage
-**Plans**: TBD
+**Plans:** 1 plan
 **UI hint**: yes
+
+Plans:
+- [ ] 28-01-PLAN.md — Create BrokerageCard component + rewrite BrokerageSelection with full-width layout and auto-redirect
 
 ### Phase 29: Navbar Brand Unification
 
@@ -195,5 +198,5 @@ Plans:
 | 25. Board Registrations Nav Separation | v1.7 | 3/3 | Complete | 2026-05-31 |
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
-| 28. Brokerage Selection Page Redesign | v1.9 | 0/? | Not started | - |
+| 28. Brokerage Selection Page Redesign | v1.9 | 0/1 | Not started | - |
 | 29. Navbar Brand Unification | v1.9 | 0/? | Not started | - |
