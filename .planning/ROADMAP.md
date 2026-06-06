@@ -11,7 +11,7 @@
 - ✅ **v1.6 — Domain Management v2** — Phases 22–24 (shipped 2026-05-31)
 - ✅ **v1.7 — Board Registrations Nav Separation** — Phase 25 (shipped 2026-05-31)
 - ✅ **v1.8 — Root Route Fix** — Phase 26 (shipped 2026-06-04)
-- 🔄 **v1.9 — Dashboard & Navbar Enhancement** — Phases 27–29 (in progress)
+- ✅ **v1.9 — Dashboard & Navbar Enhancement** — Phases 27–29 (shipped 2026-06-06)
 
 ## Phases
 
@@ -118,7 +118,7 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 - [x] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, member count, and owner names; align frontend `AdminBrokerage` interface
 - [x] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
-- [ ] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
+- [x] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
 
 ---
 
@@ -203,4 +203,4 @@ Plans:
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
-| 29. Navbar Brand Unification | v1.9 | 2/2 | In Progress | - |
+| 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |

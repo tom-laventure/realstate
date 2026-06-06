@@ -1,6 +1,6 @@
 # RealState SaaS Platform
 
-## Current Milestone: v1.9 Dashboard & Navbar Enhancement
+## Current Milestone: v1.9 Dashboard & Navbar Enhancement — SHIPPED 2026-06-06
 
 **Goal:** Enrich the brokerage selection screen with per-brokerage context and add consistent SaaS branding to both main-domain navbars.
 
@@ -90,10 +90,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DINT-01–04: `PrimaryDomainRedirect` guard; `InvitationMailer` primary domain; `BrokerageAuth` routable scope; `DomainsController#check` status_active scope — v1.5 Phases 19–21
 - ✓ DUI-01–09: Full Domains admin page with status cards, phase-out countdowns, slot management, Pro gate, all domain actions — v1.5 Phase 21
 
-### Validated (v1.9 — Phase 28: Brokerage Selection Page Redesign)
+### Validated (v1.9 — Phases 27–29: Dashboard & Navbar Enhancement — SHIPPED 2026-06-06)
 
 - ✓ DASH-03: `/dashboard` BrokerageSelection page uses full-width layout with `max-w-7xl` container and responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` card grid — no narrow `max-w-sm` centered panel in main render path — v1.9 Phase 28
 - ✓ DASH-04: Each brokerage card (BrokerageCard.tsx) surfaces: name (`text-xl font-semibold`), role badge (`secondary` variant, capitalized), stats line (`clientCount clients · memberCount members`), and conditional owners row (omitted entirely when empty) — v1.9 Phase 28
+- ✓ DASH-05: `/dashboard` has a dedicated `DashboardNavBar` with guarded brand logo (left) + account dropdown (Account Settings → `/account`, Sign Out) — no brokerage selector, role badge, or notifications bell — v1.9 Phase 29
+- ✓ DASH-06: `PortalNavBar` shows the brand logo as a clickable `<button>` (→ `/dashboard`) immediately to the left of the brokerage selector dropdown; per-brokerage trigger logo removed — v1.9 Phase 29
+- ✓ DASH-07: `VITE_BRAND_LOGO_URL` is the single env-var source for the brand logo in both navbars (`DashboardNavBar`, `PortalNavBar`); declared blank in `frontend/.env.example`; conditional guard hides logo gracefully when absent — v1.9 Phase 29
 
 ### Validated (v1.8 — Root Route Fix)
 
