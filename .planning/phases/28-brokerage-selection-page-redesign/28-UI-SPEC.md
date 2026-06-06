@@ -1,10 +1,11 @@
 ---
 phase: 28
 slug: brokerage-selection-page-redesign
-status: draft
+status: approved
 shadcn_initialized: true
 preset: new-york / zinc / css-variables
 created: 2026-06-06
+reviewed_at: 2026-06-06
 ---
 
 # Phase 28 — UI Design Contract
@@ -144,7 +145,7 @@ Source: D-06, D-07, D-08 (CONTEXT.md).
 │  [p-6]                                  │
 │  Brokerage Name           [Role Badge]  │  ← Row 1: name (text-xl semibold) + badge right-aligned
 │  12 clients · 5 members                 │  ← Row 2: stats (text-sm muted-foreground), mt-1
-│  Alice Smith, Bob Jones                 │  ← Row 3: owners (text-sm muted-foreground), mt-0.5
+│  Alice Smith, Bob Jones                 │  ← Row 3: owners (text-sm muted-foreground), mt-1
 │                                         │         omitted entirely when owners = []
 └─────────────────────────────────────────┘
 ```
