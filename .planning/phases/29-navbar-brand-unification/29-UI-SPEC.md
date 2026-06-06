@@ -1,7 +1,8 @@
 ---
 phase: 29
 slug: navbar-brand-unification
-status: draft
+status: approved
+reviewed_at: 2026-06-06
 shadcn_initialized: true
 preset: new-york / zinc / cssVariables
 created: 2026-06-06
@@ -36,7 +37,7 @@ Declared values (must be multiples of 4):
 | xs | 4px | Icon gaps (`gap-1`) — chevron next to brokerage name |
 | sm | 8px | Button padding, gap between right-side actions (`gap-2`) |
 | md | 16px | Horizontal navbar padding (`px-4`) |
-| lg | 24px | Gap between left logo and switcher (`gap-3`) is 12px; left-side flex gap-3 |
+| lg | 24px | Left-side flex spacing |
 | xl | 32px | — |
 | 2xl | 48px | — |
 | 3xl | 64px | Navbar height: `h-16` = 64px |
@@ -45,6 +46,7 @@ Exceptions:
 - Navbar height is locked at `h-16` (64px) — matches both existing navbars exactly.
 - Logo wrapper click target in PortalNavBar uses `-p-1` Button ghost padding so the img is not overly padded.
 - Touch targets for icon-only buttons (`size="icon"`) render at 36px × 36px (shadcn default); sufficient for pointer devices in this admin context.
+- 12px (`gap-3`): inner switcher left section spacing — unlisted intermediate, multiple of 4.
 
 ---
 
@@ -147,7 +149,7 @@ Source: `frontend/src/index.css` CSS variable definitions + PortalNavBar.tsx / N
 </div>
 ```
 
-**Per-brokerage logo removal:** `brokerageData?.logoUrl` img inside the `DropdownMenuTrigger` is deleted. The trigger retains only the brokerage name text and `ChevronDown` icon (`gap-1.5` between them).
+**Per-brokerage logo removal:** `brokerageData?.logoUrl` img inside the `DropdownMenuTrigger` is deleted. The trigger retains only the brokerage name text and `ChevronDown` icon (`gap-2` between them).
 
 **Gap between brand logo and switcher:** `gap-2` (8px) — tight enough to read as a unit, loose enough to be distinct elements.
 
