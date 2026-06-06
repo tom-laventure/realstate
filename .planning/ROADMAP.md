@@ -116,7 +116,7 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 ### v1.9 — Dashboard & Navbar Enhancement
 
-- [ ] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, member count, and owner names; align frontend `AdminBrokerage` interface
+- [x] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, member count, and owner names; align frontend `AdminBrokerage` interface
 - [ ] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
 - [ ] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
 
@@ -136,7 +136,7 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 Plans:
 - [x] 27-01-PLAN.md — Enrich AdminBrokeragesController#index with bulk membership query (backend)
-- [ ] 27-02-PLAN.md — Extend AdminBrokerage TypeScript interface + correct REQUIREMENTS.md label (frontend)
+- [x] 27-02-PLAN.md — Extend AdminBrokerage TypeScript interface + correct REQUIREMENTS.md label (frontend)
 
 ### Phase 28: Brokerage Selection Page Redesign
 
@@ -194,6 +194,6 @@ Plans:
 | 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
 | 25. Board Registrations Nav Separation | v1.7 | 3/3 | Complete | 2026-05-31 |
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
-| 27. Backend Enrichment + Frontend Types | v1.9 | 1/2 | In progress | - |
+| 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 28. Brokerage Selection Page Redesign | v1.9 | 0/? | Not started | - |
 | 29. Navbar Brand Unification | v1.9 | 0/? | Not started | - |

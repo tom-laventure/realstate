@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.9
 milestone_name: Dashboard & Navbar Enhancement
 status: executing
-stopped_at: Phase 27 planned
-last_updated: "2026-06-06T06:05:54.792Z"
-last_activity: 2026-06-05 — Phase 27 planned (2 plans, wave 1, parallel)
+stopped_at: Phase 27 complete
+last_updated: "2026-06-06T06:09:00Z"
+last_activity: 2026-06-06 — Phase 27 plan 02 executed (AdminBrokerage interface extended)
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
-  percent: 50
+  completed_plans: 2
+  percent: 100
 ---
 
 # Project State
@@ -26,17 +26,17 @@ See: .planning/PROJECT.md (updated 2026-06-05 after v1.9 milestone start)
 ## Current Position
 
 Phase: 27 — Backend Enrichment + Frontend Types
-Plan: 01 complete — 27-02 pending
-Status: In progress
-Last activity: 2026-06-05 — Plan 27-01 executed (AdminBrokeragesController enriched with bulk membership query)
+Plan: Both plans complete — Phase 27 done
+Status: Phase 27 complete — ready for Phase 28
+Last activity: 2026-06-06 — Plan 27-02 executed (AdminBrokerage interface extended with clientCount, memberCount, owners)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 1 (this milestone)
+- Total plans completed: 2 (this milestone)
 - Average duration: ~5 min
-- Total execution time: ~5 min
+- Total execution time: ~10 min
 
 *Updated after each plan completion*
 
@@ -46,6 +46,8 @@ Last activity: 2026-06-05 — Plan 27-01 executed (AdminBrokeragesController enr
 
 - Inline hash derivation (no serializer) in AdminBrokeragesController#index — payload is small; dedicated serializer adds overhead without benefit
 - Bulk membership query pattern: collect IDs from admin membership query, guard empty case, fire one scoped second query, group_by in Ruby for stats derivation
+- AdminBrokerage interface: required fields (no ?) for clientCount, memberCount, owners — endpoint always returns them; optional would force nullish checks in Phase 28
+- owners typed as inline { firstName: string; lastName: string }[] — no named sub-interface needed for single-site usage
 
 ### Pending Todos
 
@@ -72,6 +74,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Plan 27-01 complete
-Next action: Execute plan 27-02 (frontend types)
-Last session: 2026-06-05 — Plan 27-01 executed; AdminBrokeragesController enriched with client_count, member_count, owners
+Stopped at: Phase 27 complete — all 2 plans done
+Next action: Execute Phase 28 (Brokerage Selection Page Redesign)
+Last session: 2026-06-06 — Plan 27-02 executed; AdminBrokerage interface extended with clientCount, memberCount, owners (6 fields total)
