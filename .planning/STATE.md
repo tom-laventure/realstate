@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.9
 milestone_name: Dashboard & Navbar Enhancement
-status: planning
-stopped_at: —
-last_updated: "2026-06-05T00:00:00Z"
-last_activity: 2026-06-05 -- Phase 27 planned (2 plans, 1 wave)
+status: executing
+stopped_at: Phase 27 planned
+last_updated: "2026-06-06T06:05:54.792Z"
+last_activity: 2026-06-05 — Phase 27 planned (2 plans, wave 1, parallel)
 progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 50
 ---
 
 # Project State
@@ -26,17 +26,17 @@ See: .planning/PROJECT.md (updated 2026-06-05 after v1.9 milestone start)
 ## Current Position
 
 Phase: 27 — Backend Enrichment + Frontend Types
-Plan: —
-Status: Ready to execute
-Last activity: 2026-06-05 — Phase 27 planned (2 plans, wave 1, parallel)
+Plan: 01 complete — 27-02 pending
+Status: In progress
+Last activity: 2026-06-05 — Plan 27-01 executed (AdminBrokeragesController enriched with bulk membership query)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0 (this milestone)
-- Average duration: —
-- Total execution time: —
+- Total plans completed: 1 (this milestone)
+- Average duration: ~5 min
+- Total execution time: ~5 min
 
 *Updated after each plan completion*
 
@@ -44,7 +44,8 @@ Last activity: 2026-06-05 — Phase 27 planned (2 plans, wave 1, parallel)
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
+- Inline hash derivation (no serializer) in AdminBrokeragesController#index — payload is small; dedicated serializer adds overhead without benefit
+- Bulk membership query pattern: collect IDs from admin membership query, guard empty case, fire one scoped second query, group_by in Ruby for stats derivation
 
 ### Pending Todos
 
@@ -71,6 +72,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Phase 27 planned
-Next action: /gsd-execute-phase 27
-Last session: 2026-06-05 — Phase 27 planned; 2 plans (27-01 backend enrichment, 27-02 frontend types)
+Stopped at: Plan 27-01 complete
+Next action: Execute plan 27-02 (frontend types)
+Last session: 2026-06-05 — Plan 27-01 executed; AdminBrokeragesController enriched with client_count, member_count, owners

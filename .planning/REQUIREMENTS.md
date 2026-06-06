@@ -4,7 +4,7 @@
 
 ### Data Enrichment
 
-- [ ] **DASH-01**: User can see per-brokerage stats (client count, agent count, owner names) returned from the existing `GET /v1/account/admin_brokerages` endpoint without additional network requests
+- [x] **DASH-01**: User can see per-brokerage stats (client count, agent count, owner names) returned from the existing `GET /v1/account/admin_brokerages` endpoint without additional network requests
 - [ ] **DASH-02**: Frontend `AdminBrokerage` interface includes `clientCount`, `memberCount`, and `owners` (array of `{firstName, lastName}`) fields
 
 ### Brokerage Selection Page
@@ -41,7 +41,7 @@
 
 | Requirement | Phase | Plan |
 |-------------|-------|------|
-| DASH-01 | 27 | — |
+| DASH-01 | 27 | 01 |
 | DASH-02 | 27 | — |
 | DASH-03 | 28 | — |
 | DASH-04 | 28 | — |
