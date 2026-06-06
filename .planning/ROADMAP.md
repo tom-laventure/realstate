@@ -117,7 +117,7 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 ### v1.9 — Dashboard & Navbar Enhancement
 
 - [x] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, member count, and owner names; align frontend `AdminBrokerage` interface
-- [ ] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
+- [x] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
 - [ ] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
 
 ---
@@ -151,7 +151,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 28-01-PLAN.md — Create BrokerageCard component + rewrite BrokerageSelection with full-width layout and auto-redirect
+- [x] 28-01-PLAN.md — Create BrokerageCard component + rewrite BrokerageSelection with full-width layout and auto-redirect
 
 ### Phase 29: Navbar Brand Unification
 
@@ -198,5 +198,5 @@ Plans:
 | 25. Board Registrations Nav Separation | v1.7 | 3/3 | Complete | 2026-05-31 |
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
-| 28. Brokerage Selection Page Redesign | v1.9 | 0/1 | Not started | - |
+| 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
 | 29. Navbar Brand Unification | v1.9 | 0/? | Not started | - |

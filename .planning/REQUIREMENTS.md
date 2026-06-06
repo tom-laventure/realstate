@@ -9,8 +9,8 @@
 
 ### Brokerage Selection Page
 
-- [ ] **DASH-03**: User sees a full-width page layout on `/dashboard` — brokerage cards are no longer confined to a centered mini-panel
-- [ ] **DASH-04**: Each brokerage card on `/dashboard` displays the brokerage name, user's role badge, client count, agent count, and owner full names
+- [x] **DASH-03**: User sees a full-width page layout on `/dashboard` — brokerage cards are no longer confined to a centered mini-panel
+- [x] **DASH-04**: Each brokerage card on `/dashboard` displays the brokerage name, user's role badge, client count, agent count, and owner full names
 
 ### Navbar Unification
 
@@ -43,8 +43,8 @@
 |-------------|-------|------|
 | DASH-01 | 27 | 01 |
 | DASH-02 | 27 | 02 |
-| DASH-03 | 28 | — |
-| DASH-04 | 28 | — |
+| DASH-03 | 28 | 01 |
+| DASH-04 | 28 | 01 |
 | DASH-05 | 29 | — |
 | DASH-06 | 29 | — |
 | DASH-07 | 29 | — |

@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.9
 milestone_name: Dashboard & Navbar Enhancement
 status: ready to execute
-stopped_at: Phase 28 planned (1 plan, 1 wave)
-last_updated: "2026-06-06T00:00:00Z"
-last_activity: 2026-06-06 — Phase 28 planned (1 plan verified, DASH-03 + DASH-04 covered)
+stopped_at: Phase 28 complete (1/1 plans done)
+last_updated: "2026-06-06T00:08:00Z"
+last_activity: 2026-06-06 — Phase 28 executed (BrokerageCard extracted, BrokerageSelection rewritten full-width)
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 67
+  completed_plans: 3
+  percent: 100
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-06-05 after v1.9 milestone start)
 ## Current Position
 
 Phase: 28 — Brokerage Selection Page Redesign
-Plan: —
-Status: Phase 28 planned — ready to execute
-Last activity: 2026-06-06 — Phase 28 plan verified (DASH-03 + DASH-04 covered, checker passed)
+Plan: 01 — Complete
+Status: Phase 28 complete — all plans executed
+Last activity: 2026-06-06 — Phase 28-01 executed: BrokerageCard extracted, BrokerageSelection rewritten with full-width grid + auto-redirect
 
 ## Performance Metrics
 
@@ -48,6 +48,8 @@ Last activity: 2026-06-06 — Phase 28 plan verified (DASH-03 + DASH-04 covered,
 - Bulk membership query pattern: collect IDs from admin membership query, guard empty case, fire one scoped second query, group_by in Ruby for stats derivation
 - AdminBrokerage interface: required fields (no ?) for clientCount, memberCount, owners — endpoint always returns them; optional would force nullish checks in Phase 28
 - owners typed as inline { firstName: string; lastName: string }[] — no named sub-interface needed for single-site usage
+- Button-as-card pattern: apply shadcn card classes directly to <button> element for full-card keyboard interactivity — no div wrapper nesting
+- Auto-redirect as synchronous conditional: adminBrokerages.length === 1 check placed after loading guard as plain if (not useEffect) per D-10
 
 ### Pending Todos
 
@@ -74,6 +76,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Phase 28 context gathered
-Next action: /gsd-plan-phase 28
-Last session: 2026-06-06 — Phase 27 executed and verified; 2 code review fixes applied (soft-delete guard + brokerage dedup)
+Stopped at: Phase 28 complete
+Next action: /gsd-execute-phase 29 (Navbar Brand Unification)
+Last session: 2026-06-06 — Phase 28 executed; BrokerageCard extracted + BrokerageSelection rewritten full-width with auto-redirect
