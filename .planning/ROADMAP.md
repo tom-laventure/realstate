@@ -166,8 +166,8 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 29-01-PLAN.md — Create DashboardNavBar + wire into BrokerageSelection + add VITE_BRAND_LOGO_URL to .env.example
-- [ ] 29-02-PLAN.md — Add clickable brand logo to PortalNavBar left of switcher, remove per-brokerage trigger logo
+- [x] 29-01-PLAN.md — Create DashboardNavBar + wire into BrokerageSelection + add VITE_BRAND_LOGO_URL to .env.example
+- [x] 29-02-PLAN.md — Add clickable brand logo to PortalNavBar left of switcher, remove per-brokerage trigger logo
 
 ---
 
@@ -203,4 +203,4 @@ Plans:
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
-| 29. Navbar Brand Unification | v1.9 | 0/2 | Not started | - |
+| 29. Navbar Brand Unification | v1.9 | 2/2 | In Progress | - |
