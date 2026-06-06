@@ -116,7 +116,7 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 ### v1.9 — Dashboard & Navbar Enhancement
 
-- [ ] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, agent count, and owner names; align frontend `AdminBrokerage` interface
+- [ ] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, member count, and owner names; align frontend `AdminBrokerage` interface
 - [ ] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
 - [ ] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
 
@@ -126,13 +126,17 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 ### Phase 27: Backend Enrichment + Frontend Types
 
-**Goal:** The admin brokerages endpoint returns per-brokerage context (client count, agent count, owner names) in a single response, and the frontend type system is ready to consume it.
+**Goal:** The admin brokerages endpoint returns per-brokerage context (client count, member count, owner names) in a single response, and the frontend type system is ready to consume it.
 **Depends on:** Nothing (first phase of milestone)
 **Requirements:** DASH-01, DASH-02
 **Success Criteria** (what must be TRUE):
-  1. A call to `GET /v1/account/admin_brokerages` returns `client_count`, `agent_count`, and `owners` (array of name objects) for each brokerage with no additional network requests
-  2. The frontend `AdminBrokerage` TypeScript interface includes `clientCount`, `agentCount`, and `owners: { firstName: string; lastName: string }[]` fields, usable by downstream components without type errors
-**Plans**: TBD
+  1. A call to `GET /v1/account/admin_brokerages` returns `client_count`, `member_count`, and `owners` (array of name objects) for each brokerage with no additional network requests
+  2. The frontend `AdminBrokerage` TypeScript interface includes `clientCount`, `memberCount`, and `owners: { firstName: string; lastName: string }[]` fields, usable by downstream components without type errors
+**Plans:** 2 plans
+
+Plans:
+- [ ] 27-01-PLAN.md — Enrich AdminBrokeragesController#index with bulk membership query (backend)
+- [ ] 27-02-PLAN.md — Extend AdminBrokerage TypeScript interface + correct REQUIREMENTS.md label (frontend)
 
 ### Phase 28: Brokerage Selection Page Redesign
 
@@ -190,6 +194,6 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 | 24. Domain UI Overhaul | v1.6 | 4/4 | Complete | 2026-05-31 |
 | 25. Board Registrations Nav Separation | v1.7 | 3/3 | Complete | 2026-05-31 |
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
-| 27. Backend Enrichment + Frontend Types | v1.9 | 0/? | Not started | - |
+| 27. Backend Enrichment + Frontend Types | v1.9 | 0/2 | Not started | - |
 | 28. Brokerage Selection Page Redesign | v1.9 | 0/? | Not started | - |
 | 29. Navbar Brand Unification | v1.9 | 0/? | Not started | - |
