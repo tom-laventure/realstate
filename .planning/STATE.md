@@ -74,6 +74,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: Phase 27 complete — verification passed
-Next action: /gsd-discuss-phase 28 (Brokerage Selection Page Redesign — CONTEXT.md not yet created)
+Stopped at: Phase 28 context gathered
+Next action: /gsd-plan-phase 28
 Last session: 2026-06-06 — Phase 27 executed and verified; 2 code review fixes applied (soft-delete guard + brokerage dedup)
