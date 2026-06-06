@@ -1,5 +1,17 @@
 # RealState SaaS Platform
 
+## Current Milestone: v1.9 Dashboard & Navbar Enhancement
+
+**Goal:** Enrich the brokerage selection screen with per-brokerage context and add consistent SaaS branding to both main-domain navbars.
+
+**Target features:**
+- Extend `GET /v1/account/admin_brokerages` to return `client_count`, `agent_count`, and `owners` per brokerage
+- Redesign `/dashboard` `BrokerageSelection` page with full-width cards showing role, counts, and owner names
+- New `/dashboard` navbar: SaaS brand logo (`VITE_BRAND_LOGO_URL`) + account menu; no brokerage selector or role badge
+- Updated `PortalNavBar` (`/dashboard/:brokerageId`): brand logo added left of existing brokerage selector
+
+---
+
 ## What This Is
 
 A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, and correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain.
@@ -224,4 +236,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-06-04 — v1.8 archived (Root Route Fix shipped and milestone closed)*
+*Last updated: 2026-06-05 — v1.9 started (Dashboard & Navbar Enhancement)*

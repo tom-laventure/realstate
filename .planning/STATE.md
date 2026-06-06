@@ -1,33 +1,34 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.8
-milestone_name: Root Route Fix
-status: archived
+milestone: v1.9
+milestone_name: Dashboard & Navbar Enhancement
+status: planning
 stopped_at: —
-last_updated: "2026-06-04T00:00:00Z"
-last_activity: 2026-06-04 -- v1.8 milestone archived
+last_updated: "2026-06-05T00:00:00Z"
+last_activity: 2026-06-05 -- Milestone v1.9 started
 progress:
-  total_phases: 1
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
-  percent: 100
+  total_phases: 3
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-04 after v1.8 milestone close)
+See: .planning/PROJECT.md (updated 2026-06-05 after v1.9 milestone start)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.8 archived — planning next milestone
+**Current focus:** v1.9 — Dashboard & Navbar Enhancement
 
 ## Current Position
 
-Phase: 26 — Root Route Fix (1/1 plans complete)
-Status: Archived — v1.8 milestone closed 2026-06-04
-Last activity: 2026-06-04 — v1.8 milestone archived (ROUTE-01 + ROUTE-02 shipped)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-05 — Milestone v1.9 started
 
 ## Performance Metrics
 
@@ -63,13 +64,13 @@ None.
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.9 | v1.1 close |
-| UX | Brokerage switch preserving active tab position | Carry to v1.9 | v1.4 close |
-| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.9 | v1.4 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.9 | v1.6 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.10 | v1.1 close |
+| UX | Brokerage switch preserving active tab position | Carry to v1.10 | v1.4 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.10 | v1.4 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.10 | v1.6 close |
 
 ## Session Continuity
 
-Stopped at: v1.8 archived
-Next action: /gsd-new-milestone
-Last session: 2026-06-04 — v1.8 milestone archived; DomainGuard.tsx (ROUTE-01) + PrimaryDomainRedirect.tsx (ROUTE-02) shipped; tag v1.8 pending
+Stopped at: v1.9 planning started
+Next action: /gsd-plan-phase 27
+Last session: 2026-06-05 — v1.9 milestone initialized; REQUIREMENTS.md and ROADMAP.md written
