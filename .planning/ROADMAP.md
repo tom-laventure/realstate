@@ -162,8 +162,12 @@ Plans:
   1. The `/dashboard` page shows a navbar with the brand logo on the left and an account menu (account settings + sign out) on the right — no brokerage selector or role badge is present
   2. The `/dashboard/:brokerageId` navbar (`PortalNavBar`) shows the brand logo immediately to the left of the brokerage selector dropdown
   3. `VITE_BRAND_LOGO_URL` is the single env-var source for the logo in both navbar variants — it renders in both places and its absence gracefully hides the logo in both places
-**Plans**: TBD
+**Plans:** 2 plans
 **UI hint**: yes
+
+Plans:
+- [ ] 29-01-PLAN.md — Create DashboardNavBar + wire into BrokerageSelection + add VITE_BRAND_LOGO_URL to .env.example
+- [ ] 29-02-PLAN.md — Add clickable brand logo to PortalNavBar left of switcher, remove per-brokerage trigger logo
 
 ---
 
@@ -199,4 +203,4 @@ Plans:
 | 26. Root Route Fix | v1.8 | 1/1 | Complete | 2026-06-04 |
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
-| 29. Navbar Brand Unification | v1.9 | 0/? | Not started | - |
+| 29. Navbar Brand Unification | v1.9 | 0/2 | Not started | - |
