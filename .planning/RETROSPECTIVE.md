@@ -1,5 +1,51 @@
 # Retrospective
 
+## Milestone: v1.9 — Dashboard & Navbar Enhancement
+
+**Shipped:** 2026-06-06
+**Phases:** 3 (27–29) | **Plans:** 5 | **Timeline:** 2 days (2026-06-05 → 2026-06-06)
+
+### What Was Built
+
+1. `AdminBrokeragesController#index` enriched: two-query bulk membership strategy (`filter_map` IDs → scoped `BrokerageMembership` query → `group_by`/`filter_map` in Ruby) returns `client_count`, `member_count`, `owners` per brokerage — DASH-01
+2. `AdminBrokerage` TypeScript interface extended from 3 to 6 required fields (`clientCount`, `memberCount`, `owners[]`) — no nullish checks needed downstream — DASH-02
+3. `BrokerageCard.tsx` extracted + `BrokerageSelection.tsx` rewritten: full-width `max-w-7xl` grid with responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`, single-brokerage auto-redirect as synchronous conditional — DASH-03/04
+4. `DashboardNavBar.tsx` (new, 69 lines): brand logo (conditionally rendered from `VITE_BRAND_LOGO_URL`) + account dropdown mirroring `PortalNavBar` sign-out exactly; wired into both loading and main paths in `BrokerageSelection` — DASH-05
+5. `PortalNavBar.tsx`: plain `<button>` brand logo navigating to `/dashboard` added left of switcher; per-brokerage trigger logo removed; favicon hook preserved — DASH-06/07
+
+### What Worked
+
+- **Three-phase decomposition** — separating backend (27), UI redesign (28), and navbar (29) kept each phase focused and independently verifiable. Phase 27's enriched endpoint was available to Phase 28 without coordination overhead.
+- **Required TypeScript fields by default** — making `clientCount`, `memberCount`, `owners` required (not optional) eliminated nullish checks across all consumers. Type-system confidence propagated automatically.
+- **Button-as-card pattern** — applying shadcn card classes directly to `<button>` solved the keyboard-interactivity + valid-HTML problem cleanly. No wrapper nesting, no `div > button`.
+- **Standalone `DashboardNavBar`** — creating a dedicated component rather than parameterizing `NavBar.tsx` kept the surface minimal. No dead props, no imported hooks that aren't used on the selection screen.
+- **Security-first env var handling** — `VITE_BRAND_LOGO_URL &&` guard before rendering both `button` and `img` prevents orphan gaps and broken-image icons without any try/catch.
+
+### What Was Inefficient
+
+- **Stale REQUIREMENTS.md checkboxes** — DASH-05/06/07 were delivered and verified but their checkboxes in `REQUIREMENTS.md` were never updated during phase execution. Caught at milestone close. Phase execution should include a "check the requirement checkbox" step as part of each plan summary.
+
+### Patterns Established
+
+- **Bulk membership query pattern** — collect IDs from first query, empty-guard, fire one scoped second query, `group_by` in Ruby, derive stats inline. Avoids N+1 without per-record queries in the serializer.
+- **`VITE_BRAND_LOGO_URL &&` conditional render guard** — check the env var before rendering both the wrapper element and the `<img>` to avoid orphan gaps. Applicable to any optional build-time image in navbars/headers.
+- **Synchronous auto-redirect after loading guard** — `if (items.length === 1) { dispatch(); navigate() }` placed after loading check as plain `if` (not `useEffect`) avoids render-cycle complexity.
+- **Standalone navbar per context** — when a page has fundamentally different navigation needs (no active brokerage context), create a dedicated navbar component rather than adding optional props to the shared one.
+
+### Key Lessons
+
+- **Check REQUIREMENTS.md checkboxes during plan execution** — don't rely on milestone close to catch stale checkboxes. Each plan summary should verify the relevant requirement is checked.
+- **Required TypeScript fields are almost always right for API responses** — if the endpoint always returns a field, make it required. Optional coerces you into defensive checks that the type system should handle.
+- **Plain `<button>` beats shadcn `Button` for image wrappers** — `Button variant=ghost` adds padding that fights logo sizing. Use a plain `<button>` with explicit padding when wrapping an image.
+
+### Cost Observations
+
+- Sessions: ~2 (2026-06-05 → 2026-06-06)
+- Model: Claude Sonnet 4.6 throughout
+- Notable: Clean three-phase delivery with no deviations from plans. Fastest multi-phase milestone so far (all 5 plans in 2 days). Stale checkbox issue is the only post-execution finding.
+
+---
+
 ## Milestone: v1.8 — Root Route Fix
 
 **Shipped:** 2026-06-04

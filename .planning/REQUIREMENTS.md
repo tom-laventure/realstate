@@ -14,9 +14,9 @@
 
 ### Navbar Unification
 
-- [ ] **DASH-05**: `/dashboard` has a dedicated navbar showing the SaaS brand logo (from `VITE_BRAND_LOGO_URL`) on the left and an account menu (account settings + sign out) on the right — no brokerage selector or role badge
-- [ ] **DASH-06**: `/dashboard/:brokerageId` navbar (`PortalNavBar`) shows the SaaS brand logo immediately left of the brokerage selector dropdown
-- [ ] **DASH-07**: `VITE_BRAND_LOGO_URL` env var is read by the frontend and used in both navbar variants
+- [x] **DASH-05**: `/dashboard` has a dedicated navbar showing the SaaS brand logo (from `VITE_BRAND_LOGO_URL`) on the left and an account menu (account settings + sign out) on the right — no brokerage selector or role badge
+- [x] **DASH-06**: `/dashboard/:brokerageId` navbar (`PortalNavBar`) shows the SaaS brand logo immediately left of the brokerage selector dropdown
+- [x] **DASH-07**: `VITE_BRAND_LOGO_URL` env var is read by the frontend and used in both navbar variants
 
 ---
 

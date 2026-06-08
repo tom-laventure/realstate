@@ -12,6 +12,7 @@
 - ✅ **v1.7 — Board Registrations Nav Separation** — Phase 25 (shipped 2026-05-31)
 - ✅ **v1.8 — Root Route Fix** — Phase 26 (shipped 2026-06-04)
 - ✅ **v1.9 — Dashboard & Navbar Enhancement** — Phases 27–29 (shipped 2026-06-06)
+- 📋 **v1.10** — (planned — run `/gsd-new-milestone` to define)
 
 ## Phases
 
@@ -114,60 +115,16 @@ Full details: [.planning/phases/26-root-route-fix/](phases/26-root-route-fix/)
 
 </details>
 
-### v1.9 — Dashboard & Navbar Enhancement
+<details>
+<summary>✅ v1.9 — Dashboard & Navbar Enhancement (Phases 27–29) — SHIPPED 2026-06-06</summary>
 
-- [x] **Phase 27: Backend Enrichment + Frontend Types** — Extend `GET /v1/account/admin_brokerages` to return client count, member count, and owner names; align frontend `AdminBrokerage` interface
-- [x] **Phase 28: Brokerage Selection Page Redesign** — Replace the minimal centered card layout with a full-width page showing rich brokerage cards
-- [x] **Phase 29: Navbar Brand Unification** — Add SaaS brand logo (`VITE_BRAND_LOGO_URL`) to both main-domain navbars; create the dedicated `/dashboard` navbar
+- [x] Phase 27: Backend Enrichment + Frontend Types (2/2 plans) — completed 2026-06-06
+- [x] Phase 28: Brokerage Selection Page Redesign (1/1 plan) — completed 2026-06-06
+- [x] Phase 29: Navbar Brand Unification (2/2 plans) — completed 2026-06-06
 
----
+Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 
-## Phase Details
-
-### Phase 27: Backend Enrichment + Frontend Types
-
-**Goal:** The admin brokerages endpoint returns per-brokerage context (client count, member count, owner names) in a single response, and the frontend type system is ready to consume it.
-**Depends on:** Nothing (first phase of milestone)
-**Requirements:** DASH-01, DASH-02
-**Success Criteria** (what must be TRUE):
-  1. A call to `GET /v1/account/admin_brokerages` returns `client_count`, `member_count`, and `owners` (array of name objects) for each brokerage with no additional network requests
-  2. The frontend `AdminBrokerage` TypeScript interface includes `clientCount`, `memberCount`, and `owners: { firstName: string; lastName: string }[]` fields, usable by downstream components without type errors
-**Plans:** 2 plans
-
-Plans:
-- [x] 27-01-PLAN.md — Enrich AdminBrokeragesController#index with bulk membership query (backend)
-- [x] 27-02-PLAN.md — Extend AdminBrokerage TypeScript interface + correct REQUIREMENTS.md label (frontend)
-
-### Phase 28: Brokerage Selection Page Redesign
-
-**Goal:** The `/dashboard` brokerage selection screen uses a full-width layout and each card surfaces the enriched per-brokerage data delivered by Phase 27.
-**Depends on:** Phase 27
-**Requirements:** DASH-03, DASH-04
-**Success Criteria** (what must be TRUE):
-  1. The `/dashboard` page no longer centers brokerage cards in a narrow panel — the layout spans the full viewport width
-  2. Each brokerage card displays the brokerage name, the user's role badge, client count, agent count, and all owner full names
-  3. The redesigned cards render correctly across edge cases: zero clients, multiple owners, single brokerage auto-redirect still fires without layout breakage
-**Plans:** 1 plan
-**UI hint**: yes
-
-Plans:
-- [x] 28-01-PLAN.md — Create BrokerageCard component + rewrite BrokerageSelection with full-width layout and auto-redirect
-
-### Phase 29: Navbar Brand Unification
-
-**Goal:** Both main-domain navbars display the SaaS brand logo sourced from a single env var, and the `/dashboard` selection screen has its own dedicated navbar with account menu only.
-**Depends on:** Phase 28
-**Requirements:** DASH-05, DASH-06, DASH-07
-**Success Criteria** (what must be TRUE):
-  1. The `/dashboard` page shows a navbar with the brand logo on the left and an account menu (account settings + sign out) on the right — no brokerage selector or role badge is present
-  2. The `/dashboard/:brokerageId` navbar (`PortalNavBar`) shows the brand logo immediately to the left of the brokerage selector dropdown
-  3. `VITE_BRAND_LOGO_URL` is the single env-var source for the logo in both navbar variants — it renders in both places and its absence gracefully hides the logo in both places
-**Plans:** 2 plans
-**UI hint**: yes
-
-Plans:
-- [x] 29-01-PLAN.md — Create DashboardNavBar + wire into BrokerageSelection + add VITE_BRAND_LOGO_URL to .env.example
-- [x] 29-02-PLAN.md — Add clickable brand logo to PortalNavBar left of switcher, remove per-brokerage trigger logo
+</details>
 
 ---
 

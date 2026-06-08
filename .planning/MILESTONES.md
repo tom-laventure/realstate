@@ -1,5 +1,40 @@
 # Milestones
 
+## v1.9 — Dashboard & Navbar Enhancement
+
+**Shipped:** 2026-06-06
+**Phases:** 3 (27–29) | **Plans:** 5
+**Timeline:** 2026-06-05 → 2026-06-06 (2 days)
+
+### Delivered
+
+Full enrichment of the main-domain brokerage selection flow and SaaS branding unification. Backend: `GET /v1/account/admin_brokerages` extended with two-query bulk membership strategy returning `client_count`, `member_count`, and `owners` per brokerage — no N+1, empty-guard protected (Phase 27). TypeScript `AdminBrokerage` interface extended with three required fields (`clientCount`, `memberCount`, `owners[]`) to match (Phase 27). Frontend: `BrokerageSelection` rewritten from a narrow `max-w-sm` centered panel to a full-width `max-w-7xl` responsive card grid; `BrokerageCard` extracted as a keyboard-focusable button-as-card component surfacing all six brokerage data points; single-brokerage auto-redirect fires synchronously without flash (Phase 28). New `DashboardNavBar` component: brand logo (conditionally rendered from `VITE_BRAND_LOGO_URL`) on left, account dropdown (Account Settings + Sign Out) on right — wired into both the loading and main grid paths in `BrokerageSelection` (Phase 29-01). `PortalNavBar` updated: clickable brand logo (`<button>` wrapping `<img>`) added left of brokerage switcher dropdown; per-brokerage trigger logo removed; favicon hook preserved (Phase 29-02). All 7 DASH requirements delivered.
+
+### Key Accomplishments
+
+1. `AdminBrokeragesController#index`: two-query bulk strategy (`filter_map` → scoped `BrokerageMembership` query → `group_by` in Ruby) returns 6 fields per brokerage in one response — DASH-01
+2. `AdminBrokerage` TypeScript interface: `clientCount`, `memberCount`, `owners[]` added as required fields — compile-time safety for all downstream consumers — DASH-02
+3. `BrokerageCard.tsx` + `BrokerageSelection.tsx` rewrite: full-width grid, responsive layout, role badge, stats line, conditional owners row — DASH-03/04
+4. `DashboardNavBar.tsx`: standalone 69-line navbar; sign-out mirrors `PortalNavBar` exactly; `VITE_BRAND_LOGO_URL` guard — DASH-05
+5. `PortalNavBar.tsx`: plain `<button>` brand logo (→ `/dashboard`) left of switcher; per-brokerage trigger logo removed — DASH-06/07
+
+### Known Deferred Items at Close: 4
+
+| Category | Item | Status |
+|----------|------|--------|
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.10 |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.10 |
+| UX | Brokerage switch preserving active tab position | Carry to v1.10 |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.10 |
+
+### Archive
+
+- Roadmap: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
+- Requirements: [milestones/v1.9-REQUIREMENTS.md](milestones/v1.9-REQUIREMENTS.md)
+- Tag: `v1.9`
+
+---
+
 ## v1.8 — Root Route Fix
 
 **Shipped:** 2026-06-04

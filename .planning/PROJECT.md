@@ -1,20 +1,14 @@
 # RealState SaaS Platform
 
-## Current Milestone: v1.9 Dashboard & Navbar Enhancement — SHIPPED 2026-06-06
+## Last Shipped: v1.9 — Dashboard & Navbar Enhancement (2026-06-06)
 
-**Goal:** Enrich the brokerage selection screen with per-brokerage context and add consistent SaaS branding to both main-domain navbars.
-
-**Target features:**
-- Extend `GET /v1/account/admin_brokerages` to return `client_count`, `agent_count`, and `owners` per brokerage
-- Redesign `/dashboard` `BrokerageSelection` page with full-width cards showing role, counts, and owner names
-- New `/dashboard` navbar: SaaS brand logo (`VITE_BRAND_LOGO_URL`) + account menu; no brokerage selector or role badge
-- Updated `PortalNavBar` (`/dashboard/:brokerageId`): brand logo added left of existing brokerage selector
+**Next milestone:** v1.10 — start with `/gsd-new-milestone`
 
 ---
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher, a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, and correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, and correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain.
 
 ## Core Value
 
@@ -90,7 +84,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DINT-01–04: `PrimaryDomainRedirect` guard; `InvitationMailer` primary domain; `BrokerageAuth` routable scope; `DomainsController#check` status_active scope — v1.5 Phases 19–21
 - ✓ DUI-01–09: Full Domains admin page with status cards, phase-out countdowns, slot management, Pro gate, all domain actions — v1.5 Phase 21
 
-### Validated (v1.9 — Phases 27–29: Dashboard & Navbar Enhancement — SHIPPED 2026-06-06)
+### Validated (v1.9 — Phases 27–29: Dashboard & Navbar Enhancement — SHIPPED 2026-06-06) ✅
 
 - ✓ DASH-03: `/dashboard` BrokerageSelection page uses full-width layout with `max-w-7xl` container and responsive `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` card grid — no narrow `max-w-sm` centered panel in main render path — v1.9 Phase 28
 - ✓ DASH-04: Each brokerage card (BrokerageCard.tsx) surfaces: name (`text-xl font-semibold`), role badge (`secondary` variant, capitalized), stats line (`clientCount clients · memberCount members`), and conditional owners row (omitted entirely when empty) — v1.9 Phase 28
@@ -133,7 +127,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-## Deferred to v1.9+
+## Deferred to v1.10+
 
 - [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6)
 - [ ] S3 favicon upload outside transaction (CR-02, pre-existing from v1.1)
@@ -169,7 +163,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06
 
 ---
 
@@ -229,6 +223,11 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `BoardRegistrations` component preserved (not deleted in Plan 02) | Reused by `/admin/boards` (Plan 01); deletion would break the new boards page | ✓ Good — component reuse across two containers |
 | ROUTE-01 fix targets `SubdomainOnly` (DomainGuard.tsx), not an index route in `MainDomainOnly` | `dashboard` route at `path: '/'` in Block 1 always wins over Block 2 due to React Router array-order tiebreaker — any index in `MainDomainOnly` is dead code | ✓ Good — code review caught dead-code approach before execution |
 | `isAuthenticated()` guard added alongside `isMainDomain()` in `PrimaryDomainRedirect` | Unauthenticated users have no domain context; skipping `lookupDomain()` removes blank-screen flash and unnecessary API call | ✓ Good — both guards in same early-return expression |
+| Inline hash derivation (no serializer) in `AdminBrokeragesController#index` — v1.9 | Payload is small; dedicated serializer adds overhead without benefit | ✓ Good — fast, local, no abstraction cost |
+| `AdminBrokerage` TypeScript fields required (no `?`) — v1.9 | Endpoint always returns all three; optional would propagate nullish checks to all consumers | ✓ Good — propagates type-safety automatically |
+| Button-as-card pattern for `BrokerageCard` — v1.9 | Applying card classes to `<button>` avoids invalid nesting (div > button, button > Card) while ensuring full-card keyboard interactivity | ✓ Good — accessible and HTML-valid |
+| `DashboardNavBar` as standalone component (not `NavBar.tsx` with props) — v1.9 | Avoids importing notifications bell and auth hooks irrelevant to selection screen | ✓ Good — minimal surface, zero dead code |
+| Plain `<button>` (not shadcn `Button`) for brand logo in `PortalNavBar` — v1.9 | `Button variant=ghost` adds horizontal padding that distorts logo proportions | ✓ Good — pixel-accurate logo sizing |
 
 ---
 
@@ -244,4 +243,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-06-06 — Phase 28 complete (BrokerageCard extraction + full-width BrokerageSelection; DASH-03, DASH-04 validated)*
+*Last updated: 2026-06-07 after v1.9 milestone — Dashboard & Navbar Enhancement shipped*

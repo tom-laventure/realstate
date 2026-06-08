@@ -1,65 +1,37 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.9
-milestone_name: Dashboard & Navbar Enhancement
-status: complete
-stopped_at: v1.9 milestone complete
-last_updated: "2026-06-06T02:00:00.000Z"
-last_activity: 2026-06-06 -- Phase 29 verified and complete — v1.9 shipped
+milestone: v1.10
+milestone_name: (TBD — run /gsd-new-milestone)
+status: planning
+stopped_at: v1.9 milestone archived — ready for v1.10 planning
+last_updated: "2026-06-07T00:00:00.000Z"
+last_activity: 2026-06-07 -- v1.9 milestone archived, v1.9 tag pending
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-05 after v1.9 milestone start)
+See: .planning/PROJECT.md (updated 2026-06-07 after v1.9 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.9 — Dashboard & Navbar Enhancement
+**Current focus:** v1.10 — planning (run `/gsd-new-milestone` to begin)
 
 ## Current Position
 
-Phase: 29 — Navbar Brand Unification (COMPLETE)
-Plan: 2/2 complete
-Status: Verified — v1.9 milestone shipped
-Last activity: 2026-06-06 -- Phase 29 verified (7/7 must-haves). DASH-05, DASH-06, DASH-07 satisfied. v1.9 complete.
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 2 (this milestone)
-- Average duration: ~5 min
-- Total execution time: ~10 min
-
-*Updated after each plan completion*
-
-## Accumulated Context
-
-### Decisions
-
-- Inline hash derivation (no serializer) in AdminBrokeragesController#index — payload is small; dedicated serializer adds overhead without benefit
-- Bulk membership query pattern: collect IDs from admin membership query, guard empty case, fire one scoped second query, group_by in Ruby for stats derivation
-- AdminBrokerage interface: required fields (no ?) for clientCount, memberCount, owners — endpoint always returns them; optional would force nullish checks in Phase 28
-- owners typed as inline { firstName: string; lastName: string }[] — no named sub-interface needed for single-site usage
-- Button-as-card pattern: apply shadcn card classes directly to <button> element for full-card keyboard interactivity — no div wrapper nesting
-- Auto-redirect as synchronous conditional: adminBrokerages.length === 1 check placed after loading guard as plain if (not useEffect) per D-10
-
-### Pending Todos
-
-None.
-
-### Blockers/Concerns
-
-None.
+Phase: — (no active phase)
+Status: v1.9 complete and archived. Ready for v1.10 milestone planning.
+Last activity: 2026-06-07 — v1.9 milestone archived (3 phases, 5 plans, 7/7 requirements delivered).
 
 ## Deferred Items
+
+Items carried forward to v1.10:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -76,6 +48,6 @@ None.
 
 ## Session Continuity
 
-Stopped at: v1.9 milestone complete
-Next action: /gsd-new-milestone (start v1.10) or /gsd-progress to review
-Last session: 2026-06-06 — Phase 29 verified; DashboardNavBar created, PortalNavBar brand logo unified. v1.9 shipped.
+Stopped at: v1.9 milestone archived
+Next action: /gsd-new-milestone (start v1.10)
+Last session: 2026-06-07 — v1.9 milestone complete. All 7 DASH requirements delivered. ROADMAP, PROJECT, MILESTONES, REQUIREMENTS archived.
