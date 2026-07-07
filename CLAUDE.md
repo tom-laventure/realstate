@@ -11,6 +11,7 @@ This project uses GSD (Get Shit Done) for structured planning and execution.
 - `.planning/REQUIREMENTS.md` — all v1 requirements with REQ-IDs
 - `.planning/STATE.md` — current project state and phase blockers
 - `.planning/research/` — stack, features, architecture, and pitfall research
+- `.planning/ROLES.md` — role definitions, purpose, and access-control guardrails — read before implementing any role-gated feature
 
 **Current milestone:** Milestone 2 — Security hardening, Google OAuth, calendar sync, onboarding fixes, test suite
 
