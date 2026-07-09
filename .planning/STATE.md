@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
-status: verifying
-stopped_at: Completed 30-02-PLAN.md (full agent permission matrix); Phase 30 both plans complete, ready for verification
-last_updated: "2026-07-09T23:34:56.390Z"
-last_activity: 2026-07-09
+status: executing
+stopped_at: "Phase 30 verified (passed, 3/3 must-haves) and marked complete. Code review found 3 pre-existing critical issues (CR-01/02/03) unrelated to this phase's scope, logged in 30-REVIEW.md for a future security-hardening pass. Ready to plan Phase 31."
+last_updated: "2026-07-09T23:52:00.000Z"
+last_activity: 2026-07-09 -- Phase 30 verified and complete
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 100
+  percent: 33
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 30 — backend-rbac-enforcement
+**Current focus:** v1.10 — Phase 30 complete, ready to plan Phase 31 (Agent Dashboard Access & Group Management)
 
 ## Current Position
 
-Phase: 30 (backend-rbac-enforcement) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-07-09
+Phase: 31 of 32 (Agent Dashboard Access & Group Management) — not yet planned
+Plan: —
+Status: Ready to plan
+Last activity: 2026-07-09 -- Phase 30 verified and complete
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
@@ -77,6 +77,7 @@ None yet.
 ### Blockers/Concerns
 
 - Pre-existing: RealEstateBoard(:test_board) factory trait collides with a live seeded row in the shared test-environment Postgres DB (DATABASE_URL leaks into RAILS_ENV=test) — 30 unrelated test errors remain in the full suite; see .planning/phases/30-backend-rbac-enforcement/deferred-items.md
+- Pre-existing security: 30-REVIEW.md CR-02 (non-owner admin can invite a new user with role "owner", bypassing owner-only promotion) chains with CR-03 (any admin can remove the brokerage owner via users#destroy, no owner-only guard) into a full brokerage takeover path. CR-01 (admin invitation accept/decline routes broken — action name mismatch) is a separate, lower-severity broken-feature bug. All three predate Phase 30 and are unrelated to its scope; none block v1.10 but should be prioritized as a security-hardening follow-up.
 
 ## Deferred Items
 
@@ -97,7 +98,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-09T23:34:56.386Z
-Stopped at: Completed 30-02-PLAN.md (full agent permission matrix); Phase 30 both plans complete, ready for verification
+Last session: 2026-07-09T23:52:00.000Z
+Stopped at: Phase 30 verified (passed) and marked complete in ROADMAP.md/REQUIREMENTS.md
 Resume file: None
-Next action: `/gsd-plan-phase 30`
+Next action: `/gsd-discuss-phase 31`
