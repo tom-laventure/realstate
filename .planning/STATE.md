@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
-status: executing
-stopped_at: Completed 30-01-PLAN.md (backend RBAC base tier); Plan 02 (full permission matrix tests) next
-last_updated: "2026-07-09T23:09:35.062Z"
+status: verifying
+stopped_at: Completed 30-02-PLAN.md (full agent permission matrix); Phase 30 both plans complete, ready for verification
+last_updated: "2026-07-09T23:34:56.390Z"
 last_activity: 2026-07-09
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
-  percent: 50
+  completed_plans: 2
+  percent: 100
 ---
 
 # Project State
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 Phase: 30 (backend-rbac-enforcement) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-09
 
 Progress: [░░░░░░░░░░] 0%
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 30 P01 | 35min | 3 tasks | 7 files |
+| Phase 30 P02 | 60min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - `staff` role explicitly out of scope for v1.10 — only `agent` gets new permissions this milestone (see ROLES.md gap note)
 - [Phase 30]: require_agent_or_above! is the new default before_action on V1::Admin::BaseController; require_admin!/require_owner! stay as narrower stacked checks — Broadens agent access to all 13 admin controllers with minimal per-controller changes, reusing the existing imperative pattern
 - [Phase 30]: InvitationsController#render_forbidden renamed to render_invitation_forbidden — Unused dead-code method collided in name/arity with the new BaseController#render_forbidden, which would raise ArgumentError when require_admin! denies an agent
+- [Phase 30]: Fixed the pre-authorized RESERVED_SLUGS/'test.example.com' fixture collision across 6 test files (Rule 3, pre-approved) via mechanical domain rename, reducing full-suite errors from 46 to 30
+- [Phase 30]: Documented (not fixed) a newly-discovered pre-existing issue: RealEstateBoard(:test_board) factory trait collides with a live seeded row in the shared test-env Postgres DB, caused by DATABASE_URL leaking into RAILS_ENV=test — out of scope, logged in deferred-items.md for a follow-up infra task
 
 ### Pending Todos
 
@@ -73,7 +76,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- Pre-existing RESERVED_SLUGS vs 'test.example.com' fixture collision causes 46 unrelated test errors across ~10 test files (see .planning/phases/30-backend-rbac-enforcement/deferred-items.md) — will block Plan 02's 'full suite green' success criterion unless addressed
+- Pre-existing: RealEstateBoard(:test_board) factory trait collides with a live seeded row in the shared test-environment Postgres DB (DATABASE_URL leaks into RAILS_ENV=test) — 30 unrelated test errors remain in the full suite; see .planning/phases/30-backend-rbac-enforcement/deferred-items.md
 
 ## Deferred Items
 
@@ -94,7 +97,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-09T23:09:10.596Z
-Stopped at: Completed 30-01-PLAN.md (backend RBAC base tier); Plan 02 (full permission matrix tests) next
+Last session: 2026-07-09T23:34:56.386Z
+Stopped at: Completed 30-02-PLAN.md (full agent permission matrix); Phase 30 both plans complete, ready for verification
 Resume file: None
 Next action: `/gsd-plan-phase 30`

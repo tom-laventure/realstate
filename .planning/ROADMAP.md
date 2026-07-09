@@ -128,7 +128,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 
 ### v1.10 — Agent Admin Permissions
 
-- [ ] **Phase 30: Backend RBAC Enforcement** — Update all admin/group-scoped endpoints so the backend correctly allows `agent` on group-scoped and read-only routes while continuing to reject `agent` (403) on all other write routes
+- [x] **Phase 30: Backend RBAC Enforcement** — Update all admin/group-scoped endpoints so the backend correctly allows `agent` on group-scoped and read-only routes while continuing to reject `agent` (403) on all other write routes (completed 2026-07-09)
 - [ ] **Phase 31: Agent Dashboard Access & Group Management** — Open the admin dashboard shell to `agent`; give agents full CRUD on groups, filter sets, group members/invitations, and group listings
 - [ ] **Phase 32: Agent Read-Only Access & Access Gating** — Give agents read-only visibility into Users, Brokerage, Boards, Domains, and Settings; block brokerage-level staff invitations entirely; fix domain-mutation button gating
 
@@ -147,7 +147,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
   3. An authenticated `agent` receives HTTP 403 on every write endpoint outside the Groups scope (`users#update/destroy`, `brokerages#update`, domain mutations, `board_credentials#create/update/destroy`, brokerage-level invitations)
 **Plans**: 2 plans
 - [x] 30-01-PLAN.md — Add require_agent_or_above! tier across 5 admin controllers; flip D-03 assertion (wave 1)
-- [ ] 30-02-PLAN.md — Full agent permission matrix: allow-list 2xx + deny-list 403 test coverage (wave 2)
+- [x] 30-02-PLAN.md — Full agent permission matrix: allow-list 2xx + deny-list 403 test coverage (wave 2)
 
 ### Phase 31: Agent Dashboard Access & Group Management
 
@@ -212,6 +212,6 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
 | 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |
-| 30. Backend RBAC Enforcement | v1.10 | 1/2 | In Progress|  |
+| 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
 | 31. Agent Dashboard Access & Group Management | v1.10 | 0/? | Not started | - |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 0/? | Not started | - |
