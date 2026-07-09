@@ -2,7 +2,18 @@
 
 ## Last Shipped: v1.9 — Dashboard & Navbar Enhancement (2026-06-06)
 
-**Next milestone:** v1.10 — start with `/gsd-new-milestone`
+## Current Milestone: v1.10 Agent Admin Permissions
+
+**Goal:** Extend admin dashboard access to the `agent` role — full read access everywhere, full write access on Groups, no write access on Users/Brokerage/Boards/Domains/Settings.
+
+**Target features:**
+- Admin dashboard shell opens to `agent` (currently `owner`/`admin` only)
+- Agent gets full CRUD on Groups: create/edit/delete groups, manage filter sets, manage listings within a group
+- Agent can add existing users and invite new clients to groups
+- Agent gets read-only access to Users, Brokerage settings, Boards, Domains, Settings pages — no create/update/delete
+- Agent is fully blocked (no view, no write) from inviting new staff/agents to the brokerage
+- Backend enforcement updated to match: group-scoped endpoints accept `agent`; read-only admin endpoints accept `agent`; all other write endpoints stay `owner`/`admin` only
+- Fix inconsistent domain-mutation button gating so agents don't see action buttons that would 403
 
 ---
 
@@ -17,6 +28,25 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 ---
 
 ## Requirements
+
+### Active (v1.10 — Agent Admin Permissions)
+
+- [ ] AGENT-01: Agent role can access the admin dashboard shell (previously `owner`/`admin` only)
+- [ ] AGENT-02: Agent has full CRUD on groups (create, edit, delete)
+- [ ] AGENT-03: Agent can add existing brokerage users to a group
+- [ ] AGENT-04: Agent can invite new (unregistered) clients to a group via email
+- [ ] AGENT-05: Agent can manage group filter sets (create, edit, delete)
+- [ ] AGENT-06: Agent can manage listings within a group (add, remove, search)
+- [ ] AGENT-07: Agent has read-only access to the Users list and user detail view
+- [ ] AGENT-08: Agent has read-only access to Brokerage settings (info, branding, board registrations)
+- [ ] AGENT-09: Agent has read-only access to Boards and board credentials
+- [ ] AGENT-10: Agent has read-only access to Domains
+- [ ] AGENT-11: Agent has read-only access to the brokerage Settings page
+- [ ] AGENT-12: Agent is fully blocked from brokerage-level staff/agent invitations (no view, no create)
+- [ ] AGENT-13: Backend enforces agent access on all group-scoped endpoints
+- [ ] AGENT-14: Backend enforces read-only agent access on Users/Brokerage/Boards/Domains/Settings read endpoints
+- [ ] AGENT-15: Backend rejects agent (403) on all write endpoints outside Groups scope
+- [ ] AGENT-16: Domain-mutation buttons gated by `manage_brokerage_settings` only (fix inconsistent `access_admin_panel` gating)
 
 ### Validated
 
@@ -235,6 +265,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 This document evolves at phase transitions and milestone boundaries.
 
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
 **After each milestone** (via `/gsd-complete-milestone`):
 1. Full review of all sections
 2. Core Value check — still the right priority?
@@ -243,4 +280,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-06-07 after v1.9 milestone — Dashboard & Navbar Enhancement shipped*
+*Last updated: 2026-07-09 after starting v1.10 milestone — Agent Admin Permissions*

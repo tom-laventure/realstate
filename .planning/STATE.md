@@ -1,11 +1,10 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.10
-milestone_name: (TBD — run /gsd-new-milestone)
+milestone_name: Agent Admin Permissions
 status: planning
-stopped_at: v1.9 milestone archived — ready for v1.10 planning
-last_updated: "2026-06-07T00:00:00.000Z"
-last_activity: 2026-06-07 -- v1.9 milestone archived, v1.9 tag pending
+last_updated: "2026-07-09T17:56:13.588Z"
+last_activity: 2026-07-09
 progress:
   total_phases: 0
   completed_phases: 0
@@ -25,9 +24,10 @@ See: .planning/PROJECT.md (updated 2026-06-07 after v1.9 milestone)
 
 ## Current Position
 
-Phase: — (no active phase)
-Status: v1.9 complete and archived. Ready for v1.10 milestone planning.
-Last activity: 2026-06-07 — v1.9 milestone archived (3 phases, 5 plans, 7/7 requirements delivered).
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-07-09 — Milestone v1.10 started
 
 ## Deferred Items
 
