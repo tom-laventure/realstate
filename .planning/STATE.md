@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: Agent Admin Permissions
 status: planning
-last_updated: "2026-07-09T18:00:00.000Z"
+last_updated: "2026-07-09T19:00:00.000Z"
 last_activity: 2026-07-09
 progress:
   total_phases: 3
@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 ## Current Position
 
-Phase: 30 of 32 (Backend RBAC Enforcement) — not yet planned
+Phase: 30 of 32 (Backend RBAC Enforcement) — context gathered, not yet planned
 Plan: —
-Status: Roadmap created — ready for `/gsd-discuss-phase 30` or `/gsd-plan-phase 30`
-Last activity: 2026-07-09 — ROADMAP.md, STATE.md, and REQUIREMENTS.md traceability written for v1.10 (Phases 30–32)
+Status: Context gathered — ready for `/gsd-plan-phase 30`
+Last activity: 2026-07-09 — Phase 30 context gathered (30-CONTEXT.md, 30-DISCUSSION-LOG.md)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -88,7 +88,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-09 — Roadmap created for v1.10
-Stopped at: ROADMAP.md, STATE.md, and REQUIREMENTS.md traceability written for Phases 30–32 (Backend RBAC Enforcement, Agent Dashboard Access & Group Management, Agent Read-Only Access & Access Gating)
-Resume file: None
-Next action: `/gsd-discuss-phase 30` or `/gsd-plan-phase 30`
+Last session: 2026-07-09 — Phase 30 context gathered
+Stopped at: Phase 30 context gathered (30-CONTEXT.md, 30-DISCUSSION-LOG.md) — two decisions locked: agent gets read access to top-level Estates search/cities endpoints, and this phase must extend admin_authorization_test.rb to full matrix coverage (including flipping the now-incorrect "agent gets 403 on GET /v1/admin/users" assertion)
+Resume file: .planning/phases/30-backend-rbac-enforcement/30-CONTEXT.md
+Next action: `/gsd-plan-phase 30`
