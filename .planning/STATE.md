@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: Agent Admin Permissions
 status: planning
-last_updated: "2026-07-09T17:56:13.588Z"
+last_updated: "2026-07-09T18:00:00.000Z"
 last_activity: 2026-07-09
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -17,21 +17,61 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-07 after v1.9 milestone)
+See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.10 — planning (run `/gsd-new-milestone` to begin)
+**Current focus:** v1.10 — Agent Admin Permissions (roadmap created, ready to plan Phase 30)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 30 of 32 (Backend RBAC Enforcement) — not yet planned
 Plan: —
-Status: Defining requirements
-Last activity: 2026-07-09 — Milestone v1.10 started
+Status: Roadmap created — ready for `/gsd-discuss-phase 30` or `/gsd-plan-phase 30`
+Last activity: 2026-07-09 — ROADMAP.md, STATE.md, and REQUIREMENTS.md traceability written for v1.10 (Phases 30–32)
+
+Progress: [░░░░░░░░░░] 0%
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 0 (v1.10 not yet started)
+- Average duration: —
+- Total execution time: —
+
+**By Phase:**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
+
+**Recent Trend:**
+- Last 5 plans: — (v1.10 has not executed any plans yet)
+- Trend: —
+
+*Updated after each plan completion*
+
+## Accumulated Context
+
+### Decisions
+
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- Phase 30 (Backend RBAC) lands before Phase 31/32 so agent-facing UI is never unlocked ahead of backend enforcement
+- Phase 32 depends on both Phase 30 (read-only endpoints must accept `agent`) and Phase 31 (dashboard shell access must already exist)
+- `staff` role explicitly out of scope for v1.10 — only `agent` gets new permissions this milestone (see ROLES.md gap note)
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+None yet.
 
 ## Deferred Items
 
-Items carried forward to v1.10:
+Items carried forward from previous milestone close:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -48,6 +88,7 @@ Items carried forward to v1.10:
 
 ## Session Continuity
 
-Stopped at: v1.9 milestone archived
-Next action: /gsd-new-milestone (start v1.10)
-Last session: 2026-06-07 — v1.9 milestone complete. All 7 DASH requirements delivered. ROADMAP, PROJECT, MILESTONES, REQUIREMENTS archived.
+Last session: 2026-07-09 — Roadmap created for v1.10
+Stopped at: ROADMAP.md, STATE.md, and REQUIREMENTS.md traceability written for Phases 30–32 (Backend RBAC Enforcement, Agent Dashboard Access & Group Management, Agent Read-Only Access & Access Gating)
+Resume file: None
+Next action: `/gsd-discuss-phase 30` or `/gsd-plan-phase 30`

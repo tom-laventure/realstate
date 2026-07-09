@@ -12,7 +12,7 @@
 - ✅ **v1.7 — Board Registrations Nav Separation** — Phase 25 (shipped 2026-05-31)
 - ✅ **v1.8 — Root Route Fix** — Phase 26 (shipped 2026-06-04)
 - ✅ **v1.9 — Dashboard & Navbar Enhancement** — Phases 27–29 (shipped 2026-06-06)
-- 📋 **v1.10** — (planned — run `/gsd-new-milestone` to define)
+- 🚧 **v1.10 — Agent Admin Permissions** — Phases 30–32 (in progress)
 
 ## Phases
 
@@ -126,6 +126,55 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 
 </details>
 
+### v1.10 — Agent Admin Permissions
+
+- [ ] **Phase 30: Backend RBAC Enforcement** — Update all admin/group-scoped endpoints so the backend correctly allows `agent` on group-scoped and read-only routes while continuing to reject `agent` (403) on all other write routes
+- [ ] **Phase 31: Agent Dashboard Access & Group Management** — Open the admin dashboard shell to `agent`; give agents full CRUD on groups, filter sets, group members/invitations, and group listings
+- [ ] **Phase 32: Agent Read-Only Access & Access Gating** — Give agents read-only visibility into Users, Brokerage, Boards, Domains, and Settings; block brokerage-level staff invitations entirely; fix domain-mutation button gating
+
+---
+
+## Phase Details
+
+### Phase 30: Backend RBAC Enforcement
+
+**Goal:** The backend correctly enforces `agent` permissions everywhere before any frontend surface is unlocked — group-scoped endpoints accept `agent`, read-only admin endpoints accept `agent`, and every other write endpoint continues to reject `agent` with HTTP 403.
+**Depends on:** Nothing (first phase of milestone)
+**Requirements:** RBAC-01, RBAC-02, RBAC-03
+**Success Criteria** (what must be TRUE):
+  1. An authenticated `agent` can successfully call all group-scoped endpoints (`groups`, `group/users`, `group/invitations`, `group/filter_sets`, `group/estates`) and receive a 2xx response, not a 403
+  2. An authenticated `agent` can successfully call all read-only admin endpoints (`users#index/show`, `brokerages#show`, `domains#index/verify`, `boards#index`, `board_credentials#index`, `activity#stats/index`) and receive a 2xx response
+  3. An authenticated `agent` receives HTTP 403 on every write endpoint outside the Groups scope (`users#update/destroy`, `brokerages#update`, domain mutations, `board_credentials#create/update/destroy`, brokerage-level invitations)
+**Plans**: TBD
+
+### Phase 31: Agent Dashboard Access & Group Management
+
+**Goal:** An `agent` can open the admin dashboard and fully manage groups end-to-end — the primary workspace agents need day to day.
+**Depends on:** Phase 30
+**Requirements:** ACCESS-01, GROUP-01, GROUP-02, GROUP-03, GROUP-04, GROUP-05
+**Success Criteria** (what must be TRUE):
+  1. An `agent` can sign in and open the admin dashboard shell, which was previously restricted to `owner`/`admin` only
+  2. An `agent` can create, edit, and delete groups
+  3. An `agent` can add existing brokerage users to a group and invite new, unregistered clients to a group via email
+  4. An `agent` can create, edit, and delete group filter sets
+  5. An `agent` can add, remove, and search listings within a group
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 32: Agent Read-Only Access & Access Gating
+
+**Goal:** An `agent` has correctly scoped read-only visibility into brokerage-wide admin surfaces, is fully blocked from brokerage-level staff invitations, and never sees a mutation control that would 403.
+**Depends on:** Phase 30, Phase 31
+**Requirements:** ACCESS-02, ACCESS-03, ACCESS-04, ACCESS-05, ACCESS-06, ACCESS-07, ACCESS-08
+**Success Criteria** (what must be TRUE):
+  1. An `agent` can view the Users list and user detail pages but sees no edit or delete controls
+  2. An `agent` can view Brokerage settings (info, branding, board registrations) and Boards/board credentials but sees no create, update, or delete controls
+  3. An `agent` can view Domains and the brokerage Settings page but sees no mutation actions (no add/edit/delete/set-primary buttons)
+  4. An `agent` has no way to view or reach the brokerage-level staff/agent invitation flow — no nav entry, no direct route access
+  5. Domain-mutation buttons are gated by `manage_brokerage_settings` only, so an `agent` never sees an action button that would return a 403 on click
+**Plans**: TBD
+**UI hint**: yes
+
 ---
 
 ## Progress
@@ -161,3 +210,6 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 | 27. Backend Enrichment + Frontend Types | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
 | 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |
+| 30. Backend RBAC Enforcement | v1.10 | 0/? | Not started | - |
+| 31. Agent Dashboard Access & Group Management | v1.10 | 0/? | Not started | - |
+| 32. Agent Read-Only Access & Access Gating | v1.10 | 0/? | Not started | - |

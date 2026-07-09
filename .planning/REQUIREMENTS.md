@@ -52,28 +52,28 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ACCESS-01 | TBD | Pending |
-| ACCESS-02 | TBD | Pending |
-| ACCESS-03 | TBD | Pending |
-| ACCESS-04 | TBD | Pending |
-| ACCESS-05 | TBD | Pending |
-| ACCESS-06 | TBD | Pending |
-| ACCESS-07 | TBD | Pending |
-| ACCESS-08 | TBD | Pending |
-| GROUP-01 | TBD | Pending |
-| GROUP-02 | TBD | Pending |
-| GROUP-03 | TBD | Pending |
-| GROUP-04 | TBD | Pending |
-| GROUP-05 | TBD | Pending |
-| RBAC-01 | TBD | Pending |
-| RBAC-02 | TBD | Pending |
-| RBAC-03 | TBD | Pending |
+| ACCESS-01 | Phase 31 | Pending |
+| ACCESS-02 | Phase 32 | Pending |
+| ACCESS-03 | Phase 32 | Pending |
+| ACCESS-04 | Phase 32 | Pending |
+| ACCESS-05 | Phase 32 | Pending |
+| ACCESS-06 | Phase 32 | Pending |
+| ACCESS-07 | Phase 32 | Pending |
+| ACCESS-08 | Phase 32 | Pending |
+| GROUP-01 | Phase 31 | Pending |
+| GROUP-02 | Phase 31 | Pending |
+| GROUP-03 | Phase 31 | Pending |
+| GROUP-04 | Phase 31 | Pending |
+| GROUP-05 | Phase 31 | Pending |
+| RBAC-01 | Phase 30 | Pending |
+| RBAC-02 | Phase 30 | Pending |
+| RBAC-03 | Phase 30 | Pending |
 
 **Coverage:**
 - v1 requirements: 16 total
-- Mapped to phases: 0
-- Unmapped: 16 ⚠️ (roadmap creation pending)
+- Mapped to phases: 16
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-07-09*
-*Last updated: 2026-07-09 after initial definition*
+*Last updated: 2026-07-09 after roadmap creation (Phases 30–32)*
