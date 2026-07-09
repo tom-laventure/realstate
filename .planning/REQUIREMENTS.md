@@ -28,9 +28,9 @@ Requirements for the v1.10 milestone. Each maps to roadmap phases.
 
 ### Backend Enforcement
 
-- [ ] **RBAC-01**: All group-scoped endpoints (`groups`, `group/users`, `group/invitations`, `group/filter_sets`, `group/estates`) accept `agent` role
-- [ ] **RBAC-02**: Read-only admin endpoints (`users#index/show`, `brokerages#show`, `domains#index/verify`, `boards#index`, `board_credentials#index`, `activity#stats/index`) accept `agent` role
-- [ ] **RBAC-03**: All write endpoints outside Groups scope (`users#update/destroy`, `brokerages#update`, domain mutations, `board_credentials#create/update/destroy`, brokerage-level invitations) continue to reject `agent` with HTTP 403
+- [x] **RBAC-01**: All group-scoped endpoints (`groups`, `group/users`, `group/invitations`, `group/filter_sets`, `group/estates`) accept `agent` role
+- [x] **RBAC-02**: Read-only admin endpoints (`users#index/show`, `brokerages#show`, `domains#index/verify`, `boards#index`, `board_credentials#index`, `activity#stats/index`) accept `agent` role
+- [x] **RBAC-03**: All write endpoints outside Groups scope (`users#update/destroy`, `brokerages#update`, domain mutations, `board_credentials#create/update/destroy`, brokerage-level invitations) continue to reject `agent` with HTTP 403
 
 ## v2 Requirements
 
@@ -65,9 +65,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GROUP-03 | Phase 31 | Pending |
 | GROUP-04 | Phase 31 | Pending |
 | GROUP-05 | Phase 31 | Pending |
-| RBAC-01 | Phase 30 | Pending |
-| RBAC-02 | Phase 30 | Pending |
-| RBAC-03 | Phase 30 | Pending |
+| RBAC-01 | Phase 30 | Complete |
+| RBAC-02 | Phase 30 | Complete |
+| RBAC-03 | Phase 30 | Complete |
 
 **Coverage:**
 - v1 requirements: 16 total

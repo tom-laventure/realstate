@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.10
-milestone_name: Agent Admin Permissions
+milestone_name: — Agent Admin Permissions
 status: executing
-stopped_at: "Phase 30 context gathered (30-CONTEXT.md, 30-DISCUSSION-LOG.md) — two decisions locked: agent gets read access to top-level Estates search/cities endpoints, and this phase must extend admin_authorization_test.rb to full matrix coverage (including flipping the now-incorrect "agent gets 403 on GET /v1/admin/users" assertion)"
-last_updated: "2026-07-09T21:25:20.786Z"
-last_activity: 2026-07-09 -- Phase 30 planning complete
+stopped_at: Completed 30-01-PLAN.md (backend RBAC base tier); Plan 02 (full permission matrix tests) next
+last_updated: "2026-07-09T23:09:35.062Z"
+last_activity: 2026-07-09
 progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
-  percent: 0
+  completed_plans: 1
+  percent: 50
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.10 — Agent Admin Permissions (roadmap created, ready to plan Phase 30)
+**Current focus:** Phase 30 — backend-rbac-enforcement
 
 ## Current Position
 
-Phase: 30 of 32 (Backend RBAC Enforcement) — context gathered, not yet planned
-Plan: —
+Phase: 30 (backend-rbac-enforcement) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-07-09 -- Phase 30 planning complete
+Last activity: 2026-07-09
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 30 P01 | 35min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -63,6 +64,8 @@ Recent decisions affecting current work:
 - Phase 30 (Backend RBAC) lands before Phase 31/32 so agent-facing UI is never unlocked ahead of backend enforcement
 - Phase 32 depends on both Phase 30 (read-only endpoints must accept `agent`) and Phase 31 (dashboard shell access must already exist)
 - `staff` role explicitly out of scope for v1.10 — only `agent` gets new permissions this milestone (see ROLES.md gap note)
+- [Phase 30]: require_agent_or_above! is the new default before_action on V1::Admin::BaseController; require_admin!/require_owner! stay as narrower stacked checks — Broadens agent access to all 13 admin controllers with minimal per-controller changes, reusing the existing imperative pattern
+- [Phase 30]: InvitationsController#render_forbidden renamed to render_invitation_forbidden — Unused dead-code method collided in name/arity with the new BaseController#render_forbidden, which would raise ArgumentError when require_admin! denies an agent
 
 ### Pending Todos
 
@@ -70,7 +73,7 @@ None yet.
 
 ### Blockers/Concerns
 
-None yet.
+- Pre-existing RESERVED_SLUGS vs 'test.example.com' fixture collision causes 46 unrelated test errors across ~10 test files (see .planning/phases/30-backend-rbac-enforcement/deferred-items.md) — will block Plan 02's 'full suite green' success criterion unless addressed
 
 ## Deferred Items
 
@@ -91,7 +94,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-09 — Phase 30 context gathered
-Stopped at: Phase 30 context gathered (30-CONTEXT.md, 30-DISCUSSION-LOG.md) — two decisions locked: agent gets read access to top-level Estates search/cities endpoints, and this phase must extend admin_authorization_test.rb to full matrix coverage (including flipping the now-incorrect "agent gets 403 on GET /v1/admin/users" assertion)
-Resume file: .planning/phases/30-backend-rbac-enforcement/30-CONTEXT.md
+Last session: 2026-07-09T23:09:10.596Z
+Stopped at: Completed 30-01-PLAN.md (backend RBAC base tier); Plan 02 (full permission matrix tests) next
+Resume file: None
 Next action: `/gsd-plan-phase 30`
