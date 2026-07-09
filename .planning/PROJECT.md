@@ -44,9 +44,6 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - [ ] GROUP-03: Agent can invite new (unregistered) clients to a group via email
 - [ ] GROUP-04: Agent can manage group filter sets (create, edit, delete)
 - [ ] GROUP-05: Agent can manage listings within a group (add, remove, search)
-- [ ] RBAC-01: Backend enforces agent access on all group-scoped endpoints
-- [ ] RBAC-02: Backend enforces read-only agent access on Users/Brokerage/Boards/Domains/Settings read endpoints
-- [ ] RBAC-03: Backend rejects agent (403) on all write endpoints outside Groups scope
 
 ### Validated
 
@@ -67,6 +64,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ `POST /v1/sessions` rate-limited via rack-attack — v1.0 (SEC-04)
 - ✓ SQL injection risk removed from `Group#order_estates` — v1.0 (SEC-05)
 - ✓ `InvitationsController` crash fixed — v1.0 (SEC-06)
+- ✓ RBAC-01: Backend enforces agent access on all group-scoped endpoints — v1.10 Phase 30
+- ✓ RBAC-02: Backend enforces read-only agent access on Users/Brokerage/Boards/Domains/Settings read endpoints — v1.10 Phase 30
+- ✓ RBAC-03: Backend rejects agent (403) on all write endpoints outside Groups scope — v1.10 Phase 30
 - ✓ `FilterSetsController#create` scoped to current group — v1.0 (SEC-07)
 - ✓ Frontend 403 handler with toast + redirect — v1.0 (SEC-08)
 - ✓ `EstateLike` N+1 eliminated — v1.0 (PERF-01)
@@ -280,4 +280,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-09 after starting v1.10 milestone — Agent Admin Permissions*
+*Last updated: 2026-07-09 after Phase 30 (Backend RBAC Enforcement) complete — RBAC-01/02/03 validated*
