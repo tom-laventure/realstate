@@ -145,7 +145,9 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
   1. An authenticated `agent` can successfully call all group-scoped endpoints (`groups`, `group/users`, `group/invitations`, `group/filter_sets`, `group/estates`) and receive a 2xx response, not a 403
   2. An authenticated `agent` can successfully call all read-only admin endpoints (`users#index/show`, `brokerages#show`, `domains#index/verify`, `boards#index`, `board_credentials#index`, `activity#stats/index`) and receive a 2xx response
   3. An authenticated `agent` receives HTTP 403 on every write endpoint outside the Groups scope (`users#update/destroy`, `brokerages#update`, domain mutations, `board_credentials#create/update/destroy`, brokerage-level invitations)
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 30-01-PLAN.md — Add require_agent_or_above! tier across 5 admin controllers; flip D-03 assertion (wave 1)
+- [ ] 30-02-PLAN.md — Full agent permission matrix: allow-list 2xx + deny-list 403 test coverage (wave 2)
 
 ### Phase 31: Agent Dashboard Access & Group Management
 
