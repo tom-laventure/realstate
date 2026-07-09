@@ -31,22 +31,22 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active (v1.10 — Agent Admin Permissions)
 
-- [ ] AGENT-01: Agent role can access the admin dashboard shell (previously `owner`/`admin` only)
-- [ ] AGENT-02: Agent has full CRUD on groups (create, edit, delete)
-- [ ] AGENT-03: Agent can add existing brokerage users to a group
-- [ ] AGENT-04: Agent can invite new (unregistered) clients to a group via email
-- [ ] AGENT-05: Agent can manage group filter sets (create, edit, delete)
-- [ ] AGENT-06: Agent can manage listings within a group (add, remove, search)
-- [ ] AGENT-07: Agent has read-only access to the Users list and user detail view
-- [ ] AGENT-08: Agent has read-only access to Brokerage settings (info, branding, board registrations)
-- [ ] AGENT-09: Agent has read-only access to Boards and board credentials
-- [ ] AGENT-10: Agent has read-only access to Domains
-- [ ] AGENT-11: Agent has read-only access to the brokerage Settings page
-- [ ] AGENT-12: Agent is fully blocked from brokerage-level staff/agent invitations (no view, no create)
-- [ ] AGENT-13: Backend enforces agent access on all group-scoped endpoints
-- [ ] AGENT-14: Backend enforces read-only agent access on Users/Brokerage/Boards/Domains/Settings read endpoints
-- [ ] AGENT-15: Backend rejects agent (403) on all write endpoints outside Groups scope
-- [ ] AGENT-16: Domain-mutation buttons gated by `manage_brokerage_settings` only (fix inconsistent `access_admin_panel` gating)
+- [ ] ACCESS-01: Agent role can access the admin dashboard shell (previously `owner`/`admin` only)
+- [ ] ACCESS-02: Agent has read-only access to the Users list and user detail view
+- [ ] ACCESS-03: Agent has read-only access to Brokerage settings (info, branding, board registrations)
+- [ ] ACCESS-04: Agent has read-only access to Boards and board credentials
+- [ ] ACCESS-05: Agent has read-only access to Domains
+- [ ] ACCESS-06: Agent has read-only access to the brokerage Settings page
+- [ ] ACCESS-07: Agent is fully blocked from brokerage-level staff/agent invitations (no view, no create)
+- [ ] ACCESS-08: Domain-mutation buttons gated by `manage_brokerage_settings` only (fix inconsistent `access_admin_panel` gating)
+- [ ] GROUP-01: Agent has full CRUD on groups (create, edit, delete)
+- [ ] GROUP-02: Agent can add existing brokerage users to a group
+- [ ] GROUP-03: Agent can invite new (unregistered) clients to a group via email
+- [ ] GROUP-04: Agent can manage group filter sets (create, edit, delete)
+- [ ] GROUP-05: Agent can manage listings within a group (add, remove, search)
+- [ ] RBAC-01: Backend enforces agent access on all group-scoped endpoints
+- [ ] RBAC-02: Backend enforces read-only agent access on Users/Brokerage/Boards/Domains/Settings read endpoints
+- [ ] RBAC-03: Backend rejects agent (403) on all write endpoints outside Groups scope
 
 ### Validated
 
