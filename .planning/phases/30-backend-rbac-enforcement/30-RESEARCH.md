@@ -387,7 +387,7 @@ Not applicable — this is a self-contained internal pattern, not tracking an ex
 | A1 | `require_owner!`'s current 403 body already uses the same `{ error: { code:, message: } }` nested shape as `require_admin!`, contradicting CONTEXT.md's note about an "inconsistent `{ error: \"...\" }` shape" | Pattern 3 / Open Questions | Low — this is a documentation/doc-drift discrepancy, not a functional risk. Verified directly against the live file (`base_controller.rb` lines 24-33) — the shapes actually already match. Flagged for planner awareness, not a blocker. |
 | A2 | `InvitationsController`'s `validate` action should be included in the agent-blocked set (not explicitly listed in RBAC-03's endpoint enumeration, only implied by ACCESS-07 "no view, no create") | Common Pitfall 1, Controller Inventory row 6 | Medium — if wrong, `validate` would need to move to the agent-allowed tier instead. Given CONTEXT.md's explicit "must stay fully blocked" instruction for this controller and ACCESS-07's "no view, no create" framing, blocking is the safer and better-supported reading. Recommend confirming with a test assertion during planning rather than treating as settled. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Does `require_owner!`'s current error shape actually differ from `require_admin!`'s, as CONTEXT.md states?**
    - What we know: Direct read of `base_controller.rb` (current, pre-phase) shows BOTH `require_admin!` and `require_owner!` already render `{ error: { code: "forbidden", message: "..." } }` — the same nested shape, just different `code`/`message` values (`require_owner!` uses `message: "Owner access required."` with no explicit `code` key value shown... actually re-checking: `require_owner!` renders `{ error: { code: "forbidden", message: "Owner access required." } }` — wait, verify: line 30 shows `render json: { error: { code: "forbidden", message: "Owner access required." } }, status: :forbidden`. This DOES include a `code` key. So both already match structurally.
@@ -420,7 +420,7 @@ Skipped — this phase is a Ruby/Rails code change with no new external tool, se
 |--------|----------|-----------|-------------------|-------------|
 | RBAC-01 | agent 2xx on groups/index,show,create,update,destroy,check_name | integration | `rails test test/integration/admin_authorization_test.rb` | ✅ (extend) |
 | RBAC-01 | agent 2xx on group/users create,destroy | integration | same file | ✅ (extend) |
-| RBAC-01 | agent 2xx on group/invitations index,create,update,destroy,validate | integration | same file | ✅ (extend) |
+| RBAC-01 | agent 2xx on group/invitations index,create,update,destroy (validate route is orphaned — no controller action, intentionally not tested) | integration | same file | ✅ (extend) |
 | RBAC-01 | agent 2xx on group/filter_sets index,create,update,destroy,preview | integration | same file | ✅ (extend) |
 | RBAC-01 | agent 2xx on group/estates index,create,destroy,search | integration | same file | ✅ (extend) |
 | RBAC-02 | agent 2xx on users#index/show, brokerages#show, domains#index/verify, boards#index, board_credentials#index, activity#stats/index, estates#search/cities | integration | same file | ✅ (extend) |
