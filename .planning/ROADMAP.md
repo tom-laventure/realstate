@@ -130,7 +130,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 
 - [x] **Phase 30: Backend RBAC Enforcement** — Update all admin/group-scoped endpoints so the backend correctly allows `agent` on group-scoped and read-only routes while continuing to reject `agent` (403) on all other write routes (completed 2026-07-09)
 - [x] **Phase 31: Agent Dashboard Access & Group Management** — Open the admin dashboard shell to `agent`; give agents full CRUD on groups, filter sets, group members/invitations, and group listings (completed 2026-07-10)
-- [ ] **Phase 32: Agent Read-Only Access & Access Gating** — Give agents read-only visibility into Users, Brokerage, Boards, Domains, and Settings; block brokerage-level staff invitations entirely; fix domain-mutation button gating
+- [x] **Phase 32: Agent Read-Only Access & Access Gating** — Give agents read-only visibility into Users, Brokerage, Boards, Domains, and Settings; block brokerage-level staff invitations entirely; fix domain-mutation button gating (completed 2026-07-10)
 
 ---
 
@@ -180,7 +180,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 **Plans**: 3 plans
 - [x] 32-01-PLAN.md — Route access tiers (readTierRoles/ownerAdminOnly) + ACCESS-08 DomainCard mutation-button fix (wave 1)
 - [x] 32-02-PLAN.md — Nav expansion to all 6 Admin sections for agent + isGroupsOnlyRole/isGroupsOnlyAdmin dead-code removal (wave 1)
-- [ ] 32-03-PLAN.md — Users list, brokerage invitations & member-detail mutation gating (manage_users) (wave 1)
+- [x] 32-03-PLAN.md — Users list, brokerage invitations & member-detail mutation gating (manage_users) (wave 1)
 **UI hint**: yes
 
 ---
@@ -220,4 +220,4 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 | 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
 | 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
-| 32. Agent Read-Only Access & Access Gating | v1.10 | 2/3 | In Progress|  |
+| 32. Agent Read-Only Access & Access Gating | v1.10 | 3/3 | Complete   | 2026-07-10 |
