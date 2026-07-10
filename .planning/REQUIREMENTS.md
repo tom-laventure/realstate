@@ -10,13 +10,13 @@ Requirements for the v1.10 milestone. Each maps to roadmap phases.
 ### Admin Access
 
 - [x] **ACCESS-01**: Agent role can access the admin dashboard shell (previously `owner`/`admin` only)
-- [ ] **ACCESS-02**: Agent has read-only access to the Users list and user detail view (no edit/delete)
-- [ ] **ACCESS-03**: Agent has read-only access to Brokerage settings (info, branding, board registrations) — no edit
-- [ ] **ACCESS-04**: Agent has read-only access to Boards and board credentials — no create/update/delete
-- [ ] **ACCESS-05**: Agent has read-only access to Domains — no mutation actions
-- [ ] **ACCESS-06**: Agent has read-only access to the brokerage Settings page
-- [ ] **ACCESS-07**: Agent is fully blocked (no view, no create) from brokerage-level staff/agent invitations
-- [ ] **ACCESS-08**: Domain-mutation buttons gated by `manage_brokerage_settings` only — fixes a gap where some mutation buttons are gated by the broader `access_admin_panel` and would incorrectly render for agents
+- [x] **ACCESS-02**: Agent has read-only access to the Users list and user detail view (no edit/delete)
+- [x] **ACCESS-03**: Agent has read-only access to Brokerage settings (info, branding, board registrations) — no edit
+- [x] **ACCESS-04**: Agent has read-only access to Boards and board credentials — no create/update/delete
+- [x] **ACCESS-05**: Agent has read-only access to Domains — no mutation actions
+- [x] **ACCESS-06**: Agent has read-only access to the brokerage Settings page
+- [x] **ACCESS-07**: Agent is fully blocked (no view, no create) from brokerage-level staff/agent invitations
+- [x] **ACCESS-08**: Domain-mutation buttons gated by `manage_brokerage_settings` only — fixes a gap where some mutation buttons are gated by the broader `access_admin_panel` and would incorrectly render for agents
 
 ### Group Management
 
@@ -53,13 +53,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | ACCESS-01 | Phase 31 | Complete |
-| ACCESS-02 | Phase 32 | Pending |
-| ACCESS-03 | Phase 32 | Pending |
-| ACCESS-04 | Phase 32 | Pending |
-| ACCESS-05 | Phase 32 | Pending |
-| ACCESS-06 | Phase 32 | Pending |
-| ACCESS-07 | Phase 32 | Pending |
-| ACCESS-08 | Phase 32 | Pending |
+| ACCESS-02 | Phase 32 | Complete |
+| ACCESS-03 | Phase 32 | Complete |
+| ACCESS-04 | Phase 32 | Complete |
+| ACCESS-05 | Phase 32 | Complete |
+| ACCESS-06 | Phase 32 | Complete |
+| ACCESS-07 | Phase 32 | Complete |
+| ACCESS-08 | Phase 32 | Complete |
 | GROUP-01 | Phase 31 | Complete |
 | GROUP-02 | Phase 31 | Complete |
 | GROUP-03 | Phase 31 | Complete |

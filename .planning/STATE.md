@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
 status: executing
-stopped_at: Phase 32 context gathered — 6 decisions locked (Add-to-Group visibility, ACCESS-08 fix scope, nav expansion, plus mechanically-derived route/gating plan). See 32-CONTEXT.md.
-last_updated: "2026-07-10T18:48:06.466Z"
-last_activity: 2026-07-10 -- Phase 32 planning complete
+stopped_at: Completed 32-01-PLAN.md
+last_updated: "2026-07-10T19:00:43.117Z"
+last_activity: 2026-07-10
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 8
-  completed_plans: 5
-  percent: 63
+  completed_plans: 6
+  percent: 75
 ---
 
 # Project State
@@ -21,16 +21,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.10 — Phase 30 and 31 complete, Phase 32 not yet planned (Agent Read-Only Access & Access Gating)
+**Current focus:** Phase 32 — agent-read-only-access-access-gating
 
 ## Current Position
 
-Phase: 32 of 32 (Agent Read-Only Access & Access Gating) — not yet planned
+Phase: 32 (agent-read-only-access-access-gating) — EXECUTING
+Plan: 2 of 3
 Phase 31 (Agent Dashboard Access & Group Management): complete, verified 2026-07-10 (12/12 must-haves)
 Status: Ready to execute
-Last activity: 2026-07-10 -- Phase 32 planning complete
+Last activity: 2026-07-10
 
-Progress: [███████░░░] 67%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -57,6 +58,7 @@ Progress: [███████░░░] 67%
 | Phase 31 P01 | 14min | 1 tasks | 3 files |
 | Phase 31 P02 | 8min | 2 tasks | 3 files |
 | Phase 31 P03 | 10min | 2 tasks | 5 files |
+| Phase 32 P01 | 13min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -79,6 +81,8 @@ Recent decisions affecting current work:
 - [Phase 31]: isGroupsOnlyAdmin added alongside untouched canAccessAdmin in useSideNavContext — Phase 32 reuses canAccessAdmin unmodified to expand agent's nav later; new flag only narrows which items render inside the already-gated Admin section
 - [Phase 31]: PortalAdminSideNav.tsx gained net-new useRole-based item filtering (Groups-only for agent) — It had zero permission gating before this plan; useRole matches the established hook pattern over an ad-hoc role string comparison
 - [Phase 31 code-review-fix]: Code review (31-REVIEW.md) found nav-link hiding was cosmetic only — agent could reach non-Groups admin pages (Users/Brokerage/Boards/Domains/Settings) via direct URL on both domains, hitting already-open Phase-30 read endpoints (full user PII, brokerage contact info) plus a live mutating endpoint (`domains_controller.rb#verify`, mis-gated). Fixed: per-route `RequireRole roles={['owner','admin']}` gating added in `router/admin/admin.tsx`; `RequireRole.tsx`'s stale main-domain bypass removed (it unconditionally skipped role checks on the main domain, which would have silently defeated the route-gate fix); `PortalAdminShell.tsx` given a shell-level gate (previously had none); `domains_controller.rb#verify` now requires `require_admin!`. Also extracted a shared `isGroupsOnlyRole` helper (was duplicated `role === 'agent'` in two files) and switched nav filtering to path-based instead of label-based. All 5 findings independently re-verified against live code and passing tests (backend 81 runs/0 failures on touched files, full suite 261 runs/0 failures; frontend 12/12 new tests + 29/31 full suite, 2 pre-existing unrelated failures).
+- [Phase 32]: Split admin.tsx ownerAdminOnly helper into readTierRoles (owner/admin/agent) + ownerAdminOnly (owner/admin) — opens 7 read-tier admin routes to agent while keeping brokerage/add-agent and users/members/:memberId/edit owner/admin-only
+- [Phase 32]: Fixed ACCESS-08 — DomainCard.tsx Verify now / Upgrade plan buttons swapped from access_admin_panel to manage_brokerage_settings, matching the card's existing owner-only Set as primary/Delete gates — Corrected plan's DomainCard.test.tsx Test 2 role from admin to owner since manage_brokerage_settings is owner-only in ROLE_PERMISSIONS
 
 ### Pending Todos
 
@@ -109,7 +113,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-10T11:20:00.000Z
-Stopped at: Phase 32 context gathered — 6 decisions locked (Add-to-Group visibility, ACCESS-08 fix scope, nav expansion, plus mechanically-derived route/gating plan). See 32-CONTEXT.md.
-Resume file: .planning/phases/32-agent-read-only-access-access-gating/32-CONTEXT.md
+Last session: 2026-07-10T19:00:43.107Z
+Stopped at: Completed 32-01-PLAN.md
+Resume file: None
 Next action: `/gsd-plan-phase 32`
