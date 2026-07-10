@@ -129,7 +129,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 ### v1.10 — Agent Admin Permissions
 
 - [x] **Phase 30: Backend RBAC Enforcement** — Update all admin/group-scoped endpoints so the backend correctly allows `agent` on group-scoped and read-only routes while continuing to reject `agent` (403) on all other write routes (completed 2026-07-09)
-- [ ] **Phase 31: Agent Dashboard Access & Group Management** — Open the admin dashboard shell to `agent`; give agents full CRUD on groups, filter sets, group members/invitations, and group listings
+- [x] **Phase 31: Agent Dashboard Access & Group Management** — Open the admin dashboard shell to `agent`; give agents full CRUD on groups, filter sets, group members/invitations, and group listings (completed 2026-07-10)
 - [ ] **Phase 32: Agent Read-Only Access & Access Gating** — Give agents read-only visibility into Users, Brokerage, Boards, Domains, and Settings; block brokerage-level staff invitations entirely; fix domain-mutation button gating
 
 ---
@@ -163,7 +163,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 **Plans**: 3 plans
 - [x] 31-01-PLAN.md — Backend: agent main-domain portal access, admin_brokerages_controller.rb role filter (D-01) (wave 1)
 - [x] 31-02-PLAN.md — Frontend: agent permission map + subdomain admin shell gate (D-02, D-04, D-05) (wave 1)
-- [ ] 31-03-PLAN.md — Frontend: Groups-only admin nav narrowing for agent, both SideNav.tsx and PortalAdminSideNav.tsx (D-03) (wave 2)
+- [x] 31-03-PLAN.md — Frontend: Groups-only admin nav narrowing for agent, both SideNav.tsx and PortalAdminSideNav.tsx (D-03) (wave 2)
 **UI hint**: yes
 
 ### Phase 32: Agent Read-Only Access & Access Gating
@@ -216,5 +216,5 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
 | 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
-| 31. Agent Dashboard Access & Group Management | v1.10 | 2/3 | In Progress|  |
+| 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 0/? | Not started | - |
