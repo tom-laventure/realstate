@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
 status: executing
-stopped_at: Phase 31 planned (3 plans, 2 waves) — verification passed
-last_updated: "2026-07-10T06:11:00.000Z"
-last_activity: 2026-07-09 -- Phase 31 planning complete
+stopped_at: Completed 31-01-PLAN.md
+last_updated: "2026-07-10T06:37:50.525Z"
+last_activity: 2026-07-10
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 5
-  completed_plans: 2
-  percent: 100
+  completed_plans: 3
+  percent: 60
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** v1.10 — Phase 30 complete, Phase 31 planned, ready to execute (Agent Dashboard Access & Group Management)
+**Current focus:** Phase 31 — agent-dashboard-access-group-management
 
 ## Current Position
 
-Phase: 31 of 32 (Agent Dashboard Access & Group Management) — planned, ready to execute
-Plan: 3 plans in 2 waves (31-01, 31-02 wave 1; 31-03 wave 2, depends on 31-02)
+Phase: 31 (agent-dashboard-access-group-management) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-07-09 -- Phase 31 planning complete, plan-checker verification passed
+Last activity: 2026-07-10
 
 Progress: [███░░░░░░░] 33%
 
@@ -54,6 +54,7 @@ Progress: [███░░░░░░░] 33%
 *Updated after each plan completion*
 | Phase 30 P01 | 35min | 3 tasks | 7 files |
 | Phase 30 P02 | 60min | 3 tasks | 8 files |
+| Phase 31 P01 | 14min | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,8 @@ Recent decisions affecting current work:
 - [Phase 30]: InvitationsController#render_forbidden renamed to render_invitation_forbidden — Unused dead-code method collided in name/arity with the new BaseController#render_forbidden, which would raise ArgumentError when require_admin! denies an agent
 - [Phase 30]: Fixed the pre-authorized RESERVED_SLUGS/'test.example.com' fixture collision across 6 test files (Rule 3, pre-approved) via mechanical domain rename, reducing full-suite errors from 46 to 30
 - [Phase 30]: Documented (not fixed) a newly-discovered pre-existing issue: RealEstateBoard(:test_board) factory trait collides with a live seeded row in the shared test-env Postgres DB, caused by DATABASE_URL leaking into RAILS_ENV=test — out of scope, logged in deferred-items.md for a follow-up infra task
+- [Phase 31]: Extended admin_brokerages role filter to include agent (D-01), unblocking main-domain portal access
+- [Phase 31]: Fixed pre-existing AdminBrokeragesTest (Phase 15) that asserted the old agent-empty-list behavior this change intentionally supersedes
 
 ### Pending Todos
 
@@ -98,7 +101,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-10T06:11:00.000Z
-Stopped at: Phase 31 planned — verification passed (3 plans, 2 waves)
-Resume file: .planning/phases/31-agent-dashboard-access-group-management/31-01-PLAN.md
+Last session: 2026-07-10T06:37:50.521Z
+Stopped at: Completed 31-01-PLAN.md
+Resume file: .planning/phases/31-agent-dashboard-access-group-management/31-02-PLAN.md
 Next action: `/gsd-execute-phase 31`
