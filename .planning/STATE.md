@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
 status: executing
-stopped_at: Phase 32 context gathered
-last_updated: "2026-07-10T11:20:00.000Z"
-last_activity: 2026-07-10
+stopped_at: Phase 32 context gathered — 6 decisions locked (Add-to-Group visibility, ACCESS-08 fix scope, nav expansion, plus mechanically-derived route/gating plan). See 32-CONTEXT.md.
+last_updated: "2026-07-10T18:48:06.466Z"
+last_activity: 2026-07-10 -- Phase 32 planning complete
 progress:
   total_phases: 3
   completed_phases: 2
-  total_plans: 5
+  total_plans: 8
   completed_plans: 5
-  percent: 67
+  percent: 63
 ---
 
 # Project State
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 Phase: 32 of 32 (Agent Read-Only Access & Access Gating) — not yet planned
 Phase 31 (Agent Dashboard Access & Group Management): complete, verified 2026-07-10 (12/12 must-haves)
-Status: Ready to discuss/plan Phase 32
-Last activity: 2026-07-10
+Status: Ready to execute
+Last activity: 2026-07-10 -- Phase 32 planning complete
 
 Progress: [███████░░░] 67%
 
