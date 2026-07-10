@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
-status: verifying
-stopped_at: Completed 31-03-PLAN.md
-last_updated: "2026-07-10T06:52:35.372Z"
+status: executing
+stopped_at: Phase 31 complete — verified (12/12 must-haves), ready to plan Phase 32
+last_updated: "2026-07-10T10:55:00.000Z"
 last_activity: 2026-07-10
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 5
   completed_plans: 5
-  percent: 100
+  percent: 67
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 31 — agent-dashboard-access-group-management
+**Current focus:** v1.10 — Phase 30 and 31 complete, Phase 32 not yet planned (Agent Read-Only Access & Access Gating)
 
 ## Current Position
 
-Phase: 31 (agent-dashboard-access-group-management) — EXECUTING
-Plan: 3 of 3
-Status: Phase complete — ready for verification
+Phase: 32 of 32 (Agent Read-Only Access & Access Gating) — not yet planned
+Phase 31 (Agent Dashboard Access & Group Management): complete, verified 2026-07-10 (12/12 must-haves)
+Status: Ready to discuss/plan Phase 32
 Last activity: 2026-07-10
 
-Progress: [██████████] 100%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -78,6 +78,7 @@ Recent decisions affecting current work:
 - [Phase 31]: Widened AppShellAdmin.tsx RequireRole to include 'agent' (D-02) and set ROLE_PERMISSIONS.agent = ['access_admin_panel', 'manage_groups'] (D-04) — unlocks existing group CRUD UI for agent with zero new code
 - [Phase 31]: isGroupsOnlyAdmin added alongside untouched canAccessAdmin in useSideNavContext — Phase 32 reuses canAccessAdmin unmodified to expand agent's nav later; new flag only narrows which items render inside the already-gated Admin section
 - [Phase 31]: PortalAdminSideNav.tsx gained net-new useRole-based item filtering (Groups-only for agent) — It had zero permission gating before this plan; useRole matches the established hook pattern over an ad-hoc role string comparison
+- [Phase 31 code-review-fix]: Code review (31-REVIEW.md) found nav-link hiding was cosmetic only — agent could reach non-Groups admin pages (Users/Brokerage/Boards/Domains/Settings) via direct URL on both domains, hitting already-open Phase-30 read endpoints (full user PII, brokerage contact info) plus a live mutating endpoint (`domains_controller.rb#verify`, mis-gated). Fixed: per-route `RequireRole roles={['owner','admin']}` gating added in `router/admin/admin.tsx`; `RequireRole.tsx`'s stale main-domain bypass removed (it unconditionally skipped role checks on the main domain, which would have silently defeated the route-gate fix); `PortalAdminShell.tsx` given a shell-level gate (previously had none); `domains_controller.rb#verify` now requires `require_admin!`. Also extracted a shared `isGroupsOnlyRole` helper (was duplicated `role === 'agent'` in two files) and switched nav filtering to path-based instead of label-based. All 5 findings independently re-verified against live code and passing tests (backend 81 runs/0 failures on touched files, full suite 261 runs/0 failures; frontend 12/12 new tests + 29/31 full suite, 2 pre-existing unrelated failures).
 
 ### Pending Todos
 
@@ -87,6 +88,7 @@ None yet.
 
 - Pre-existing: RealEstateBoard(:test_board) factory trait collides with a live seeded row in the shared test-environment Postgres DB (DATABASE_URL leaks into RAILS_ENV=test) — 30 unrelated test errors remain in the full suite; see .planning/phases/30-backend-rbac-enforcement/deferred-items.md
 - Pre-existing security: 30-REVIEW.md CR-02 (non-owner admin can invite a new user with role "owner", bypassing owner-only promotion) chains with CR-03 (any admin can remove the brokerage owner via users#destroy, no owner-only guard) into a full brokerage takeover path. CR-01 (admin invitation accept/decline routes broken — action name mismatch) is a separate, lower-severity broken-feature bug. All three predate Phase 30 and are unrelated to its scope; none block v1.10 but should be prioritized as a security-hardening follow-up.
+- Frontend environment quirks (pre-existing, unrelated to Phase 31): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4` — cannot type-check via tsc until this is resolved. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`, unrelated to RBAC work.
 
 ## Deferred Items
 
@@ -107,7 +109,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-10T06:51:22.532Z
-Stopped at: Completed 31-03-PLAN.md
+Last session: 2026-07-10T10:55:00.000Z
+Stopped at: Phase 31 complete and verified (VERIFICATION.md: passed, 12/12 must-haves). Code review found and fixed 1 critical + 4 warning issues (see 31-REVIEW.md / 31-REVIEW-FIX.md).
 Resume file: None
-Next action: `/gsd-execute-phase 31`
+Next action: `/gsd-discuss-phase 32`
