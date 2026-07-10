@@ -162,7 +162,7 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
   5. An `agent` can add, remove, and search listings within a group
 **Plans**: 3 plans
 - [x] 31-01-PLAN.md — Backend: agent main-domain portal access, admin_brokerages_controller.rb role filter (D-01) (wave 1)
-- [ ] 31-02-PLAN.md — Frontend: agent permission map + subdomain admin shell gate (D-02, D-04, D-05) (wave 1)
+- [x] 31-02-PLAN.md — Frontend: agent permission map + subdomain admin shell gate (D-02, D-04, D-05) (wave 1)
 - [ ] 31-03-PLAN.md — Frontend: Groups-only admin nav narrowing for agent, both SideNav.tsx and PortalAdminSideNav.tsx (D-03) (wave 2)
 **UI hint**: yes
 
@@ -216,5 +216,5 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 | 28. Brokerage Selection Page Redesign | v1.9 | 1/1 | Complete | 2026-06-06 |
 | 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
-| 31. Agent Dashboard Access & Group Management | v1.10 | 1/3 | In progress | - |
+| 31. Agent Dashboard Access & Group Management | v1.10 | 2/3 | In Progress|  |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 0/? | Not started | - |

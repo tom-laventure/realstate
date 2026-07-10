@@ -9,7 +9,7 @@ Requirements for the v1.10 milestone. Each maps to roadmap phases.
 
 ### Admin Access
 
-- [ ] **ACCESS-01**: Agent role can access the admin dashboard shell (previously `owner`/`admin` only)
+- [x] **ACCESS-01**: Agent role can access the admin dashboard shell (previously `owner`/`admin` only)
 - [ ] **ACCESS-02**: Agent has read-only access to the Users list and user detail view (no edit/delete)
 - [ ] **ACCESS-03**: Agent has read-only access to Brokerage settings (info, branding, board registrations) — no edit
 - [ ] **ACCESS-04**: Agent has read-only access to Boards and board credentials — no create/update/delete
@@ -20,11 +20,11 @@ Requirements for the v1.10 milestone. Each maps to roadmap phases.
 
 ### Group Management
 
-- [ ] **GROUP-01**: Agent can create, edit, and delete groups
-- [ ] **GROUP-02**: Agent can add existing brokerage users to a group
-- [ ] **GROUP-03**: Agent can invite new (unregistered) clients to a group via email
-- [ ] **GROUP-04**: Agent can manage group filter sets (create, edit, delete)
-- [ ] **GROUP-05**: Agent can manage listings within a group (add, remove, search)
+- [x] **GROUP-01**: Agent can create, edit, and delete groups
+- [x] **GROUP-02**: Agent can add existing brokerage users to a group
+- [x] **GROUP-03**: Agent can invite new (unregistered) clients to a group via email
+- [x] **GROUP-04**: Agent can manage group filter sets (create, edit, delete)
+- [x] **GROUP-05**: Agent can manage listings within a group (add, remove, search)
 
 ### Backend Enforcement
 
@@ -52,7 +52,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ACCESS-01 | Phase 31 | Pending |
+| ACCESS-01 | Phase 31 | Complete |
 | ACCESS-02 | Phase 32 | Pending |
 | ACCESS-03 | Phase 32 | Pending |
 | ACCESS-04 | Phase 32 | Pending |
@@ -60,11 +60,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ACCESS-06 | Phase 32 | Pending |
 | ACCESS-07 | Phase 32 | Pending |
 | ACCESS-08 | Phase 32 | Pending |
-| GROUP-01 | Phase 31 | Pending |
-| GROUP-02 | Phase 31 | Pending |
-| GROUP-03 | Phase 31 | Pending |
-| GROUP-04 | Phase 31 | Pending |
-| GROUP-05 | Phase 31 | Pending |
+| GROUP-01 | Phase 31 | Complete |
+| GROUP-02 | Phase 31 | Complete |
+| GROUP-03 | Phase 31 | Complete |
+| GROUP-04 | Phase 31 | Complete |
+| GROUP-05 | Phase 31 | Complete |
 | RBAC-01 | Phase 30 | Complete |
 | RBAC-02 | Phase 30 | Complete |
 | RBAC-03 | Phase 30 | Complete |
