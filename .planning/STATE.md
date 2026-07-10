@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
 status: executing
-stopped_at: Completed 32-01-PLAN.md
-last_updated: "2026-07-10T19:00:43.117Z"
+stopped_at: Completed 32-02-PLAN.md
+last_updated: "2026-07-10T19:09:18.391Z"
 last_activity: 2026-07-10
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 8
-  completed_plans: 6
-  percent: 75
+  completed_plans: 7
+  percent: 88
 ---
 
 # Project State
@@ -26,12 +26,12 @@ See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 ## Current Position
 
 Phase: 32 (agent-read-only-access-access-gating) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Phase 31 (Agent Dashboard Access & Group Management): complete, verified 2026-07-10 (12/12 must-haves)
 Status: Ready to execute
 Last activity: 2026-07-10
 
-Progress: [████████░░] 75%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [████████░░] 75%
 | Phase 31 P02 | 8min | 2 tasks | 3 files |
 | Phase 31 P03 | 10min | 2 tasks | 5 files |
 | Phase 32 P01 | 13min | 2 tasks | 3 files |
+| Phase 32 P02 | 2min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,7 @@ Recent decisions affecting current work:
 - [Phase 31 code-review-fix]: Code review (31-REVIEW.md) found nav-link hiding was cosmetic only — agent could reach non-Groups admin pages (Users/Brokerage/Boards/Domains/Settings) via direct URL on both domains, hitting already-open Phase-30 read endpoints (full user PII, brokerage contact info) plus a live mutating endpoint (`domains_controller.rb#verify`, mis-gated). Fixed: per-route `RequireRole roles={['owner','admin']}` gating added in `router/admin/admin.tsx`; `RequireRole.tsx`'s stale main-domain bypass removed (it unconditionally skipped role checks on the main domain, which would have silently defeated the route-gate fix); `PortalAdminShell.tsx` given a shell-level gate (previously had none); `domains_controller.rb#verify` now requires `require_admin!`. Also extracted a shared `isGroupsOnlyRole` helper (was duplicated `role === 'agent'` in two files) and switched nav filtering to path-based instead of label-based. All 5 findings independently re-verified against live code and passing tests (backend 81 runs/0 failures on touched files, full suite 261 runs/0 failures; frontend 12/12 new tests + 29/31 full suite, 2 pre-existing unrelated failures).
 - [Phase 32]: Split admin.tsx ownerAdminOnly helper into readTierRoles (owner/admin/agent) + ownerAdminOnly (owner/admin) — opens 7 read-tier admin routes to agent while keeping brokerage/add-agent and users/members/:memberId/edit owner/admin-only
 - [Phase 32]: Fixed ACCESS-08 — DomainCard.tsx Verify now / Upgrade plan buttons swapped from access_admin_panel to manage_brokerage_settings, matching the card's existing owner-only Set as primary/Delete gates — Corrected plan's DomainCard.test.tsx Test 2 role from admin to owner since manage_brokerage_settings is owner-only in ROLE_PERMISSIONS
+- [Phase 32]: Removed isGroupsOnlyRole/isGroupsOnlyAdmin (D-06) once the Groups-only nav restriction (D-05) was lifted — SideNav.tsx and PortalAdminSideNav.tsx now render the full 6-item Admin nav unconditionally for any role passing canAccessAdmin, matching the routes 32-01 already opened
 
 ### Pending Todos
 
@@ -113,7 +115,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-10T19:00:43.107Z
-Stopped at: Completed 32-01-PLAN.md
+Last session: 2026-07-10T19:09:18.367Z
+Stopped at: Completed 32-02-PLAN.md
 Resume file: None
 Next action: `/gsd-plan-phase 32`
