@@ -160,7 +160,10 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
   3. An `agent` can add existing brokerage users to a group and invite new, unregistered clients to a group via email
   4. An `agent` can create, edit, and delete group filter sets
   5. An `agent` can add, remove, and search listings within a group
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 31-01-PLAN.md — Backend: agent main-domain portal access, admin_brokerages_controller.rb role filter (D-01) (wave 1)
+- [ ] 31-02-PLAN.md — Frontend: agent permission map + subdomain admin shell gate (D-02, D-04, D-05) (wave 1)
+- [ ] 31-03-PLAN.md — Frontend: Groups-only admin nav narrowing for agent, both SideNav.tsx and PortalAdminSideNav.tsx (D-03) (wave 2)
 **UI hint**: yes
 
 ### Phase 32: Agent Read-Only Access & Access Gating
