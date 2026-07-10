@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
 status: executing
-stopped_at: Phase 31 complete — verified (12/12 must-haves), ready to plan Phase 32
-last_updated: "2026-07-10T10:55:00.000Z"
+stopped_at: Phase 32 context gathered
+last_updated: "2026-07-10T11:20:00.000Z"
 last_activity: 2026-07-10
 progress:
   total_phases: 3
@@ -109,7 +109,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-10T10:55:00.000Z
-Stopped at: Phase 31 complete and verified (VERIFICATION.md: passed, 12/12 must-haves). Code review found and fixed 1 critical + 4 warning issues (see 31-REVIEW.md / 31-REVIEW-FIX.md).
-Resume file: None
-Next action: `/gsd-discuss-phase 32`
+Last session: 2026-07-10T11:20:00.000Z
+Stopped at: Phase 32 context gathered — 6 decisions locked (Add-to-Group visibility, ACCESS-08 fix scope, nav expansion, plus mechanically-derived route/gating plan). See 32-CONTEXT.md.
+Resume file: .planning/phases/32-agent-read-only-access-access-gating/32-CONTEXT.md
+Next action: `/gsd-plan-phase 32`
