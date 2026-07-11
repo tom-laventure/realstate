@@ -1,5 +1,50 @@
 # Retrospective
 
+## Milestone: v1.10 — Agent Admin Permissions
+
+**Shipped:** 2026-07-10
+**Phases:** 3 (30–32) | **Plans:** 9 | **Timeline:** 2 days (2026-07-09 → 2026-07-10)
+
+### What Was Built
+
+1. Backend third authorization tier `require_agent_or_above!` as default `before_action` on `Admin::BaseController`, propagated to all 13 admin controllers, with narrower `require_admin!`/`require_owner!` stacked on the 4 write-only controllers — RBAC-01/02/03
+2. 62-assertion agent permission matrix test (46 allow-list 2xx + 16 deny-list 403) in `admin_authorization_test.rb` — Phase 30
+3. Admin dashboard shell + full group CRUD unlocked for `agent` on both subdomain and main-domain surfaces, zero new UI needed — ACCESS-01, GROUP-01–05
+4. Six-section read-tier admin access via new `readTierRoles` route helper + full nav expansion; `DomainCard.tsx` mutation-button permission fix — ACCESS-02–06, ACCESS-08
+5. Every mutation control on Users list/invitations/member-detail gated behind `manage_users`, including a full `<InvitationsView>` render gate — ACCESS-07 (32-03)
+6. Gap-closure: `{ enabled }` option added to `useFetchBrokerageInvitations`, driven by `usePermission('manage_users')`, closing the ACCESS-07 fetch-level gap human UAT caught after 32-03 — Phase 32 (32-04)
+
+### What Worked
+
+- **Three-phase decomposition mirroring the trust boundary** — backend enforcement (30) shipped and tested completely before any frontend surface unlocked (31, 32). No frontend work ever ran ahead of its backend guarantee.
+- **Reusing the existing 4-permission model** — no new `Permission` values were introduced despite adding a whole new access tier. The combination of role gate + existing permissions already produced the exact read/write split needed.
+- **TDD gap closure (32-04)** — writing both hook tests against the pre-fix code first, confirming RED, then applying the fix and confirming GREEN, gave concrete proof the fix addressed the exact reported symptom rather than a plausible-looking guess.
+- **Human UAT as a second verification layer** — automated verification twice scored 5/5 and 6/6 on synthetic checks in this milestone, and human UAT still caught a real bug both rounds were structurally blind to (fetch firing despite a JSX gate looking correct in isolation).
+
+### What Was Inefficient
+
+- **JSX-only render gates get proposed before the ancestor-hook data-fetch problem is considered** — 32-03 shipped a `<Can>` gate that looked complete (hides the UI, matches the pattern used elsewhere in the codebase) but didn't address that the parent context hook's `useQuery` call has no relationship to what renders below it. This is a recurring shape of bug for permission-gated data hooks and cost a full extra UAT → diagnose → gap-closure plan cycle.
+- **REQUIREMENTS.md Active-section drift into PROJECT.md** — PROJECT.md's "Active (v1.10)" list still showed ACCESS-02 through ACCESS-08 as unchecked at milestone close, even though REQUIREMENTS.md itself was correctly checked off during phase execution. The requirements-file sync gap flagged in v1.6–v1.9 retrospectives is fixed at the REQUIREMENTS.md level, but PROJECT.md's Active section isn't updated by the same step — it only gets swept at milestone close.
+
+### Patterns Established
+
+- **Gate the fetch, not just the render, for permission-scoped data hooks** — when a permission-gated JSX section is fed by a parent context hook's data fetch, add an optional `{ enabled?: boolean }` options arg to the leaf query hook and drive it from the same `usePermission(...)` call the `<Can>` component uses. A render gate alone cannot stop an ancestor's hooks from firing. Established via `useFetchBrokerageInvitations` (32-04), mirroring the pre-existing `useFetchActivityFeed`/`useFetchSelectedGroup` convention.
+- **Three-tier backend authorization via before_action stacking** — widen the base tier's default `before_action`, then stack a narrower `before_action` on top for the subset of controllers/actions that need a stricter check. Avoids per-action allow-lists and keeps the default safe.
+
+### Key Lessons
+
+- **A permission-gated data fetch needs its own gate, independent of the JSX it feeds** — don't assume hiding the rendered section is sufficient; trace the hook chain up from the JSX to find where the network call actually originates.
+- **Human UAT is not redundant with automated verification, even at 100% synthetic pass rate** — this milestone is direct evidence: two rounds of high-confidence automated verification both missed the same class of bug that one live browser session caught immediately.
+- **PROJECT.md's Active section needs its own sync check, separate from REQUIREMENTS.md** — the two files can drift independently; milestone close should diff PROJECT.md's Active list against REQUIREMENTS.md's checked items, not just trust REQUIREMENTS.md is current.
+
+### Cost Observations
+
+- Sessions: 2 (2026-07-09 → 2026-07-10, plus a follow-up gap-closure + milestone-close session)
+- Model: Claude Sonnet 5 throughout
+- Notable: Fastest requirements-to-ship ratio (16 requirements / 2 days) of any milestone so far, but only because Phase 32 required a real gap-closure round-trip after human UAT — the "clean" 9-plan count undercounts the actual iteration cost.
+
+---
+
 ## Milestone: v1.9 — Dashboard & Navbar Enhancement
 
 **Shipped:** 2026-06-06
@@ -452,3 +497,5 @@
 | REQUIREMENTS.md sync gap | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ |
 
 **Trend:** Velocity peaked at 5.5 plans/day in v1.6 — domain model familiarity from v1.5 eliminated exploratory overhead. REQUIREMENTS.md checkbox sync gap is now seven consecutive milestones — fix must be at the workflow level (PLAN.md template, not milestone-close checklist). Deferred items trending down (4 → 1 → 1). Both sign-in paths (`LoginSuccessful` + `Login.tsx`) require the same domain-aware logic — established as new-feature checklist rule.
+
+**v1.10 update (table not yet backfilled for v1.7–v1.9):** 3 phases, 9 plans, 2 days, 4.5 plans/day, 4 deferred items carried forward (unchanged from v1.9) + 2 new (both from 32-04-REVIEW.md, non-blocking). REQUIREMENTS.md checkbox sync gap did NOT recur this milestone — all 16 requirements were correctly checked off during phase execution. A new drift surfaced instead: PROJECT.md's "Active" section lagged REQUIREMENTS.md by a full phase at milestone-close time. First milestone to require a genuine gap-closure round-trip (human UAT → root-cause → 32-04 → re-verify → re-approve) rather than shipping clean on the first verification pass.
