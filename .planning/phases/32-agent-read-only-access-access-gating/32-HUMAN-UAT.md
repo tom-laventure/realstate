@@ -1,31 +1,31 @@
 ---
-status: partial
+status: resolved
 phase: 32-agent-read-only-access-access-gating
 source: [32-VERIFICATION.md]
 started: 2026-07-10T19:33:29.095Z
-updated: 2026-07-10T20:30:00.000Z
+updated: 2026-07-10T20:45:00.000Z
 ---
 
 ## Current Test
 
-[awaiting human testing]
+[testing complete]
 
 ## Tests
 
 ### 1. Live agent session — /admin/users no longer fetches or shows invitations
 expected: Sign in as a real `agent` user, open devtools Network tab, navigate to `/admin/users`. Confirm NO `GET /v1/admin/invitations` request is issued and NO 403 appears. Confirm no Invitations section renders (unchanged from 32-03).
-result: [pending]
+result: passed
 
 ### 2. Live admin/owner session — /admin/users unaffected
 expected: Sign in as admin or owner, open `/admin/users`. Confirm `GET /v1/admin/invitations` fires with 200 and the Invitations section renders and functions exactly as before.
-result: [pending]
+result: passed
 
 ## Summary
 
 total: 2
-passed: 0
+passed: 2
 issues: 0
-pending: 2
+pending: 0
 skipped: 0
 blocked: 0
 
