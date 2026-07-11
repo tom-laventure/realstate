@@ -177,10 +177,11 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
   3. An `agent` can view Domains and the brokerage Settings page but sees no mutation actions (no add/edit/delete/set-primary buttons)
   4. An `agent` has no way to view or reach the brokerage-level staff/agent invitation flow — no nav entry, no direct route access
   5. Domain-mutation buttons are gated by `manage_brokerage_settings` only, so an `agent` never sees an action button that would return a 403 on click
-**Plans**: 3 plans
+**Plans**: 4 plans
 - [x] 32-01-PLAN.md — Route access tiers (readTierRoles/ownerAdminOnly) + ACCESS-08 DomainCard mutation-button fix (wave 1)
 - [x] 32-02-PLAN.md — Nav expansion to all 6 Admin sections for agent + isGroupsOnlyRole/isGroupsOnlyAdmin dead-code removal (wave 1)
 - [x] 32-03-PLAN.md — Users list, brokerage invitations & member-detail mutation gating (manage_users) (wave 1)
+- [x] 32-04-PLAN.md — Gap closure: gate the brokerage-invitations fetch (enabled: manage_users) so agents never issue the 403ing request on /admin/users (wave 1)
 **UI hint**: yes
 
 ---
@@ -220,4 +221,4 @@ Full details: [milestones/v1.9-ROADMAP.md](milestones/v1.9-ROADMAP.md)
 | 29. Navbar Brand Unification | v1.9 | 2/2 | Complete | 2026-06-06 |
 | 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
 | 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
-| 32. Agent Read-Only Access & Access Gating | v1.10 | 3/3 | Complete   | 2026-07-10 |
+| 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |

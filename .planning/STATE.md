@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.10
 milestone_name: — Agent Admin Permissions
 status: verifying
-stopped_at: Completed 32-03-PLAN.md
-last_updated: "2026-07-10T19:19:44.372Z"
+stopped_at: Completed 32-04-PLAN.md
+last_updated: "2026-07-11T01:14:32Z"
 last_activity: 2026-07-10
 progress:
   total_phases: 3
   completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 9
+  completed_plans: 9
   percent: 100
 ---
 
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
 ## Current Position
 
 Phase: 32 (agent-read-only-access-access-gating) — EXECUTING
-Plan: 3 of 3
+Plan: 4 of 4
 Phase 31 (Agent Dashboard Access & Group Management): complete, verified 2026-07-10 (12/12 must-haves)
-Status: Phase complete — ready for verification
+Status: Phase complete — ready for verification (gap closure plan 32-04 closes both 32-HUMAN-UAT.md failures)
 Last activity: 2026-07-10
 
 Progress: [██████████] 100%
@@ -61,6 +61,7 @@ Progress: [██████████] 100%
 | Phase 32 P01 | 13min | 2 tasks | 3 files |
 | Phase 32 P02 | 2min | 2 tasks | 6 files |
 | Phase 32 P03 | 20min | 3 tasks | 8 files |
+| Phase 32 P04 | 12min | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,7 @@ Recent decisions affecting current work:
 - [Phase 32]: Fixed ACCESS-08 — DomainCard.tsx Verify now / Upgrade plan buttons swapped from access_admin_panel to manage_brokerage_settings, matching the card's existing owner-only Set as primary/Delete gates — Corrected plan's DomainCard.test.tsx Test 2 role from admin to owner since manage_brokerage_settings is owner-only in ROLE_PERMISSIONS
 - [Phase 32]: Removed isGroupsOnlyRole/isGroupsOnlyAdmin (D-06) once the Groups-only nav restriction (D-05) was lifted — SideNav.tsx and PortalAdminSideNav.tsx now render the full 6-item Admin nav unconditionally for any role passing canAccessAdmin, matching the routes 32-01 already opened
 - [Phase 32]: [Phase 32-03]: Gated the entire InvitationsView render (not just the Revoke button) behind manage_users in UsersAdminBoard.tsx — CONTEXT.md's note only named the Revoke button, but ACCESS-07 requires agent have no view of brokerage-level invitations at all -- gating only the button would still leak the full pending-invitations table once 32-01 opened /admin/users to agent
+- [Phase 32]: [Phase 32-04 - gap closure]: 32-03's `<Can>` JSX gate hid the Invitations UI but couldn't stop the ancestor `useUsersAdminContext` hook's `useFetchBrokerageInvitations` call from firing for agent, producing a benign-but-visible 403 in devtools (UAT-reported). Fixed by adding an `{ enabled?: boolean }` options arg to `useFetchBrokerageInvitations` (mirroring the existing `useFetchActivityFeed` convention) and gating it with `usePermission('manage_users')` in the context hook — no fetch AND no render for agent; admin/owner unaffected
 
 ### Pending Todos
 
@@ -117,7 +119,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-10T19:19:44.363Z
-Stopped at: Completed 32-03-PLAN.md
+Last session: 2026-07-11T01:14:32Z
+Stopped at: Completed 32-04-PLAN.md
 Resume file: None
-Next action: `/gsd-plan-phase 32`
+Next action: `/gsd-verify-work` (re-verify Phase 32, including the two previously-failed UAT tests that 32-04 closes)
