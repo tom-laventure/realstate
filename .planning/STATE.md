@@ -18,10 +18,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-09 after starting v1.10 milestone)
+See: .planning/PROJECT.md (updated 2026-07-10 after v1.10 milestone shipped)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 32 — agent-read-only-access-access-gating
+**Current focus:** Planning next milestone
 
 ## Current Position
 
