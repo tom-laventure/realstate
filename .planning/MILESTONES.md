@@ -1,5 +1,41 @@
 # Milestones
 
+## v1.10 — Agent Admin Permissions
+
+**Shipped:** 2026-07-10
+**Phases:** 3 (30–32) | **Plans:** 9
+**Timeline:** 2026-07-09 → 2026-07-10 (2 days)
+
+### Delivered
+
+Extended the `agent` role from group-scoped work into full brokerage-wide admin visibility. Backend RBAC gained a third authorization tier (`require_agent_or_above!`) so agents pass read/group-scoped admin endpoints while every other write endpoint continues to 403 them, backed by an exhaustive 62-assertion allow/deny permission-matrix test suite (Phase 30). The admin dashboard shell opened to agents on both subdomain and main-domain surfaces, unlocking full CRUD on groups, filter sets, group members/invitations, and group listings (Phase 31). Visibility then widened from "groups only" to all six admin sections — Users, Brokerage, Boards, Domains, Settings — at a strict read tier: every mutation control gated behind `manage_users`/`manage_brokerage_settings`, with brokerage-level staff invitations fully blocked at both the route and UI layer (Phase 32). Human UAT caught a two-layer gap — a JSX-only permission gate couldn't stop an ancestor hook's data fetch, so agents still triggered a (correctly-403'd but user-visible) invitations request on `/admin/users` — closed by gap-closure plan 32-04, which gated the fetch itself via the same `usePermission` primitive. All 16 requirements delivered and human-UAT-approved.
+
+### Key Accomplishments
+
+1. `Admin::BaseController` third `require_agent_or_above!` tier propagated to 13 admin controllers, narrower `require_admin!`/`require_owner!` stacked on the 4 write-only controllers — RBAC-01/02/03
+2. 62-assertion agent permission matrix (46 allow-list 2xx + 16 deny-list 403) in `admin_authorization_test.rb` — full regression coverage for the new tier
+3. Admin dashboard shell + full group CRUD (groups, filter sets, members, invitations, listings) unlocked for agent with zero new UI — reused existing `ROLE_PERMISSIONS`/`RequireRole` gates — ACCESS-01, GROUP-01–05
+4. Six-section read-tier admin access (`readTierRoles` route helper) + full nav expansion, with every mutation control gated behind `manage_users`/`manage_brokerage_settings` — ACCESS-02–06, ACCESS-08
+5. ACCESS-07 "no view" closed at both layers: `<Can>` JSX render gate (32-03) + `{ enabled }` fetch gate on `useFetchBrokerageInvitations` driven by `usePermission('manage_users')` (32-04) — established a reusable pattern for permission-gated data hooks
+6. Human UAT round-trip: 2 issues reported → root-caused → gap-closure plan executed with TDD (RED/GREEN) → re-verified → both approved live
+
+### Known Deferred Items at Close: 4
+
+| Category | Item | Status |
+|----------|------|--------|
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.11 |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.11 |
+| UX | Brokerage switch preserving active tab position | Carry to v1.11 |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.11 |
+
+### Archive
+
+- Roadmap: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
+- Requirements: [milestones/v1.10-REQUIREMENTS.md](milestones/v1.10-REQUIREMENTS.md)
+- Tag: `v1.10`
+
+---
+
 ## v1.9 — Dashboard & Navbar Enhancement
 
 **Shipped:** 2026-06-06

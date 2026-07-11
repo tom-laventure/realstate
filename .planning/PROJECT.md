@@ -1,25 +1,14 @@
 # RealState SaaS Platform
 
-## Last Shipped: v1.9 — Dashboard & Navbar Enhancement (2026-06-06)
+## Last Shipped: v1.10 — Agent Admin Permissions (2026-07-10)
 
-## Current Milestone: v1.10 Agent Admin Permissions
-
-**Goal:** Extend admin dashboard access to the `agent` role — full read access everywhere, full write access on Groups, no write access on Users/Brokerage/Boards/Domains/Settings.
-
-**Target features:**
-- Admin dashboard shell opens to `agent` (currently `owner`/`admin` only)
-- Agent gets full CRUD on Groups: create/edit/delete groups, manage filter sets, manage listings within a group
-- Agent can add existing users and invite new clients to groups
-- Agent gets read-only access to Users, Brokerage settings, Boards, Domains, Settings pages — no create/update/delete
-- Agent is fully blocked (no view, no write) from inviting new staff/agents to the brokerage
-- Backend enforcement updated to match: group-scoped endpoints accept `agent`; read-only admin endpoints accept `agent`; all other write endpoints stay `owner`/`admin` only
-- Fix inconsistent domain-mutation button gating so agents don't see action buttons that would 403
+## Current Milestone: Planning next milestone
 
 ---
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, and correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers.
 
 ## Core Value
 
@@ -29,15 +18,9 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ## Requirements
 
-### Active (v1.10 — Agent Admin Permissions)
+### Active
 
-- [ ] ACCESS-02: Agent has read-only access to the Users list and user detail view
-- [ ] ACCESS-03: Agent has read-only access to Brokerage settings (info, branding, board registrations)
-- [ ] ACCESS-04: Agent has read-only access to Boards and board credentials
-- [ ] ACCESS-05: Agent has read-only access to Domains
-- [ ] ACCESS-06: Agent has read-only access to the brokerage Settings page
-- [ ] ACCESS-07: Agent is fully blocked from brokerage-level staff/agent invitations (no view, no create)
-- [ ] ACCESS-08: Domain-mutation buttons gated by `manage_brokerage_settings` only (fix inconsistent `access_admin_panel` gating)
+None — planning next milestone.
 
 ### Validated
 
@@ -67,6 +50,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ GROUP-03: Agent can invite new (unregistered) clients to a group via email — v1.10 Phase 31
 - ✓ GROUP-04: Agent can manage group filter sets — v1.10 Phase 31
 - ✓ GROUP-05: Agent can manage listings within a group — v1.10 Phase 31
+- ✓ ACCESS-02: Agent has read-only access to the Users list and user detail view — v1.10 Phase 32
+- ✓ ACCESS-03: Agent has read-only access to Brokerage settings (info, branding, board registrations) — v1.10 Phase 32
+- ✓ ACCESS-04: Agent has read-only access to Boards and board credentials — v1.10 Phase 32
+- ✓ ACCESS-05: Agent has read-only access to Domains — v1.10 Phase 32
+- ✓ ACCESS-06: Agent has read-only access to the brokerage Settings page — v1.10 Phase 32
+- ✓ ACCESS-07: Agent is fully blocked from brokerage-level staff/agent invitations — v1.10 Phase 32 (render gate + fetch gate; gap-closed via 32-04 after UAT)
+- ✓ ACCESS-08: Domain-mutation buttons gated by `manage_brokerage_settings` only — v1.10 Phase 32
 - ✓ `FilterSetsController#create` scoped to current group — v1.0 (SEC-07)
 - ✓ Frontend 403 handler with toast + redirect — v1.0 (SEC-08)
 - ✓ `EstateLike` N+1 eliminated — v1.0 (PERF-01)
@@ -157,12 +147,14 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
-## Deferred to v1.10+
+## Deferred to v1.11+
 
 - [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6)
 - [ ] S3 favicon upload outside transaction (CR-02, pre-existing from v1.1)
 - [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
 - [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
+- [ ] `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps (32-04-REVIEW.md WR-01; currently safe by accident, adjacent to the new invitations-fetch gating logic)
+- [ ] Invitations-gating hook test coverage gap: only `agent`/`admin` roles tested; missing `owner`, `staff`/`client`, and the "role not yet loaded" transient state (32-04-REVIEW.md IN-02)
 
 ### Out of Scope
 
@@ -193,7 +185,8 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06
+- **Admin RBAC:** Three-tier model — `require_owner!` / `require_admin!` / `require_agent_or_above!` (backend, `Admin::BaseController` concern) and `readTierRoles` / `ownerAdminOnly` (frontend, `RequireRole` route helpers). `agent` gets full read access across all 6 admin sections + full read/write on Groups; every other write path stays `owner`/`admin` only. Permission-gated data fetches (not just JSX) must be gated via `{ enabled }` options args driven by `usePermission`, per the ACCESS-07 pattern established in v1.10 Phase 32.
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10
 
 ---
 
@@ -258,6 +251,10 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | Button-as-card pattern for `BrokerageCard` — v1.9 | Applying card classes to `<button>` avoids invalid nesting (div > button, button > Card) while ensuring full-card keyboard interactivity | ✓ Good — accessible and HTML-valid |
 | `DashboardNavBar` as standalone component (not `NavBar.tsx` with props) — v1.9 | Avoids importing notifications bell and auth hooks irrelevant to selection screen | ✓ Good — minimal surface, zero dead code |
 | Plain `<button>` (not shadcn `Button`) for brand logo in `PortalNavBar` — v1.9 | `Button variant=ghost` adds horizontal padding that distorts logo proportions | ✓ Good — pixel-accurate logo sizing |
+| Three-tier backend authorization: `require_agent_or_above!` widens the default, narrower `require_admin!`/`require_owner!` stack on top for write-only controllers — v1.10 | Matches existing `Admin::BaseController` concern pattern; avoids per-action allow-lists | ✓ Good — all 13 admin controllers correctly tiered, 62-assertion matrix proves it |
+| Reused existing 4-permission model instead of new granular permissions — v1.10 | `access_admin_panel`/`manage_brokerage_settings`/`manage_users`/`manage_groups` + shell-level role gate already produce the desired read/write split | ✓ Good — zero new permission types needed |
+| Brokerage-level staff invitations blocked entirely (no partial read-only view) — v1.10 | No UI exists for read-only invitation viewing outside the creation form itself | ✓ Good — matches ACCESS-07 exactly |
+| Gate the fetch, not just the render, for permission-scoped data hooks — v1.10 Phase 32 | A `<Can>` JSX gate cannot stop an ancestor context hook's `useQuery` from firing; discovered via human UAT after 32-03 shipped render-gate-only | ✓ Good — `{ enabled }` options arg mirroring `useFetchActivityFeed` convention closes the gap at the hook boundary; reusable pattern for future permission-gated fetches |
 
 ---
 
@@ -280,4 +277,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-10 after Phase 31 (Agent Dashboard Access & Group Management) complete — ACCESS-01, GROUP-01/02/03/04/05 validated*
+*Last updated: 2026-07-10 after v1.10 milestone shipped (Phases 30–32) — full agent admin permissions delivered, all 16 requirements validated*
