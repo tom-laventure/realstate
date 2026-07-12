@@ -163,7 +163,10 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
   3. `GET /admin/settings/owners` returns the brokerage's current owners (name + email)
   4. `GET /admin/settings/owners/eligible` returns brokerage users with role `admin` or `agent`, for the Add Owner dropdown
   5. `POST /admin/settings/owners` (promote) and `PATCH /admin/settings/owners/:id` (demote, rejecting the last owner) both require the caller to hold the `owner` role, enforced server-side via JWT claims — not frontend gates alone
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 33-01-PLAN.md — Backend lockdown: users#update/#destroy owner guards (D-01/D-02) + invitations#create owner rejection (D-03/LOCK-01) + tests
+- [ ] 33-02-PLAN.md — New owner-management API: routes + Settings::OwnersController (index/eligible/create/update, API-01..05) + tests
+- [ ] 33-03-PLAN.md — Frontend LOCK-02: remove owner option from add-agent role selector
 **UI hint**: yes
 
 ### Phase 34: Ownership Management UI — Settings Page & Add Owner
@@ -232,6 +235,6 @@ Phases execute in numeric order: 33 → 34 → 35
 | 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
 | 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |
-| 33. Backend Owner API & Endpoint Lockdown | v1.11 | 0/TBD | Not started | - |
+| 33. Backend Owner API & Endpoint Lockdown | v1.11 | 0/3 | Not started | - |
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 0/TBD | Not started | - |
 | 35. Remove Owner Flow | v1.11 | 0/TBD | Not started | - |
