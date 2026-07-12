@@ -33,11 +33,11 @@ Requirements for this milestone. Each maps to roadmap phases.
 
 ### Backend API
 
-- [ ] **API-01**: `GET /admin/settings/owners` returns the list of current brokerage owners (name, email)
-- [ ] **API-02**: `GET /admin/settings/owners/eligible` returns brokerage users with role `admin` or `agent`, for the Add Owner dropdown
-- [ ] **API-03**: `POST /admin/settings/owners` promotes a user to owner; requires the caller to have the `owner` role
-- [ ] **API-04**: `PATCH /admin/settings/owners/:id` demotes an owner and reassigns their role to `admin`/`agent`/`client`; requires the caller to have the `owner` role; rejects the request if the target is the last owner
-- [ ] **API-05**: All new endpoints validate the caller's role via JWT claims server-side — frontend role gates are UX-only and must not be the sole enforcement
+- [x] **API-01**: `GET /admin/settings/owners` returns the list of current brokerage owners (name, email)
+- [x] **API-02**: `GET /admin/settings/owners/eligible` returns brokerage users with role `admin` or `agent`, for the Add Owner dropdown
+- [x] **API-03**: `POST /admin/settings/owners` promotes a user to owner; requires the caller to have the `owner` role
+- [x] **API-04**: `PATCH /admin/settings/owners/:id` demotes an owner and reassigns their role to `admin`/`agent`/`client`; requires the caller to have the `owner` role; rejects the request if the target is the last owner
+- [x] **API-05**: All new endpoints validate the caller's role via JWT claims server-side — frontend role gates are UX-only and must not be the sole enforcement
 
 ### Lockdown (existing add-agent endpoint)
 
@@ -83,11 +83,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OWN-08 | Phase 35 | Pending |
 | OWN-09 | Phase 35 | Pending |
 | OWN-10 | Phase 35 | Pending |
-| API-01 | Phase 33 | Pending |
-| API-02 | Phase 33 | Pending |
-| API-03 | Phase 33 | Pending |
-| API-04 | Phase 33 | Pending |
-| API-05 | Phase 33 | Pending |
+| API-01 | Phase 33 | Complete |
+| API-02 | Phase 33 | Complete |
+| API-03 | Phase 33 | Complete |
+| API-04 | Phase 33 | Complete |
+| API-05 | Phase 33 | Complete |
 | LOCK-01 | Phase 33 | Complete |
 | LOCK-02 | Phase 33 | Pending |
 

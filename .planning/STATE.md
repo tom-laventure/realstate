@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.11
 milestone_name: Brokerage Ownership Management
 status: executing
-stopped_at: Completed 33-01-PLAN.md
-last_updated: "2026-07-12T23:50:43.508Z"
+stopped_at: Completed 33-02-PLAN.md
+last_updated: "2026-07-12T23:58:15.761Z"
 last_activity: 2026-07-12
 progress:
   total_phases: 3
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-12 after v1.11 roadmap created)
 ## Current Position
 
 Phase: 33 (backend-owner-api-endpoint-lockdown) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-07-12
 
-Progress: [███░░░░░░░] 33%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [███░░░░░░░] 33%
 
 *Updated after each plan completion*
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
+| Phase 33 P02 | 15min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,7 @@ Recent decisions affecting current work:
 - Phase 34 (Settings page shell, Current Owners, Add Owner) and Phase 35 (Remove Owner) split the Ownership Management UI in two — Remove Owner's two-step modal + last-owner guard is a distinct, independently verifiable flow from the page shell/Add Owner work, even though both live on the same page
 - [Phase 32]: [Phase 32-04 - gap closure]: Gate the fetch, not just the render, for permission-scoped data hooks — `{ enabled }` options arg pattern established; reusable for any future permission-gated fetch (relevant if v1.11 owner-list queries need role-based enabling)
 - [Phase 33]: 33-01: UsersController#update/#destroy and InvitationsController#create now enforce owner-lockdown (D-01/D-02/D-03); owner-role changes are only possible via the future /admin/settings/owners endpoints
+- [Phase 33]: 33-02: New V1::Admin::Settings::OwnersController ships index/eligible (agent+ readable) + owner-only create/update, closing the owner-role-change API surface — Single last-owner COUNT guard on demote covers self-demotion (OWN-09) with no special-casing; D-05 re-validates target's current role server-side rather than trusting a prior /eligible response
 
 ### Pending Todos
 
@@ -100,7 +102,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-12T23:50:43.500Z
-Stopped at: Completed 33-01-PLAN.md
+Last session: 2026-07-12T23:58:15.752Z
+Stopped at: Completed 33-02-PLAN.md
 Resume file: None
 Next action: `/gsd-discuss-phase 33` or `/gsd-plan-phase 33`
