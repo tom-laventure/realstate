@@ -71,31 +71,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SET-01 | TBD | Pending |
-| SET-02 | TBD | Pending |
-| OWN-01 | TBD | Pending |
-| OWN-02 | TBD | Pending |
-| OWN-03 | TBD | Pending |
-| OWN-04 | TBD | Pending |
-| OWN-05 | TBD | Pending |
-| OWN-06 | TBD | Pending |
-| OWN-07 | TBD | Pending |
-| OWN-08 | TBD | Pending |
-| OWN-09 | TBD | Pending |
-| OWN-10 | TBD | Pending |
-| API-01 | TBD | Pending |
-| API-02 | TBD | Pending |
-| API-03 | TBD | Pending |
-| API-04 | TBD | Pending |
-| API-05 | TBD | Pending |
-| LOCK-01 | TBD | Pending |
-| LOCK-02 | TBD | Pending |
+| SET-01 | Phase 34 | Pending |
+| SET-02 | Phase 34 | Pending |
+| OWN-01 | Phase 34 | Pending |
+| OWN-02 | Phase 34 | Pending |
+| OWN-03 | Phase 34 | Pending |
+| OWN-04 | Phase 34 | Pending |
+| OWN-05 | Phase 34 | Pending |
+| OWN-06 | Phase 35 | Pending |
+| OWN-07 | Phase 35 | Pending |
+| OWN-08 | Phase 35 | Pending |
+| OWN-09 | Phase 35 | Pending |
+| OWN-10 | Phase 35 | Pending |
+| API-01 | Phase 33 | Pending |
+| API-02 | Phase 33 | Pending |
+| API-03 | Phase 33 | Pending |
+| API-04 | Phase 33 | Pending |
+| API-05 | Phase 33 | Pending |
+| LOCK-01 | Phase 33 | Pending |
+| LOCK-02 | Phase 33 | Pending |
 
 **Coverage:**
 - v1.11 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19 ⚠️ (filled by roadmapper)
+- Mapped to phases: 19
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-07-12*
+*Traceability updated: 2026-07-12 after ROADMAP.md creation (Phases 33–35)*
 *Last updated: 2026-07-12 after milestone v1.11 kickoff*
