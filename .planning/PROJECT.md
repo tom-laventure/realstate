@@ -2,7 +2,15 @@
 
 ## Last Shipped: v1.10 — Agent Admin Permissions (2026-07-10)
 
-## Current Milestone: Planning next milestone
+## Current Milestone: v1.11 Brokerage Ownership Management
+
+**Goal:** Give brokerage owners a dedicated, secure way to manage ownership (add/remove owners) from a new `/admin/settings` page, closing the admin-takeover security gap flagged at v1.10 close.
+
+**Target features:**
+- Ownership Management section on `/admin/settings` (Current Owners list, Add Owner modal, two-step Remove Owner flow)
+- Backend endpoints for listing owners, listing eligible admin/agent users, promoting to owner, and demoting an owner with mandatory reassignment
+- Lock down `/admin/brokerage/add-agent` to reject owner-role assignment (403) at both frontend and backend
+- Billing section stubbed as a `# TODO` placeholder on the same page
 
 ---
 
@@ -20,7 +28,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-None — planning next milestone.
+Requirements being defined for v1.11 — see `.planning/REQUIREMENTS.md` once drafted.
 
 ### Validated
 
@@ -277,4 +285,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-10 after v1.10 milestone shipped (Phases 30–32) — full agent admin permissions delivered, all 16 requirements validated*
+*Last updated: 2026-07-12 — started milestone v1.11 (Brokerage Ownership Management)*
