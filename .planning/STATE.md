@@ -105,7 +105,7 @@ Items carried forward from previous milestone close:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.11 | v1.10 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.12 (unaddressed in v1.11) | v1.10 close |
 | CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.11 | v1.10 close |
 | UX | Brokerage switch preserving active tab position | Carry to v1.11 | v1.10 close |
 | UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.11 | v1.10 close |
