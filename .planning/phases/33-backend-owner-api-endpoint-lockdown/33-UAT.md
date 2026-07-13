@@ -1,19 +1,15 @@
 ---
-status: partial
+status: resolved
 phase: 33-backend-owner-api-endpoint-lockdown
 source: [33-01-SUMMARY.md, 33-02-SUMMARY.md, 33-03-SUMMARY.md]
 started: 2026-07-13T00:33:09Z
-updated: 2026-07-13T01:00:31Z
+updated: 2026-07-13T17:45:00Z
 ---
 
 ## Current Test
 <!-- OVERWRITE each test - shows where we are -->
 
-number: 6
-name: Promote an eligible member to Owner
-expected: |
-  As an owner, `POST /v1/admin/settings/owners` with `{ "user": { "user_id": "<uid of an admin or agent>" } }` returns 200/201, and that user now appears in the owners list from test 5. A non-owner (admin) attempting the same call gets 403. Attempting to promote a `client` (not admin/agent) gets 422.
-awaiting: user response
+All tests complete — see Summary.
 
 ## Tests
 
@@ -40,37 +36,42 @@ result: pass
 ### 6. Promote an eligible member to Owner
 expected: |
   As an owner, `POST /v1/admin/settings/owners` with `{ "user": { "user_id": "<uid of an admin or agent>" } }` returns 200/201, and that user now appears in the owners list from test 5. A non-owner (admin) attempting the same call gets 403. Attempting to promote a `client` (not admin/agent) gets 422.
-result: [pending]
+result: pass (verified via backend/test/integration/admin_settings_owners_test.rb, and end-to-end through Phase 35's Add Owner flow — 35-05 human sign-off)
 
 ### 7. Demote an Owner, with last-owner protection and self-demotion
 expected: |
   As an owner (with at least one other owner remaining), `PATCH /v1/admin/settings/owners/:id` with `{ "user": { "role": "admin" } }` targeting another owner succeeds (200) and that user drops off the owners list. The same caller can also demote themselves if another owner still remains. If only one owner remains, demoting that sole owner (self or otherwise) returns 422 ("Cannot remove the brokerage's last owner"). A non-owner caller gets 403 on any demote attempt.
-result: [pending]
+result: pass (verified via backend/test/integration/admin_settings_owners_test.rb + admin_owner_lockdown_test.rb, and end-to-end through Phase 35's Remove Owner flow on both subdomain and portal login paths — 35-05 human sign-off)
 
 ## Summary
 
 total: 7
-passed: 5
-issues: 1
-pending: 2
+passed: 7
+issues: 0
+pending: 0
 skipped: 0
 
 ## Gaps
 
 - truth: "Non-owner cannot invite someone as Owner"
-  status: failed
+  status: resolved
   reason: >-
     User reported: /admin/users/members/ad47a73b-c452-412b-80aa-ef683f4a67e4/edit
     shows "Owner" as a selectable role, but returns 403 when attempted to update.
-    Root cause (not yet diagnosed in depth): EditMemberView.tsx (frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx)
-    defines ALL_ROLE_OPTIONS including {value:'owner', label:'Owner'} and shows it
-    whenever the viewing caller's own role is owner (line 44: `currentUserRole === 'owner' ? ALL_ROLE_OPTIONS : ADMIN_ROLE_OPTIONS`).
-    Phase 33 Plan 01 locked down PATCH /v1/admin/users/:id to reject role:"owner"
-    universally (D-02), for ANY caller including owners — but Plan 03 (LOCK-02)
+    Root cause: EditMemberView.tsx (frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx)
+    defined ALL_ROLE_OPTIONS including {value:'owner', label:'Owner'} and showed it
+    whenever the viewing caller's own role was owner. Phase 33 Plan 01 locked down
+    PATCH /v1/admin/users/:id to reject any update where the target's current role
+    OR the requested role is "owner" (D-02), for ANY caller — but Plan 03 (LOCK-02)
     only removed the owner option from AddAgentView.tsx (the invite/add-agent form),
-    not this separate Edit Member form. The two pages share the "assign a role to
-    a user" concern but were not both updated.
+    not this separate Edit Member form.
+
+    Fixed at v1.11 milestone close (frontend commit 0d86867): removed 'owner' from
+    the role options shown to owner-viewers, and since the backend rejects ANY
+    role change when the target's current role is 'owner' (not just changes to
+    'owner'), replaced the whole role selector with explanatory text pointing to
+    Settings → Ownership Management when editing an existing owner's account.
   severity: major
   test: 2
-  artifacts: []
+  artifacts: [frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx]
   missing: []
