@@ -134,3 +134,7 @@ None - no external service configuration required.
 ---
 *Phase: 35-remove-owner-flow*
 *Completed: 2026-07-13*
+
+## Self-Check: PASSED
+
+All 7 claimed files verified present on disk (5 plan artifacts, 1 test file, this SUMMARY.md). All 4 claimed commit hashes verified present in git history (3 in `frontend/` sub-repo: `fef607c`, `24dfc99`, `5ac3295`; 1 at monorepo root: `00df9d2`).
