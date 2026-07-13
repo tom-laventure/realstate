@@ -181,7 +181,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
   5. Confirming Add Owner promotes the selected user to owner (fully replacing their prior role) and the owners list refetches to show them
 **Plans**: 3 plans
 - [x] 34-01-PLAN.md — Data foundation: ownerType + manage_ownership permission + query keys + 3 API modules + 3 TanStack hooks
-- [ ] 34-02-PLAN.md — UI surface: Settings context brain, Current Owners list, Add Owner dialog, Ownership Management section + page shell
+- [x] 34-02-PLAN.md — UI surface: Settings context brain, Current Owners list, Add Owner dialog, Ownership Management section + page shell
 - [ ] 34-03-PLAN.md — Verification checkpoint: owner/admin/agent role split + server-side 403 negative path (human-verify)
 **UI hint**: yes
 
@@ -239,5 +239,5 @@ Phases execute in numeric order: 33 → 34 → 35
 | 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |
 | 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete    | 2026-07-13 |
-| 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 1/3 | In Progress|  |
+| 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 2/3 | In Progress|  |
 | 35. Remove Owner Flow | v1.11 | 0/TBD | Not started | - |
