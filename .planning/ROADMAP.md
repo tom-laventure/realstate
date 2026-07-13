@@ -148,7 +148,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 **Milestone Goal:** Give brokerage owners a dedicated, secure way to manage ownership (add/remove owners) from a new `/admin/settings` page, closing the admin-takeover security gap flagged at v1.10 close.
 
 - [x] **Phase 33: Backend Owner API & Endpoint Lockdown** - New owner-management endpoints ship alongside the `add-agent` owner-assignment lockdown, closing the pre-existing takeover gap (completed 2026-07-13)
-- [ ] **Phase 34: Ownership Management UI — Settings Page & Add Owner** - `/admin/settings` exists with a working Ownership Management section: view owners, add a new one
+- [x] **Phase 34: Ownership Management UI — Settings Page & Add Owner** - `/admin/settings` exists with a working Ownership Management section: view owners, add a new one (completed 2026-07-13)
 - [ ] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected two-step flow
 
 ## Phase Details
@@ -182,7 +182,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 **Plans**: 3 plans
 - [x] 34-01-PLAN.md — Data foundation: ownerType + manage_ownership permission + query keys + 3 API modules + 3 TanStack hooks
 - [x] 34-02-PLAN.md — UI surface: Settings context brain, Current Owners list, Add Owner dialog, Ownership Management section + page shell
-- [ ] 34-03-PLAN.md — Verification checkpoint: owner/admin/agent role split + server-side 403 negative path (human-verify)
+- [x] 34-03-PLAN.md — Verification checkpoint: owner/admin/agent role split + server-side 403 negative path (human-verify)
 **UI hint**: yes
 
 ### Phase 35: Remove Owner Flow
@@ -239,5 +239,5 @@ Phases execute in numeric order: 33 → 34 → 35
 | 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |
 | 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete    | 2026-07-13 |
-| 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 2/3 | In Progress|  |
+| 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 3/3 | Complete   | 2026-07-13 |
 | 35. Remove Owner Flow | v1.11 | 0/TBD | Not started | - |
