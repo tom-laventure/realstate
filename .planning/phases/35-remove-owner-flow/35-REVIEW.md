@@ -24,7 +24,22 @@ findings:
   info: 3
   total: 10
 status: issues_found
+resolution: critical_fixed
 ---
+
+## Resolution
+
+Applied manually (not via `/gsd:code-review --fix`) in commit `c8297c6`:
+
+- **CR-01, CR-02 (fixed):** Both dialogs now reset wizard state via a `useEffect` on every transition to `open`, covering parent-driven closes (`setDemoteTarget(null)` / `setIsAddOwnerOpen(false)`) as well as user-driven cancels.
+- **WR-01 (fixed):** Both dialogs now ignore Escape/outside-click while `isSubmitting`.
+- **WR-02 (fixed):** `RemoveOwnerDialog` requires an explicit role selection before "Continue to Review" enables (no more silent default to Admin).
+- **WR-03 (partially addressed):** Added `RemoveOwnerDialog.test.tsx` / `AddOwnerDialog.test.tsx` covering the CR-01/CR-02 regression specifically (reopen resets to step 1) and the WR-02 gate. Broader component test coverage beyond these two behaviors was not added.
+- **WR-04 (fixed):** `StepDots` now has `role="img"` + `aria-label="Step X of Y"`.
+- **WR-05 (deferred):** `useDemoteOwner.test.tsx`'s `toString()`-based onError assertion was left as-is.
+- **IN-01 (deferred):** `<Can>` inverted-usage pattern in `OwnershipManagementSection.tsx` left as-is.
+- **IN-02 (fixed):** Softened the self-demote copy in `RemoveOwnerDialog` step 3 from "redirected to the permissions available to {role}s" to "immediately... limited to the permissions available to {role}s" — verified the Settings route (`readTierRoles`, `roles={['owner','admin']}`) does NOT redirect on demote-to-admin, so the original copy overpromised.
+- **IN-03 (no action needed):** Billing TODO is an intentional forward-looking placeholder; no roadmap gap.
 
 # Phase 35: Code Review Report
 
