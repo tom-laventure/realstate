@@ -4,8 +4,8 @@ milestone: v1.11
 milestone_name: Brokerage Ownership Management
 status: executing
 stopped_at: Phase 35 UI-SPEC approved
-last_updated: "2026-07-13T06:58:41.638Z"
-last_activity: 2026-07-13 -- Phase 35 planning complete
+last_updated: "2026-07-13T07:19:33.363Z"
+last_activity: 2026-07-13 -- Phase 35 execution started
 progress:
   total_phases: 3
   completed_phases: 2
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-12 after v1.11 roadmap created)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 35 — remove owner flow
+**Current focus:** Phase 35 — remove-owner-flow
 
 ## Current Position
 
-Phase: 35
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-07-13 -- Phase 35 planning complete
+Phase: 35 (remove-owner-flow) — EXECUTING
+Plan: 1 of 5
+Status: Executing Phase 35
+Last activity: 2026-07-13 -- Phase 35 execution started
 
 Progress: [██████████] 100%
 
