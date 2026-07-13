@@ -149,7 +149,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 
 - [x] **Phase 33: Backend Owner API & Endpoint Lockdown** - New owner-management endpoints ship alongside the `add-agent` owner-assignment lockdown, closing the pre-existing takeover gap (completed 2026-07-13)
 - [x] **Phase 34: Ownership Management UI — Settings Page & Add Owner** - `/admin/settings` exists with a working Ownership Management section: view owners, add a new one (completed 2026-07-13)
-- [ ] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected two-step flow
+- [ ] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected three-step flow
 
 ## Phase Details
 
@@ -196,7 +196,12 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
   4. When the target is the only remaining owner, the Remove button is disabled with a tooltip explaining why
   5. Confirming step 3 reassigns the role via the demote API and the owners list refetches
   6. Add Owner modal (AddOwnerDialog.tsx) gains a matching final review step after its existing warning, with the promote confirm button living on that review step
-**Plans**: TBD
+**Plans**: 5 plans
+- [ ] 35-01-PLAN.md — Data foundation: demote types + demoteOwner API + useDemoteOwner hook + radio-group primitive + shared StepDots
+- [ ] 35-02-PLAN.md — Remove Owner three-step dialog + CurrentOwnersList Remove button (disabled/tooltip for last owner)
+- [ ] 35-03-PLAN.md — Add Owner review-step retrofit (OWN-13)
+- [ ] 35-04-PLAN.md — Brain wiring: demote mutation + self-demote Redux patch + currentUserId + section/board prop threading
+- [ ] 35-05-PLAN.md — Human-verify checkpoint: full flow across subdomain + portal paths
 
 ---
 
