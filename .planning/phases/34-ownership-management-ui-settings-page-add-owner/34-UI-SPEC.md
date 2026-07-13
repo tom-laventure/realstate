@@ -98,7 +98,7 @@ Sourced from REQUIREMENTS.md (verbatim-required strings marked), CONTEXT.md D-03
 | Warning callout — point 2 (D-04.2) | "They will gain full access to all brokerage data and settings — not just their current {role} scope." |
 | Warning callout — point 3 (D-04.3, forward-looking) | "They will also manage billing once that section becomes available." |
 | Confirm button | "Confirm Add Owner" (with spinner + `Loader2` icon while submitting, disabled until a user is selected) |
-| Cancel button | "Cancel" |
+| Dismiss button (dialog secondary action) | "Keep Looking" — secondary/dismiss action in the Add Owner dialog footer, paired with the primary CTA "Confirm Add Owner". Specific to this two-step select-then-confirm flow: closes the dialog without promoting anyone, returning the admin to browsing/selecting a different candidate. |
 | Current Owners empty state | Not expected in practice (a brokerage always has ≥1 owner post-Phase-33 last-owner guard), but if the list is ever empty during a transient loading gap, do not render a false empty state — show the loading skeleton instead (see Loading state below). No dedicated "no owners" empty-state copy is needed this phase. |
 | Loading state (owners list) | Skeleton rows (3 placeholder rows, `animate-pulse`, matching row height) — no text, matches project convention of skeleton-over-spinner for list content |
 | Loading state (eligible dropdown) | `CommandEmpty` shows "Loading eligible users..." while the `/eligible` query is in flight (if not yet resolved when the popover opens); once resolved, normal empty/list state applies |
