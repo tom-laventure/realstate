@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.11
 milestone_name: Brokerage Ownership Management
-status: ready_to_plan
-stopped_at: Phase 34 complete (3/3) — ready to discuss Phase 35
-last_updated: 2026-07-13T03:07:34.189Z
+status: planning
+stopped_at: Phase 35 context gathered
+last_updated: "2026-07-13T05:18:06.428Z"
 last_activity: 2026-07-13
 progress:
   total_phases: 3
@@ -113,7 +113,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-13T02:56:34.006Z
-Stopped at: Completed 34-03-PLAN.md
-Resume file: None
+Last session: 2026-07-13T05:18:06.398Z
+Stopped at: Phase 35 context gathered
+Resume file: .planning/phases/35-remove-owner-flow/35-CONTEXT.md
 Next action: `/gsd-discuss-phase 33` or `/gsd-plan-phase 33`
