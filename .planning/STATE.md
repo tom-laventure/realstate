@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.11
 milestone_name: Brokerage Ownership Management
 status: executing
-stopped_at: Phase 34 UI-SPEC approved
-last_updated: "2026-07-13T02:12:36.218Z"
-last_activity: 2026-07-13 -- Phase 34 planning complete
+stopped_at: Completed 34-01-PLAN.md
+last_updated: "2026-07-13T02:42:10.218Z"
+last_activity: 2026-07-13
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 6
-  completed_plans: 3
+  completed_plans: 4
   percent: 33
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-12 after v1.11 roadmap created)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 34 — ownership management ui — settings page & add owner
+**Current focus:** Phase 34 — ownership-management-ui-settings-page-add-owner
 
 ## Current Position
 
-Phase: 34
-Plan: Not started
+Phase: 34 (ownership-management-ui-settings-page-add-owner) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-07-13 -- Phase 34 planning complete
+Last activity: 2026-07-13
 
-Progress: [██████████] 100%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [██████████] 100%
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
 | Phase 33 P02 | 15min | 3 tasks | 3 files |
 | Phase 33 P03 | 2min | 1 tasks | 1 files |
+| Phase 34 P01 | 5min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,7 @@ Recent decisions affecting current work:
 - [Phase 33]: 33-01: UsersController#update/#destroy and InvitationsController#create now enforce owner-lockdown (D-01/D-02/D-03); owner-role changes are only possible via the future /admin/settings/owners endpoints
 - [Phase 33]: 33-02: New V1::Admin::Settings::OwnersController ships index/eligible (agent+ readable) + owner-only create/update, closing the owner-role-change API surface — Single last-owner COUNT guard on demote covers self-demotion (OWN-09) with no special-casing; D-05 re-validates target's current role server-side rather than trusting a prior /eligible response
 - [Phase 33]: 33-03: Add-agent role selector limited to Agent/Admin only (owner SelectItem + RolePermissions roles prop trimmed) — RolePermissions.tsx left untouched — it's a generic reusable component with its own default full role list; only the AddAgentView call-site was scoped down
+- [Phase 34-01]: 34-01: manage_ownership permission added owner-exclusive; usePromoteOwner invalidates both ownersKeys and eligibleOwnerUsersKeys caches on promote
 
 ### Pending Todos
 
@@ -105,7 +107,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-13T01:38:36.910Z
-Stopped at: Phase 34 UI-SPEC approved
-Resume file: .planning/phases/34-ownership-management-ui-settings-page-add-owner/34-UI-SPEC.md
+Last session: 2026-07-13T02:42:10.203Z
+Stopped at: Completed 34-01-PLAN.md
+Resume file: None
 Next action: `/gsd-discuss-phase 33` or `/gsd-plan-phase 33`

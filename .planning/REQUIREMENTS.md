@@ -10,18 +10,18 @@ Requirements for this milestone. Each maps to roadmap phases.
 ### Settings Page
 
 - [ ] **SET-01**: `/admin/settings` page exists with Ownership Management as the first (and currently only functional) section; a Billing section is stubbed below it with a `# TODO: Add billing management section` comment, not rendered as user-facing UI
-- [ ] **SET-02**: Owners have full access to the Ownership Management section (view + all add/remove actions); admins and agents have read-only access (owner list + role descriptions, no action buttons); clients have no access to `/admin/settings` at all (existing route guard handles this — no new guard needed)
+- [x] **SET-02**: Owners have full access to the Ownership Management section (view + all add/remove actions); admins and agents have read-only access (owner list + role descriptions, no action buttons); clients have no access to `/admin/settings` at all (existing route guard handles this — no new guard needed)
 
 ### Current Owners
 
-- [ ] **OWN-01**: Current Owners section lists all brokerage owners, each entry showing full name + email (no avatars, no timestamps)
+- [x] **OWN-01**: Current Owners section lists all brokerage owners, each entry showing full name + email (no avatars, no timestamps)
 
 ### Add Owner
 
 - [ ] **OWN-02**: "Add Owner" action is visible to owners only
-- [ ] **OWN-03**: Add Owner opens a modal (Dialog/AlertDialog) containing a searchable dropdown filtered to brokerage users whose current role is `admin` or `agent` (clients excluded); each option shows name + current role; a note beneath the dropdown reads "Only admins and agents can be promoted to owner."
+- [x] **OWN-03**: Add Owner opens a modal (Dialog/AlertDialog) containing a searchable dropdown filtered to brokerage users whose current role is `admin` or `agent` (clients excluded); each option shows name + current role; a note beneath the dropdown reads "Only admins and agents can be promoted to owner."
 - [ ] **OWN-04**: Add Owner modal displays clear warning copy explaining what owner-level permissions grant, before the confirm action
-- [ ] **OWN-05**: Confirming Add Owner calls the promote API; the promoted user's previous role is fully replaced by `owner` (no memory of prior role stored); on success, the owners query key is invalidated to refetch the list
+- [x] **OWN-05**: Confirming Add Owner calls the promote API; the promoted user's previous role is fully replaced by `owner` (no memory of prior role stored); on success, the owners query key is invalidated to refetch the list
 
 ### Remove Owner
 
@@ -72,12 +72,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | SET-01 | Phase 34 | Pending |
-| SET-02 | Phase 34 | Pending |
-| OWN-01 | Phase 34 | Pending |
+| SET-02 | Phase 34 | Complete |
+| OWN-01 | Phase 34 | Complete |
 | OWN-02 | Phase 34 | Pending |
-| OWN-03 | Phase 34 | Pending |
+| OWN-03 | Phase 34 | Complete |
 | OWN-04 | Phase 34 | Pending |
-| OWN-05 | Phase 34 | Pending |
+| OWN-05 | Phase 34 | Complete |
 | OWN-06 | Phase 35 | Pending |
 | OWN-07 | Phase 35 | Pending |
 | OWN-08 | Phase 35 | Pending |
