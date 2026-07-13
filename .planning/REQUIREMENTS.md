@@ -22,12 +22,13 @@ Requirements for this milestone. Each maps to roadmap phases.
 - [x] **OWN-03**: Add Owner opens a modal (Dialog/AlertDialog) containing a searchable dropdown filtered to brokerage users whose current role is `admin` or `agent` (clients excluded); each option shows name + current role; a note beneath the dropdown reads "Only admins and agents can be promoted to owner."
 - [x] **OWN-04**: Add Owner modal displays clear warning copy explaining what owner-level permissions grant, before the confirm action
 - [x] **OWN-05**: Confirming Add Owner calls the promote API; the promoted user's previous role is fully replaced by `owner` (no memory of prior role stored); on success, the owners query key is invalidated to refetch the list
+- [ ] **OWN-13**: *(Added Phase 35, amends OWN-03/OWN-04 UI)* Add Owner modal gains a final review step after the existing warning: a summary screen showing the selected user and the change about to be made, with the single confirm button that triggers the promote API living on this review step (not on the warning step). Brings Add Owner's step structure in line with Remove Owner's three-step pattern (OWN-07).
 
 ### Remove Owner
 
 - [ ] **OWN-06**: Each owner entry has a Remove action, visible to owners only
-- [ ] **OWN-07**: Remove Owner opens a two-step modal: Step 1 is a warning explaining what removing this user's owner access means, recommending reassignment to `client` only if the goal is to fully remove the user's admin privileges; Step 2 is a required role picker (radio or select) with options `admin`, `agent`, `client`, defaulting to `admin`. A single confirm button on Step 2 triggers the API.
-- [ ] **OWN-08**: Confirming step 2 calls the demote API to reassign the owner to the selected role; on success, the owners query key is invalidated to refetch the list
+- [ ] **OWN-07**: *(Amended during Phase 35 discussion — was two-step)* Remove Owner opens a three-step modal: Step 1 is a warning explaining what removing this user's owner access means, recommending reassignment to `client` only if the goal is to fully remove the user's admin privileges; Step 2 is a required role picker (radio group) with options `admin`, `agent`, `client`, defaulting to `admin`; Step 3 is a final review screen summarizing the target user and the selected role change, with a single confirm button that triggers the API.
+- [ ] **OWN-08**: Confirming step 3 calls the demote API to reassign the owner to the selected role; on success, the owners query key is invalidated to refetch the list
 - [ ] **OWN-09**: Self-demotion is allowed as long as at least one other owner remains after the change
 - [ ] **OWN-10**: If the target is the only owner, the Remove button is disabled with a tooltip explaining why removal is blocked
 
@@ -83,6 +84,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OWN-08 | Phase 35 | Pending |
 | OWN-09 | Phase 35 | Pending |
 | OWN-10 | Phase 35 | Pending |
+| OWN-13 | Phase 35 | Pending |
 | API-01 | Phase 33 | Complete |
 | API-02 | Phase 33 | Complete |
 | API-03 | Phase 33 | Complete |

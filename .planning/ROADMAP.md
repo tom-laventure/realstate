@@ -186,15 +186,16 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 **UI hint**: yes
 
 ### Phase 35: Remove Owner Flow
-**Goal**: Owners can safely demote another owner (or themselves) through a guided two-step flow that always leaves the brokerage with at least one owner.
-**Depends on**: Phase 34 (shares the Current Owners list UI and page shell)
-**Requirements**: OWN-06, OWN-07, OWN-08, OWN-09, OWN-10
+**Goal**: Owners can safely demote another owner (or themselves) through a guided three-step flow that always leaves the brokerage with at least one owner, and Add Owner (Phase 34) gets a matching final review step for consistency.
+**Depends on**: Phase 34 (shares the Current Owners list UI and page shell; also revises AddOwnerDialog.tsx)
+**Requirements**: OWN-06, OWN-07, OWN-08, OWN-09, OWN-10, OWN-13
 **Success Criteria** (what must be TRUE):
   1. Each owner entry shows a Remove action, visible to owners only
-  2. Clicking Remove opens a two-step modal: Step 1 warns what removing owner access means and recommends `client` reassignment when the goal is full privilege removal; Step 2 requires picking a replacement role (`admin`/`agent`/`client`, defaulting to `admin`) before a single confirm triggers the demotion
-  3. An owner can demote themselves as long as at least one other owner remains after the change
+  2. Clicking Remove opens a three-step modal: Step 1 warns what removing owner access means and recommends `client` reassignment when the goal is full privilege removal; Step 2 is a radio-group role picker (`admin`/`agent`/`client`, defaulting to `admin`); Step 3 is a final review screen summarizing the target and selected role, with the single confirm button that triggers the demotion
+  3. An owner can demote themselves as long as at least one other owner remains after the change; self-demotion shows an extra explicit warning line on Step 1
   4. When the target is the only remaining owner, the Remove button is disabled with a tooltip explaining why
-  5. Confirming step 2 reassigns the role via the demote API and the owners list refetches
+  5. Confirming step 3 reassigns the role via the demote API and the owners list refetches
+  6. Add Owner modal (AddOwnerDialog.tsx) gains a matching final review step after its existing warning, with the promote confirm button living on that review step
 **Plans**: TBD
 
 ---
