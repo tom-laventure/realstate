@@ -42,7 +42,7 @@ Requirements for this milestone. Each maps to roadmap phases.
 ### Lockdown (existing add-agent endpoint)
 
 - [x] **LOCK-01**: `POST /admin/brokerage/add-agent` rejects `owner` role assignment with HTTP 403 Forbidden — owner role can only be assigned via the new settings endpoint
-- [ ] **LOCK-02**: The role selector on the `/admin/brokerage/add-agent` frontend page no longer offers "owner" as an option (only `admin` and `agent` assignable there)
+- [x] **LOCK-02**: The role selector on the `/admin/brokerage/add-agent` frontend page no longer offers "owner" as an option (only `admin` and `agent` assignable there)
 
 ## v2 Requirements
 
@@ -89,7 +89,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | API-04 | Phase 33 | Complete |
 | API-05 | Phase 33 | Complete |
 | LOCK-01 | Phase 33 | Complete |
-| LOCK-02 | Phase 33 | Pending |
+| LOCK-02 | Phase 33 | Complete |
 
 **Coverage:**
 - v1.11 requirements: 19 total

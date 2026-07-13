@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.11
 milestone_name: Brokerage Ownership Management
-status: executing
+status: verifying
 stopped_at: Completed 33-02-PLAN.md
-last_updated: "2026-07-12T23:58:15.761Z"
-last_activity: 2026-07-12
+last_updated: "2026-07-13T00:02:28.644Z"
+last_activity: 2026-07-13
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 0
+  completed_plans: 3
+  percent: 33
 ---
 
 # Project State
@@ -27,10 +27,10 @@ See: .planning/PROJECT.md (updated 2026-07-12 after v1.11 roadmap created)
 
 Phase: 33 (backend-owner-api-endpoint-lockdown) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
-Last activity: 2026-07-12
+Status: Phase complete — ready for verification
+Last activity: 2026-07-13
 
-Progress: [███████░░░] 67%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [███████░░░] 67%
 *Updated after each plan completion*
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
 | Phase 33 P02 | 15min | 3 tasks | 3 files |
+| Phase 33 P03 | 2min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,7 @@ Recent decisions affecting current work:
 - [Phase 32]: [Phase 32-04 - gap closure]: Gate the fetch, not just the render, for permission-scoped data hooks — `{ enabled }` options arg pattern established; reusable for any future permission-gated fetch (relevant if v1.11 owner-list queries need role-based enabling)
 - [Phase 33]: 33-01: UsersController#update/#destroy and InvitationsController#create now enforce owner-lockdown (D-01/D-02/D-03); owner-role changes are only possible via the future /admin/settings/owners endpoints
 - [Phase 33]: 33-02: New V1::Admin::Settings::OwnersController ships index/eligible (agent+ readable) + owner-only create/update, closing the owner-role-change API surface — Single last-owner COUNT guard on demote covers self-demotion (OWN-09) with no special-casing; D-05 re-validates target's current role server-side rather than trusting a prior /eligible response
+- [Phase 33]: 33-03: Add-agent role selector limited to Agent/Admin only (owner SelectItem + RolePermissions roles prop trimmed) — RolePermissions.tsx left untouched — it's a generic reusable component with its own default full role list; only the AddAgentView call-site was scoped down
 
 ### Pending Todos
 
@@ -102,7 +104,7 @@ Items carried forward from previous milestone close:
 
 ## Session Continuity
 
-Last session: 2026-07-12T23:58:15.752Z
+Last session: 2026-07-13T00:00:06.788Z
 Stopped at: Completed 33-02-PLAN.md
 Resume file: None
 Next action: `/gsd-discuss-phase 33` or `/gsd-plan-phase 33`

@@ -147,7 +147,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 
 **Milestone Goal:** Give brokerage owners a dedicated, secure way to manage ownership (add/remove owners) from a new `/admin/settings` page, closing the admin-takeover security gap flagged at v1.10 close.
 
-- [ ] **Phase 33: Backend Owner API & Endpoint Lockdown** - New owner-management endpoints ship alongside the `add-agent` owner-assignment lockdown, closing the pre-existing takeover gap
+- [x] **Phase 33: Backend Owner API & Endpoint Lockdown** - New owner-management endpoints ship alongside the `add-agent` owner-assignment lockdown, closing the pre-existing takeover gap (completed 2026-07-13)
 - [ ] **Phase 34: Ownership Management UI — Settings Page & Add Owner** - `/admin/settings` exists with a working Ownership Management section: view owners, add a new one
 - [ ] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected two-step flow
 
@@ -166,7 +166,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 **Plans**: 3 plans
 - [x] 33-01-PLAN.md — Backend lockdown: users#update/#destroy owner guards (D-01/D-02) + invitations#create owner rejection (D-03/LOCK-01) + tests
 - [x] 33-02-PLAN.md — New owner-management API: routes + Settings::OwnersController (index/eligible/create/update, API-01..05) + tests
-- [ ] 33-03-PLAN.md — Frontend LOCK-02: remove owner option from add-agent role selector
+- [x] 33-03-PLAN.md — Frontend LOCK-02: remove owner option from add-agent role selector
 **UI hint**: yes
 
 ### Phase 34: Ownership Management UI — Settings Page & Add Owner
@@ -235,6 +235,6 @@ Phases execute in numeric order: 33 → 34 → 35
 | 30. Backend RBAC Enforcement | v1.10 | 2/2 | Complete   | 2026-07-09 |
 | 31. Agent Dashboard Access & Group Management | v1.10 | 3/3 | Complete   | 2026-07-10 |
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |
-| 33. Backend Owner API & Endpoint Lockdown | v1.11 | 2/3 | In Progress|  |
+| 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete   | 2026-07-13 |
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 0/TBD | Not started | - |
 | 35. Remove Owner Flow | v1.11 | 0/TBD | Not started | - |
