@@ -33,7 +33,7 @@ Applied manually (not via `/gsd:code-review --fix`) in commit `c8297c6`:
 
 - **CR-01, CR-02 (fixed):** Both dialogs now reset wizard state via a `useEffect` on every transition to `open`, covering parent-driven closes (`setDemoteTarget(null)` / `setIsAddOwnerOpen(false)`) as well as user-driven cancels.
 - **WR-01 (fixed):** Both dialogs now ignore Escape/outside-click while `isSubmitting`.
-- **WR-02 (fixed):** `RemoveOwnerDialog` requires an explicit role selection before "Continue to Review" enables (no more silent default to Admin).
+- **WR-02 (reverted, false positive):** Initially applied as suggested (require explicit selection), but this contradicts 35-CONTEXT.md D-03 and the ROADMAP.md Phase 35 success criteria, both of which explicitly specify the role picker "defaulting to admin" as a deliberate, locked decision — not an oversight. Reverted in a follow-up commit; the picker still resets to Admin on every reopen (part of the CR-01 fix), it's just no longer gated behind an explicit choice.
 - **WR-03 (partially addressed):** Added `RemoveOwnerDialog.test.tsx` / `AddOwnerDialog.test.tsx` covering the CR-01/CR-02 regression specifically (reopen resets to step 1) and the WR-02 gate. Broader component test coverage beyond these two behaviors was not added.
 - **WR-04 (fixed):** `StepDots` now has `role="img"` + `aria-label="Step X of Y"`.
 - **WR-05 (deferred):** `useDemoteOwner.test.tsx`'s `toString()`-based onError assertion was left as-is.
