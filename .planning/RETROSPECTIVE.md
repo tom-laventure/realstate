@@ -485,6 +485,50 @@
 
 ---
 
+## Milestone: v1.11 — Brokerage Ownership Management
+
+**Shipped:** 2026-07-13
+**Phases:** 3 (33–35) | **Plans:** 11 | **Timeline:** 2 days (2026-07-12 → 2026-07-13)
+
+### What Was Built
+
+1. Closed the CR-02/CR-03 admin-takeover chain: `UsersController#update`/`#destroy` and `InvitationsController#create` reject any owner-role transition for any caller; only the new dedicated endpoint can change ownership — 10 new integration tests (Phase 33)
+2. `V1::Admin::Settings::OwnersController` — list owners, list eligible admin/agent members, promote, demote-with-last-owner-guard — all gated by DB-backed `current_membership`, never a JWT role claim (Phase 33)
+3. Full Ownership Management UI on a new `/admin/settings` page: Current Owners list, owner-gated Add Owner modal with searchable combobox, wired through a dedicated Context brain (Phase 34)
+4. Three-step Remove Owner flow (warning → role picker defaulting to admin → destructive review/confirm), last-owner-protected disabled button with tooltip, self-demotion detection and a synchronous Redux session patch verified on both subdomain and portal login paths (Phase 35)
+5. Add Owner retrofitted into a matching two-step review flow for UI consistency with Remove Owner (OWN-13, Phase 35)
+
+### What Worked
+
+- **Backend-then-frontend phase sequencing** (mirroring v1.10's Phase 30 → 31/32 pattern) — Phase 33 shipped the owner API + add-agent lockdown first, so no frontend surface in Phase 34/35 could ever call an endpoint that didn't yet enforce owner-only server-side.
+- **Post-merge test gate caught a real regression immediately** — Wave 1's new `useDemoteOwner` test used a relative MSW mock path that didn't match the axios `VITE_BE_ENDPOINT` absolute baseURL, so the mutation silently hit a real (failing) network request instead of the mock. The post-merge gate (build + full test suite after every wave) surfaced this before it could compound into later waves.
+- **Cross-checking code review suggestions against locked CONTEXT.md decisions** — the code reviewer flagged the Remove Owner role picker's "defaults to Admin" behavior as a deliberateness violation (WR-02) and suggested requiring explicit selection. Applied it, then caught during a later verification pass that 35-CONTEXT.md D-03 explicitly locked "defaulting to admin" as a deliberate choice — reverted the change. Advisory review findings still need to be checked against the phase's own accepted decisions before applying, not just judged on general UX principle.
+- **Milestone-close artifact audit surfaced a real, unrelated gap** — `/gsd:complete-milestone`'s open-artifact audit caught a Phase 33 UAT gap (`EditMemberView.tsx` still listed "Owner" as a selectable role, 403ing on submit) that had gone unnoticed since Phase 33 shipped. Fixed at milestone close rather than deferred, closing the loop before archiving.
+
+### What Was Inefficient
+
+- **Nested sub-repo worktrees required manual setup by every executor** — `frontend/` is a gitlink (not a registered git submodule), so Claude Code's `isolation="worktree"` checks it out empty in each spawned worktree. Every executor across all 4 waves had to independently discover this and set up a second linked worktree inside `frontend/` pinned to the gitlink SHA. This cost real tokens repeatedly re-deriving the same fix; should be documented as a standing pattern for this repo rather than rediscovered per-plan.
+- **A pre-existing dirty `package.json`/`package-lock.json` in the primary frontend checkout** (from an earlier session's untracked `npm install`) caused a merge conflict during Wave 1's worktree merge-back — required a stash/merge/verify/drop cycle to resolve safely. Should have been caught and cleaned up before starting phase execution.
+
+### Patterns Established
+
+- **Always-mounted dialogs must reset wizard state on `open` transitioning true, not just on close** — when a multi-step dialog is rendered unconditionally (not `{condition && <Dialog/>}`) and the parent can close it by flipping the controlled `open` prop directly (e.g. after a successful mutation), the dialog's own `onOpenChange` never fires. A `useEffect` keyed on `open` becoming true is the only reset point that covers both user-driven cancels and parent-driven closes. Established fixing `RemoveOwnerDialog`/`AddOwnerDialog` (35-REVIEW.md CR-01/CR-02).
+- **MSW mock paths must use a wildcard prefix (`*/v1/...`) when the app's axios baseURL is absolute** (`VITE_BE_ENDPOINT`), not a bare relative path — relative MSW handlers resolve against the test document's origin, which differs from the configured backend origin in this repo's test environment.
+
+### Key Lessons
+
+- **A code review finding phrased as a general UX principle can still be wrong for this specific phase** — always check advisory suggestions that change behavior against the phase's own `*-CONTEXT.md` locked decisions before applying them, not just against general best practice.
+- **Nested non-submodule gitlinks (`frontend/`, `backend/` as separate repos with no `.gitmodules`) need an explicit, repo-documented worktree-setup recipe** for parallel executors — leaving it to be rediscovered per-plan is a real, recurring cost.
+- **Milestone close is a legitimate place to close small, unrelated gaps discovered by the artifact audit** — don't just defer everything found at close; a same-class, quick fix (mirroring an established pattern from the same milestone) is worth doing immediately rather than carried forward indefinitely.
+
+### Cost Observations
+
+- Sessions: 1 continuous session (execute-phase → code review → milestone close)
+- Model: Claude Sonnet 5 throughout
+- Notable: All 3 phases (11 plans) executed and the milestone closed in a single session; the milestone-close artifact audit + gap closure added real value (caught 2 genuine defects: the MSW mock bug at wave 1 and the `EditMemberView.tsx` owner-role gap from Phase 33) beyond what phase-level verification alone found.
+
+---
+
 ## Cross-Milestone Trends
 
 | Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 | v1.5 | v1.6 |
@@ -499,3 +543,5 @@
 **Trend:** Velocity peaked at 5.5 plans/day in v1.6 — domain model familiarity from v1.5 eliminated exploratory overhead. REQUIREMENTS.md checkbox sync gap is now seven consecutive milestones — fix must be at the workflow level (PLAN.md template, not milestone-close checklist). Deferred items trending down (4 → 1 → 1). Both sign-in paths (`LoginSuccessful` + `Login.tsx`) require the same domain-aware logic — established as new-feature checklist rule.
 
 **v1.10 update (table not yet backfilled for v1.7–v1.9):** 3 phases, 9 plans, 2 days, 4.5 plans/day, 4 deferred items carried forward (unchanged from v1.9) + 2 new (both from 32-04-REVIEW.md, non-blocking). REQUIREMENTS.md checkbox sync gap did NOT recur this milestone — all 16 requirements were correctly checked off during phase execution. A new drift surfaced instead: PROJECT.md's "Active" section lagged REQUIREMENTS.md by a full phase at milestone-close time. First milestone to require a genuine gap-closure round-trip (human UAT → root-cause → 32-04 → re-verify → re-approve) rather than shipping clean on the first verification pass.
+
+**v1.11 update:** 3 phases, 11 plans, 2 days, 5.5 plans/day (ties v1.6's peak velocity). 6 deferred items carried forward unchanged from v1.10 (Architecture, CR-02, 2×UX, WR-01, IN-02) + 3 new (OWN-11 audit log, OWN-12 email notifications, BILL-01 billing section — all explicitly out-of-scope-by-design, not gaps). REQUIREMENTS.md checkbox sync gap did NOT recur — second consecutive clean milestone on this front. Two genuine defects caught and fixed at execution/close time rather than deferred: a wave-1 MSW mock path bug (post-merge test gate) and a Phase-33 UAT gap in `EditMemberView.tsx`'s role selector (milestone-close artifact audit) — both closed same-session, contributing to a 0-carryover-defect close.
