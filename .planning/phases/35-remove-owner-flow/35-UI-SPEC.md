@@ -74,13 +74,21 @@ Reused verbatim from Phase 34's `src/index.css` oklch token set. This phase is t
 |------|-------|-------|
 | Dominant (60%) | `--background` (oklch(1 0 0) / white) | Page background, unchanged |
 | Secondary (30%) | `--card` / `--muted` | Dialog surface, unchanged |
-| Accent (10%) | `--primary` (oklch(0.21 ...) near-black in light mode) | Radio group selected-state indicator fill (`RadioGroupItem`'s `Circle` icon, `fill-primary`), Step 2→3 and Add Owner step-1→2 "Continue"/advance buttons, `StepDots` active/completed indicators |
+| Accent (10%) | `--primary` (oklch(0.21 ...) near-black in light mode) | Radio group selected-state indicator fill (`RadioGroupItem`'s `Circle` icon, `fill-primary`), Step 2→3 and Add Owner step-1→2 advance buttons, `StepDots` active/completed indicators |
 | Destructive | `--destructive` (oklch(0.577 0.245 27.325)) | **Newly activated this phase.** Remove icon-button hover state (`hover:text-destructive hover:bg-destructive/10`, per D-01); Step 3 final "Confirm Role Change" button (`bg-destructive text-destructive-foreground hover:bg-destructive/90`, exact class string borrowed from `DeleteDomainDialog.tsx`'s `AlertDialogAction`) |
 | Warning (non-destructive caution) | `amber-50` bg / `amber-300/60` border / `amber-900` text (Tailwind arbitrary, established codebase pattern) | Remove Owner Step 1 warning block; unchanged Add Owner warning callout (now living on its existing step 1, before the new review step) |
 
 Accent reserved for: the radio group's selected-option fill, the non-destructive "advance to next step" buttons (Remove Owner Step 1→2, Step 2→3-is-review-not-primary — see note below, Add Owner step 1's "Continue to Review"), and `StepDots` active/completed dots. No other element (row text, dropdown items, review-screen labels) uses accent/primary color.
 
-**Important distinction:** the Remove Owner flow has exactly one destructive-colored button in the entire three-step dialog — the final "Confirm Role Change" button on Step 3. Step 1→2 ("Continue") and Step 2→3 ("Continue to Review") use the default/primary button variant, not destructive — the destructive color is reserved exclusively for the button that actually fires the API call, so the visual weight of "this is dangerous" lands only on the true point of no return.
+**Important distinction:** the Remove Owner flow has exactly one destructive-colored button in the entire three-step dialog — the final "Confirm Role Change" button on Step 3. Step 1→2 ("Continue to Role Selection") and Step 2→3 ("Continue to Review") use the default/primary button variant, not destructive — the destructive color is reserved exclusively for the button that actually fires the API call, so the visual weight of "this is dangerous" lands only on the true point of no return.
+
+### Visual Focal Point (per screen/step)
+
+- **Remove Owner Step 1:** the "Continue to Role Selection" primary button is the sole focal point — the only filled/accent-colored element on an otherwise text-only warning screen.
+- **Remove Owner Step 2:** the selected radio option's accent-filled indicator (`fill-primary` circle) is the focal point — the only accent-colored element among the three role rows.
+- **Remove Owner Step 3:** the destructive "Confirm Role Change" button is the sole focal point of the flow — the only destructive-red element in the entire dialog experience, marking the true point of no return.
+- **Add Owner Step 1 (unchanged):** the user-search combobox trigger remains the focal point, per `34-UI-SPEC.md`.
+- **Add Owner Step 2 (new review step):** the "Confirm Add Owner" primary button is the sole focal point — the only accent-colored, interactive element on the review summary screen.
 
 ---
 
@@ -96,8 +104,8 @@ Sourced from REQUIREMENTS.md (OWN-06–OWN-10, OWN-13 — verbatim-required stru
 | Step 1 heading | "What this means" |
 | Step 1 body (base, D-02) | "Removing {name}'s owner access takes away their ability to manage brokerage ownership, billing, and other owners. If your goal is to fully revoke their admin privileges — not just their owner status — reassign them to Client in the next step. Admin and Agent roles still grant meaningful access to brokerage data." |
 | Step 1 self-demotion addition (D-06, only when `demoteTarget.id === currentUserId`) | "You are removing your own owner access — you will immediately lose owner-level permissions." (rendered as a second, visually distinct paragraph below the base warning, e.g. `font-medium` or a thin top border, not merged into the same sentence) |
-| Step 1 primary action | "Continue" (advances to Step 2; default/primary variant, not destructive) |
-| Step 1 secondary action | "Cancel" (closes dialog, resets to Step 1 per D-05) |
+| Step 1 primary action | "Continue to Role Selection" (advances to Step 2; default/primary variant, not destructive) |
+| Step 1 secondary action | "Keep Owner Access" (closes dialog, resets to Step 1 per D-05 — no changes have been made at this point, so the dismiss label states the literal outcome instead of a generic "Cancel") |
 | Step 2 heading | "Choose a new role for {name}" |
 | Step 2 helper text | "This role takes effect immediately after you confirm." |
 | Step 2 radio options (D-03, order fixed, default `admin` per D-03) | "Admin", "Agent", "Client" — rendered via `RadioGroupItem` + `Label`, `capitalize font-normal` |
