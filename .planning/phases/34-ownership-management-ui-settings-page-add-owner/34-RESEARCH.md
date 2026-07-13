@@ -392,17 +392,17 @@ Not applicable — this is an internal feature build with no external framework 
 
 **All other claims in this research are `[VERIFIED: codebase]`** — every controller endpoint, response shape, route path, component, hook, and permission-map entry cited was read directly from the repository during this research session, not drawn from training-data assumptions.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Permission-based gate (`manage_ownership`) vs. direct `useRole()` check for Add Owner visibility**
    - What we know: CONTEXT.md explicitly leaves this to Claude's discretion. ROLES.md's own documented convention discourages direct role-string comparison in components ("Avoid comparing `role` strings directly in components — that bypasses the permission map").
    - What's unclear: Whether the planner should treat ROLES.md's stated convention as effectively locking this decision despite CONTEXT.md calling it discretionary.
-   - Recommendation: Add `manage_ownership` to `Permission` union + `ROLE_PERMISSIONS['owner']` only, then gate with `<Can permission="manage_ownership">`. This matches the codebase's own documented best practice and keeps a single audit point (`permissions.ts`) rather than introducing a second gating mechanism.
+   - RESOLVED (recommendation): Add `manage_ownership` to `Permission` union + `ROLE_PERMISSIONS['owner']` only, then gate with `<Can permission="manage_ownership">`. This matches the codebase's own documented best practice and keeps a single audit point (`permissions.ts`) rather than introducing a second gating mechanism.
 
 2. **Exact TSX comment syntax for the Billing stub**
    - What we know: REQUIREMENTS.md's example comment (`# TODO: Add billing management section`) uses Ruby-style `#` syntax, but this is a `.tsx` file.
    - What's unclear: Whether the `#` prefix is meant literally (unlikely — it's not valid outside a string in TSX) or just illustrative of "a TODO comment with this text."
-   - Recommendation: Use `// TODO: Add billing management section` (standard JS/TS comment syntax) placed where the Billing section would eventually render, preserving the required text content.
+   - RESOLVED (recommendation): Use `// TODO: Add billing management section` (standard JS/TS comment syntax) placed where the Billing section would eventually render, preserving the required text content.
 
 ## Environment Availability
 
