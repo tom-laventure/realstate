@@ -1,5 +1,5 @@
 ---
-status: resolved
+status: complete
 phase: 33-backend-owner-api-endpoint-lockdown
 source: [33-01-SUMMARY.md, 33-02-SUMMARY.md, 33-03-SUMMARY.md]
 started: 2026-07-13T00:33:09Z
@@ -53,25 +53,24 @@ skipped: 0
 
 ## Gaps
 
-- truth: "Non-owner cannot invite someone as Owner"
-  status: resolved
-  reason: >-
-    User reported: /admin/users/members/ad47a73b-c452-412b-80aa-ef683f4a67e4/edit
-    shows "Owner" as a selectable role, but returns 403 when attempted to update.
-    Root cause: EditMemberView.tsx (frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx)
-    defined ALL_ROLE_OPTIONS including {value:'owner', label:'Owner'} and showed it
-    whenever the viewing caller's own role was owner. Phase 33 Plan 01 locked down
-    PATCH /v1/admin/users/:id to reject any update where the target's current role
-    OR the requested role is "owner" (D-02), for ANY caller — but Plan 03 (LOCK-02)
-    only removed the owner option from AddAgentView.tsx (the invite/add-agent form),
-    not this separate Edit Member form.
+(none remaining — see Resolution Log)
 
-    Fixed at v1.11 milestone close (frontend commit 0d86867): removed 'owner' from
-    the role options shown to owner-viewers, and since the backend rejects ANY
-    role change when the target's current role is 'owner' (not just changes to
-    'owner'), replaced the whole role selector with explanatory text pointing to
-    Settings → Ownership Management when editing an existing owner's account.
-  severity: major
-  test: 2
-  artifacts: [frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx]
-  missing: []
+## Resolution Log
+
+- **"Non-owner cannot invite someone as Owner" (test 2, major, resolved 2026-07-13):**
+  User reported: `/admin/users/members/ad47a73b-c452-412b-80aa-ef683f4a67e4/edit`
+  showed "Owner" as a selectable role, but returned 403 when attempted to update.
+  Root cause: `EditMemberView.tsx` (`frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx`)
+  defined `ALL_ROLE_OPTIONS` including `{value:'owner', label:'Owner'}` and showed it
+  whenever the viewing caller's own role was owner. Phase 33 Plan 01 locked down
+  `PATCH /v1/admin/users/:id` to reject any update where the target's current role
+  OR the requested role is `"owner"` (D-02), for ANY caller — but Plan 03 (LOCK-02)
+  only removed the owner option from `AddAgentView.tsx` (the invite/add-agent form),
+  not this separate Edit Member form.
+
+  Fixed at v1.11 milestone close (frontend commit `0d86867`): removed `'owner'` from
+  the role options shown to owner-viewers, and since the backend rejects ANY
+  role change when the target's current role is `'owner'` (not just changes to
+  `'owner'`), replaced the whole role selector with explanatory text pointing to
+  Settings → Ownership Management when editing an existing owner's account.
+  Artifacts: `frontend/src/components/view/admin/usersAdminView/memberAdminView/EditMemberView.tsx`
