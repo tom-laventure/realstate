@@ -16,7 +16,7 @@
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers. Ownership changes (promote to owner, demote/remove an owner) are now a fully owner-gated, backend-enforced API surface (`Admin::Settings::OwnersController`) separate from the generic user-management endpoints, closing the prior admin-takeover gap.
 
 ## Core Value
 
@@ -28,7 +28,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-Requirements being defined for v1.11 — see `.planning/REQUIREMENTS.md` once drafted.
+Remaining v1.11 requirements (Phases 34–35: Ownership Management UI) — see `.planning/REQUIREMENTS.md`.
 
 ### Validated
 
@@ -155,6 +155,16 @@ Requirements being defined for v1.11 — see `.planning/REQUIREMENTS.md` once dr
 - ✓ DPRI-01–04: Active-domain-only primary eligibility; Owner-only set-primary action; 301 redirect middleware at Rack layer; system emails embed primary domain — v1.6 Phases 22/23/24
 - ✓ DPRD-01–06: Pro downgrade freezes all custom domains; frozen domains redirect to subdomain; subdomain auto-promoted to primary; frozen badge + upgrade CTA; owner email notification; re-upgrade restores frozen domains — v1.6 Phases 22/23/24
 
+### Validated (v1.11 — Phase 33: Backend Owner API & Endpoint Lockdown)
+
+- ✓ LOCK-01: `POST /v1/admin/invitations` rejects `role: "owner"` (403) for any caller — v1.11 Phase 33
+- ✓ LOCK-02: `owner` removed from the `/admin/brokerage/add-agent` role selector (frontend, defense-in-depth) — v1.11 Phase 33
+- ✓ API-01: `GET /v1/admin/settings/owners` returns current owners (name + email), readable by agent+ — v1.11 Phase 33
+- ✓ API-02: `GET /v1/admin/settings/owners/eligible` returns admin/agent members eligible for promotion — v1.11 Phase 33
+- ✓ API-03: `POST /v1/admin/settings/owners` promotes an eligible member to owner, owner-only caller, server-side re-validation of target's current role — v1.11 Phase 33
+- ✓ API-04: `PATCH /v1/admin/settings/owners/:id` demotes an owner, owner-only caller, rejects removing the brokerage's last owner — v1.11 Phase 33
+- ✓ API-05: All owner-role mutations enforced server-side via DB-backed `current_membership` (never a JWT role claim) — v1.11 Phase 33
+
 ## Deferred to v1.11+
 
 - [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6)
@@ -263,6 +273,8 @@ Requirements being defined for v1.11 — see `.planning/REQUIREMENTS.md` once dr
 | Reused existing 4-permission model instead of new granular permissions — v1.10 | `access_admin_panel`/`manage_brokerage_settings`/`manage_users`/`manage_groups` + shell-level role gate already produce the desired read/write split | ✓ Good — zero new permission types needed |
 | Brokerage-level staff invitations blocked entirely (no partial read-only view) — v1.10 | No UI exists for read-only invitation viewing outside the creation form itself | ✓ Good — matches ACCESS-07 exactly |
 | Gate the fetch, not just the render, for permission-scoped data hooks — v1.10 Phase 32 | A `<Can>` JSX gate cannot stop an ancestor context hook's `useQuery` from firing; discovered via human UAT after 32-03 shipped render-gate-only | ✓ Good — `{ enabled }` options arg mirroring `useFetchActivityFeed` convention closes the gap at the hook boundary; reusable pattern for future permission-gated fetches |
+| Owner-role enforcement via DB-backed `current_membership`, not JWT `role` claim — v1.11 Phase 33 | The JWT's role claim can go stale for up to 24h (`TokenService::EXPIRY_DURATION`); a demoted owner could otherwise retain owner privileges until token expiry | ✓ Good — `Admin::BaseController#current_membership` already re-queried the DB fresh per request; all new/edited endpoints correctly rely on it exclusively |
+| All owner-role changes centralized in `Settings::OwnersController` (generic `users#update` value-rejects `role: "owner"` in both directions) — v1.11 Phase 33 | The only place carrying the last-owner invariant; letting the generic endpoint also assign/demote owner would let it bypass that guard | ✓ Good — closes the CR-02/CR-03 admin-takeover chain at its root instead of patching each bypass path individually |
 
 ---
 
@@ -285,4 +297,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-12 — started milestone v1.11 (Brokerage Ownership Management)*
+*Last updated: 2026-07-13 — Phase 33 complete (Backend Owner API & Endpoint Lockdown), v1.11*
