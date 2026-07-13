@@ -149,7 +149,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 
 - [x] **Phase 33: Backend Owner API & Endpoint Lockdown** - New owner-management endpoints ship alongside the `add-agent` owner-assignment lockdown, closing the pre-existing takeover gap (completed 2026-07-13)
 - [x] **Phase 34: Ownership Management UI — Settings Page & Add Owner** - `/admin/settings` exists with a working Ownership Management section: view owners, add a new one (completed 2026-07-13)
-- [ ] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected three-step flow
+- [x] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected three-step flow (completed 2026-07-13)
 
 ## Phase Details
 
@@ -201,7 +201,7 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 - [x] 35-02-PLAN.md — Remove Owner three-step dialog + CurrentOwnersList Remove button (disabled/tooltip for last owner)
 - [x] 35-03-PLAN.md — Add Owner review-step retrofit (OWN-13)
 - [x] 35-04-PLAN.md — Brain wiring: demote mutation + self-demote Redux patch + currentUserId + section/board prop threading
-- [ ] 35-05-PLAN.md — Human-verify checkpoint: full flow across subdomain + portal paths
+- [x] 35-05-PLAN.md — Human-verify checkpoint: full flow across subdomain + portal paths
 
 ---
 
@@ -246,4 +246,4 @@ Phases execute in numeric order: 33 → 34 → 35
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |
 | 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 3/3 | Complete    | 2026-07-13 |
-| 35. Remove Owner Flow | v1.11 | 4/5 | In Progress|  |
+| 35. Remove Owner Flow | v1.11 | 5/5 | Complete   | 2026-07-13 |
