@@ -409,11 +409,10 @@ const handleDemoteOwner = useCallback(async (role: DemoteTargetRole) => {
 // Source: adapted from existing frontend/src/components/view/admin/settingsAdminView/CurrentOwnersList.tsx
 interface CurrentOwnersListProps {
     owners: OwnerType[]
-    currentUserId: string
     onRemove: (owner: OwnerType) => void
 }
 
-const CurrentOwnersList = ({ owners, currentUserId, onRemove }: CurrentOwnersListProps) => {
+const CurrentOwnersList = ({ owners, onRemove }: CurrentOwnersListProps) => {
     const isOnlyOwner = owners.length <= 1
     // ...
     return (
@@ -453,7 +452,7 @@ const CurrentOwnersList = ({ owners, currentUserId, onRemove }: CurrentOwnersLis
     )
 }
 ```
-`currentUserId` is passed down from `OwnershipManagementSection` (sourced from `state.account.id` in the Brain) so `RemoveOwnerDialog` can add the D-06 extra warning sentence when `demoteTarget.id === currentUserId`.
+`currentUserId` is NOT threaded through `CurrentOwnersList` (unused there — the list only branches on `owners.length`). It is passed directly from `OwnershipManagementSection` (sourced from `state.account.id` in the Brain) to `RemoveOwnerDialog`, which uses it for the D-06 extra warning sentence when `demoteTarget.id === currentUserId`.
 
 ## State of the Art
 
