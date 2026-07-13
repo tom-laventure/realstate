@@ -470,12 +470,12 @@ const CurrentOwnersList = ({ owners, currentUserId, onRemove }: CurrentOwnersLis
 | A1 | The hand-authored `radio-group.tsx` source in Pattern 3 (Radix `RadioGroupPrimitive.Root`/`Item`/`Indicator` + `Circle` icon + `cn()` styling) is training-knowledge reconstruction of the classic pre-Base-UI shadcn `new-york` RadioGroup, not fetched from an authoritative source in this session (WebFetch of the live shadcn docs returned the newer Base UI variant instead, which was explicitly rejected — see Pitfall 4) | Architecture Patterns, Pattern 3 | Low-to-medium: if the styling/API is slightly off from the exact classic shadcn output, the component will still function (Radix primitives are correctly named and imported) but may need minor className/indicator tweaks during visual review — does not block functionality, only polish |
 | A2 | `useGetCurrentUser`'s `nextStep === 'brokerage-contact'` navigate side effect will never fire when invoked from `useSettingsAdminContext`, because `RequireRole` already gates `/admin/settings` to owner/admin/agent | Common Pitfalls, Pitfall 1 fix / Code Examples | Low: if somehow a stale/edge-case `nextStep` value is returned for an already-onboarded owner, calling `useGetCurrentUser()` from the Settings page could trigger an unexpected navigation away from the page the user is trying to use — worth a quick manual check during implementation, not a redesign |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should `useGetCurrentUser()`'s navigation side effect be split out into a narrower hook before reuse?**
    - What we know: `useGetCurrentUser` couples "fetch + populate `account.id`/`membership`" with "navigate to onboarding if incomplete." Reusing it as-is in `useSettingsAdminContext` is the minimal-diff fix (reuses an existing pattern, per project convention) and should be safe given the `RequireRole` gate already in place.
    - What's unclear: whether there's any edge case (e.g. a race during an in-progress onboarding flow accessed via a bookmarked `/admin/settings` URL) where `nextStep` could be non-null for a role-gated user.
-   - Recommendation: use `useGetCurrentUser()` as-is (Pattern/Pitfall 1 fix) since it matches "reuse existing patterns" over inventing a new one; flag A2 for a 30-second manual check during Phase 35 execution (log in as an owner via both subdomain and portal URLs, confirm no unexpected redirect on the Settings page).
+   - RESOLVED: use `useGetCurrentUser()` as-is (Pattern/Pitfall 1 fix) since it matches "reuse existing patterns" over inventing a new one; flag A2 for a 30-second manual check during Phase 35 execution (log in as an owner via both subdomain and portal URLs, confirm no unexpected redirect on the Settings page).
 
 ## Environment Availability
 
