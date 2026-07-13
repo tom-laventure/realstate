@@ -16,7 +16,7 @@
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers. Ownership changes (promote to owner, demote/remove an owner) are now a fully owner-gated, backend-enforced API surface (`Admin::Settings::OwnersController`) separate from the generic user-management endpoints, closing the prior admin-takeover gap.
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers. Ownership changes (promote to owner, demote/remove an owner) are now a fully owner-gated, backend-enforced API surface (`Admin::Settings::OwnersController`) separate from the generic user-management endpoints, closing the prior admin-takeover gap. A dedicated `/admin/settings` Ownership Management section gives owners a full add/remove-owner UI: a Current Owners list, a two-step Add Owner modal, and a matching three-step Remove Owner flow with a last-owner guard and self-demotion handling on both the subdomain and portal login paths.
 
 ## Core Value
 
@@ -28,7 +28,23 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-Remaining v1.11 requirements (Phases 34–35: Ownership Management UI) — see `.planning/REQUIREMENTS.md`.
+None — all v1.11 requirements complete (Phases 33–35). See `.planning/REQUIREMENTS.md` for full traceability.
+
+### Validated (v1.11 — Phases 34-35: Ownership Management UI)
+
+- ✓ SET-01: `/admin/settings` page with Ownership Management as the first functional section; Billing stubbed as a `# TODO` — v1.11 Phase 34
+- ✓ SET-02: Owners get full Ownership Management access; admins/agents read-only; clients no access — v1.11 Phase 34
+- ✓ OWN-01: Current Owners section lists all brokerage owners (name + email) — v1.11 Phase 34
+- ✓ OWN-02: Add Owner action visible to owners only — v1.11 Phase 34
+- ✓ OWN-03: Add Owner modal with searchable admin/agent dropdown — v1.11 Phase 34
+- ✓ OWN-04: Add Owner modal displays warning copy before confirm — v1.11 Phase 34
+- ✓ OWN-05: Confirming Add Owner promotes via API, invalidates owners query key — v1.11 Phase 34
+- ✓ OWN-06: Each owner entry has a Remove action, visible to owners only — v1.11 Phase 35
+- ✓ OWN-07: Remove Owner three-step modal (warning → role picker defaulting to admin → review/confirm) — v1.11 Phase 35
+- ✓ OWN-08: Confirming demote calls the API, invalidates owners query key — v1.11 Phase 35
+- ✓ OWN-09: Self-demotion allowed while ≥1 other owner remains, Redux session patched without reload — v1.11 Phase 35
+- ✓ OWN-10: Last-owner Remove button disabled with explanatory tooltip — v1.11 Phase 35
+- ✓ OWN-13: Add Owner modal gains a matching final review step (brings it in line with Remove Owner's pattern) — v1.11 Phase 35
 
 ### Validated
 
@@ -297,4 +313,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-13 — Phase 33 complete (Backend Owner API & Endpoint Lockdown), v1.11*
+*Last updated: 2026-07-13 — Phase 35 complete (Remove Owner Flow) — all v1.11 phases (33-35) done, v1.11*
