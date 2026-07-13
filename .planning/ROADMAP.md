@@ -179,7 +179,10 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
   3. Current Owners section lists every brokerage owner with full name + email
   4. Clicking "Add Owner" (visible to owners only) opens a modal with a searchable dropdown scoped to admin/agent users (name + current role shown, clients excluded) and clear warning copy about what owner permissions grant, shown before the confirm action
   5. Confirming Add Owner promotes the selected user to owner (fully replacing their prior role) and the owners list refetches to show them
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 34-01-PLAN.md — Data foundation: ownerType + manage_ownership permission + query keys + 3 API modules + 3 TanStack hooks
+- [ ] 34-02-PLAN.md — UI surface: Settings context brain, Current Owners list, Add Owner dialog, Ownership Management section + page shell
+- [ ] 34-03-PLAN.md — Verification checkpoint: owner/admin/agent role split + server-side 403 negative path (human-verify)
 **UI hint**: yes
 
 ### Phase 35: Remove Owner Flow
