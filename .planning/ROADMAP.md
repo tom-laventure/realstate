@@ -13,7 +13,7 @@
 - ✅ **v1.8 — Root Route Fix** — Phase 26 (shipped 2026-06-04)
 - ✅ **v1.9 — Dashboard & Navbar Enhancement** — Phases 27–29 (shipped 2026-06-06)
 - ✅ **v1.10 — Agent Admin Permissions** — Phases 30–32 (shipped 2026-07-10)
-- 🚧 **v1.11 — Brokerage Ownership Management** — Phases 33–35 (in progress)
+- ✅ **v1.11 — Brokerage Ownership Management** — Phases 33–35 (shipped 2026-07-13)
 
 ## Phases
 
@@ -143,65 +143,16 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
 
 </details>
 
-### 🚧 v1.11 — Brokerage Ownership Management (In Progress)
+<details>
+<summary>✅ v1.11 — Brokerage Ownership Management (Phases 33–35) — SHIPPED 2026-07-13</summary>
 
-**Milestone Goal:** Give brokerage owners a dedicated, secure way to manage ownership (add/remove owners) from a new `/admin/settings` page, closing the admin-takeover security gap flagged at v1.10 close.
+- [x] Phase 33: Backend Owner API & Endpoint Lockdown (3/3 plans) — completed 2026-07-13
+- [x] Phase 34: Ownership Management UI — Settings Page & Add Owner (3/3 plans) — completed 2026-07-13
+- [x] Phase 35: Remove Owner Flow (5/5 plans) — completed 2026-07-13
 
-- [x] **Phase 33: Backend Owner API & Endpoint Lockdown** - New owner-management endpoints ship alongside the `add-agent` owner-assignment lockdown, closing the pre-existing takeover gap (completed 2026-07-13)
-- [x] **Phase 34: Ownership Management UI — Settings Page & Add Owner** - `/admin/settings` exists with a working Ownership Management section: view owners, add a new one (completed 2026-07-13)
-- [x] **Phase 35: Remove Owner Flow** - Owners can safely demote another owner (or themselves) via a guided, last-owner-protected three-step flow (completed 2026-07-13)
+Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
 
-## Phase Details
-
-### Phase 33: Backend Owner API & Endpoint Lockdown
-**Goal**: Backend enforces owner-only ownership changes and exposes the new owner-management API surface — closing the admin-takeover security gap (30-REVIEW.md CR-02/CR-03) flagged at v1.10 close, before any new frontend surface depends on it.
-**Depends on**: Nothing (first phase of v1.11; picks up directly after v1.10 Phase 32)
-**Requirements**: LOCK-01, LOCK-02, API-01, API-02, API-03, API-04, API-05
-**Success Criteria** (what must be TRUE):
-  1. A non-owner attempting to promote a user to `owner` via `POST /admin/brokerage/add-agent` receives HTTP 403
-  2. The role selector on the `/admin/brokerage/add-agent` frontend page no longer lists "owner" as a choice
-  3. `GET /admin/settings/owners` returns the brokerage's current owners (name + email)
-  4. `GET /admin/settings/owners/eligible` returns brokerage users with role `admin` or `agent`, for the Add Owner dropdown
-  5. `POST /admin/settings/owners` (promote) and `PATCH /admin/settings/owners/:id` (demote, rejecting the last owner) both require the caller to hold the `owner` role, enforced server-side via JWT claims — not frontend gates alone
-**Plans**: 3 plans
-- [x] 33-01-PLAN.md — Backend lockdown: users#update/#destroy owner guards (D-01/D-02) + invitations#create owner rejection (D-03/LOCK-01) + tests
-- [x] 33-02-PLAN.md — New owner-management API: routes + Settings::OwnersController (index/eligible/create/update, API-01..05) + tests
-- [x] 33-03-PLAN.md — Frontend LOCK-02: remove owner option from add-agent role selector
-**UI hint**: yes
-
-### Phase 34: Ownership Management UI — Settings Page & Add Owner
-**Goal**: Owners can view current owners and promote an eligible user to owner from a new, access-controlled `/admin/settings` page.
-**Depends on**: Phase 33
-**Requirements**: SET-01, SET-02, OWN-01, OWN-02, OWN-03, OWN-04, OWN-05
-**Success Criteria** (what must be TRUE):
-  1. `/admin/settings` renders with Ownership Management as the first, functional section and a non-rendered Billing `# TODO` stub beneath it
-  2. Owners get full Ownership Management access; admins/agents see a read-only owner list with no action buttons; clients cannot reach `/admin/settings` at all
-  3. Current Owners section lists every brokerage owner with full name + email
-  4. Clicking "Add Owner" (visible to owners only) opens a modal with a searchable dropdown scoped to admin/agent users (name + current role shown, clients excluded) and clear warning copy about what owner permissions grant, shown before the confirm action
-  5. Confirming Add Owner promotes the selected user to owner (fully replacing their prior role) and the owners list refetches to show them
-**Plans**: 3 plans
-- [x] 34-01-PLAN.md — Data foundation: ownerType + manage_ownership permission + query keys + 3 API modules + 3 TanStack hooks
-- [x] 34-02-PLAN.md — UI surface: Settings context brain, Current Owners list, Add Owner dialog, Ownership Management section + page shell
-- [x] 34-03-PLAN.md — Verification checkpoint: owner/admin/agent role split + server-side 403 negative path (human-verify)
-**UI hint**: yes
-
-### Phase 35: Remove Owner Flow
-**Goal**: Owners can safely demote another owner (or themselves) through a guided three-step flow that always leaves the brokerage with at least one owner, and Add Owner (Phase 34) gets a matching final review step for consistency.
-**Depends on**: Phase 34 (shares the Current Owners list UI and page shell; also revises AddOwnerDialog.tsx)
-**Requirements**: OWN-06, OWN-07, OWN-08, OWN-09, OWN-10, OWN-13
-**Success Criteria** (what must be TRUE):
-  1. Each owner entry shows a Remove action, visible to owners only
-  2. Clicking Remove opens a three-step modal: Step 1 warns what removing owner access means and recommends `client` reassignment when the goal is full privilege removal; Step 2 is a radio-group role picker (`admin`/`agent`/`client`, defaulting to `admin`); Step 3 is a final review screen summarizing the target and selected role, with the single confirm button that triggers the demotion
-  3. An owner can demote themselves as long as at least one other owner remains after the change; self-demotion shows an extra explicit warning line on Step 1
-  4. When the target is the only remaining owner, the Remove button is disabled with a tooltip explaining why
-  5. Confirming step 3 reassigns the role via the demote API and the owners list refetches
-  6. Add Owner modal (AddOwnerDialog.tsx) gains a matching final review step after its existing warning, with the promote confirm button living on that review step
-**Plans**: 5 plans
-- [x] 35-01-PLAN.md — Data foundation: demote types + demoteOwner API + useDemoteOwner hook + radio-group primitive + shared StepDots
-- [x] 35-02-PLAN.md — Remove Owner three-step dialog + CurrentOwnersList Remove button (disabled/tooltip for last owner)
-- [x] 35-03-PLAN.md — Add Owner review-step retrofit (OWN-13)
-- [x] 35-04-PLAN.md — Brain wiring: demote mutation + self-demote Redux patch + currentUserId + section/board prop threading
-- [x] 35-05-PLAN.md — Human-verify checkpoint: full flow across subdomain + portal paths
+</details>
 
 ---
 

@@ -1,5 +1,25 @@
 # Milestones
 
+## v1.11 Brokerage Ownership Management (Shipped: 2026-07-13)
+
+**Phases completed:** 3 phases, 11 plans, 23 tasks
+
+**Key accomplishments:**
+
+- Closed the CR-02/CR-03 admin-takeover chain by locking down owner-role transitions on `UsersController#update`/`#destroy` and rejecting owner-role invitations on `InvitationsController#create`, backed by 10 new integration tests.
+- New `V1::Admin::Settings::OwnersController` ships the four owner-management endpoints (list owners, list eligible admin/agent members, promote, demote-with-last-owner-guard), all mutation paths gated by the DB-backed `current_membership` helper — no JWT role-claim trust anywhere.
+- Removed the "Owner" option from the `/admin/brokerage/add-agent` role selector and its RolePermissions description, closing the UX-layer accidental-owner-assignment path (LOCK-02).
+- TypeScript types, owner-exclusive `manage_ownership` RBAC permission, centralized query keys, three Axios API modules, and three TanStack Query hooks wired to the shipped Phase 33 owner endpoints.
+- Replaced the bare `/admin/settings` stub with a live Ownership Management card (Current Owners list + owner-gated Add Owner modal with searchable combobox, D-04 warning callout, and TOCTOU-aware error toast) wired through a new Context brain consuming the Plan 34-01 hooks.
+- Human verification confirmed the owner/admin/agent role split renders correctly on `/admin/settings` and that the promote endpoint's owner-only boundary is enforced server-side (403 on a direct admin JWT call), not just by hiding the Add Owner button.
+- Demote-owner data trio (types, PATCH API module, TanStack mutation hook) plus a hand-authored Radix RadioGroup primitive and shared StepDots indicator, all built TDD-first against a mocked PATCH /v1/admin/settings/owners/:id endpoint.
+- Three-step RemoveOwnerDialog (warning -> RadioGroup role picker -> destructive confirm) plus a gated, last-owner-aware Remove button on CurrentOwnersList — both presentational and prop-driven for Plan 04's Brain wiring.
+- Retrofitted `AddOwnerDialog.tsx` from a single-screen promote form into a two-step decision-then-review flow, matching the Remove Owner dialog's shape, with the `usePromoteOwner` API contract left completely unchanged.
+- Wired useDemoteOwner mutation, demoteTarget dialog state, currentUserId, and a self-demote Redux session patch through useSettingsAdminContext, OwnershipManagementSection, and SettingsAdminBoard — closing the end-to-end Remove Owner flow.
+- Owner confirmed the full Remove Owner flow and Add Owner review-step retrofit work end-to-end against the live backend, on both login paths.
+
+---
+
 ## v1.10 — Agent Admin Permissions
 
 **Shipped:** 2026-07-10

@@ -1,16 +1,10 @@
 # RealState SaaS Platform
 
-## Last Shipped: v1.10 — Agent Admin Permissions (2026-07-10)
+## Last Shipped: v1.11 — Brokerage Ownership Management (2026-07-13)
 
-## Current Milestone: v1.11 Brokerage Ownership Management
+## Current Milestone: Planning v1.12
 
-**Goal:** Give brokerage owners a dedicated, secure way to manage ownership (add/remove owners) from a new `/admin/settings` page, closing the admin-takeover security gap flagged at v1.10 close.
-
-**Target features:**
-- Ownership Management section on `/admin/settings` (Current Owners list, Add Owner modal, two-step Remove Owner flow)
-- Backend endpoints for listing owners, listing eligible admin/agent users, promoting to owner, and demoting an owner with mandatory reassignment
-- Lock down `/admin/brokerage/add-agent` to reject owner-role assignment (403) at both frontend and backend
-- Billing section stubbed as a `# TODO` placeholder on the same page
+v1.11 is complete — all three phases (33, 34, 35) shipped and verified. See `.planning/milestones/v1.11-ROADMAP.md` (once archived) for full details. Run `/gsd:new-milestone` to scope the next milestone.
 
 ---
 
@@ -181,14 +175,17 @@ None — all v1.11 requirements complete (Phases 33–35). See `.planning/REQUIR
 - ✓ API-04: `PATCH /v1/admin/settings/owners/:id` demotes an owner, owner-only caller, rejects removing the brokerage's last owner — v1.11 Phase 33
 - ✓ API-05: All owner-role mutations enforced server-side via DB-backed `current_membership` (never a JWT role claim) — v1.11 Phase 33
 
-## Deferred to v1.11+
+## Deferred to v1.12+
 
-- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6)
+- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6, still unaddressed after v1.11)
 - [ ] S3 favicon upload outside transaction (CR-02, pre-existing from v1.1)
 - [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
 - [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
 - [ ] `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps (32-04-REVIEW.md WR-01; currently safe by accident, adjacent to the new invitations-fetch gating logic)
 - [ ] Invitations-gating hook test coverage gap: only `agent`/`admin` roles tested; missing `owner`, `staff`/`client`, and the "role not yet loaded" transient state (32-04-REVIEW.md IN-02)
+- [ ] Audit log of ownership changes — who promoted/demoted whom, when (OWN-11, deferred at v1.11 close)
+- [ ] Email notifications on ownership role change (OWN-12, deferred at v1.11 close)
+- [ ] Full Billing management section on `/admin/settings` (BILL-01, stubbed as TODO placeholder in v1.11)
 
 ### Out of Scope
 
@@ -220,7 +217,8 @@ None — all v1.11 requirements complete (Phases 33–35). See `.planning/REQUIR
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
 - **Admin RBAC:** Three-tier model — `require_owner!` / `require_admin!` / `require_agent_or_above!` (backend, `Admin::BaseController` concern) and `readTierRoles` / `ownerAdminOnly` (frontend, `RequireRole` route helpers). `agent` gets full read access across all 6 admin sections + full read/write on Groups; every other write path stays `owner`/`admin` only. Permission-gated data fetches (not just JSX) must be gated via `{ enabled }` options args driven by `usePermission`, per the ACCESS-07 pattern established in v1.10 Phase 32.
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10
+- **Ownership management:** `V1::Admin::Settings::OwnersController` (list/eligible/promote/demote) is the sole owner-role-change surface; the generic `UsersController#update`/`#destroy` reject any owner-touching transition (D-02). Frontend: `/admin/settings` Ownership Management section — `useSettingsAdminContext` Brain owns `useDemoteOwner`/`usePromoteOwner`, `currentUserId` (via unconditional `useGetCurrentUser()`), and the self-demote Redux patch. Both Add/Remove Owner dialogs are always-mounted and reset wizard state via a `useEffect` on `open` (not just on close).
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10 | **Shipped v1.11:** 2026-07-13
 
 ---
 
@@ -291,6 +289,11 @@ None — all v1.11 requirements complete (Phases 33–35). See `.planning/REQUIR
 | Gate the fetch, not just the render, for permission-scoped data hooks — v1.10 Phase 32 | A `<Can>` JSX gate cannot stop an ancestor context hook's `useQuery` from firing; discovered via human UAT after 32-03 shipped render-gate-only | ✓ Good — `{ enabled }` options arg mirroring `useFetchActivityFeed` convention closes the gap at the hook boundary; reusable pattern for future permission-gated fetches |
 | Owner-role enforcement via DB-backed `current_membership`, not JWT `role` claim — v1.11 Phase 33 | The JWT's role claim can go stale for up to 24h (`TokenService::EXPIRY_DURATION`); a demoted owner could otherwise retain owner privileges until token expiry | ✓ Good — `Admin::BaseController#current_membership` already re-queried the DB fresh per request; all new/edited endpoints correctly rely on it exclusively |
 | All owner-role changes centralized in `Settings::OwnersController` (generic `users#update` value-rejects `role: "owner"` in both directions) — v1.11 Phase 33 | The only place carrying the last-owner invariant; letting the generic endpoint also assign/demote owner would let it bypass that guard | ✓ Good — closes the CR-02/CR-03 admin-takeover chain at its root instead of patching each bypass path individually |
+| Gate the fetch, not just the render, for permission-scoped owner-list data — v1.11 Phase 34 | Reuses the `{ enabled }` options-arg pattern established in v1.10 Phase 32 (ACCESS-07 gap) | ✓ Good — reusable pattern held up across two milestones |
+| `useGetCurrentUser()` called unconditionally in `useSettingsAdminContext` — v1.11 Phase 35 | `account.id` was only reliably populated on the subdomain login path; the portal/main-domain path left it empty, breaking self-demotion detection. Dedupes against the existing `['getCurrentUser']` query, so it's a cache hit where already fetched | ✓ Good — closes a traced pitfall (35-RESEARCH.md) before it could ship broken |
+| Self-demote Redux patch (`updateUser`/`setActiveBrokerage`) applied directly from the trusted server response, no network round-trip — v1.11 Phase 35 | Avoids a stale-permission UX window between demote confirm and next page load; server response is already the source of truth | ✓ Good — UI updates immediately with no reload |
+| Dialog wizard state reset via `useEffect` on `open` transitioning true (not only on close) — v1.11 Phase 35 (35-REVIEW.md CR-01/CR-02) | Both Remove/Add Owner dialogs are always-mounted; the parent closes them by flipping the controlled `open` prop directly on success, which never fires Radix's `onOpenChange` — resetting only in the dialog's own close handler left stale wizard state to resurface on the next open | ✓ Good — caught by code review before milestone close, fixed for both dialogs |
+| Role picker in Remove Owner defaults to Admin, no forced explicit selection — v1.11 Phase 35 (35-CONTEXT.md D-03) | Deliberate, locked UX decision — surfacing all three role options at once (not a dropdown) already makes the choice visible; code review's suggestion to require explicit selection was reverted after cross-checking this decision | ✓ Good — a reminder to check locked CONTEXT.md decisions before applying review suggestions that change behavior |
 
 ---
 
@@ -313,4 +316,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-13 — Phase 35 complete (Remove Owner Flow) — all v1.11 phases (33-35) done, v1.11*
+*Last updated: 2026-07-13 after v1.11 milestone (Brokerage Ownership Management) — all v1.11 phases (33-35) shipped*
