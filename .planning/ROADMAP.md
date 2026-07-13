@@ -198,8 +198,8 @@ Full details: [milestones/v1.10-ROADMAP.md](milestones/v1.10-ROADMAP.md)
   6. Add Owner modal (AddOwnerDialog.tsx) gains a matching final review step after its existing warning, with the promote confirm button living on that review step
 **Plans**: 5 plans
 - [x] 35-01-PLAN.md — Data foundation: demote types + demoteOwner API + useDemoteOwner hook + radio-group primitive + shared StepDots
-- [ ] 35-02-PLAN.md — Remove Owner three-step dialog + CurrentOwnersList Remove button (disabled/tooltip for last owner)
-- [ ] 35-03-PLAN.md — Add Owner review-step retrofit (OWN-13)
+- [x] 35-02-PLAN.md — Remove Owner three-step dialog + CurrentOwnersList Remove button (disabled/tooltip for last owner)
+- [x] 35-03-PLAN.md — Add Owner review-step retrofit (OWN-13)
 - [ ] 35-04-PLAN.md — Brain wiring: demote mutation + self-demote Redux patch + currentUserId + section/board prop threading
 - [ ] 35-05-PLAN.md — Human-verify checkpoint: full flow across subdomain + portal paths
 
@@ -246,4 +246,4 @@ Phases execute in numeric order: 33 → 34 → 35
 | 32. Agent Read-Only Access & Access Gating | v1.10 | 4/4 | Complete   | 2026-07-10 |
 | 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 3/3 | Complete    | 2026-07-13 |
-| 35. Remove Owner Flow | v1.11 | 1/5 | In Progress|  |
+| 35. Remove Owner Flow | v1.11 | 3/5 | In Progress|  |
