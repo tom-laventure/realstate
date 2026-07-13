@@ -18,7 +18,7 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-12 after v1.11 roadmap created)
+See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 **Current focus:** Milestone complete
@@ -66,20 +66,7 @@ Last activity: 2026-07-13 — Milestone v1.11 completed and archived
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- v1.11 phase sequencing is backend-then-frontend, mirroring the v1.10 Phase 30 → 31/32 pattern: Phase 33 ships the owner API + `add-agent` lockdown first so no frontend surface (Phase 34/35) can call an endpoint that doesn't yet enforce owner-only server-side
-- Phase 33 bundles the full-stack lockdown (LOCK-01 backend 403 + LOCK-02 frontend role-selector removal) as one unit — it's a single cohesive security fix closing the pre-existing takeover gap, not worth splitting across phases
-- Phase 34 (Settings page shell, Current Owners, Add Owner) and Phase 35 (Remove Owner) split the Ownership Management UI in two — Remove Owner's two-step modal + last-owner guard is a distinct, independently verifiable flow from the page shell/Add Owner work, even though both live on the same page
-- [Phase 32]: [Phase 32-04 - gap closure]: Gate the fetch, not just the render, for permission-scoped data hooks — `{ enabled }` options arg pattern established; reusable for any future permission-gated fetch (relevant if v1.11 owner-list queries need role-based enabling)
-- [Phase 33]: 33-01: UsersController#update/#destroy and InvitationsController#create now enforce owner-lockdown (D-01/D-02/D-03); owner-role changes are only possible via the future /admin/settings/owners endpoints
-- [Phase 33]: 33-02: New V1::Admin::Settings::OwnersController ships index/eligible (agent+ readable) + owner-only create/update, closing the owner-role-change API surface — Single last-owner COUNT guard on demote covers self-demotion (OWN-09) with no special-casing; D-05 re-validates target's current role server-side rather than trusting a prior /eligible response
-- [Phase 33]: 33-03: Add-agent role selector limited to Agent/Admin only (owner SelectItem + RolePermissions roles prop trimmed) — RolePermissions.tsx left untouched — it's a generic reusable component with its own default full role list; only the AddAgentView call-site was scoped down
-- [Phase 34-01]: 34-01: manage_ownership permission added owner-exclusive; usePromoteOwner invalidates both ownersKeys and eligibleOwnerUsersKeys caches on promote
-- [Phase 34]: isLoadingOwners/isLoadingEligible kept as separate context state fields (not merged) so the owners-list skeleton and eligible-dropdown loading state are each independently correct
-- [Phase 34]: handlePromoteOwner's try/catch is the sole surface for the OWN-05/TOCTOU promote-failure toast since usePromoteOwner (34-01) intentionally has no onError handler
-- [Phase 34]: 34-03: Phase 34 verification checkpoint — human confirmed all five owner/admin/agent role-split and server-side 403 checks passed; no code changes, plan closes SET-02/OWN-02/OWN-05 verification loop
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.11 Phase 35). Cleared here at milestone close — v1.12 planning starts fresh.
 
 ### Pending Todos
 
@@ -87,13 +74,12 @@ None yet.
 
 ### Blockers/Concerns
 
-- Pre-existing security (being addressed by v1.11 Phase 33): 30-REVIEW.md CR-02 (non-owner admin can invite a new user with role "owner") chains with CR-03 (any admin can remove the brokerage owner via `users#destroy`, no owner-only guard) into a full brokerage takeover path. This is the exact gap v1.11's LOCK-01/LOCK-02 + API-03/API-04 close — do not consider this resolved until Phase 33 ships and is verified.
-- Frontend environment quirks (pre-existing, unrelated to RBAC work): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
-- Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite; see `.planning/phases/30-backend-rbac-enforcement/deferred-items.md`
+- Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
+- Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
 
 ## Deferred Items
 
-Items carried forward from previous milestone close:
+Items carried forward from v1.11 milestone close:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -103,19 +89,22 @@ Items carried forward from previous milestone close:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.12 (unaddressed in v1.11) | v1.10 close |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.11 | v1.10 close |
-| UX | Brokerage switch preserving active tab position | Carry to v1.11 | v1.10 close |
-| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.11 | v1.10 close |
-| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.11 | v1.10 close (32-04-REVIEW.md) |
-| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.11 | v1.10 close (32-04-REVIEW.md) |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.12 | v1.10 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.12 | v1.10 close |
+| UX | Brokerage switch preserving active tab position | Carry to v1.12 | v1.10 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.12 | v1.10 close |
+| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.12 | v1.10 close (32-04-REVIEW.md) |
+| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.12 | v1.10 close (32-04-REVIEW.md) |
+| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.12 | v1.11 close |
+| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.12 | v1.11 close |
+| BILL-01 | Full Billing management section on `/admin/settings` | Stubbed as TODO placeholder; carry to v1.12 | v1.11 close |
 
 ## Session Continuity
 
-Last session: 2026-07-13T05:42:21.409Z
-Stopped at: Phase 35 UI-SPEC approved
-Resume file: .planning/phases/35-remove-owner-flow/35-UI-SPEC.md
-Next action: `/gsd-discuss-phase 33` or `/gsd-plan-phase 33`
+Last session: 2026-07-13T17:48:08.860Z
+Stopped at: v1.11 milestone archived
+Resume file: none — start next milestone with /gsd:new-milestone
+Next action: /gsd:new-milestone
 
 ## Operator Next Steps
 
