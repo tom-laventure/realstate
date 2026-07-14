@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
-status: executing
-stopped_at: Completed 36-01-PLAN.md
-last_updated: "2026-07-14T21:19:10.772Z"
+status: verifying
+stopped_at: Completed 36-02-PLAN.md
+last_updated: "2026-07-14T21:36:26.204Z"
 last_activity: 2026-07-14
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
-  percent: 0
+  completed_plans: 2
+  percent: 25
 ---
 
 # Project State
@@ -27,10 +27,10 @@ See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 Phase: 36 (Plan Configuration & Tier Migration) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-07-14
 
-Progress: [█████░░░░░] 50%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Progress: [█████░░░░░] 50%
 | Phase 34 P02 | 10min | 3 tasks | 5 files |
 | Phase 34 P03 | 5min | 1 tasks | 0 files |
 | Phase 36 P01 | 16min | 2 tasks | 4 files |
+| Phase 36 P02 | 15min | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - Phase 39 (paid-to-paid) isolated as its own small phase — pure billing recalculation, only needs the config from Phase 36.
 - [Phase 36]: plan_tiers.rb must be explicitly required in config/initializers/constants.rb alongside roles.rb — AppConstants is not managed by Zeitwerk once the first file defines the module via require_relative; a second sibling file under app/constants/ would never autoload without the same explicit require
 - [Phase 36]: plan_config uses bare .fetch(plan) with no fallback block — Fail loud (KeyError) on unrecognized plan values instead of silently degrading to Free's all-false capability set (D-07)
+- [Phase 36]: DMOD-05 test fixture uses plan: "free" (not independent) — independent tier has custom_domain: true per 36-01 config, so free is the only tier that correctly exercises the 403 custom-domain-denial path — Plan's literal basic->independent test substitution would have shipped a test asserting incorrect access-control behavior for the independent paid tier
 
 ### Pending Todos
 
@@ -86,8 +88,6 @@ None yet.
 
 - Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
 - Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
-- Open design gap flagged in PLAN-TIERS.md: annual discount's interaction with seat overage pricing is unresolved — needs settling during Phase 36 planning (PLAN-13).
-- Open design gap flagged in PLAN-TIERS.md: exact `basic`/`premium` → `free`/`independent`/`growth` migration mapping for existing brokerages is undefined — needs settling during Phase 36 planning (PLAN-01).
 
 ## Deferred Items
 
@@ -115,8 +115,8 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 
 ## Session Continuity
 
-Last session: 2026-07-14T21:19:10.735Z
-Stopped at: Completed 36-01-PLAN.md
+Last session: 2026-07-14T21:36:04.492Z
+Stopped at: Completed 36-02-PLAN.md
 Resume file: None
 Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 

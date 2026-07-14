@@ -159,7 +159,7 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
 
 **Milestone Goal:** Replace the binary `basic`/`premium` plan enum with a three-tier structure (`free`/`independent`/`growth`) that gates board access, client invites, custom domains, and calendar sync — with a safe upgrade/downgrade lifecycle for real business data.
 
-- [ ] **Phase 36: Plan Configuration & Tier Migration** - Centralized plan config (seat caps, prices, overage rates) plus the `free`/`independent`/`growth` enum migration — the foundation everything else reads from
+- [x] **Phase 36: Plan Configuration & Tier Migration** - Centralized plan config (seat caps, prices, overage rates) plus the `free`/`independent`/`growth` enum migration — the foundation everything else reads from (completed 2026-07-14)
 - [ ] **Phase 37: Free Tier Gating** - Free-tier brokerages are walled to the TEST board with no client invites, no custom domain, no calendar sync, and uncapped seats; paid tiers stay fully open
 - [ ] **Phase 38: Upgrade & Downgrade Lifecycle** - Free → paid silently purges TEST-board demo data; paid → Free freezes/soft-disconnects real business data; re-upgrade restores it
 - [ ] **Phase 39: Paid-to-Paid Plan Changes** - Independent ↔ Growth is a pure billing recalculation with zero data disruption
@@ -178,7 +178,7 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
   5. Raising or lowering a tier's seat cap, price, or overage rate is achievable by editing only the config file
 **Plans**: 2 plans
 - [x] 36-01-PLAN.md — Centralized AppConstants::PLAN_TIERS config + Brokerage#plan_config accessor
-- [ ] 36-02-PLAN.md — Enum migration (basic→independent, premium→growth), validation flip, controller rewiring, test fixups
+- [x] 36-02-PLAN.md — Enum migration (basic→independent, premium→growth), validation flip, controller rewiring, test fixups
 
 ### Phase 37: Free Tier Gating
 **Goal**: Free-tier brokerages get the full engagement feature set against TEST-board demo data only — real boards, real clients, custom domains, and calendar sync are all walled off — while Independent and Growth remain fully unrestricted.
@@ -260,7 +260,7 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 35. Remove Owner Flow | v1.11 | 5/5 | Complete    | 2026-07-13 |
-| 36. Plan Configuration & Tier Migration | v1.12 | 1/2 | In Progress|  |
+| 36. Plan Configuration & Tier Migration | v1.12 | 2/2 | Complete   | 2026-07-14 |
 | 37. Free Tier Gating | v1.12 | 0/0 | Not started | - |
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 0/0 | Not started | - |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 0/0 | Not started | - |

@@ -9,7 +9,7 @@
 
 ### Plan Configuration
 
-- [ ] **PLAN-01**: `Brokerage#plan` supports three tiers: `free`, `independent`, `growth` (migrated from the current `basic`/`premium` enum)
+- [x] **PLAN-01**: `Brokerage#plan` supports three tiers: `free`, `independent`, `growth` (migrated from the current `basic`/`premium` enum)
 - [x] **PLAN-02**: Seat caps, base prices, and per-seat overage rates for every tier are defined in a single centralized config (code-level constant, not a DB-backed model — see Key Decisions) — no plan numbers duplicated or hardcoded across controllers, serializers, or frontend components
 - [x] **PLAN-03**: Config is structured so raising/lowering a tier's seat cap, price, or overage rate is a one-file change
 
