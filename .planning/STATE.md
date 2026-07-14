@@ -6,7 +6,7 @@ status: planning
 last_updated: "2026-07-14T07:25:58.958Z"
 last_activity: 2026-07-14
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Milestone complete
+**Current focus:** Phase 36 — Plan Configuration & Tier Migration
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-07-14 — Milestone v1.12 started
+Phase: 36 of 39 (Plan Configuration & Tier Migration)
+Plan: — (not yet planned)
+Status: Ready to plan
+Last activity: 2026-07-14 — ROADMAP.md created for v1.12 (Phases 36-39), 19/19 requirements mapped
+
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -51,7 +53,7 @@ Last activity: 2026-07-14 — Milestone v1.12 started
 **Recent Trend:**
 
 - Last 5 plans: 10min, 13min, 2min, 20min, 12min (Phase 31 P03 → Phase 32 P04)
-- Trend: Stable — no v1.11 plans executed yet
+- Trend: Stable — no v1.12 plans executed yet
 
 *Updated after each plan completion*
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
@@ -65,7 +67,12 @@ Last activity: 2026-07-14 — Milestone v1.12 started
 
 ### Decisions
 
-Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.11 Phase 35). Cleared here at milestone close — v1.12 planning starts fresh.
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.11 Phase 35). Roadmap-level phase sequencing for v1.12 (see PLAN-TIERS.md and ROADMAP.md Phase Details):
+
+- Phase 36 (config + enum migration) is foundational — every later phase reads from it, nothing in it depends on anything else.
+- Phase 37 (Free-tier gating) bundled as one coherent chunk of backend + frontend gating work, including verifying paid tiers stay unrestricted (PLAN-12).
+- Phase 38 (upgrade/downgrade lifecycle) depends on both 36 and 37 — freeze/restore must agree with what Free-tier gating treats as "real" vs. "TEST" data; downgrade's freeze and re-upgrade's restore are two halves of one round-trip, kept in a single phase.
+- Phase 39 (paid-to-paid) isolated as its own small phase — pure billing recalculation, only needs the config from Phase 36.
 
 ### Pending Todos
 
@@ -75,10 +82,12 @@ None yet.
 
 - Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
 - Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
+- Open design gap flagged in PLAN-TIERS.md: annual discount's interaction with seat overage pricing is unresolved — needs settling during Phase 36 planning (PLAN-13).
+- Open design gap flagged in PLAN-TIERS.md: exact `basic`/`premium` → `free`/`independent`/`growth` migration mapping for existing brokerages is undefined — needs settling during Phase 36 planning (PLAN-01).
 
 ## Deferred Items
 
-Items carried forward from v1.11 milestone close:
+Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-scope items:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -88,23 +97,26 @@ Items carried forward from v1.11 milestone close:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.12 | v1.10 close |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.12 | v1.10 close |
-| UX | Brokerage switch preserving active tab position | Carry to v1.12 | v1.10 close |
-| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.12 | v1.10 close |
-| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.12 | v1.10 close (32-04-REVIEW.md) |
-| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.12 | v1.10 close (32-04-REVIEW.md) |
-| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.12 | v1.11 close |
-| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.12 | v1.11 close |
-| BILL-01 | Full Billing management section on `/admin/settings` | Stubbed as TODO placeholder; carry to v1.12 | v1.11 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.13 | v1.10 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.13 | v1.10 close |
+| UX | Brokerage switch preserving active tab position | Carry to v1.13 | v1.10 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.13 | v1.10 close |
+| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.13 | v1.10 close (32-04-REVIEW.md) |
+| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.13 | v1.10 close (32-04-REVIEW.md) |
+| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.13 | v1.11 close |
+| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.13 | v1.11 close |
+| BILL-01 | Full Billing management section on `/admin/settings` | Stubbed as TODO placeholder; deferred to v2 (v1.12 REQUIREMENTS.md) | v1.11 close |
+| PLAN-20 | Higher-seat tiers above Growth | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
+| PLAN-21 | Plan config: code constant → DB-backed model | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 
 ## Session Continuity
 
-Last session: 2026-07-13T17:48:08.860Z
-Stopped at: v1.11 milestone archived
-Resume file: none — start next milestone with /gsd:new-milestone
-Next action: /gsd:new-milestone
+Last session: 2026-07-14T07:25:58.958Z
+Stopped at: ROADMAP.md and REQUIREMENTS.md traceability written for v1.12 (Phases 36-39)
+Resume file: none
+Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd-new-milestone
+- Review and approve the v1.12 roadmap (Phases 36-39)
+- Start Phase 36 with /gsd-plan-phase 36

@@ -3,7 +3,7 @@
 **Defined:** 2026-07-14
 **Core Value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 
-**Status:** Locked for milestone v1.12 (Plan Tiers & Gating). Not yet mapped to roadmap phases — roadmap creation in progress, will update the Traceability table below.
+**Status:** Locked for milestone v1.12 (Plan Tiers & Gating). Mapped to roadmap Phases 36-39 — see Traceability table below.
 
 ## v1.12 Requirements
 
@@ -75,16 +75,35 @@ Explicitly excluded. Documented to prevent scope creep.
 
 ## Traceability
 
-Pending `/gsd-new-milestone` roadmap creation — phases not yet defined.
+Mapped to roadmap phases 36-39 (see `.planning/ROADMAP.md`).
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PLAN-01 – PLAN-19 | TBD | Not started |
+| PLAN-01 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-02 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-03 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-10 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-11 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-13 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-04 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-05 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-06 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-07 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-08 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-09 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-12 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-14 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
+| PLAN-15 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
+| PLAN-16 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
+| PLAN-17 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
+| PLAN-18 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
+| PLAN-19 | Phase 39 — Paid-to-Paid Plan Changes | Not started |
 
 **Coverage:**
-- v1.12 requirements (draft): 19 total, 2 deferred to v2 (PLAN-20, PLAN-21) plus BILL-01 carried forward
-- Mapped to phases: 0
-- Unmapped: 19 (awaiting roadmap)
+- v1.12 requirements: 19 total, 2 deferred to v2 (PLAN-20, PLAN-21) plus BILL-01 carried forward
+- Mapped to phases: 19/19 ✓
+- Unmapped: 0
 
 ---
 *Requirements drafted: 2026-07-14, from pricing-tiers brainstorm (see `.planning/PLAN-TIERS.md` for full design rationale)*
+*Traceability updated: 2026-07-14, roadmap created (Phases 36-39, see `.planning/ROADMAP.md`)*
