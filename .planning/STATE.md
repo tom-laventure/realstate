@@ -3,8 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
 status: planning
-last_updated: "2026-07-14T07:25:58.958Z"
-last_activity: 2026-07-14
+stopped_at: Phase 36 context gathered
+last_updated: "2026-07-14T07:55:27.642Z"
+last_activity: 2026-07-14 — ROADMAP.md created for v1.12 (Phases 36-39), 19/19 requirements mapped
 progress:
   total_phases: 4
   completed_phases: 0
@@ -111,9 +112,9 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 
 ## Session Continuity
 
-Last session: 2026-07-14T07:25:58.958Z
-Stopped at: ROADMAP.md and REQUIREMENTS.md traceability written for v1.12 (Phases 36-39)
-Resume file: none
+Last session: 2026-07-14T07:55:27.635Z
+Stopped at: Phase 36 context gathered
+Resume file: .planning/phases/36-plan-configuration-tier-migration/36-CONTEXT.md
 Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 
 ## Operator Next Steps
