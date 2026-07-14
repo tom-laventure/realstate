@@ -2,9 +2,19 @@
 
 ## Last Shipped: v1.11 — Brokerage Ownership Management (2026-07-13)
 
-## Current Milestone: Planning v1.12
+## Current Milestone: v1.12 Plan Tiers & Gating
 
-v1.11 is complete — all three phases (33, 34, 35) shipped and verified. See `.planning/milestones/v1.11-ROADMAP.md` (once archived) for full details. Run `/gsd:new-milestone` to scope the next milestone.
+**Goal:** Replace the binary `basic`/`premium` plan enum with a three-tier structure (`free`/`independent`/`growth`) that gates board access, client invites, custom domains, and calendar sync — with a safe upgrade/downgrade lifecycle for real business data.
+
+**Target features:**
+- Centralized plan config (seat caps, prices, overage rates) — code-level constant, single source of truth
+- Free tier: TEST-board-only demo experience, no client invites, unlimited seats, no custom domain, no calendar sync
+- Independent ($20/mo, 1 seat) and Growth ($79/mo, 5 seats) paid tiers: unlimited real boards, unlimited clients, custom domain, Google calendar sync
+- Free → paid upgrade: silent auto-purge of TEST-board demo data
+- Paid → Free downgrade: freeze custom domain, soft-disconnect real board credentials, suspend client memberships (all restorable on re-upgrade)
+- Paid ↔ paid transitions: pure billing recalculation, no data disruption
+
+See `.planning/PLAN-TIERS.md` for full design rationale and Key Decisions.
 
 ---
 
@@ -22,7 +32,7 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-None — all v1.11 requirements complete (Phases 33–35). See `.planning/REQUIREMENTS.md` for full traceability.
+v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS.md` for full requirements and traceability.
 
 ### Validated (v1.11 — Phases 34-35: Ownership Management UI)
 

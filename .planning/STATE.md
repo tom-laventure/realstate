@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.11
-milestone_name: Brokerage Ownership Management
-status: Awaiting next milestone
-stopped_at: Phase 35 UI-SPEC approved
-last_updated: "2026-07-13T17:48:08.860Z"
-last_activity: 2026-07-13 — Milestone v1.11 completed and archived
+milestone: v1.12
+milestone_name: Plan Tiers & Gating
+status: planning
+last_updated: "2026-07-14T07:25:58.958Z"
+last_activity: 2026-07-14
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 ## Current Position
 
-Phase: Milestone v1.11 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-07-13 — Milestone v1.11 completed and archived
+Status: Defining requirements
+Last activity: 2026-07-14 — Milestone v1.12 started
 
 ## Performance Metrics
 
