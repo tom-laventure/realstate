@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
-status: planning
+status: executing
 stopped_at: Phase 36 context gathered
-last_updated: "2026-07-14T07:55:27.642Z"
-last_activity: 2026-07-14 — ROADMAP.md created for v1.12 (Phases 36-39), 19/19 requirements mapped
+last_updated: "2026-07-14T17:29:06.126Z"
+last_activity: 2026-07-14 -- Phase 36 planning complete
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
+  total_plans: 2
   completed_plans: 0
   percent: 0
 ---
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 Phase: 36 of 39 (Plan Configuration & Tier Migration)
 Plan: — (not yet planned)
-Status: Ready to plan
-Last activity: 2026-07-14 — ROADMAP.md created for v1.12 (Phases 36-39), 19/19 requirements mapped
+Status: Ready to execute
+Last activity: 2026-07-14 -- Phase 36 planning complete
 
 Progress: [░░░░░░░░░░] 0%
 

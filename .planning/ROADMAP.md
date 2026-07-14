@@ -176,7 +176,9 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
   3. The config reflects Independent at $20/mo, 1 seat included, $20/seat overage, and Growth at $79/mo, 5 seats included, $16/seat overage
   4. The config defines the 15% annual billing discount for Independent and Growth
   5. Raising or lowering a tier's seat cap, price, or overage rate is achievable by editing only the config file
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 36-01-PLAN.md — Centralized AppConstants::PLAN_TIERS config + Brokerage#plan_config accessor
+- [ ] 36-02-PLAN.md — Enum migration (basic→independent, premium→growth), validation flip, controller rewiring, test fixups
 
 ### Phase 37: Free Tier Gating
 **Goal**: Free-tier brokerages get the full engagement feature set against TEST-board demo data only — real boards, real clients, custom domains, and calendar sync are all walled off — while Independent and Growth remain fully unrestricted.
