@@ -10,8 +10,8 @@
 ### Plan Configuration
 
 - [ ] **PLAN-01**: `Brokerage#plan` supports three tiers: `free`, `independent`, `growth` (migrated from the current `basic`/`premium` enum)
-- [ ] **PLAN-02**: Seat caps, base prices, and per-seat overage rates for every tier are defined in a single centralized config (code-level constant, not a DB-backed model — see Key Decisions) — no plan numbers duplicated or hardcoded across controllers, serializers, or frontend components
-- [ ] **PLAN-03**: Config is structured so raising/lowering a tier's seat cap, price, or overage rate is a one-file change
+- [x] **PLAN-02**: Seat caps, base prices, and per-seat overage rates for every tier are defined in a single centralized config (code-level constant, not a DB-backed model — see Key Decisions) — no plan numbers duplicated or hardcoded across controllers, serializers, or frontend components
+- [x] **PLAN-03**: Config is structured so raising/lowering a tier's seat cap, price, or overage rate is a one-file change
 
 ### Free Tier Gating
 
@@ -24,10 +24,10 @@
 
 ### Independent & Growth Tiers
 
-- [ ] **PLAN-10**: Independent plan: $20/mo base price, 1 seat included, additional seats billed at $20/seat (no volume discount)
-- [ ] **PLAN-11**: Growth plan: $79/mo base price, 5 seats included, additional seats billed at $16/seat
+- [x] **PLAN-10**: Independent plan: $20/mo base price, 1 seat included, additional seats billed at $20/seat (no volume discount)
+- [x] **PLAN-11**: Growth plan: $79/mo base price, 5 seats included, additional seats billed at $16/seat
 - [ ] **PLAN-12**: Both Independent and Growth permit: unlimited real RETS/MLS board connections, unlimited clients, custom domain + automatic SSL, and Google calendar sync
-- [ ] **PLAN-13**: Annual billing offers a 15% discount on Independent and Growth (interaction with seat overage pricing to be finalized during phase planning)
+- [x] **PLAN-13**: Annual billing offers a 15% discount on Independent and Growth (interaction with seat overage pricing to be finalized during phase planning)
 
 ### Upgrade Lifecycle (Free → paid)
 

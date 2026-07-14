@@ -177,7 +177,7 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
   4. The config defines the 15% annual billing discount for Independent and Growth
   5. Raising or lowering a tier's seat cap, price, or overage rate is achievable by editing only the config file
 **Plans**: 2 plans
-- [ ] 36-01-PLAN.md — Centralized AppConstants::PLAN_TIERS config + Brokerage#plan_config accessor
+- [x] 36-01-PLAN.md — Centralized AppConstants::PLAN_TIERS config + Brokerage#plan_config accessor
 - [ ] 36-02-PLAN.md — Enum migration (basic→independent, premium→growth), validation flip, controller rewiring, test fixups
 
 ### Phase 37: Free Tier Gating
@@ -260,7 +260,7 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 33. Backend Owner API & Endpoint Lockdown | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 35. Remove Owner Flow | v1.11 | 5/5 | Complete    | 2026-07-13 |
-| 36. Plan Configuration & Tier Migration | v1.12 | 0/0 | Not started | - |
+| 36. Plan Configuration & Tier Migration | v1.12 | 1/2 | In Progress|  |
 | 37. Free Tier Gating | v1.12 | 0/0 | Not started | - |
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 0/0 | Not started | - |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 0/0 | Not started | - |

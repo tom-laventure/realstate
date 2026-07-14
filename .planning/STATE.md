@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
 status: executing
-stopped_at: Phase 36 context gathered
-last_updated: "2026-07-14T17:29:06.126Z"
-last_activity: 2026-07-14 -- Phase 36 planning complete
+stopped_at: Completed 36-01-PLAN.md
+last_updated: "2026-07-14T21:19:10.772Z"
+last_activity: 2026-07-14
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 ## Current Position
 
-Phase: 36 of 39 (Plan Configuration & Tier Migration)
-Plan: — (not yet planned)
+Phase: 36 (Plan Configuration & Tier Migration) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-07-14 -- Phase 36 planning complete
+Last activity: 2026-07-14
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 34 P01 | 5min | 3 tasks | 9 files |
 | Phase 34 P02 | 10min | 3 tasks | 5 files |
 | Phase 34 P03 | 5min | 1 tasks | 0 files |
+| Phase 36 P01 | 16min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - Phase 37 (Free-tier gating) bundled as one coherent chunk of backend + frontend gating work, including verifying paid tiers stay unrestricted (PLAN-12).
 - Phase 38 (upgrade/downgrade lifecycle) depends on both 36 and 37 — freeze/restore must agree with what Free-tier gating treats as "real" vs. "TEST" data; downgrade's freeze and re-upgrade's restore are two halves of one round-trip, kept in a single phase.
 - Phase 39 (paid-to-paid) isolated as its own small phase — pure billing recalculation, only needs the config from Phase 36.
+- [Phase 36]: plan_tiers.rb must be explicitly required in config/initializers/constants.rb alongside roles.rb — AppConstants is not managed by Zeitwerk once the first file defines the module via require_relative; a second sibling file under app/constants/ would never autoload without the same explicit require
+- [Phase 36]: plan_config uses bare .fetch(plan) with no fallback block — Fail loud (KeyError) on unrecognized plan values instead of silently degrading to Free's all-false capability set (D-07)
 
 ### Pending Todos
 
@@ -112,9 +115,9 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 
 ## Session Continuity
 
-Last session: 2026-07-14T07:55:27.635Z
-Stopped at: Phase 36 context gathered
-Resume file: .planning/phases/36-plan-configuration-tier-migration/36-CONTEXT.md
+Last session: 2026-07-14T21:19:10.735Z
+Stopped at: Completed 36-01-PLAN.md
+Resume file: None
 Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 
 ## Operator Next Steps
