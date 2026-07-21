@@ -4,8 +4,8 @@ milestone: v1.12
 milestone_name: Plan Tiers & Gating
 status: executing
 stopped_at: Phase 37 UI-SPEC approved
-last_updated: "2026-07-21T02:57:01.583Z"
-last_activity: 2026-07-21 -- Phase 37 planning complete
+last_updated: "2026-07-21T03:16:39.792Z"
+last_activity: 2026-07-21 -- Phase 37 execution started
 progress:
   total_phases: 4
   completed_phases: 1
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 36 — Plan Configuration & Tier Migration
+**Current focus:** Phase 37 — free-tier-gating
 
 ## Current Position
 
-Phase: 36 (Plan Configuration & Tier Migration) — EXECUTING
-Plan: 2 of 2
-Status: Ready to execute
-Last activity: 2026-07-21 -- Phase 37 planning complete
+Phase: 37 (free-tier-gating) — EXECUTING
+Plan: 1 of 6
+Status: Executing Phase 37
+Last activity: 2026-07-21 -- Phase 37 execution started
 
 Progress: [██████████] 100%
 
