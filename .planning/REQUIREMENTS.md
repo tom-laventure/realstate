@@ -15,18 +15,18 @@
 
 ### Free Tier Gating
 
-- [ ] **PLAN-04**: Free-tier brokerages can only connect the seeded TEST board; the board-connect flow (backend endpoint + frontend UI) does not offer real RETS/MLS board credentials as an option while on Free
-- [ ] **PLAN-05**: Free-tier brokerages cannot invite or add clients to any group; client-invite endpoints reject the request while the brokerage is on Free
-- [ ] **PLAN-06**: Free-tier brokerages have unlimited agent/staff seats — no seat cap, no seat billing
-- [ ] **PLAN-07**: Free-tier brokerages have no calendar sync access
-- [ ] **PLAN-08**: Free-tier brokerages are restricted to their subdomain — no custom domain
-- [ ] **PLAN-09**: All other engagement features (groups, comments, ratings, likes, documents, RSVP/dates, filter sets) are fully available on Free, operating against TEST-board demo listings
+- [x] **PLAN-04**: Free-tier brokerages can only connect the seeded TEST board; the board-connect flow (backend endpoint + frontend UI) does not offer real RETS/MLS board credentials as an option while on Free
+- [x] **PLAN-05**: Free-tier brokerages cannot invite or add clients to any group; client-invite endpoints reject the request while the brokerage is on Free
+- [x] **PLAN-06**: Free-tier brokerages have unlimited agent/staff seats — no seat cap, no seat billing
+- [x] **PLAN-07**: Free-tier brokerages have no calendar sync access
+- [x] **PLAN-08**: Free-tier brokerages are restricted to their subdomain — no custom domain
+- [x] **PLAN-09**: All other engagement features (groups, comments, ratings, likes, documents, RSVP/dates, filter sets) are fully available on Free, operating against TEST-board demo listings
 
 ### Independent & Growth Tiers
 
 - [x] **PLAN-10**: Independent plan: $20/mo base price, 1 seat included, additional seats billed at $20/seat (no volume discount)
 - [x] **PLAN-11**: Growth plan: $79/mo base price, 5 seats included, additional seats billed at $16/seat
-- [ ] **PLAN-12**: Both Independent and Growth permit: unlimited real RETS/MLS board connections, unlimited clients, custom domain + automatic SSL, and Google calendar sync
+- [x] **PLAN-12**: Both Independent and Growth permit: unlimited real RETS/MLS board connections, unlimited clients, custom domain + automatic SSL, and Google calendar sync
 - [x] **PLAN-13**: Annual billing offers a 15% discount on Independent and Growth (interaction with seat overage pricing to be finalized during phase planning)
 
 ### Upgrade Lifecycle (Free → paid)
@@ -85,13 +85,13 @@ Mapped to roadmap phases 36-39 (see `.planning/ROADMAP.md`).
 | PLAN-10 | Phase 36 — Plan Configuration & Tier Migration | Not started |
 | PLAN-11 | Phase 36 — Plan Configuration & Tier Migration | Not started |
 | PLAN-13 | Phase 36 — Plan Configuration & Tier Migration | Not started |
-| PLAN-04 | Phase 37 — Free Tier Gating | Not started |
-| PLAN-05 | Phase 37 — Free Tier Gating | Not started |
-| PLAN-06 | Phase 37 — Free Tier Gating | Not started |
-| PLAN-07 | Phase 37 — Free Tier Gating | Not started |
-| PLAN-08 | Phase 37 — Free Tier Gating | Not started |
-| PLAN-09 | Phase 37 — Free Tier Gating | Not started |
-| PLAN-12 | Phase 37 — Free Tier Gating | Not started |
+| PLAN-04 | Phase 37 — Free Tier Gating | Complete |
+| PLAN-05 | Phase 37 — Free Tier Gating | Complete |
+| PLAN-06 | Phase 37 — Free Tier Gating | Complete |
+| PLAN-07 | Phase 37 — Free Tier Gating | Complete |
+| PLAN-08 | Phase 37 — Free Tier Gating | Complete |
+| PLAN-09 | Phase 37 — Free Tier Gating | Complete |
+| PLAN-12 | Phase 37 — Free Tier Gating | Complete |
 | PLAN-14 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
 | PLAN-15 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
 | PLAN-16 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
