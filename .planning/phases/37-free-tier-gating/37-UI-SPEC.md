@@ -35,33 +35,33 @@ Declared values (must be multiples of 4) — confirmed by existing usage across 
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| xs | 4px | Icon-to-text gaps inside banners (`gap-2` on icon+text row is 8px; use `gap-1.5`/6px only where matching an existing sibling pattern, see exception) |
-| sm | 8px | Compact spacing — banner internal padding-y, badge gaps |
+| xs | 4px | Tightest inline padding — not used by the new banner this phase |
+| sm | 8px | Compact spacing — banner internal padding-y, badge gaps, **`FreeTierBanner` icon+heading row (`gap-2`)** |
 | md | 16px | Default banner padding-x (`px-4`), spacing between banner and the page element it explains |
 | lg | 24px | Section padding (page-level `p-6` wrappers already in place on Board Registrations / Group detail / Domains / Calendar tab) |
 | xl | 32px | Layout gaps — not touched this phase |
 | 2xl | 48px | Major section breaks — not touched this phase |
 | 3xl | 64px | Page-level spacing — not touched this phase |
 
-Exceptions: `gap-1.5` (6px) is used codebase-wide for icon+label micro-alignment (e.g. `ConnectBoardDialog.tsx` info notice, `DomainCardList.tsx` legend badges). Continue this exact exception for the new banner's icon+heading row — do not introduce a different micro-gap value.
+Exceptions: none. The new `FreeTierBanner`'s icon+heading row uses `gap-2` (8px, the `sm` token) — a value already on the approved 4px-grid scale above. Note for the record: `ConnectBoardDialog.tsx`'s info notice and `DomainCardList.tsx`'s legend badges currently use a non-conforming `gap-1.5` (6px) micro-gap; that is a pre-existing codebase inconsistency that predates this contract and is outside this contract's authority to bless. The new banner introduced this phase conforms strictly to the 4px grid rather than propagating that value — do not copy the `gap-1.5` value when building `FreeTierBanner`.
 
 ---
 
 ## Typography
 
-Scoped to this phase's touched surfaces (banner copy, hidden/shown labels). Matches existing Tailwind/shadcn defaults already used throughout `frontend/src/components/view/admin/**` — no new scale is being introduced.
+Scoped to this phase's touched surfaces (banner copy, hidden/shown labels). Matches existing Tailwind/shadcn defaults already used throughout `frontend/src/components/view/admin/**` — no new scale is being introduced. Collapsed to exactly 2 font weights project-wide for this phase's surfaces: 400 (regular) and 600 (semibold).
 
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body | 14px (`text-sm`) | 400 (`font-normal`) | 1.5 |
-| Label | 12px (`text-xs`) | 500 (`font-medium`) | 1.4 |
+| Label | 12px (`text-xs`) | 400 (`font-normal`) | 1.4 |
 | Heading | 16px (`text-base`) | 600 (`font-semibold`) | 1.3 |
 | Display | 20px (`text-xl`) | 600 (`font-semibold`) | 1.2 |
 
 Application to the new `FreeTierBanner`:
 - Banner heading → **Heading** role (16px/600) — e.g. "You're on the Free plan"
 - Banner body copy → **Body** role (14px/400)
-- Any inline badge/meta text inside the banner → **Label** role (12px/500)
+- Any inline badge/meta text inside the banner → **Label** role (12px/400 — reuses Body's `font-normal` weight, not a separate 500 weight; only the size is smaller for meta/secondary emphasis)
 - Page `<h1>` titles the banner sits under (e.g. "Domains", group name) are pre-existing **Display** role — unchanged by this phase.
 
 ---
@@ -86,6 +86,21 @@ This app has no custom color tokens in `tailwind.config.js` — all color comes 
 Accent reserved for: primary CTA buttons that already exist on each page (Add domain, Connect board, group actions). The new restriction banners must **not** use accent/primary color — they are neutral/informational (blue notice box), never styled as a call-to-action.
 
 **Flagged for planner/executor:** `DomainCard.tsx` (line ~193) has an existing "Upgrade plan" button (gated `admin+`) that links to `window.location.href = '/admin/plan'` — this route does not exist anywhere in the frontend router (grep confirms zero route definitions for `/admin/plan`; it is a dead link, likely a placeholder from the BILL-01 stub). **Do not replicate this dead link pattern in the new Phase 37 banners.** Per D-09/D-02 in 37-CONTEXT.md, banners are explanatory text only — no "Upgrade" button/link should be added, since there is no working upgrade destination in this milestone (BILL-01 is v2/out of scope).
+
+---
+
+## Visual Hierarchy & Placement (Dimension 2 — Visuals)
+
+`FreeTierBanner` is a secondary, informational element on every surface it appears on — never the focal point of the page. On all 4 surfaces it must sit **below the page's primary `<h1>` heading and above (or directly adjacent to, replacing) the primary action area it explains** — never above the page title, never competing visually with the page's main CTA button.
+
+| Surface | Placement |
+|---------|-----------|
+| Board Registrations | Below page `<h1>` ("Board Registrations"), above the board-select list/dropdown. Explains why only the TEST board is selectable; does not sit above or beside the page title. |
+| Group detail (client-invite hidden) | Below page `<h1>` (group name) and below the tab/section header, in the area where the client-invite button would otherwise render. Secondary to the group's primary actions (e.g. member management), not a focal point. |
+| Domains page | Below page `<h1>` ("Domains"), above the "Add domain" button/wizard entry point. Secondary to the page's primary action; does not replace or visually outrank the "Add domain" CTA. |
+| Account Calendar tab | Below the tab header, in the position the calendar-connect UI would normally occupy (replaces it per D-08). Secondary to any other account-settings actions on the page. |
+
+In all cases: banner width matches the content column it sits in (no full-bleed treatment), uses the Info banner surface color (never accent/primary), and never uses a larger type role than the page's own section headings — it must read as explanatory context, not as a headline.
 
 ---
 
