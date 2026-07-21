@@ -420,17 +420,21 @@ Note: UI-SPEC's spacing contract specifies `gap-2` (8px) for the icon+heading ro
 | A2 | `Current.user.brokerages.without_deleted.where(plan: %w[independent growth]).exists?` is performant enough to call synchronously per calendar-connect request (no caching needed) | Pattern 2 | Low-Medium — for a user with a handful of brokerage memberships this is a trivial indexed query; if a future power-user scenario has hundreds of memberships this could warrant caching, but no evidence that's a real scenario today (each brokerage requires an invitation/onboarding to join) |
 | A3 | `AppConstants::PLAN_TIERS`'s 4 capability flags (`real_boards`, `clients`, `custom_domain`, `calendar_sync`) are the complete and final set needed for this phase — no 5th flag needs to be added to the Phase 36 config | Standard Stack, Summary | Low — PLAN-04 through PLAN-09 map cleanly onto the existing 4 flags plus PLAN-06's "verify no cap" (no flag needed) and PLAN-09's "everything else works" (no flag needed) |
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> Both questions below were resolved during planning. Resolution notes and the plan/threat-register that closed each are inline under **RESOLVED**.
 
 1. **Where should the new frontend plan-capability helper module live, and should it be named to parallel `permissions.ts` exactly?**
    - What we know: The pattern to mirror is `assets/rbac/permissions.ts` + `usePermission.ts` + `Can.tsx`. No existing plan-equivalent exists anywhere in `frontend/src/`.
    - What's unclear: Whether the planner wants a fully parallel `assets/rbac/planPermissions.ts` + `usePlanPermission.ts` + a `<Can>`-like `<CanPlan>` wrapper (maximum consistency with existing RBAC), or a lighter single-file helper (`hasPlanCapability(plan, capability)`) consumed directly in the 4 banner-target components without a new hook/component layer.
    - Recommendation: Given only 4 call sites need this in this phase (not dozens, unlike roles), a single lightweight helper module is proportionate — but if the planner anticipates PLAN-14 through PLAN-19 (Phases 38-39) needing more plan-gated UI, building the fuller parallel structure now may pay off sooner. Either is defensible; flag for planner decision, not a blocking unknown.
+   - **RESOLVED (Plan 37-04, Task 1):** Ship the lighter single-file helper `assets/rbac/planPermissions.ts` exporting `hasPlanCapability(plan, capability)` — no `usePlanPermission` hook and no `<CanPlan>` wrapper this phase (4 call sites do not justify the fuller layer). The capability boolean is resolved in each surface's **container** and threaded to the pure component as a prop (Plans 37-05, 37-06); presentational components never call the helper or `useFetchBrokerage` directly. See Plan 37-04 action text ("RESEARCH Open Q1 resolution").
 
 2. **Should `Group::InvitationsController#create`'s plan check also validate that `invitation_params[:role]` is a recognized role at all (mirroring `admin/invitations_controller.rb`'s `AppConstants::BROKERAGE_ROLES.include?(role)` check), or should this phase touch only the plan-gate line and leave the pre-existing lack of role validation as-is?**
    - What we know: `Group::InvitationsController#create` currently has zero role validation — any string can be passed to `Invitation.create!(role: ...)`. The sibling `admin/invitations_controller.rb#create` does validate.
    - What's unclear: Whether adding a plan check "on top of" unvalidated input is safe (i.e., could a Free-tier caller bypass the client-block by sending a role value that isn't exactly the string `"client"`, like `"Client"` or `" client"`, and still end up creating a client-equivalent invitation?).
    - Recommendation: The plan check should do an exact-match comparison against the frontend-sent value (`role == "client"`), consistent with D-03's literal wording — but the planner/executor should verify at implementation time whether case/whitespace normalization is needed given the pre-existing lack of role validation on this endpoint. This is a narrow, contained edge case, not a blocker.
+   - **RESOLVED (Plan 37-01, threat register T-37-04):** The Free-tier client-invite gate uses an exact-match `role == "client"` comparison per D-03/D-05, which server-side rejects regardless of caller role. Broader enum/role validation on this endpoint is pre-existing debt and explicitly out of this phase's scope; that residual is dispositioned **accept** as T-37-04 in Plan 37-01's `<threat_model>`.
 
 ## Security Domain
 
