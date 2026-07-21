@@ -1,9 +1,13 @@
-# Deferred Items — Phase 37
+# Deferred Items — Phase 37 Free-Tier Gating
 
-Items discovered during execution that are out of scope for the current plan(s) and were left untouched.
+Items discovered during execution that are out of scope for the current plan(s) and were left untouched (SCOPE BOUNDARY rule).
 
 ## From 37-01 (Board-connect + client-invite gates)
 
 - **`test/integration/admin_authorization_test.rb` pre-existing lint offenses** — `bundle exec standardrb test/integration/admin_authorization_test.rb` reports 11 pre-existing `Layout/ExtraSpacing` / `Layout/SpaceInsideHashLiteralBraces` offenses on lines unrelated to the 37-01 edit (lines 8-15, 51). Confirmed via `git diff` that these lines were not touched by 37-01. Left as-is per scope boundary rules.
 - **Backend test-environment DB is Postgres (shared Neon dev DB), not the sqlite3 configured in `config/database.yml`'s `test:` block** — `dotenv-rails` loads the repo-root `.env` (which sets `DATABASE_URL` for the Neon Postgres instance) unconditionally, before `RAILS_ENV`-specific database.yml resolution, so `DATABASE_URL` overrides the sqlite3 test config. This is the same root cause STATE.md documents as "DATABASE_URL leaks into RAILS_ENV=test." Loading `db/schema.rb` fresh against local sqlite3 also fails independently (Postgres-specific partial-index syntax `((status)::text <> ...)` and the `GREATEST()` SQL function used in `db/migrate/20260408000001_add_last_activity_at_to_group_estates.rb` are not valid SQLite). No action taken — this is a pre-existing environment characteristic, not something introduced by 37-01. Nested worktrees for `backend/` need `.env` and `config/master.key` copied from the primary `backend/` checkout (both gitignored) to run `bin/rails test` at all.
 - **`RealEstateBoard` short_code/name collision on `:test_board` factory trait** — the shared Neon test DB already has a permanently seeded row (`id=33`, `short_code: "TEST"`, `name: "Test RETS Board"`). `test/integration/board_connect_flow_test.rb` (pre-existing, not modified by 37-01) fails on this collision identically whether or not 37-01's changes are applied — confirmed via `git stash`/`stash pop` A/B check. `37-01`'s own new test file (`free_tier_board_gate_test.rb`) works around this locally via `RealEstateBoard.test_boards.active.first || create(...)`, but `board_connect_flow_test.rb` itself was left unmodified (out of scope for this plan — not in `files_modified`).
+
+## From Plan 37-02
+
+- **`backend/app/controllers/v1/account/calendar/connections_controller.rb:52`** — `Lint/UselessAssignment: Useless assignment to variable - 'e'` (standardrb). Pre-existing in `#create_apple`'s `rescue => e` block (introduced in commit `e981f72`, before this plan). Not touched by Plan 37-02's diff (guard clause was inserted earlier in the method, at the top). Left as-is per scope boundary.
