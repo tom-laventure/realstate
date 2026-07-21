@@ -124,6 +124,10 @@ None - no external service configuration required. (The `.env`/`master.key`/`.bu
 - `deferred-items.md` documents the shared-DB TEST-board collision and Postgres-only-migrations-vs-sqlite3-test-config mismatch for whichever plan next touches `backend/` in a fresh worktree — no action needed unless that plan's own tests are blocked by it.
 - The `backend` sub-repo commits (`62c1403`, `e662881`) live on branch `worktree-agent-a8adc2b67091015b6-backend` inside the `backend` sub-repo and need orchestrator-level merge into `backend`'s `master` alongside this monorepo worktree's merge.
 
+## Self-Check: PASSED
+
+All created/modified files verified present on disk; all commit hashes (`62c1403`, `e662881` in `backend`; `8470ead` in the monorepo) verified present in their respective repos' `git log --oneline --all`.
+
 ---
 *Phase: 37-free-tier-gating*
 *Completed: 2026-07-21*
