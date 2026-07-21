@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
 status: verifying
-stopped_at: Completed 36-02-PLAN.md
-last_updated: "2026-07-14T21:36:26.204Z"
+stopped_at: Phase 37 context gathered
+last_updated: "2026-07-21T01:44:52.751Z"
 last_activity: 2026-07-14
 progress:
   total_phases: 4
@@ -115,9 +115,9 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 
 ## Session Continuity
 
-Last session: 2026-07-14T21:36:04.492Z
-Stopped at: Completed 36-02-PLAN.md
-Resume file: None
+Last session: 2026-07-21T01:44:52.741Z
+Stopped at: Phase 37 context gathered
+Resume file: .planning/phases/37-free-tier-gating/37-CONTEXT.md
 Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 
 ## Operator Next Steps
