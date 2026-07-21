@@ -192,7 +192,13 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
   5. On Free, brokerages are restricted to their subdomain — no custom domain can be configured
   6. On Free, groups, comments, ratings, likes, documents, RSVP/dates, and filter sets all work exactly as they do on paid tiers, operating against TEST-board listings
   7. On Independent and Growth, none of the above gates apply — real boards, real clients, custom domain, and calendar sync are all available
-**Plans**: TBD
+**Plans**: 6 plans
+- [ ] 37-01-PLAN.md — Backend board-connect + client-invite gates (PLAN-04, PLAN-05)
+- [ ] 37-02-PLAN.md — Backend calendar-sync gate + cross-brokerage boolean (PLAN-07)
+- [ ] 37-03-PLAN.md — Backend regression suite: seats, domain gate, engagement (PLAN-06, PLAN-08, PLAN-09, PLAN-12)
+- [ ] 37-04-PLAN.md — Frontend foundation: plan-capability helper + FreeTierBanner (PLAN-04/05/07/08)
+- [ ] 37-05-PLAN.md — Frontend banners: board, client-invite, domains surfaces (PLAN-04, PLAN-05, PLAN-08)
+- [ ] 37-06-PLAN.md — Frontend calendar tab banner (PLAN-07)
 **UI hint**: yes
 
 ### Phase 38: Upgrade & Downgrade Lifecycle
@@ -261,6 +267,6 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 34. Ownership Management UI — Settings Page & Add Owner | v1.11 | 3/3 | Complete    | 2026-07-13 |
 | 35. Remove Owner Flow | v1.11 | 5/5 | Complete    | 2026-07-13 |
 | 36. Plan Configuration & Tier Migration | v1.12 | 2/2 | Complete   | 2026-07-14 |
-| 37. Free Tier Gating | v1.12 | 0/0 | Not started | - |
+| 37. Free Tier Gating | v1.12 | 0/6 | Planned | - |
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 0/0 | Not started | - |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 0/0 | Not started | - |
