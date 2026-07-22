@@ -2,35 +2,33 @@
 gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
-status: milestone_complete
-stopped_at: Milestone complete (Phase 39 was final phase)
-last_updated: 2026-07-22T17:51:10.269Z
-last_activity: 2026-07-22 -- Phase 39 execution started
+status: Awaiting next milestone
+stopped_at: Phase 39 context gathered
+last_updated: "2026-07-22T19:46:37.638Z"
+last_activity: 2026-07-22 — Milestone v1.12 completed and archived
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 14
   completed_plans: 14
-  percent: 75
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
+See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
 **Current focus:** Milestone complete
 
 ## Current Position
 
-Phase: 39
-Plan: Not started
-Status: Milestone complete
-Last activity: 2026-07-22
-
-Progress: [██████████] 100%
+Phase: Milestone v1.12 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-07-22 — Milestone v1.12 completed and archived
 
 ## Performance Metrics
 
@@ -72,7 +70,7 @@ Progress: [██████████] 100%
 
 ### Decisions
 
-Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.11 Phase 35). Roadmap-level phase sequencing for v1.12 (see PLAN-TIERS.md and ROADMAP.md Phase Details):
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.12 close). Roadmap-level phase sequencing for v1.12 (see PLAN-TIERS.md and milestones/v1.12-ROADMAP.md Phase Details):
 
 - Phase 36 (config + enum migration) is foundational — every later phase reads from it, nothing in it depends on anything else.
 - Phase 37 (Free-tier gating) bundled as one coherent chunk of backend + frontend gating work, including verifying paid tiers stay unrestricted (PLAN-12).
@@ -103,7 +101,7 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.13 | v1.10 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.13; re-acknowledged at v1.12 close (pre-close audit) | v1.10 close |
 | CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.13 | v1.10 close |
 | UX | Brokerage switch preserving active tab position | Carry to v1.13 | v1.10 close |
 | UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.13 | v1.10 close |
@@ -124,5 +122,4 @@ Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 
 ## Operator Next Steps
 
-- Review and approve the v1.12 roadmap (Phases 36-39)
-- Start Phase 36 with /gsd-plan-phase 36
+- Start the next milestone with /gsd-new-milestone

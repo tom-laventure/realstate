@@ -1,5 +1,37 @@
 # Milestones
 
+## v1.12 Plan Tiers & Gating (Shipped: 2026-07-22)
+
+**Phases completed:** 4 phases, 14 plans, 33 tasks
+
+**Key accomplishments:**
+
+- Centralized `AppConstants::PLAN_TIERS` config constant (free/independent/growth pricing, seat caps, and capability flags) plus a fail-loud `Brokerage#plan_config` accessor — the single source of truth every later gating and billing rule in Phases 37-39 reads from.
+- Migrated `Brokerage#plan` from the binary `basic`/`premium` enum to the three-tier `free`/`independent`/`growth` enum via a raw-SQL backfill migration with an orphan-check guard, flipped the model validation, and rewired both the admin custom-domain gate and onboarding signup validation to read from the config-driven `plan_config`/`PLAN_TIERS` accessor instead of comparing plan-name string literals.
+- Three server-side Free-tier gates (board list filter, real-board connect reject, client-invite reject) added directly to existing admin controllers, reusing Phase 36's canonical `plan_required` 403 shape, with two new integration test files (9 assertions) proving Free-tier restriction and Independent/Growth non-regression.
+- User-scoped `any_paid_brokerage_membership?` predicate gates Google calendar authorize and Apple calendar connect with 403 `plan_required` for fully-Free users, and exposes a `calendar_sync_available` boolean on the connections index for frontend banner logic — fully TDD'd against the real backend test suite.
+- Three new Minitest integration test files locking in Free-tier's uncapped seats, the Phase-36 custom-domain gate (plus its paid-tier non-restriction counterpart), and plan-agnostic engagement features — zero application code changed.
+- Frontend `hasPlanCapability` RBAC-style helper mirroring backend `PLAN_TIERS`, plus a reusable `FreeTierBanner` info-notice component matching the UI-SPEC visual contract — both fully unit tested, no consumers wired yet.
+- Wired `FreeTierBanner` + `hasPlanCapability` (Plan 04's contracts) into three brokerage-scoped admin surfaces — Board Registrations, the client-invite form in AddUserToGroupView (hidden entirely on Free per D-04), and the Domains page — each gated in its container hook and consumed as a prop by the pure presentational component, with a passing RTL test per surface.
+- Account Calendar tab now reads the backend's user-scoped `calendar_sync_available` boolean and swaps the provider-card grid for a FreeTierBanner when a fully-Free user has no paid membership anywhere, while keeping the tab and its heading/intro text visible in both states.
+- Migration adding suspended_at (indexed) to brokerage_memberships/brokerage_board_credentials plus brokerages.plan_downgraded_at, a third `suspended` enum value on BrokerageBoardCredential#status, and Invitation#revoked_at-style suspend!/restore!/suspended? methods on BrokerageMembership
+- `TestBoardPurgeService.call!(brokerage:)` hard-deletes all TEST-board-linked demo data (BrokerageEstate + GroupEstate tree + orphaned calendar events) for one brokerage via paranoia's `really_destroy!`, leaving real-board data and other brokerages fully untouched.
+- `ApplyPlanTransitionJob` dispatches all four plan-transition side-effect cascades (TEST-board purge on upgrade, domain-freeze + credential/membership-suspend on downgrade, event-scoped restore on re-upgrade) from a single async job, mirroring `SendInvitationEmailJob`'s shape and satisfying D-06's "restore only this downgrade's suspensions" invariant.
+- CognitoAuth now rejects suspended client memberships with a distinct 403 (D-09); board_credentials#index excludes suspended credentials (D-07); board_credentials#update/#destroy treat a suspended credential as nonexistent, closing the reactivation hole where an admin could PATCH a frozen real-board credential back to active (T-38-10)
+- `Ops::PlanController#update` now accepts `{plan: "<target>"}`, validates it against the tier allowlist, flips `brokerage.plan`, and enqueues `ApplyPlanTransitionJob(id, old_plan, new_plan)` — replacing the old two-valued boolean `freeze:` param with the three-tier trigger the Plan 03 cascade job needs.
+- Filled in the paid<->paid branch of ApplyPlanTransitionJob with a pure billing recalculation that persists an append-only PlanBillingSnapshot keyed by the new plan's config, with overage clamped at zero and client/soft-deleted memberships excluded from the seat count.
+- Post-ship code review (Phase 39 close) found and fixed 2 critical pre-existing bugs in the Phase 38 transition job: `downgrade!` non-idempotent against job retry/redelivery, and `unfreeze_custom_domains!` missing event-scoping (could reactivate an unrelated frozen domain).
+
+**Known deferred items at close:** 1 (see STATE.md Deferred Items — architecture: rethink listing access model, carried from v1.10, re-acknowledged here)
+
+### Archive
+
+- Roadmap: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
+- Requirements: [milestones/v1.12-REQUIREMENTS.md](milestones/v1.12-REQUIREMENTS.md)
+- Tag: `v1.12`
+
+---
+
 ## v1.11 Brokerage Ownership Management (Shipped: 2026-07-13)
 
 **Phases completed:** 3 phases, 11 plans, 23 tasks

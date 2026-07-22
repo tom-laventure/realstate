@@ -1,26 +1,16 @@
 # RealState SaaS Platform
 
-## Last Shipped: v1.11 — Brokerage Ownership Management (2026-07-13)
+## Last Shipped: v1.12 — Plan Tiers & Gating (2026-07-22)
 
-## Current Milestone: v1.12 Plan Tiers & Gating
+## Current Milestone: Planning next milestone
 
-**Goal:** Replace the binary `basic`/`premium` plan enum with a three-tier structure (`free`/`independent`/`growth`) that gates board access, client invites, custom domains, and calendar sync — with a safe upgrade/downgrade lifecycle for real business data.
-
-**Target features:**
-- Centralized plan config (seat caps, prices, overage rates) — code-level constant, single source of truth
-- Free tier: TEST-board-only demo experience, no client invites, unlimited seats, no custom domain, no calendar sync
-- Independent ($20/mo, 1 seat) and Growth ($79/mo, 5 seats) paid tiers: unlimited real boards, unlimited clients, custom domain, Google calendar sync
-- Free → paid upgrade: silent auto-purge of TEST-board demo data
-- Paid → Free downgrade: freeze custom domain, soft-disconnect real board credentials, suspend client memberships (all restorable on re-upgrade)
-- Paid ↔ paid transitions: pure billing recalculation, no data disruption
-
-See `.planning/PLAN-TIERS.md` for full design rationale and Key Decisions.
+See `.planning/PLAN-TIERS.md` for v1.12's full design rationale and Key Decisions.
 
 ---
 
 ## What This Is
 
-A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers. Ownership changes (promote to owner, demote/remove an owner) are now a fully owner-gated, backend-enforced API surface (`Admin::Settings::OwnersController`) separate from the generic user-management endpoints, closing the prior admin-takeover gap. A dedicated `/admin/settings` Ownership Management section gives owners a full add/remove-owner UI: a Current Owners list, a two-step Add Owner modal, and a matching three-step Remove Owner flow with a last-owner guard and self-demotion handling on both the subdomain and portal login paths. The platform now enforces a three-tier plan model (`free`/`independent`/`growth`) end to end: Free-tier brokerages are walled to the TEST board with no client invites, custom domain, or calendar sync (Phase 37), and a full upgrade/downgrade lifecycle safely moves brokerages between tiers — Free → paid silently purges disposable TEST-board demo data, paid → Free freezes the custom domain and soft-suspends real board credentials and client memberships (fully preserved, not deleted), and re-upgrading automatically restores exactly what that downgrade suspended (Phase 38).
+A multi-tenant real estate SaaS platform serving brokerages via domain-based isolation. Brokerages manage property listings, organize agents into groups, and collaborate through shared tools: comments, documents, ratings, tags, and calendar dates. The platform has a hardened security posture, Google social login, working onboarding flows, personal Google calendar sync, a backend + frontend test suite, geographic map views of listings via Mapbox GL, a main-domain admin portal with brokerage switcher and enriched per-brokerage selection cards (client count, member count, owner names), unified SaaS branding across both main-domain navbars (`DashboardNavBar` + updated `PortalNavBar`), a complete domain management system (lifecycle-tracked subdomains and custom domains, DNS verification, 301 redirect enforcement, Pro-downgrade freeze/restore), a cleanly separated Board Registrations admin UI at `/admin/boards` distinct from the Brokerage admin page, correct root-route behavior ensuring unauthenticated users always land on the login page regardless of domain, and a three-tier admin RBAC model (`owner`/`admin`/`agent`) giving the `agent` role full read-only visibility across the entire admin dashboard plus full read/write on Groups, with every mutation control and data fetch outside Groups scope correctly gated at both the frontend and backend layers. Ownership changes (promote to owner, demote/remove an owner) are now a fully owner-gated, backend-enforced API surface (`Admin::Settings::OwnersController`) separate from the generic user-management endpoints, closing the prior admin-takeover gap. A dedicated `/admin/settings` Ownership Management section gives owners a full add/remove-owner UI: a Current Owners list, a two-step Add Owner modal, and a matching three-step Remove Owner flow with a last-owner guard and self-demotion handling on both the subdomain and portal login paths. The platform now enforces a three-tier plan model (`free`/`independent`/`growth`) end to end: Free-tier brokerages are walled to the TEST board with no client invites, custom domain, or calendar sync (Phase 37), a full upgrade/downgrade lifecycle safely moves brokerages between tiers — Free → paid silently purges disposable TEST-board demo data, paid → Free freezes the custom domain and soft-suspends real board credentials and client memberships (fully preserved, not deleted), and re-upgrading automatically restores exactly what that downgrade suspended (Phase 38) — and switching between paid tiers (Independent ↔ Growth) is a pure billing event: an append-only `PlanBillingSnapshot` audit trail records the recalculated price on every paid-to-paid transition, with zero data purged, frozen, or disconnected (Phase 39).
 
 ## Core Value
 
@@ -32,7 +22,29 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS.md` for full requirements and traceability.
+(None yet — planning next milestone)
+
+### Validated (v1.12 — Phases 36-39: Plan Tiers & Gating)
+
+- ✓ PLAN-01: `Brokerage#plan` migrated from binary `basic`/`premium` to three-tier `free`/`independent`/`growth` — v1.12 Phase 36
+- ✓ PLAN-02: Centralized `AppConstants::PLAN_TIERS` config — seat caps, prices, overage rates in one file, no duplication — v1.12 Phase 36
+- ✓ PLAN-03: Config structured so a tier's price/seat-cap/overage change is a one-file edit — v1.12 Phase 36
+- ✓ PLAN-04: Free-tier board-connect flow only offers the seeded TEST board — v1.12 Phase 37
+- ✓ PLAN-05: Free-tier client-invite endpoints reject the request regardless of caller role — v1.12 Phase 37
+- ✓ PLAN-06: Free-tier agent/staff seats are uncapped — v1.12 Phase 37
+- ✓ PLAN-07: Free-tier has no calendar sync entry point in UI or API — v1.12 Phase 37
+- ✓ PLAN-08: Free-tier restricted to subdomain, no custom domain — v1.12 Phase 37
+- ✓ PLAN-09: Groups/comments/ratings/likes/documents/RSVP/filter-sets work identically on Free against TEST-board data — v1.12 Phase 37
+- ✓ PLAN-10: Independent plan — $20/mo, 1 seat, $20/seat overage — v1.12 Phase 36
+- ✓ PLAN-11: Growth plan — $79/mo, 5 seats, $16/seat overage — v1.12 Phase 36
+- ✓ PLAN-12: Independent/Growth unrestricted — unlimited real boards, clients, custom domain, calendar sync — v1.12 Phase 37
+- ✓ PLAN-13: 15% annual discount on Independent/Growth base price (overage excluded) — v1.12 Phase 36
+- ✓ PLAN-14: Free → paid upgrade silently purges TEST-board-linked demo data — v1.12 Phase 38
+- ✓ PLAN-15: Paid → Free downgrade freezes the custom domain — v1.12 Phase 38
+- ✓ PLAN-16: Paid → Free downgrade soft-disconnects real board credentials (preserved, marked suspended) — v1.12 Phase 38
+- ✓ PLAN-17: Paid → Free downgrade suspends client memberships (preserved, not deleted) — v1.12 Phase 38
+- ✓ PLAN-18: Re-upgrade restores exactly the credentials/memberships suspended by that downgrade event — v1.12 Phase 38
+- ✓ PLAN-19: Paid ↔ paid transitions are a pure billing recalculation, persisted as an append-only `PlanBillingSnapshot` — v1.12 Phase 39
 
 ### Validated (v1.11 — Phases 34-35: Ownership Management UI)
 
@@ -185,9 +197,9 @@ v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS
 - ✓ API-04: `PATCH /v1/admin/settings/owners/:id` demotes an owner, owner-only caller, rejects removing the brokerage's last owner — v1.11 Phase 33
 - ✓ API-05: All owner-role mutations enforced server-side via DB-backed `current_membership` (never a JWT role claim) — v1.11 Phase 33
 
-## Deferred to v1.12+
+## Deferred to v1.13+
 
-- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6, still unaddressed after v1.11)
+- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6, still unaddressed after v1.12)
 - [ ] S3 favicon upload outside transaction (CR-02, pre-existing from v1.1)
 - [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
 - [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
@@ -195,7 +207,9 @@ v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS
 - [ ] Invitations-gating hook test coverage gap: only `agent`/`admin` roles tested; missing `owner`, `staff`/`client`, and the "role not yet loaded" transient state (32-04-REVIEW.md IN-02)
 - [ ] Audit log of ownership changes — who promoted/demoted whom, when (OWN-11, deferred at v1.11 close)
 - [ ] Email notifications on ownership role change (OWN-12, deferred at v1.11 close)
-- [ ] Full Billing management section on `/admin/settings` (BILL-01, stubbed as TODO placeholder in v1.11)
+- [ ] Full Billing management section on `/admin/settings` — payment processor integration, checkout flow, invoicing (BILL-01, stubbed as TODO placeholder since v1.11; v1.12 shipped the plan structure/gating rules only)
+- [ ] Higher-seat tier(s) above Growth (PLAN-20, deferred at v1.12 close — revisit once Growth-tier brokerages consistently outgrow 5 seats)
+- [ ] Plan config: code constant → DB-backed model (PLAN-21, deferred at v1.12 close — only if tweak frequency ends up requiring runtime edits without a deploy)
 
 ### Out of Scope
 
@@ -210,6 +224,11 @@ v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS
 - Multi-domain round-robin / load balancing — not needed at current scale; future milestone
 - Server-side 301 at the Caddy/proxy layer — Rack middleware satisfies the requirement; proxy-layer is a future infrastructure milestone
 - Deeper conflict resolution for simultaneous domain claims — first-to-verify sufficient
+- Payment processor integration (Stripe, etc.) — separate scope from plan structure/gating, tracked under BILL-01
+- MLS/RETS board count caps per paid tier — decided against; no cap on real board connections for Independent or Growth
+- Per-tier calendar provider differentiation — only Google Calendar sync is live; Microsoft/Apple adapters (when activated) apply uniformly to all paid tiers
+- Time-boxed trial of paid features — Free tier fills this role permanently, no separate trial mechanism
+- Auto-purge of real data on paid → Free downgrade — real board/client data is frozen and restorable, never deleted, unlike Free → paid's demo-data purge
 
 ---
 
@@ -228,7 +247,8 @@ v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS
 - **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
 - **Admin RBAC:** Three-tier model — `require_owner!` / `require_admin!` / `require_agent_or_above!` (backend, `Admin::BaseController` concern) and `readTierRoles` / `ownerAdminOnly` (frontend, `RequireRole` route helpers). `agent` gets full read access across all 6 admin sections + full read/write on Groups; every other write path stays `owner`/`admin` only. Permission-gated data fetches (not just JSX) must be gated via `{ enabled }` options args driven by `usePermission`, per the ACCESS-07 pattern established in v1.10 Phase 32.
 - **Ownership management:** `V1::Admin::Settings::OwnersController` (list/eligible/promote/demote) is the sole owner-role-change surface; the generic `UsersController#update`/`#destroy` reject any owner-touching transition (D-02). Frontend: `/admin/settings` Ownership Management section — `useSettingsAdminContext` Brain owns `useDemoteOwner`/`usePromoteOwner`, `currentUserId` (via unconditional `useGetCurrentUser()`), and the self-demote Redux patch. Both Add/Remove Owner dialogs are always-mounted and reset wizard state via a `useEffect` on `open` (not just on close).
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10 | **Shipped v1.11:** 2026-07-13
+- **Plan tiers:** `AppConstants::PLAN_TIERS` (`backend/app/constants/plan_tiers.rb`, explicitly required in `constants.rb` alongside `roles.rb`) is the single source of truth for seat caps, prices, and overage rates across `free`/`independent`/`growth`; `Brokerage#plan_config` (`.fetch(plan)`, no fallback — fails loud on an unrecognized value) is the model-level accessor, mirrored on the frontend by `hasPlanCapability`. `ApplyPlanTransitionJob` dispatches all three transition branches from one async job triggered by `Ops::PlanController#update`: Free→paid purges TEST-board data via `TestBoardPurgeService`, paid→Free freezes the domain and suspends board credentials/client memberships (all scoped to a single `plan_downgraded_at`/`frozen_at` event stamp so re-upgrade restores only that event's rows, per D-06), and paid↔paid persists an append-only `PlanBillingSnapshot` via `recalculate_billing!` (config always keyed by `new_plan`, overage clamped at 0, guarded against no-op and superseded/out-of-order transitions). `Brokerage#billable_seat_count` mirrors the `member_roles = %w[agent staff owner admin]` rule from `admin_brokerages_controller.rb` (excludes `client` and soft-deleted rows).
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10 | **Shipped v1.11:** 2026-07-13 | **Shipped v1.12:** 2026-07-22
 
 ---
 
@@ -304,6 +324,17 @@ v1.12 — Plan Tiers & Gating (PLAN-01 – PLAN-19). See `.planning/REQUIREMENTS
 | Self-demote Redux patch (`updateUser`/`setActiveBrokerage`) applied directly from the trusted server response, no network round-trip — v1.11 Phase 35 | Avoids a stale-permission UX window between demote confirm and next page load; server response is already the source of truth | ✓ Good — UI updates immediately with no reload |
 | Dialog wizard state reset via `useEffect` on `open` transitioning true (not only on close) — v1.11 Phase 35 (35-REVIEW.md CR-01/CR-02) | Both Remove/Add Owner dialogs are always-mounted; the parent closes them by flipping the controlled `open` prop directly on success, which never fires Radix's `onOpenChange` — resetting only in the dialog's own close handler left stale wizard state to resurface on the next open | ✓ Good — caught by code review before milestone close, fixed for both dialogs |
 | Role picker in Remove Owner defaults to Admin, no forced explicit selection — v1.11 Phase 35 (35-CONTEXT.md D-03) | Deliberate, locked UX decision — surfacing all three role options at once (not a dropdown) already makes the choice visible; code review's suggestion to require explicit selection was reverted after cross-checking this decision | ✓ Good — a reminder to check locked CONTEXT.md decisions before applying review suggestions that change behavior |
+| Money stored as integer cents, not float dollars — v1.12 Phase 36 | Standard Ruby money practice; Phase 39's billing recalc consumes `base_price_cents`/`overage_price_cents` directly, no float rounding surface | ✓ Good |
+| `plan_config`/`PLAN_TIERS.fetch` with no fallback block — v1.12 Phase 36 (D-07) | An unrecognized plan value should raise `KeyError` loudly, not silently degrade to Free's all-false capability set | ✓ Good |
+| `plan_tiers.rb` explicitly `require_relative`'d in `constants.rb` alongside `roles.rb` — v1.12 Phase 36 | `AppConstants` stopped being Zeitwerk-managed once the first file defined the module via `require_relative`; a sibling file would never autoload without the same explicit require | ✓ Good — same class of pitfall as the `DomainRedirectMiddleware` require, now a documented pattern for this codebase |
+| Plan enum backfill via raw SQL, not `Brokerage.update_all` — v1.12 Phase 36 | `acts_as_paranoid`'s default scope would skip soft-deleted rows on a plain `update_all`, leaving them on the stale `basic`/`premium` values | ✓ Good |
+| Gate the fetch, not just the render, for permission-scoped plan-capability data — v1.12 Phase 37 | Reuses the `{ enabled }` options-arg pattern from v1.10 Phase 32 / v1.11 Phase 34 — third milestone this exact pattern has held up | ✓ Good — now a load-bearing project-wide convention, not phase-specific |
+| Calendar access gated by account-wide `any_paid_brokerage_membership?`, never `hasPlanCapability`/`brokerage.plan` — v1.12 Phase 37 (D-06) | Calendar sync is user-scoped and cross-brokerage; gating it by the currently-resolved brokerage's plan would be wrong the moment a user belongs to more than one brokerage | ✓ Good |
+| `plan_downgraded_at` stored as an explicit event-marker column, not derived via `MAX(suspended_at)` — v1.12 Phase 38 (D-06) | Single source of truth lets `restore!`/`unfreeze_custom_domains!` scope strictly to rows suspended/frozen by *this* downgrade event, never reactivating an unrelated earlier suspension | ✓ Good — the same scoping gap (missing on `unfreeze_custom_domains!` at ship time) was caught and fixed by Phase 39's code review, see below |
+| Re-upgrade does not restore custom-domain `is_primary` — v1.12 Phase 38 | Deliberately out of scope; owner must manually reassign primary domain after a downgrade/re-upgrade cycle | ✓ Good — documented in code, not silently dropped |
+| `plan_billing_snapshots` has no `deleted_at`/`acts_as_paranoid` — v1.12 Phase 39 | Deliberate deviation from the codebase-wide soft-delete convention; append-only billing audit trail matches the `EstateDateCalendarEvent` no-soft-delete precedent | ✓ Good |
+| `recalculate_billing!` fetches `PLAN_TIERS` strictly by `new_plan`, never `old_plan` — v1.12 Phase 39 | Prevents a stale-tier billing bug where a transition would price using the brokerage's previous plan | ✓ Good |
+| Post-ship code review found and fixed 2 critical bugs predating Phase 39 (`downgrade!` non-idempotent against job retry; `unfreeze_custom_domains!` missing event-scoping) — v1.12 Phase 39 close | Both bugs were reachable via existing Phase 38 code paths (job retries, unrelated domain freezes) but only surfaced when Phase 39's review re-examined the whole transition job; fixed same-day with regression tests rather than deferred | ✓ Good — a reminder that "phase complete" doesn't mean "surrounding code is bug-free"; code review scope should follow the file, not just the diff |
 
 ---
 
@@ -326,4 +357,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-22 after Phase 38 (Upgrade & Downgrade Lifecycle) — v1.12 milestone in progress*
+*Last updated: 2026-07-22 after v1.12 (Plan Tiers & Gating) milestone close*
