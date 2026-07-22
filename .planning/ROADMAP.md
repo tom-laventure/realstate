@@ -250,7 +250,8 @@ Plans:
   1. Switching Independent → Growth recalculates billing (new base price plus seat overage for seats beyond the new tier's included count) with zero data changes
   2. Switching Growth → Independent recalculates billing the same way, with no boards, clients, or domain affected
 
-**Plans**: TBD
+**Plans**: 1 plan
+- [ ] 39-01-PLAN.md — Fill in the paid->paid billing branch: PlanBillingSnapshot model/migration/factory, Brokerage#billable_seat_count, recalculate_billing! job logic, and job tests
 
 ---
 
