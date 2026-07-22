@@ -211,7 +211,13 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
   3. Downgrading a paid brokerage to Free soft-disconnects all real board credentials — the credential row is preserved, marked inactive, excluded from member-visible board lists, and the board-connect UI reverts to Free-tier (TEST-only) behavior
   4. Downgrading a paid brokerage to Free suspends all client memberships — access is revoked but membership records are preserved, not deleted
   5. Re-upgrading from Free to a paid plan automatically restores previously soft-disconnected board credentials and suspended client memberships, with no manual re-entry of RETS credentials or re-inviting of clients
-**Plans**: TBD
+**Plans**: 5 plans
+Plans:
+- [ ] 38-01-PLAN.md — Schema & model foundation: suspended_at columns, plan_downgraded_at, board-credential suspended enum, membership suspend/restore methods
+- [ ] 38-02-PLAN.md — TestBoardPurgeService: hard-delete cascade of TEST-board demo data (PLAN-14)
+- [ ] 38-03-PLAN.md — ApplyPlanTransitionJob: async purge / freeze+suspend / event-scoped restore orchestration (PLAN-14/15/16/17/18)
+- [ ] 38-04-PLAN.md — Runtime enforcement: suspended-membership 403 in CognitoAuth + suspended credentials hidden from board list (PLAN-16/17)
+- [ ] 38-05-PLAN.md — Ops::PlanController trigger: flip plan + enqueue cascade job (PLAN-14/15/16/17/18)
 
 ### Phase 39: Paid-to-Paid Plan Changes
 **Goal**: Switching between paid tiers is a pure billing event — since board access and client access are identical across Independent and Growth, no data is ever purged, frozen, or disconnected on a paid-to-paid change.
