@@ -233,8 +233,8 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 38-03-PLAN.md — ApplyPlanTransitionJob: async purge / freeze+suspend / event-scoped restore orchestration (PLAN-14/15/16/17/18)
-- [ ] 38-04-PLAN.md — Runtime enforcement: suspended-membership 403 in CognitoAuth + suspended credentials hidden from board list (PLAN-16/17)
+- [x] 38-03-PLAN.md — ApplyPlanTransitionJob: async purge / freeze+suspend / event-scoped restore orchestration (PLAN-14/15/16/17/18)
+- [x] 38-04-PLAN.md — Runtime enforcement: suspended-membership 403 in CognitoAuth + suspended credentials hidden from board list (PLAN-16/17)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -298,5 +298,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 35. Remove Owner Flow | v1.11 | 5/5 | Complete    | 2026-07-13 |
 | 36. Plan Configuration & Tier Migration | v1.12 | 2/2 | Complete   | 2026-07-14 |
 | 37. Free Tier Gating | v1.12 | 6/6 | Complete   | 2026-07-21 |
-| 38. Upgrade & Downgrade Lifecycle | v1.12 | 2/5 | In Progress|  |
+| 38. Upgrade & Downgrade Lifecycle | v1.12 | 4/5 | In Progress|  |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 0/0 | Not started | - |
