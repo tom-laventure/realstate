@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
 status: executing
-stopped_at: Phase 37 UI-SPEC approved
-last_updated: "2026-07-21T03:16:39.792Z"
+stopped_at: Phase 38 context gathered
+last_updated: "2026-07-22T03:23:44.179Z"
 last_activity: 2026-07-21 -- Phase 37 execution started
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 2
-  percent: 25
+  completed_plans: 8
+  percent: 50
 ---
 
 # Project State
@@ -115,9 +115,9 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 
 ## Session Continuity
 
-Last session: 2026-07-21T02:02:14.274Z
-Stopped at: Phase 37 UI-SPEC approved
-Resume file: .planning/phases/37-free-tier-gating/37-UI-SPEC.md
+Last session: 2026-07-22T03:23:44.169Z
+Stopped at: Phase 38 context gathered
+Resume file: .planning/phases/38-upgrade-downgrade-lifecycle/38-CONTEXT.md
 Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
 
 ## Operator Next Steps
