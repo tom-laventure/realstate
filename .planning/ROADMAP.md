@@ -19,6 +19,7 @@
 ## Phases
 
 **Phase Numbering:**
+
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
@@ -167,24 +168,30 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
 ## Phase Details
 
 ### Phase 36: Plan Configuration & Tier Migration
+
 **Goal**: A single centralized plan config defines seat caps, prices, and overage rates for all three tiers, and `Brokerage#plan` is migrated from the binary `basic`/`premium` enum to `free`/`independent`/`growth` — the foundation every gating and lifecycle rule in this milestone reads from.
 **Depends on**: Nothing (first phase of v1.12; picks up directly after v1.11 Phase 35)
 **Requirements**: PLAN-01, PLAN-02, PLAN-03, PLAN-10, PLAN-11, PLAN-13
 **Success Criteria** (what must be TRUE):
+
   1. `Brokerage#plan` supports `free`, `independent`, `growth` values, with existing `basic`/`premium` brokerages migrated to a defined tier (no orphaned or invalid plan values after migration)
   2. A single centralized, code-level constant defines seat caps, base prices, and per-seat overage rates for all three tiers — no plan numbers hardcoded elsewhere in controllers, serializers, or frontend components
   3. The config reflects Independent at $20/mo, 1 seat included, $20/seat overage, and Growth at $79/mo, 5 seats included, $16/seat overage
   4. The config defines the 15% annual billing discount for Independent and Growth
   5. Raising or lowering a tier's seat cap, price, or overage rate is achievable by editing only the config file
+
 **Plans**: 2 plans
+
 - [x] 36-01-PLAN.md — Centralized AppConstants::PLAN_TIERS config + Brokerage#plan_config accessor
 - [x] 36-02-PLAN.md — Enum migration (basic→independent, premium→growth), validation flip, controller rewiring, test fixups
 
 ### Phase 37: Free Tier Gating
+
 **Goal**: Free-tier brokerages get the full engagement feature set against TEST-board demo data only — real boards, real clients, custom domains, and calendar sync are all walled off — while Independent and Growth remain fully unrestricted.
 **Depends on**: Phase 36
 **Requirements**: PLAN-04, PLAN-05, PLAN-06, PLAN-07, PLAN-08, PLAN-09, PLAN-12
 **Success Criteria** (what must be TRUE):
+
   1. On Free, the board-connect flow (backend endpoint + frontend UI) offers only the seeded TEST board — real RETS/MLS board credentials are not presented or accepted
   2. On Free, client-invite/add-client endpoints reject the request regardless of caller role
   3. On Free, agent/staff seats are uncapped — adding new members never triggers a seat-limit block
@@ -192,40 +199,57 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
   5. On Free, brokerages are restricted to their subdomain — no custom domain can be configured
   6. On Free, groups, comments, ratings, likes, documents, RSVP/dates, and filter sets all work exactly as they do on paid tiers, operating against TEST-board listings
   7. On Independent and Growth, none of the above gates apply — real boards, real clients, custom domain, and calendar sync are all available
+
 **Plans**: 6 plans
+
 - [x] 37-01-PLAN.md — Backend board-connect + client-invite gates (PLAN-04, PLAN-05)
 - [x] 37-02-PLAN.md — Backend calendar-sync gate + cross-brokerage boolean (PLAN-07)
 - [x] 37-03-PLAN.md — Backend regression suite: seats, domain gate, engagement (PLAN-06, PLAN-08, PLAN-09, PLAN-12)
 - [x] 37-04-PLAN.md — Frontend foundation: plan-capability helper + FreeTierBanner (PLAN-04/05/07/08)
 - [x] 37-05-PLAN.md — Frontend banners: board, client-invite, domains surfaces (PLAN-04, PLAN-05, PLAN-08)
 - [x] 37-06-PLAN.md — Frontend calendar tab banner (PLAN-07)
+
 **UI hint**: yes
 
 ### Phase 38: Upgrade & Downgrade Lifecycle
+
 **Goal**: Brokerages can move between Free and a paid tier without losing real business data — Free's disposable TEST-board data is purged on upgrade, while a paid brokerage's real boards, clients, and domain are frozen (not deleted) on downgrade and automatically restored on re-upgrade.
 **Depends on**: Phase 36, Phase 37 (freeze/restore behavior must be consistent with what Free-tier gating already treats as "real" vs. "TEST" data)
 **Requirements**: PLAN-14, PLAN-15, PLAN-16, PLAN-17, PLAN-18
 **Success Criteria** (what must be TRUE):
+
   1. Upgrading a brokerage from Free to Independent or Growth automatically and silently purges all TEST-board-linked data — `BrokerageEstate` rows for the TEST board, plus comments/ratings/likes/documents/RSVPs attached only to those listings
   2. Downgrading a paid brokerage to Free freezes its custom domain via the existing `freeze_custom_domains!` behavior, auto-promoting the subdomain to primary
   3. Downgrading a paid brokerage to Free soft-disconnects all real board credentials — the credential row is preserved, marked inactive, excluded from member-visible board lists, and the board-connect UI reverts to Free-tier (TEST-only) behavior
   4. Downgrading a paid brokerage to Free suspends all client memberships — access is revoked but membership records are preserved, not deleted
   5. Re-upgrading from Free to a paid plan automatically restores previously soft-disconnected board credentials and suspended client memberships, with no manual re-entry of RETS credentials or re-inviting of clients
+
 **Plans**: 5 plans
 Plans:
+**Wave 1**
+
 - [ ] 38-01-PLAN.md — Schema & model foundation: suspended_at columns, plan_downgraded_at, board-credential suspended enum, membership suspend/restore methods
 - [ ] 38-02-PLAN.md — TestBoardPurgeService: hard-delete cascade of TEST-board demo data (PLAN-14)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 38-03-PLAN.md — ApplyPlanTransitionJob: async purge / freeze+suspend / event-scoped restore orchestration (PLAN-14/15/16/17/18)
 - [ ] 38-04-PLAN.md — Runtime enforcement: suspended-membership 403 in CognitoAuth + suspended credentials hidden from board list (PLAN-16/17)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 38-05-PLAN.md — Ops::PlanController trigger: flip plan + enqueue cascade job (PLAN-14/15/16/17/18)
 
 ### Phase 39: Paid-to-Paid Plan Changes
+
 **Goal**: Switching between paid tiers is a pure billing event — since board access and client access are identical across Independent and Growth, no data is ever purged, frozen, or disconnected on a paid-to-paid change.
 **Depends on**: Phase 36
 **Requirements**: PLAN-19
 **Success Criteria** (what must be TRUE):
+
   1. Switching Independent → Growth recalculates billing (new base price plus seat overage for seats beyond the new tier's included count) with zero data changes
   2. Switching Growth → Independent recalculates billing the same way, with no boards, clients, or domain affected
+
 **Plans**: TBD
 
 ---

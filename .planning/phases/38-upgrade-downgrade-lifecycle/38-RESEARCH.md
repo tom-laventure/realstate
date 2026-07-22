@@ -422,22 +422,27 @@ No external state-of-the-art shift applies here — this is entirely internal-pa
 | A2 | Whether `brokerage.last_downgraded_at` should be a new column vs. derived as `MAX(suspended_at)` across credentials/memberships (D-06 tracking mechanism) | Architecture Patterns Pattern 1 | Medium — CONTEXT.md explicitly leaves this as planner's discretion (D-06), so this is a suggested implementation, not a locked decision; a join-record approach is also valid per CONTEXT.md's own framing |
 | A3 | Whether PLAN-18 should also restore custom-domain `is_primary` (not just status) — CONTEXT.md flags this as "planner should verify whether that matters" but does not resolve it | Common Pitfalls Pitfall 2 | Medium — if the plan silently assumes `unfreeze_custom_domains!` fully restores prior state, a re-upgraded brokerage's site could serve from the wrong domain; must be an explicit plan decision, not left ambiguous |
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> All three questions below were resolved during planning; resolution notes point at the plan/task that resolved each.
 
 1. **Does PLAN-18's re-upgrade need to restore custom-domain `is_primary`, or is leaving the subdomain primary (requiring manual reassignment) acceptable?**
    - What we know: `unfreeze_custom_domains!` explicitly does NOT restore `is_primary` (documented in code comment, verified this session).
    - What's unclear: PLAN-18's requirement text only mentions "no manual re-entry of RETS credentials or re-inviting of clients" — domain primary-status is not mentioned either way.
    - Recommendation: Planner should treat this as in-scope-for-decision, not silently either implement or skip it. Likely low-cost to leave as-is (matches existing tested behavior) unless product wants a UX improvement — flag for a discuss-phase follow-up or explicit plan note rather than assuming.
+   - **RESOLVED (Plan 03 Task 1):** Re-upgrade does NOT restore custom-domain `is_primary`; `unfreeze_custom_domains!` intentionally leaves the subdomain primary and the owner manually reassigns. The job adds an explanatory code comment and performs no `is_primary` write (Plan 03 acceptance criteria assert `grep -c is_primary` == 0 outside the comment).
 
 2. **What is the exact param/payload shape for the extended `Ops::PlanController` action?**
    - What we know: Today it's `{freeze: true|false}` against a fixed brokerage id in the URL.
    - What's unclear: Whether this phase should accept `{plan: "growth"}` (letting the controller diff against current `brokerage.plan` to determine direction) or keep an explicit `{transition: "upgrade"|"downgrade"}` param.
    - Recommendation: `{plan: "<new_plan>"}` is simplest and mirrors how `Brokerage#plan` already works elsewhere (single source of truth), with the controller comparing `old_plan`/`new_plan` via `AppConstants::PLAN_TIERS` to decide purge-vs-freeze-vs-noop (also needed for future Phase 39's paid↔paid case, which explicitly does neither).
+   - **RESOLVED (Plan 05 Task 1):** Adopted the `{plan: "<target>"}` contract. `Ops::PlanController` validates `params[:plan]` against `AppConstants::PLAN_TIERS.keys`, captures `old_plan` before `update!(plan: new_plan)`, returns `noop` when unchanged, and enqueues `ApplyPlanTransitionJob` with `[brokerage_id, old_plan, new_plan]`. The old `{freeze:}` boolean is removed.
 
 3. **Should the purge job also clean up `estate_date_calendar_events` (Google Calendar sync rows) for purged TEST-board estate_dates?**
    - What we know: This table has no FK to `estate_dates` at all (verified in schema.rb), so a hard-delete of `estate_dates` leaves these rows orphaned regardless of deletion method used.
    - What's unclear: Requirement PLAN-14 doesn't mention calendar events, and TEST-board demo data presumably never has real Google Calendar sync triggered against it (calendar sync is itself a paid-tier-only feature per PLAN-07, so Free-tier TEST-board events should have zero calendar_events rows in practice).
    - Recommendation: Likely a non-issue in practice (Free tier has no calendar sync, so no rows to orphan) — but the planner should not assume this without a one-line verification note in the plan, since Free-tier brokerages *could* have downgraded from paid (retaining old calendar_events rows from when they were paid) before ever purging TEST-board data on a *subsequent* re-upgrade. Low priority, but worth a one-line guard (`EstateDateCalendarEvent.where(estate_date_id: purged_date_ids).delete_all`) for defensive cleanliness.
+   - **RESOLVED (Plan 02 Task 1 step 5):** `TestBoardPurgeService` captures `estate_date_ids` before deletion and runs the exact defensive `EstateDateCalendarEvent.where(estate_date_id: estate_date_ids).delete_all` cleanup; Plan 02 Task 2 asserts the purged TEST estate_date's calendar event is gone.
 
 ## Sources
 

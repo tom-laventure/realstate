@@ -4,12 +4,12 @@ milestone: v1.12
 milestone_name: Plan Tiers & Gating
 status: executing
 stopped_at: Phase 38 context gathered
-last_updated: "2026-07-22T03:23:44.179Z"
-last_activity: 2026-07-21 -- Phase 37 execution started
+last_updated: "2026-07-22T04:14:07.419Z"
+last_activity: 2026-07-22 -- Phase 38 planning complete
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 8
+  total_plans: 13
   completed_plans: 8
   percent: 50
 ---
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 Phase: 37 (free-tier-gating) — EXECUTING
 Plan: 1 of 6
-Status: Executing Phase 37
-Last activity: 2026-07-21 -- Phase 37 execution started
+Status: Ready to execute
+Last activity: 2026-07-22 -- Phase 38 planning complete
 
 Progress: [██████████] 100%
 
