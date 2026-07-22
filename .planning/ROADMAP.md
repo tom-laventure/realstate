@@ -162,7 +162,7 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
 
 - [x] **Phase 36: Plan Configuration & Tier Migration** - Centralized plan config (seat caps, prices, overage rates) plus the `free`/`independent`/`growth` enum migration — the foundation everything else reads from (completed 2026-07-14)
 - [x] **Phase 37: Free Tier Gating** - Free-tier brokerages are walled to the TEST board with no client invites, no custom domain, no calendar sync, and uncapped seats; paid tiers stay fully open (completed 2026-07-21)
-- [ ] **Phase 38: Upgrade & Downgrade Lifecycle** - Free → paid silently purges TEST-board demo data; paid → Free freezes/soft-disconnects real business data; re-upgrade restores it
+- [x] **Phase 38: Upgrade & Downgrade Lifecycle** - Free → paid silently purges TEST-board demo data; paid → Free freezes/soft-disconnects real business data; re-upgrade restores it (completed 2026-07-22)
 - [ ] **Phase 39: Paid-to-Paid Plan Changes** - Independent ↔ Growth is a pure billing recalculation with zero data disruption
 
 ## Phase Details
@@ -238,7 +238,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 38-05-PLAN.md — Ops::PlanController trigger: flip plan + enqueue cascade job (PLAN-14/15/16/17/18)
+- [x] 38-05-PLAN.md — Ops::PlanController trigger: flip plan + enqueue cascade job (PLAN-14/15/16/17/18)
 
 ### Phase 39: Paid-to-Paid Plan Changes
 
@@ -298,5 +298,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 35. Remove Owner Flow | v1.11 | 5/5 | Complete    | 2026-07-13 |
 | 36. Plan Configuration & Tier Migration | v1.12 | 2/2 | Complete   | 2026-07-14 |
 | 37. Free Tier Gating | v1.12 | 6/6 | Complete   | 2026-07-21 |
-| 38. Upgrade & Downgrade Lifecycle | v1.12 | 4/5 | In Progress|  |
+| 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete   | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 0/0 | Not started | - |
