@@ -79,12 +79,12 @@ Mapped to roadmap phases 36-39 (see `.planning/ROADMAP.md`).
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PLAN-01 | Phase 36 — Plan Configuration & Tier Migration | Not started |
-| PLAN-02 | Phase 36 — Plan Configuration & Tier Migration | Not started |
-| PLAN-03 | Phase 36 — Plan Configuration & Tier Migration | Not started |
-| PLAN-10 | Phase 36 — Plan Configuration & Tier Migration | Not started |
-| PLAN-11 | Phase 36 — Plan Configuration & Tier Migration | Not started |
-| PLAN-13 | Phase 36 — Plan Configuration & Tier Migration | Not started |
+| PLAN-01 | Phase 36 — Plan Configuration & Tier Migration | Complete |
+| PLAN-02 | Phase 36 — Plan Configuration & Tier Migration | Complete |
+| PLAN-03 | Phase 36 — Plan Configuration & Tier Migration | Complete |
+| PLAN-10 | Phase 36 — Plan Configuration & Tier Migration | Complete |
+| PLAN-11 | Phase 36 — Plan Configuration & Tier Migration | Complete |
+| PLAN-13 | Phase 36 — Plan Configuration & Tier Migration | Complete |
 | PLAN-04 | Phase 37 — Free Tier Gating | Complete |
 | PLAN-05 | Phase 37 — Free Tier Gating | Complete |
 | PLAN-06 | Phase 37 — Free Tier Gating | Complete |
