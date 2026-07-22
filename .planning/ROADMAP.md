@@ -228,8 +228,8 @@ Full details: [milestones/v1.11-ROADMAP.md](milestones/v1.11-ROADMAP.md)
 Plans:
 **Wave 1**
 
-- [ ] 38-01-PLAN.md — Schema & model foundation: suspended_at columns, plan_downgraded_at, board-credential suspended enum, membership suspend/restore methods
-- [ ] 38-02-PLAN.md — TestBoardPurgeService: hard-delete cascade of TEST-board demo data (PLAN-14)
+- [x] 38-01-PLAN.md — Schema & model foundation: suspended_at columns, plan_downgraded_at, board-credential suspended enum, membership suspend/restore methods
+- [x] 38-02-PLAN.md — TestBoardPurgeService: hard-delete cascade of TEST-board demo data (PLAN-14)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -298,5 +298,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 35. Remove Owner Flow | v1.11 | 5/5 | Complete    | 2026-07-13 |
 | 36. Plan Configuration & Tier Migration | v1.12 | 2/2 | Complete   | 2026-07-14 |
 | 37. Free Tier Gating | v1.12 | 6/6 | Complete   | 2026-07-21 |
-| 38. Upgrade & Downgrade Lifecycle | v1.12 | 0/0 | Not started | - |
+| 38. Upgrade & Downgrade Lifecycle | v1.12 | 2/5 | In Progress|  |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 0/0 | Not started | - |
