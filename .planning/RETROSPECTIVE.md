@@ -529,6 +529,53 @@
 
 ---
 
+## Milestone: v1.12 — Plan Tiers & Gating
+
+**Shipped:** 2026-07-22
+**Phases:** 4 (36–39) | **Plans:** 14 | **Timeline:** 8 days (2026-07-14 → 2026-07-22)
+
+### What Was Built
+
+1. Centralized `AppConstants::PLAN_TIERS` config (seat caps, prices, overage rates for free/independent/growth) plus a fail-loud `Brokerage#plan_config` accessor, and migration of `Brokerage#plan` from binary `basic`/`premium` to the three-tier enum via a paranoia-safe raw-SQL backfill (Phase 36)
+2. Free-tier gating across board-connect, client-invites, calendar sync, custom domain, and seats — server-side 403s plus frontend `hasPlanCapability`/`FreeTierBanner` wired into three admin surfaces and the account Calendar tab (Phase 37)
+3. Full upgrade/downgrade lifecycle: `TestBoardPurgeService` hard-deletes TEST-board demo data on Free→paid upgrade; `ApplyPlanTransitionJob` freezes the domain and suspends board credentials/client memberships (event-scoped) on paid→Free downgrade, and restores exactly that event's suspensions on re-upgrade (Phase 38)
+4. `Ops::PlanController` rewired from a boolean `freeze:` param to a three-tier `{plan: "<target>"}` trigger that enqueues the transition job (Phase 38)
+5. Paid↔paid billing recalculation: an append-only `PlanBillingSnapshot` audit row created on every Independent↔Growth switch, config always keyed by `new_plan`, overage clamped at zero (Phase 39)
+6. Post-ship code review (Phase 39 close) found and fixed 2 critical bugs in Phase 38's transition job that had shipped undetected: `downgrade!` non-idempotent against job retry/redelivery, and `unfreeze_custom_domains!` missing event-scoping
+
+### What Worked
+
+- **Isolating the small, low-risk paid-to-paid phase (39) from the larger lifecycle phase (38)** — Phase 39 was 1 plan, 3 tasks, and shipped in ~35 minutes because it only had to reuse Phase 38's dispatch point and Phase 36's config, not design new infrastructure.
+- **Regression gate against overlapping prior-phase test files caught nothing broken, but was worth running** — Phase 39 touched `Brokerage` and `ApplyPlanTransitionJob`, both central to Phase 37/38's own test suites; running all 13 overlapping test files (116 runs) after merge gave real confidence beyond the phase's own narrow test scope.
+- **Independent re-verification instead of trusting subagent claims paid off twice** — the code-review-fixer agent's report claimed a migration was "briefly applied to the real dev database then rolled back," and re-checking `db:migrate:status` on both `test` and `development` independently confirmed it landed cleanly rather than just accepting the claim at face value.
+- **Code review scope following the file, not just the diff, surfaced real pre-existing bugs** — Phase 39's review read the whole `apply_plan_transition_job.rb` file (not just the 3 lines this phase added) and found `downgrade!`'s retry-idempotency bug and `unfreeze_custom_domains!`'s missing event-scoping, both dating to Phase 38. Fixed same-day with regression tests instead of leaving them latent.
+
+### What Was Inefficient
+
+- **The `backend`/`frontend` nested-gitlink worktree friction recurred for a third consecutive milestone** — the Phase 39 executor independently rediscovered the same "clone backend/.git manually, checkout the gitlink SHA, branch, push to local origin" fix already logged in v1.11's retrospective. This is now a confirmed 3x-repeated cost (v1.10, v1.11, v1.12) that should be a documented, repo-level standing recipe rather than re-derived per-plan.
+- **REQUIREMENTS.md's Traceability table (not the requirement checkboxes themselves) went stale for a full phase** — Phase 36's 6 requirements were correctly checked off `[x]` at the requirement-definition level when the phase shipped, but the separate Traceability table at the bottom of the file still read "Not started" for all 6 rows until caught during milestone-close review. This is a new variant of the previously-tracked "REQUIREMENTS.md sync gap" — the gap moved from the checkboxes (fixed since v1.10) to the traceability table, a second place the same completion fact has to be written.
+- **`RAILS_ENV=test` silently sharing the real Neon Postgres dev database** (via `DATABASE_URL` override in `.env`, undocumented until this session) caused transient `PG::ObjectInUse` noise during the code-review-fixer's verification pass, traced to a stale `rails console` session left open from a prior day. Pre-existing and already noted in STATE.md's Blockers, but this is the first session where it visibly affected a migration's apply/rollback cycle rather than just test flakiness.
+
+### Patterns Established
+
+- **Append-only audit tables for billing/history data should never include `acts_as_paranoid`** — `plan_billing_snapshots` follows the pre-existing `EstateDateCalendarEvent` precedent (no `deleted_at`, no soft-delete), now confirmed as the second instance of this pattern in the codebase.
+- **Config-driven job branches must key strictly by the target state (`new_plan`), never the source state (`old_plan`)** — established in Phase 39's `recalculate_billing!` and reinforced by the WR-03 fix (guard against a superseded/out-of-order transition by re-reading the brokerage's live `plan` at execution time, not trusting the enqueue-time argument).
+- **Event-scoped suspend/restore needs one stamp threaded through every side-effect it protects** — Phase 38 established this for credentials/memberships via `plan_downgraded_at`; the Phase 39 code-review fix extended the same stamp to `brokerage_domains.frozen_at`, closing a gap where the domain-restore path had been left unscoped when the credential/membership paths were built.
+
+### Key Lessons
+
+- **A phase's own test suite passing is not the same as the surrounding file being correct** — Phase 38 shipped with `downgrade!` and `unfreeze_custom_domains!` both passing their own tests, but neither was exercised against retry/redelivery or an unrelated-freeze scenario until Phase 39's review read the whole file cold. Verification scoped strictly to "does this phase's diff work" will miss bugs in adjacent code the phase's job depends on.
+- **"REQUIREMENTS.md sync gap" is a class of bug, not a single fixed issue** — having closed the checkbox-level gap in v1.10 wasn't sufficient; the same underlying failure mode (a completion fact recorded in one place, not propagated to another) resurfaced one level down, in the Traceability table. Future milestone-close reviews should treat this as a standing thing to check, not something already solved.
+- **Nested gitlink worktree setup needs to stop being tribal knowledge rediscovered by each executor** — three milestones of the identical fix being independently re-derived is a signal this belongs in CLAUDE.md or a repo-level runbook, not in each plan's deviation log.
+
+### Cost Observations
+
+- Sessions: 1 continuous session (execute-phase → code review → fix → milestone close)
+- Model: Claude Sonnet 5 throughout
+- Notable: Phase 39 alone (1 plan) took ~35 min to execute, but the code-review + fix cycle that followed (5 findings fixed, including a new migration) took longer than the phase itself — a reminder that "phase complete" and "code review clean" are separate milestones-within-the-milestone, and the second one found genuinely higher-severity issues than the first phase's own scope contained.
+
+---
+
 ## Cross-Milestone Trends
 
 | Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 | v1.5 | v1.6 |
@@ -545,3 +592,5 @@
 **v1.10 update (table not yet backfilled for v1.7–v1.9):** 3 phases, 9 plans, 2 days, 4.5 plans/day, 4 deferred items carried forward (unchanged from v1.9) + 2 new (both from 32-04-REVIEW.md, non-blocking). REQUIREMENTS.md checkbox sync gap did NOT recur this milestone — all 16 requirements were correctly checked off during phase execution. A new drift surfaced instead: PROJECT.md's "Active" section lagged REQUIREMENTS.md by a full phase at milestone-close time. First milestone to require a genuine gap-closure round-trip (human UAT → root-cause → 32-04 → re-verify → re-approve) rather than shipping clean on the first verification pass.
 
 **v1.11 update:** 3 phases, 11 plans, 2 days, 5.5 plans/day (ties v1.6's peak velocity). 6 deferred items carried forward unchanged from v1.10 (Architecture, CR-02, 2×UX, WR-01, IN-02) + 3 new (OWN-11 audit log, OWN-12 email notifications, BILL-01 billing section — all explicitly out-of-scope-by-design, not gaps). REQUIREMENTS.md checkbox sync gap did NOT recur — second consecutive clean milestone on this front. Two genuine defects caught and fixed at execution/close time rather than deferred: a wave-1 MSW mock path bug (post-merge test gate) and a Phase-33 UAT gap in `EditMemberView.tsx`'s role selector (milestone-close artifact audit) — both closed same-session, contributing to a 0-carryover-defect close.
+
+**v1.12 update:** 4 phases, 14 plans, 8 days, 1.75 plans/day (slowest since v1.1 — Phase 37's 6-plan free-tier gating sweep and Phase 38's 3-wave dependency chain both required more sequencing than recent milestones' flatter phase shapes). 1 deferred item carried forward unchanged from v1.10 (Architecture — re-acknowledged, not resolved) + 3 new v2-scoped items (BILL-01 restated, PLAN-20 higher-seat tiers, PLAN-21 DB-backed plan config — all deliberate scope boundaries from REQUIREMENTS.md, not gaps). The requirement-checkbox sync gap (clean since v1.10) did NOT recur, but a **new variant of the same failure class** appeared one layer down: the Traceability table (separate from the checkboxes) went stale for Phase 36's 6 requirements and had to be caught manually at milestone-close review — the underlying pattern ("a completion fact written in one place, not propagated to the other") is not yet fully closed. Also notable: this is the third consecutive milestone (v1.10, v1.11, v1.12) where an executor independently rediscovered the same nested-gitlink (`backend`/`frontend`) worktree setup fix — a repo-level runbook is now overdue rather than optional.
