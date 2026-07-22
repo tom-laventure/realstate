@@ -117,3 +117,12 @@ None - no external service configuration required.
 ---
 *Phase: 38-upgrade-downgrade-lifecycle*
 *Completed: 2026-07-22*
+
+## Self-Check: PASSED
+
+- FOUND: backend/db/migrate/20260721000001_add_plan_transition_suspend_columns.rb
+- FOUND: backend/test/models/brokerage_membership_test.rb
+- FOUND: .planning/phases/38-upgrade-downgrade-lifecycle/38-01-SUMMARY.md
+- FOUND commit 851c345 (monorepo: docs summary)
+- FOUND commit 9115cd3 (backend: migration)
+- FOUND commit fb02fe3 (backend: enum + suspend methods + test)
