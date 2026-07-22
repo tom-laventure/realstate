@@ -42,7 +42,7 @@
 
 ### Paid-to-Paid Transitions
 
-- [ ] **PLAN-19**: Switching between paid plans (Independent ↔ Growth) is a pure billing recalculation — new base price plus seat overage for seats beyond the new tier's included count. No data is purged, frozen, or disconnected, since board access and client access are identical across all paid tiers.
+- [x] **PLAN-19**: Switching between paid plans (Independent ↔ Growth) is a pure billing recalculation — new base price plus seat overage for seats beyond the new tier's included count. No data is purged, frozen, or disconnected, since board access and client access are identical across all paid tiers.
 
 ## v2 Requirements
 
@@ -97,7 +97,7 @@ Mapped to roadmap phases 36-39 (see `.planning/ROADMAP.md`).
 | PLAN-16 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
 | PLAN-17 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
 | PLAN-18 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
-| PLAN-19 | Phase 39 — Paid-to-Paid Plan Changes | Not started |
+| PLAN-19 | Phase 39 — Paid-to-Paid Plan Changes | Complete |
 
 **Coverage:**
 - v1.12 requirements: 19 total, 2 deferred to v2 (PLAN-20, PLAN-21) plus BILL-01 carried forward
