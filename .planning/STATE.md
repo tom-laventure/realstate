@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.12
 milestone_name: Plan Tiers & Gating
-status: executing
-stopped_at: Phase 38 context gathered
-last_updated: "2026-07-22T04:17:22.810Z"
+status: ready_to_plan
+stopped_at: Phase 38 complete (5/5) — ready to discuss Phase 39
+last_updated: 2026-07-22T07:12:55.806Z
 last_activity: 2026-07-22 -- Phase 38 execution started
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 13
-  completed_plans: 8
+  completed_plans: 13
   percent: 50
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-13 after v1.11 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 38 — upgrade-downgrade-lifecycle
+**Current focus:** Phase 39 — paid to paid plan changes
 
 ## Current Position
 
-Phase: 38 (upgrade-downgrade-lifecycle) — EXECUTING
-Plan: 1 of 5
-Status: Executing Phase 38
-Last activity: 2026-07-22 -- Phase 38 execution started
+Phase: 39
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-07-22
 
 Progress: [██████████] 100%
 
@@ -36,7 +36,7 @@ Progress: [██████████] 100%
 
 **Velocity (through v1.10):**
 
-- Total plans completed: 20
+- Total plans completed: 25
 - Average duration: ~19 min
 - Total execution time: ~2.9 hours
 
@@ -50,6 +50,7 @@ Progress: [██████████] 100%
 | 33 | 3 | - | - |
 | 34 | 3 | - | - |
 | 35 | 5 | - | - |
+| 38 | 5 | - | - |
 
 **Recent Trend:**
 

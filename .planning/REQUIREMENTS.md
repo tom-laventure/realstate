@@ -31,14 +31,14 @@
 
 ### Upgrade Lifecycle (Free → paid)
 
-- [ ] **PLAN-14**: Upgrading a brokerage from Free to Independent or Growth automatically and silently purges all TEST-board-linked data — `BrokerageEstate` rows for the TEST board, plus any comments, ratings, likes, documents, and RSVPs attached only to those listings
+- [x] **PLAN-14**: Upgrading a brokerage from Free to Independent or Growth automatically and silently purges all TEST-board-linked data — `BrokerageEstate` rows for the TEST board, plus any comments, ratings, likes, documents, and RSVPs attached only to those listings
 
 ### Downgrade Lifecycle (paid → Free)
 
-- [ ] **PLAN-15**: Downgrading a brokerage to Free freezes its custom domain, reusing the existing `freeze_custom_domains!` behavior (subdomain auto-promoted to primary)
-- [ ] **PLAN-16**: Downgrading a brokerage to Free soft-disconnects all real board credentials — the credential record is preserved, marked inactive, and excluded from `member`-visible board lists; the board-connect UI reverts to Free-tier behavior (TEST board only)
-- [ ] **PLAN-17**: Downgrading a brokerage to Free suspends all client memberships — access is revoked but membership records are preserved, not deleted
-- [ ] **PLAN-18**: Re-upgrading from Free to a paid plan automatically restores previously soft-disconnected real board credentials and suspended client memberships — no manual re-entry of RETS credentials, no re-inviting clients
+- [x] **PLAN-15**: Downgrading a brokerage to Free freezes its custom domain, reusing the existing `freeze_custom_domains!` behavior (subdomain auto-promoted to primary)
+- [x] **PLAN-16**: Downgrading a brokerage to Free soft-disconnects all real board credentials — the credential record is preserved, marked inactive, and excluded from `member`-visible board lists; the board-connect UI reverts to Free-tier behavior (TEST board only)
+- [x] **PLAN-17**: Downgrading a brokerage to Free suspends all client memberships — access is revoked but membership records are preserved, not deleted
+- [x] **PLAN-18**: Re-upgrading from Free to a paid plan automatically restores previously soft-disconnected real board credentials and suspended client memberships — no manual re-entry of RETS credentials, no re-inviting clients
 
 ### Paid-to-Paid Transitions
 
