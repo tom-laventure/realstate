@@ -119,6 +119,16 @@ None - no external service configuration required.
 - `bundle exec standardrb` passes clean on both new files
 - Sibling plan 38-01 (executing in parallel, no file overlap) is unaffected by this plan's changes
 
+## Self-Check: PASSED
+
+- FOUND: backend/app/services/test_board_purge_service.rb
+- FOUND: backend/test/services/test_board_purge_service_test.rb
+- FOUND: .planning/phases/38-upgrade-downgrade-lifecycle/38-02-SUMMARY.md
+- FOUND: backend commit 0f761cd (Task 1)
+- FOUND: backend commit a4f1221 (Task 2)
+- FOUND: monorepo commit 0cafa3e (gitlink bump)
+- FOUND: monorepo commit 0144944 (SUMMARY docs commit)
+
 ---
 *Phase: 38-upgrade-downgrade-lifecycle*
 *Completed: 2026-07-22*
