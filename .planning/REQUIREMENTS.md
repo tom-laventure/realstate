@@ -92,11 +92,11 @@ Mapped to roadmap phases 36-39 (see `.planning/ROADMAP.md`).
 | PLAN-08 | Phase 37 — Free Tier Gating | Complete |
 | PLAN-09 | Phase 37 — Free Tier Gating | Complete |
 | PLAN-12 | Phase 37 — Free Tier Gating | Complete |
-| PLAN-14 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
-| PLAN-15 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
-| PLAN-16 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
-| PLAN-17 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
-| PLAN-18 | Phase 38 — Upgrade & Downgrade Lifecycle | Not started |
+| PLAN-14 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
+| PLAN-15 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
+| PLAN-16 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
+| PLAN-17 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
+| PLAN-18 | Phase 38 — Upgrade & Downgrade Lifecycle | Complete |
 | PLAN-19 | Phase 39 — Paid-to-Paid Plan Changes | Not started |
 
 **Coverage:**
