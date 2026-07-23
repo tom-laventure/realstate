@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: Onboarding & Self-Service Plan Management
 status: executing
-stopped_at: Phase 40 UI-SPEC approved
-last_updated: "2026-07-23T02:39:50.550Z"
-last_activity: 2026-07-23 -- Phase 40 planning complete
+stopped_at: Completed 40-01-PLAN.md
+last_updated: "2026-07-23T02:58:07.744Z"
+last_activity: 2026-07-23
 progress:
   total_phases: 2
   completed_phases: 0
   total_plans: 4
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 40 — Onboarding Plan Alignment
+**Current focus:** Phase 40 — onboarding-plan-alignment
 
 ## Current Position
 
-Phase: 40 of 41 (Onboarding Plan Alignment)
-Plan: — (not yet planned)
+Phase: 40 (onboarding-plan-alignment) — EXECUTING
+Plan: 2 of 4
 Status: Ready to execute
-Last activity: 2026-07-23 -- Phase 40 planning complete
+Last activity: 2026-07-23
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 34 P03 | 5min | 1 tasks | 0 files |
 | Phase 36 P01 | 16min | 2 tasks | 4 files |
 | Phase 36 P02 | 15min | 3 tasks | 11 files |
+| Phase 40 P01 | 13min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - Phase 40 removes the backend's "Growth requires custom_domain" check entirely (custom domain is optional for both paid tiers per this milestone's requirements definition) rather than relaxing it — this is a deliberate reversal of the v1.12-era assumption.
 - Phase 41's new plan-change endpoint is a new brokerage-scoped, owner-gated surface (not the existing internal-only `Ops::PlanController`, which is a `/ops`-namespace testing tool unusable by real brokerage owners) — it enqueues the same `ApplyPlanTransitionJob` cascade already proven in v1.12 Phases 37-39.
 - Phase 41 follows the `OwnershipManagementSection`/`useSettingsAdminContext` pattern established in v1.11 for adding a new gated section to `/admin/settings`.
+- [Phase 40]: PlanTiersController#index uses a plain hash builder, not ActiveModel::Serializer, since AppConstants::PlanTier is a Struct not an AR model — Matches DomainsController#check precedent for non-AR config-as-endpoint controllers
+- [Phase 40]: Deleted only the 3-line growth-requires-custom_domain block in BrokeragesController#create — Kept AppConstants::PLAN_TIERS.key?(plan) validity guard intact per T-40-02 threat mitigation
 
 ### Pending Todos
 
@@ -114,9 +117,9 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-23T02:18:36.683Z
-Stopped at: Phase 40 UI-SPEC approved
-Resume file: .planning/phases/40-onboarding-plan-alignment/40-UI-SPEC.md
+Last session: 2026-07-23T02:58:07.738Z
+Stopped at: Completed 40-01-PLAN.md
+Resume file: None
 Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps
