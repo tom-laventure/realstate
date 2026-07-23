@@ -3,10 +3,10 @@ gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: Onboarding & Self-Service Plan Management
 status: planning
-last_updated: "2026-07-23T00:30:25.343Z"
-last_activity: 2026-07-23
+last_updated: "2026-07-22T00:00:00.000Z"
+last_activity: 2026-07-22
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Milestone complete
+**Current focus:** Phase 40 — Onboarding Plan Alignment
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-07-23 — Milestone v1.13 started
+Phase: 40 of 41 (Onboarding Plan Alignment)
+Plan: — (not yet planned)
+Status: Ready to plan
+Last activity: 2026-07-22 — ROADMAP.md and REQUIREMENTS.md traceability written for v1.13 (Phases 40-41)
+
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -53,7 +55,7 @@ Last activity: 2026-07-23 — Milestone v1.13 started
 **Recent Trend:**
 
 - Last 5 plans: 10min, 13min, 2min, 20min, 12min (Phase 31 P03 → Phase 32 P04)
-- Trend: Stable — no v1.12 plans executed yet
+- Trend: Stable — no v1.13 plans executed yet
 
 *Updated after each plan completion*
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
@@ -69,15 +71,12 @@ Last activity: 2026-07-23 — Milestone v1.13 started
 
 ### Decisions
 
-Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.12 close). Roadmap-level phase sequencing for v1.12 (see PLAN-TIERS.md and milestones/v1.12-ROADMAP.md Phase Details):
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.12 close). Roadmap-level phase sequencing for v1.13 (see ROADMAP.md Phase Details):
 
-- Phase 36 (config + enum migration) is foundational — every later phase reads from it, nothing in it depends on anything else.
-- Phase 37 (Free-tier gating) bundled as one coherent chunk of backend + frontend gating work, including verifying paid tiers stay unrestricted (PLAN-12).
-- Phase 38 (upgrade/downgrade lifecycle) depends on both 36 and 37 — freeze/restore must agree with what Free-tier gating treats as "real" vs. "TEST" data; downgrade's freeze and re-upgrade's restore are two halves of one round-trip, kept in a single phase.
-- Phase 39 (paid-to-paid) isolated as its own small phase — pure billing recalculation, only needs the config from Phase 36.
-- [Phase 36]: plan_tiers.rb must be explicitly required in config/initializers/constants.rb alongside roles.rb — AppConstants is not managed by Zeitwerk once the first file defines the module via require_relative; a second sibling file under app/constants/ would never autoload without the same explicit require
-- [Phase 36]: plan_config uses bare .fetch(plan) with no fallback block — Fail loud (KeyError) on unrecognized plan values instead of silently degrading to Free's all-false capability set (D-07)
-- [Phase 36]: DMOD-05 test fixture uses plan: "free" (not independent) — independent tier has custom_domain: true per 36-01 config, so free is the only tier that correctly exercises the 403 custom-domain-denial path — Plan's literal basic->independent test substitution would have shipped a test asserting incorrect access-control behavior for the independent paid tier
+- Phase 40 (onboarding plan alignment) and Phase 41 (self-service plan management) are independent halves of the milestone — the onboarding wizard fix touches only the signup path, while the admin/settings Plan section touches only the post-signup management path. No dependency between them; either could execute first, kept in numeric order for simplicity.
+- Phase 40 removes the backend's "Growth requires custom_domain" check entirely (custom domain is optional for both paid tiers per this milestone's requirements definition) rather than relaxing it — this is a deliberate reversal of the v1.12-era assumption.
+- Phase 41's new plan-change endpoint is a new brokerage-scoped, owner-gated surface (not the existing internal-only `Ops::PlanController`, which is a `/ops`-namespace testing tool unusable by real brokerage owners) — it enqueues the same `ApplyPlanTransitionJob` cascade already proven in v1.12 Phases 37-39.
+- Phase 41 follows the `OwnershipManagementSection`/`useSettingsAdminContext` pattern established in v1.11 for adding a new gated section to `/admin/settings`.
 
 ### Pending Todos
 
@@ -90,7 +89,7 @@ None yet.
 
 ## Deferred Items
 
-Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-scope items:
+Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -100,25 +99,26 @@ Items carried forward from v1.11 milestone close, plus v1.12 out-of-milestone-sc
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.13; re-acknowledged at v1.12 close (pre-close audit) | v1.10 close |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.13 | v1.10 close |
-| UX | Brokerage switch preserving active tab position | Carry to v1.13 | v1.10 close |
-| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.13 | v1.10 close |
-| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.13 | v1.10 close (32-04-REVIEW.md) |
-| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.13 | v1.10 close (32-04-REVIEW.md) |
-| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.13 | v1.11 close |
-| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.13 | v1.11 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.14+; re-acknowledged at v1.12 close (pre-close audit) | v1.10 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.14+ | v1.10 close |
+| UX | Brokerage switch preserving active tab position | Carry to v1.14+ | v1.10 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.14+ | v1.10 close |
+| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.14+ | v1.10 close (32-04-REVIEW.md) |
+| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.14+ | v1.10 close (32-04-REVIEW.md) |
+| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.14+ | v1.11 close |
+| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.14+ | v1.11 close |
 | BILL-01 | Full Billing management section on `/admin/settings` | Stubbed as TODO placeholder; deferred to v2 (v1.12 REQUIREMENTS.md) | v1.11 close |
 | PLAN-20 | Higher-seat tiers above Growth | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 | PLAN-21 | Plan config: code constant → DB-backed model | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 
 ## Session Continuity
 
-Last session: 2026-07-22T08:16:01.904Z
-Stopped at: Phase 39 context gathered
-Resume file: .planning/phases/39-paid-to-paid-plan-changes/39-CONTEXT.md
-Next action: /gsd-discuss-phase 36 or /gsd-plan-phase 36
+Last session: 2026-07-22T00:00:00.000Z
+Stopped at: ROADMAP.md written for v1.13 (Phases 40-41); REQUIREMENTS.md traceability updated to 8/8 mapped
+Resume file: None
+Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd-new-milestone
+- Review the roadmap draft (Phases 40-41) and approve, or provide feedback for revision
+- Once approved: `/gsd-plan-phase 40`

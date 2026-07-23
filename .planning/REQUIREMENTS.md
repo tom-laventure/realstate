@@ -37,20 +37,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ONB-05 | TBD | Pending |
-| ONB-06 | TBD | Pending |
-| ONB-07 | TBD | Pending |
-| PLAN-22 | TBD | Pending |
-| PLAN-23 | TBD | Pending |
-| PLAN-24 | TBD | Pending |
-| PLAN-25 | TBD | Pending |
-| PLAN-26 | TBD | Pending |
+| ONB-05 | Phase 40 | Pending |
+| ONB-06 | Phase 40 | Pending |
+| ONB-07 | Phase 40 | Pending |
+| PLAN-22 | Phase 41 | Pending |
+| PLAN-23 | Phase 41 | Pending |
+| PLAN-24 | Phase 41 | Pending |
+| PLAN-25 | Phase 41 | Pending |
+| PLAN-26 | Phase 41 | Pending |
 
 **Coverage:**
 - v1.13 requirements: 8 total
-- Mapped to phases: 0
-- Unmapped: 8 ⚠️ (roadmapper will fill in)
+- Mapped to phases: 8
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-07-22*
-*Last updated: 2026-07-22 after initial definition*
+*Last updated: 2026-07-22 after roadmap creation (Phases 40-41)*

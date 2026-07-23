@@ -15,6 +15,7 @@
 - ✅ **v1.10 — Agent Admin Permissions** — Phases 30–32 (shipped 2026-07-10)
 - ✅ **v1.11 — Brokerage Ownership Management** — Phases 33–35 (shipped 2026-07-13)
 - ✅ **v1.12 — Plan Tiers & Gating** — Phases 36–39 (shipped 2026-07-22)
+- 🚧 **v1.13 — Onboarding & Self-Service Plan Management** — Phases 40–41 (in progress)
 
 ## Phases
 
@@ -168,12 +169,54 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 
 </details>
 
+### 🚧 v1.13 — Onboarding & Self-Service Plan Management (In Progress)
+
+**Milestone Goal:** Bring brokerage onboarding in line with the three-tier plan model, and let owners change their own brokerage's plan from admin/settings.
+
+- [ ] **Phase 40: Onboarding Plan Alignment** - Rebuild the broken brokerage-creation wizard's plan-selection step around the real `free`/`independent`/`growth` tiers so signup works end-to-end for all three
+- [ ] **Phase 41: Self-Service Plan Management** - New owner-gated "Plan" section on `/admin/settings` wires a 3-way selector to the real `ApplyPlanTransitionJob` cascade, with a downgrade confirmation step
+
+## Phase Details
+
+### Phase 40: Onboarding Plan Alignment
+
+**Goal**: The brokerage-creation wizard's plan-selection step is rebuilt around the real three-tier model, so completing signup under any of Free/Independent/Growth correctly creates the brokerage — replacing the currently-broken path that still submits retired `basic`/`premium` values.
+**Depends on**: Nothing (first phase of v1.13; reads the `AppConstants::PLAN_TIERS` config shipped in v1.12 Phase 36)
+**Requirements**: ONB-05, ONB-06, ONB-07
+**Success Criteria** (what must be TRUE):
+
+  1. The plan-selection step shows three cards — Free, Independent, Growth — each displaying price/mo, seat cap, and feature list sourced from `AppConstants::PLAN_TIERS`, with no `basic`/`premium` copy remaining
+  2. A custom domain input is absent when Free is selected, and present-but-optional for both Independent and Growth (no tier requires it to proceed)
+  3. Completing the wizard under each of the three tiers submits the corresponding real plan value (`free`/`independent`/`growth`) and successfully creates the brokerage end-to-end, landing the new owner on their dashboard
+  4. The backend's retired "Growth requires custom_domain" validation is removed, so a Growth signup with no custom domain is accepted rather than rejected
+
+**Plans**: TBD
+
+**UI hint**: yes
+
+### Phase 41: Self-Service Plan Management
+
+**Goal**: Brokerage owners can change their own brokerage's plan tier directly from `/admin/settings`, with the change wired to the real `ApplyPlanTransitionJob` cascade (the same transition machinery from v1.12 Phases 37-39) rather than a cosmetic stub, and a confirmation step in front of any downgrade's data-suspending side effects.
+**Depends on**: Nothing (independent of Phase 40; reads the `ApplyPlanTransitionJob` cascade shipped in v1.12 Phases 36-39 and follows the `OwnershipManagementSection`/`useSettingsAdminContext` pattern shipped in v1.11)
+**Requirements**: PLAN-22, PLAN-23, PLAN-24, PLAN-25, PLAN-26
+**Success Criteria** (what must be TRUE):
+
+  1. `/admin/settings` shows a new "Plan" section displaying the brokerage's current tier, visible to owner, admin, and agent alike
+  2. An owner sees an editable 3-way selector (Free/Independent/Growth); an admin or agent sees the same current-plan information read-only, with no control to change it
+  3. Selecting a downgrade (paid → Free) surfaces a confirmation step explaining that the custom domain will be frozen and real board credentials/client memberships will be suspended, before the change is applied
+  4. Confirming a plan change calls a new brokerage-scoped, owner-gated backend endpoint that enqueues the existing `ApplyPlanTransitionJob(brokerage.id, old_plan, new_plan)` cascade — the same purge/freeze/restore/billing-snapshot behavior already proven in v1.12, not a stub
+  5. Calling the plan-change endpoint directly as a non-owner (bypassing the UI selector) is rejected with a 403, regardless of any frontend state
+
+**Plans**: TBD
+
+**UI hint**: yes
+
 ---
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 36 → 37 → 38 → 39
+Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -216,3 +259,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39
 | 37. Free Tier Gating | v1.12 | 6/6 | Complete   | 2026-07-21 |
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete    | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
+| 40. Onboarding Plan Alignment | v1.13 | 0/TBD | Not started | - |
+| 41. Self-Service Plan Management | v1.13 | 0/TBD | Not started | - |
