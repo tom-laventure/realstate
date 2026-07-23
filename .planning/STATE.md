@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.12
-milestone_name: Plan Tiers & Gating
-status: Awaiting next milestone
-stopped_at: Phase 39 context gathered
-last_updated: "2026-07-22T19:46:37.638Z"
-last_activity: 2026-07-22 — Milestone v1.12 completed and archived
+milestone: v1.13
+milestone_name: Onboarding & Self-Service Plan Management
+status: planning
+last_updated: "2026-07-23T00:30:25.343Z"
+last_activity: 2026-07-23
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 14
-  completed_plans: 14
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 
 ## Current Position
 
-Phase: Milestone v1.12 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-07-22 — Milestone v1.12 completed and archived
+Status: Defining requirements
+Last activity: 2026-07-23 — Milestone v1.13 started
 
 ## Performance Metrics
 

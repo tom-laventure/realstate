@@ -2,7 +2,16 @@
 
 ## Last Shipped: v1.12 — Plan Tiers & Gating (2026-07-22)
 
-## Current Milestone: Planning next milestone
+## Current Milestone: v1.13 Onboarding & Self-Service Plan Management
+
+**Goal:** Bring brokerage onboarding in line with the three-tier plan model, and let owners change their own brokerage's plan from admin/settings.
+
+**Target features:**
+- Rebuild the onboarding plan-selection step around `free`/`independent`/`growth` (currently a broken signup path — the frontend still submits the retired `basic`/`premium` values, which the backend already rejects)
+- Plan cards show price/mo, seat cap, and feature list per tier, sourced from `AppConstants::PLAN_TIERS`
+- Custom domain input required for Growth, optional for Independent, absent for Free
+- New Owner-only "Plan" section on `/admin/settings` with a 3-way selector (Free/Independent/Growth)
+- Plan changes from admin/settings wire to the real transition cascade (`ApplyPlanTransitionJob`) via a new brokerage-scoped, owner-gated endpoint — not a cosmetic stub
 
 See `.planning/PLAN-TIERS.md` for v1.12's full design rationale and Key Decisions.
 
