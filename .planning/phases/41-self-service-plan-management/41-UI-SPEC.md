@@ -71,6 +71,8 @@ Exceptions: none. All spacing is inherited unmodified from existing `Card`/`Tabs
 
 Accent reserved for: nothing in this phase (see above) — this is a deliberate, explicit declaration so the checker/executor does not introduce an unplanned primary-colored "Save" button or highlight where D-05's immediate-apply UX and D-03's neutral segmented-control styling call for none.
 
+**Visual focal point:** The active/highlighted pill in the segmented `Tabs` control is the primary visual anchor for the Plan section — it is the only element indicating the brokerage's current tier, so its `data-[state=active]:bg-background` contrast against the muted track must remain the clearest visual signal on the card.
+
 ---
 
 ## Copywriting Contract
