@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: — Onboarding & Self-Service Plan Management
 status: executing
-stopped_at: Phase 41 Plan 02 complete — frontend plan data layer
-last_updated: "2026-07-23T06:36:13.606Z"
+stopped_at: Phase 41 Plan 03 complete — Plan section UI components
+last_updated: "2026-07-23T06:42:22.180Z"
 last_activity: 2026-07-23
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
   percent: 50
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 ## Current Position
 
 Phase: 41 (self-service-plan-management) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-07-23
 
-Progress: [████████░░] 75%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -72,6 +72,7 @@ Progress: [████████░░] 75%
 | Phase 40 P03 | 8min | 2 tasks | 3 files |
 | Phase 41 P01 | 25min | 2 tasks | 3 files |
 | Phase 41 P02 | 12min | 3 tasks | 5 files |
+| Phase 41 P03 | 10min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 41]: isPlanError derived exclusively from useFetchBrokerage's own isError, not the pre-existing owners-fetch isError already in useSettingsAdminContext — prevents cross-contamination between unrelated data sources sharing one Brain
 - [Phase 41]: PlanTier values kept byte-identical to CreateBrokeragePlan ('free'|'independent'|'growth') to avoid tier-name drift between onboarding and settings — single source of truth prevents string-literal divergence
 - [Phase 41]: updatePlan.ts typed to the actual PlanUpdateResponse ({status, brokerageId, oldPlan?, newPlan?, plan?}) instead of BrokerageType — the endpoint renders a status object, not a brokerage record
+- [Phase 41]: PlanManagementSection renders the identical PlanSelector for owner and non-owner views, toggling only disabled + a read-only caption (D-04) — no separate text/badge fallback
 
 ### Pending Todos
 
@@ -130,9 +132,9 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-23T06:36:13.600Z
-Stopped at: Phase 41 Plan 02 complete — frontend plan data layer
-Resume file: .planning/phases/41-self-service-plan-management/41-03-PLAN.md
+Last session: 2026-07-23T06:42:22.174Z
+Stopped at: Phase 41 Plan 03 complete — Plan section UI components
+Resume file: .planning/phases/41-self-service-plan-management/41-04-PLAN.md
 Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps
