@@ -370,7 +370,7 @@ Per D-01, the copy stays generic ("real board credentials and client memberships
 
 Note: all three items above are design-judgment recommendations, not unverified factual claims — every factual/behavioral claim about existing code (job contract, controller pattern, hook conventions, component shapes) was verified by direct file reads, not assumed from training data.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 All open questions CONTEXT.md flagged for the planner have been resolved by direct codebase investigation in this research:
 

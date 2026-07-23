@@ -212,7 +212,12 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
   4. Confirming a plan change calls a new brokerage-scoped, owner-gated backend endpoint that enqueues the existing `ApplyPlanTransitionJob(brokerage.id, old_plan, new_plan)` cascade — the same purge/freeze/restore/billing-snapshot behavior already proven in v1.12, not a stub
   5. Calling the plan-change endpoint directly as a non-owner (bypassing the UI selector) is rejected with a 403, regardless of any frontend state
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+- [ ] 41-01-PLAN.md — Backend: owner-gated `PATCH /v1/admin/settings/plan` endpoint enqueuing ApplyPlanTransitionJob + integration tests
+- [ ] 41-02-PLAN.md — Frontend data layer: `manage_plan` permission, `PlanTier` type, updatePlan API + useUpdatePlan mutation, settings-context plan state
+- [ ] 41-03-PLAN.md — Frontend UI: PlanSelector (Tabs) + DowngradeConfirmDialog (AlertDialog) + PlanManagementSection wired into SettingsAdminBoard
+- [ ] 41-04-PLAN.md — End-to-end human verification (owner change, downgrade dialog, admin/agent read-only, non-owner 403)
 
 **UI hint**: yes
 
@@ -265,4 +270,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete    | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 41. Self-Service Plan Management | v1.13 | 0/TBD | Not started | - |
+| 41. Self-Service Plan Management | v1.13 | 0/4 | Not started | - |
