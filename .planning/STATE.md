@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: Onboarding & Self-Service Plan Management
 status: executing
-stopped_at: Completed 40-02-PLAN.md
-last_updated: "2026-07-23T03:03:25.047Z"
+stopped_at: Completed 40-03-PLAN.md
+last_updated: "2026-07-23T03:10:38.579Z"
 last_activity: 2026-07-23
 progress:
   total_phases: 2
   completed_phases: 0
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 ## Current Position
 
 Phase: 40 (onboarding-plan-alignment) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-07-23
 
-Progress: [█████░░░░░] 50%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -69,6 +69,7 @@ Progress: [█████░░░░░] 50%
 | Phase 36 P02 | 15min | 3 tasks | 11 files |
 | Phase 40 P01 | 13min | 2 tasks | 5 files |
 | Phase 40 P02 | 9min | 3 tasks | 7 files |
+| Phase 40 P03 | 8min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,9 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 40]: Deleted only the 3-line growth-requires-custom_domain block in BrokeragesController#create — Kept AppConstants::PLAN_TIERS.key?(plan) validity guard intact per T-40-02 threat mitigation
 - [Phase 40]: createBrokerage.ts imports/re-exports CreateBrokeragePlan from the reducer instead of independently re-declaring the union — Single source of truth avoids drift (40-RESEARCH.md Pitfall 1)
 - [Phase 40]: submit() gates custom_domain on plan !== 'free' instead of the retired plan === 'premium' literal — Custom domain is now optional for both paid tiers, not required-and-gated on a single retired tier name
+- [Phase 40]: PlanCard feature rows follow the plan's literal derivation formula (seat wording, realBoards, clients, customDomain, calendarSync, always-included subdomain) instead of UI-SPEC's slightly different bullet wording — Keeps every bullet traceable to a fetched boolean per D-02's anti-hardcoding intent
+- [Phase 40]: Every isPremium occurrence in DomainStep.tsx re-scoped to showCustomDomain = state.plan !== 'free', including the error-attribution line — grep -c isPremium confirmed 0 remaining occurrences
+- [Phase 40]: Removed all required-field validation for custom domain; only format/already-registered checks run, and only when a value is present — No tier requires a custom domain to complete signup per D-04/D-05
 
 ### Pending Todos
 
@@ -120,8 +124,8 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-23T03:03:25.039Z
-Stopped at: Completed 40-02-PLAN.md
+Last session: 2026-07-23T03:10:38.570Z
+Stopped at: Completed 40-03-PLAN.md
 Resume file: None
 Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
