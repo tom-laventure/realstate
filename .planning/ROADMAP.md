@@ -215,7 +215,7 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 **Plans**: 4 plans
 
 - [x] 41-01-PLAN.md — Backend: owner-gated `PATCH /v1/admin/settings/plan` endpoint enqueuing ApplyPlanTransitionJob + integration tests
-- [ ] 41-02-PLAN.md — Frontend data layer: `manage_plan` permission, `PlanTier` type, updatePlan API + useUpdatePlan mutation, settings-context plan state
+- [x] 41-02-PLAN.md — Frontend data layer: `manage_plan` permission, `PlanTier` type, updatePlan API + useUpdatePlan mutation, settings-context plan state
 - [ ] 41-03-PLAN.md — Frontend UI: PlanSelector (Tabs) + DowngradeConfirmDialog (AlertDialog) + PlanManagementSection wired into SettingsAdminBoard
 - [ ] 41-04-PLAN.md — End-to-end human verification (owner change, downgrade dialog, admin/agent read-only, non-owner 403)
 
@@ -270,4 +270,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete    | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 41. Self-Service Plan Management | v1.13 | 1/4 | In Progress|  |
+| 41. Self-Service Plan Management | v1.13 | 2/4 | In Progress|  |

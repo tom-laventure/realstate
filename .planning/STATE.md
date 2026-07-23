@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: — Onboarding & Self-Service Plan Management
 status: executing
-stopped_at: Phase 41 Plan 01 complete — plan-change backend endpoint
-last_updated: "2026-07-23T06:29:22.244Z"
+stopped_at: Phase 41 Plan 02 complete — frontend plan data layer
+last_updated: "2026-07-23T06:36:13.606Z"
 last_activity: 2026-07-23
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 6
   percent: 50
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 ## Current Position
 
 Phase: 41 (self-service-plan-management) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-07-23
 
-Progress: [██████░░░░] 63%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Progress: [██████░░░░] 63%
 | Phase 40 P02 | 9min | 3 tasks | 7 files |
 | Phase 40 P03 | 8min | 2 tasks | 3 files |
 | Phase 41 P01 | 25min | 2 tasks | 3 files |
+| Phase 41 P02 | 12min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,9 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 40]: Every isPremium occurrence in DomainStep.tsx re-scoped to showCustomDomain = state.plan !== 'free', including the error-attribution line — grep -c isPremium confirmed 0 remaining occurrences
 - [Phase 40]: Removed all required-field validation for custom domain; only format/already-registered checks run, and only when a value is present — No tier requires a custom domain to complete signup per D-04/D-05
 - [Phase 41]: New V1::Admin::Settings::PlanController mirrors Ops::PlanController's exact validate/no-op/flip/enqueue sequence, scoped to Current.brokerage (never brokerage_id param) — PLAN-24/PLAN-25 require a real, tenant-scoped, owner-gated transition endpoint distinct from the internal Ops testing tool
+- [Phase 41]: isPlanError derived exclusively from useFetchBrokerage's own isError, not the pre-existing owners-fetch isError already in useSettingsAdminContext — prevents cross-contamination between unrelated data sources sharing one Brain
+- [Phase 41]: PlanTier values kept byte-identical to CreateBrokeragePlan ('free'|'independent'|'growth') to avoid tier-name drift between onboarding and settings — single source of truth prevents string-literal divergence
+- [Phase 41]: updatePlan.ts typed to the actual PlanUpdateResponse ({status, brokerageId, oldPlan?, newPlan?, plan?}) instead of BrokerageType — the endpoint renders a status object, not a brokerage record
 
 ### Pending Todos
 
@@ -126,9 +130,9 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-23T06:29:22.229Z
-Stopped at: Phase 41 Plan 01 complete — plan-change backend endpoint
-Resume file: .planning/phases/41-self-service-plan-management/41-02-PLAN.md
+Last session: 2026-07-23T06:36:13.600Z
+Stopped at: Phase 41 Plan 02 complete — frontend plan data layer
+Resume file: .planning/phases/41-self-service-plan-management/41-03-PLAN.md
 Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps
