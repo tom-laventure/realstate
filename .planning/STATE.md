@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: — Onboarding & Self-Service Plan Management
-status: completed
-stopped_at: Phase 41 UI-SPEC approved
-last_updated: "2026-07-23T06:01:29.766Z"
-last_activity: 2026-07-23 -- Phase 40 marked complete
+status: executing
+stopped_at: Phase 41 Plan 01 complete — plan-change backend endpoint
+last_updated: "2026-07-23T06:29:22.244Z"
+last_activity: 2026-07-23
 progress:
   total_phases: 2
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 8
+  completed_plans: 5
   percent: 50
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 40 — onboarding-plan-alignment
+**Current focus:** Phase 41 — self-service-plan-management
 
 ## Current Position
 
-Phase: 40 — COMPLETE
-Plan: 4 of 4
-Status: Phase 40 complete
-Last activity: 2026-07-23 -- Phase 40 marked complete
+Phase: 41 (self-service-plan-management) — EXECUTING
+Plan: 2 of 4
+Status: Ready to execute
+Last activity: 2026-07-23
 
-Progress: [████████░░] 75%
+Progress: [██████░░░░] 63%
 
 ## Performance Metrics
 
@@ -70,6 +70,7 @@ Progress: [████████░░] 75%
 | Phase 40 P01 | 13min | 2 tasks | 5 files |
 | Phase 40 P02 | 9min | 3 tasks | 7 files |
 | Phase 40 P03 | 8min | 2 tasks | 3 files |
+| Phase 41 P01 | 25min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 40]: PlanCard feature rows follow the plan's literal derivation formula (seat wording, realBoards, clients, customDomain, calendarSync, always-included subdomain) instead of UI-SPEC's slightly different bullet wording — Keeps every bullet traceable to a fetched boolean per D-02's anti-hardcoding intent
 - [Phase 40]: Every isPremium occurrence in DomainStep.tsx re-scoped to showCustomDomain = state.plan !== 'free', including the error-attribution line — grep -c isPremium confirmed 0 remaining occurrences
 - [Phase 40]: Removed all required-field validation for custom domain; only format/already-registered checks run, and only when a value is present — No tier requires a custom domain to complete signup per D-04/D-05
+- [Phase 41]: New V1::Admin::Settings::PlanController mirrors Ops::PlanController's exact validate/no-op/flip/enqueue sequence, scoped to Current.brokerage (never brokerage_id param) — PLAN-24/PLAN-25 require a real, tenant-scoped, owner-gated transition endpoint distinct from the internal Ops testing tool
 
 ### Pending Todos
 
@@ -124,9 +126,9 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-23T06:01:29.761Z
-Stopped at: Phase 41 UI-SPEC approved
-Resume file: .planning/phases/41-self-service-plan-management/41-UI-SPEC.md
+Last session: 2026-07-23T06:29:22.229Z
+Stopped at: Phase 41 Plan 01 complete — plan-change backend endpoint
+Resume file: .planning/phases/41-self-service-plan-management/41-02-PLAN.md
 Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps

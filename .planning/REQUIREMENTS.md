@@ -15,8 +15,8 @@
 
 - [ ] **PLAN-22**: `/admin/settings` has a new "Plan" section showing the brokerage's current plan tier
 - [ ] **PLAN-23**: Owner can change the brokerage's plan via a 3-way selector (Free/Independent/Growth); admin/agent see the current plan read-only, no change control
-- [ ] **PLAN-24**: Changing the plan calls a new brokerage-scoped, owner-gated backend endpoint that enqueues the existing `ApplyPlanTransitionJob` cascade (TEST-board purge, domain freeze/restore, credential/membership suspend, billing snapshot) — the real transition, not a stub
-- [ ] **PLAN-25**: Server-side enforcement rejects the plan-change request from any non-owner caller, regardless of frontend state
+- [x] **PLAN-24**: Changing the plan calls a new brokerage-scoped, owner-gated backend endpoint that enqueues the existing `ApplyPlanTransitionJob` cascade (TEST-board purge, domain freeze/restore, credential/membership suspend, billing snapshot) — the real transition, not a stub
+- [x] **PLAN-25**: Server-side enforcement rejects the plan-change request from any non-owner caller, regardless of frontend state
 - [ ] **PLAN-26**: Selecting a downgrade (paid → Free) shows a confirmation step before applying, since it freezes the custom domain and suspends real board credentials/client memberships
 
 ## v2 Requirements
@@ -42,8 +42,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ONB-07 | Phase 40 | Complete |
 | PLAN-22 | Phase 41 | Pending |
 | PLAN-23 | Phase 41 | Pending |
-| PLAN-24 | Phase 41 | Pending |
-| PLAN-25 | Phase 41 | Pending |
+| PLAN-24 | Phase 41 | Complete |
+| PLAN-25 | Phase 41 | Complete |
 | PLAN-26 | Phase 41 | Pending |
 
 **Coverage:**
