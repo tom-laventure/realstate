@@ -9,7 +9,7 @@
 
 - [x] **ONB-05**: Brokerage-creation wizard's plan-selection step shows Free/Independent/Growth (replacing the retired Basic/Premium), each with price/mo, seat cap, and feature list sourced from `AppConstants::PLAN_TIERS`
 - [x] **ONB-06**: Custom domain field is optional for both Independent and Growth, and absent entirely when Free is selected — backend's growth-requires-custom-domain check is removed to match
-- [ ] **ONB-07**: Completing the wizard submits the correct plan value (`free`/`independent`/`growth`) and successfully creates the brokerage end-to-end for all three tiers (fixes the currently-broken signup path)
+- [x] **ONB-07**: Completing the wizard submits the correct plan value (`free`/`independent`/`growth`) and successfully creates the brokerage end-to-end for all three tiers (fixes the currently-broken signup path)
 
 ### Self-Service Plan Management
 
@@ -39,7 +39,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | ONB-05 | Phase 40 | Complete |
 | ONB-06 | Phase 40 | Complete |
-| ONB-07 | Phase 40 | Pending |
+| ONB-07 | Phase 40 | Complete |
 | PLAN-22 | Phase 41 | Pending |
 | PLAN-23 | Phase 41 | Pending |
 | PLAN-24 | Phase 41 | Pending |

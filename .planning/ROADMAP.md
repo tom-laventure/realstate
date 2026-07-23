@@ -193,7 +193,7 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 **Plans**: 4 plans
 
 - [x] 40-01-PLAN.md — Backend: `GET /v1/onboarding/plan_tiers` endpoint + remove growth-requires-domain check
-- [ ] 40-02-PLAN.md — Frontend data layer + `CreateBrokeragePlan` widening + submit/PlanBadge wiring
+- [x] 40-02-PLAN.md — Frontend data layer + `CreateBrokeragePlan` widening + submit/PlanBadge wiring
 - [ ] 40-03-PLAN.md — UI rebuild: PlanSelectionStep (3 real cards + loading/error) + DomainStep (optional-domain Yes/No toggle)
 - [ ] 40-04-PLAN.md — End-to-end verification checkpoint (all three tiers)
 
@@ -264,5 +264,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41
 | 37. Free Tier Gating | v1.12 | 6/6 | Complete   | 2026-07-21 |
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete    | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
-| 40. Onboarding Plan Alignment | v1.13 | 1/4 | In Progress|  |
+| 40. Onboarding Plan Alignment | v1.13 | 2/4 | In Progress|  |
 | 41. Self-Service Plan Management | v1.13 | 0/TBD | Not started | - |
