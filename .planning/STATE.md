@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: — Onboarding & Self-Service Plan Management
 status: completed
-stopped_at: Phase 41 context gathered
-last_updated: "2026-07-23T05:47:14.693Z"
+stopped_at: Phase 41 UI-SPEC approved
+last_updated: "2026-07-23T06:01:29.766Z"
 last_activity: 2026-07-23 -- Phase 40 marked complete
 progress:
   total_phases: 2
@@ -124,9 +124,9 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-23T05:47:14.682Z
-Stopped at: Phase 41 context gathered
-Resume file: .planning/phases/41-self-service-plan-management/41-CONTEXT.md
+Last session: 2026-07-23T06:01:29.761Z
+Stopped at: Phase 41 UI-SPEC approved
+Resume file: .planning/phases/41-self-service-plan-management/41-UI-SPEC.md
 Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps
