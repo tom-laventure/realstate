@@ -389,17 +389,19 @@ validates :plan, inclusion: {in: %w[free independent growth]}
 
 **If this table is empty:** N/A — see entries above; all are low-risk implementation-detail suggestions explicitly delegated to Claude's discretion per CONTEXT.md, not load-bearing technical or compliance claims.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should the two `ops/brokerages` ERB admin-tool views (`_form.html.erb`, `show.html.erb`) that still hardcode `[["Basic", "basic"], ["Premium", "premium"]]` select options be fixed in this phase?**
    - What we know: They are already broken today, independent of this phase — `Brokerage` model validation only accepts `free`/`independent`/`growth`, so submitting "Basic"/"Premium" via these ops forms already fails at the model layer.
    - What's unclear: Whether fixing them is in scope. CONTEXT.md's Phase Boundary describes the target as "the brokerage-creation wizard" and explicitly lists Phase 41 (admin/settings) and BILL-01 (payments) as out of scope, but doesn't mention the internal `/ops` tool either way.
    - Recommendation: Treat as out of scope for Phase 40 (it's a pre-existing, unrelated internal-tooling bug, not part of ONB-05/06/07's wizard-only success criteria) — flag it as a carry-forward item for STATE.md's Deferred Items table if the planner agrees, rather than silently expanding this phase's scope.
+   - RESOLVED: Planner excluded `ops/brokerages` from Phase 40 scope; carried forward as a Deferred Item candidate rather than folded in.
 
 2. **Endpoint response shape: flat array vs. keyed-by-tier-name object?**
    - What we know: D-01 says "serializes `AppConstants::PLAN_TIERS`" without specifying JSON shape.
    - What's unclear: Whether the frontend prefers `{ plan_tiers: [{key: "free", ...}, ...] }` (array, ordered `free, independent, growth`) or `{ plan_tiers: { free: {...}, independent: {...}, growth: {...} } }` (object keyed by tier, matching the Ruby constant's own shape).
    - Recommendation: Array — the frontend needs a stable render order (Free, Independent, Growth left-to-right) for the 3-card grid, and Ruby hash insertion order (`free, independent, growth` — verified in `plan_tiers.rb`) already matches the desired display order, so `AppConstants::PLAN_TIERS.map { |key, tier| ... }` naturally produces the correct array order without an explicit sort.
+   - RESOLVED: Plans 40-01/40-02/40-03 implement the array shape.
 
 ## Environment Availability
 
