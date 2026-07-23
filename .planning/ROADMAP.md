@@ -173,7 +173,7 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 
 **Milestone Goal:** Bring brokerage onboarding in line with the three-tier plan model, and let owners change their own brokerage's plan from admin/settings.
 
-- [ ] **Phase 40: Onboarding Plan Alignment** - Rebuild the broken brokerage-creation wizard's plan-selection step around the real `free`/`independent`/`growth` tiers so signup works end-to-end for all three
+- [x] **Phase 40: Onboarding Plan Alignment** - Rebuild the broken brokerage-creation wizard's plan-selection step around the real `free`/`independent`/`growth` tiers so signup works end-to-end for all three (completed 2026-07-23)
 - [ ] **Phase 41: Self-Service Plan Management** - New owner-gated "Plan" section on `/admin/settings` wires a 3-way selector to the real `ApplyPlanTransitionJob` cascade, with a downgrade confirmation step
 
 ## Phase Details
@@ -195,7 +195,7 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 - [x] 40-01-PLAN.md — Backend: `GET /v1/onboarding/plan_tiers` endpoint + remove growth-requires-domain check
 - [x] 40-02-PLAN.md — Frontend data layer + `CreateBrokeragePlan` widening + submit/PlanBadge wiring
 - [x] 40-03-PLAN.md — UI rebuild: PlanSelectionStep (3 real cards + loading/error) + DomainStep (optional-domain Yes/No toggle)
-- [ ] 40-04-PLAN.md — End-to-end verification checkpoint (all three tiers)
+- [x] 40-04-PLAN.md — End-to-end verification checkpoint (all three tiers)
 
 **UI hint**: yes
 
@@ -264,5 +264,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41
 | 37. Free Tier Gating | v1.12 | 6/6 | Complete   | 2026-07-21 |
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete    | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
-| 40. Onboarding Plan Alignment | v1.13 | 3/4 | In Progress|  |
+| 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 41. Self-Service Plan Management | v1.13 | 0/TBD | Not started | - |
