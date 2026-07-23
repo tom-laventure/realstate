@@ -174,7 +174,7 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 **Milestone Goal:** Bring brokerage onboarding in line with the three-tier plan model, and let owners change their own brokerage's plan from admin/settings.
 
 - [x] **Phase 40: Onboarding Plan Alignment** - Rebuild the broken brokerage-creation wizard's plan-selection step around the real `free`/`independent`/`growth` tiers so signup works end-to-end for all three (completed 2026-07-23)
-- [ ] **Phase 41: Self-Service Plan Management** - New owner-gated "Plan" section on `/admin/settings` wires a 3-way selector to the real `ApplyPlanTransitionJob` cascade, with a downgrade confirmation step
+- [x] **Phase 41: Self-Service Plan Management** - New owner-gated "Plan" section on `/admin/settings` wires a 3-way selector to the real `ApplyPlanTransitionJob` cascade, with a downgrade confirmation step (completed 2026-07-23)
 
 ## Phase Details
 
@@ -217,7 +217,7 @@ Full details: [milestones/v1.12-ROADMAP.md](milestones/v1.12-ROADMAP.md)
 - [x] 41-01-PLAN.md — Backend: owner-gated `PATCH /v1/admin/settings/plan` endpoint enqueuing ApplyPlanTransitionJob + integration tests
 - [x] 41-02-PLAN.md — Frontend data layer: `manage_plan` permission, `PlanTier` type, updatePlan API + useUpdatePlan mutation, settings-context plan state
 - [x] 41-03-PLAN.md — Frontend UI: PlanSelector (Tabs) + DowngradeConfirmDialog (AlertDialog) + PlanManagementSection wired into SettingsAdminBoard
-- [ ] 41-04-PLAN.md — End-to-end human verification (owner change, downgrade dialog, admin/agent read-only, non-owner 403)
+- [x] 41-04-PLAN.md — End-to-end human verification (owner change, downgrade dialog, admin/agent read-only, non-owner 403)
 
 **UI hint**: yes
 
@@ -270,4 +270,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41
 | 38. Upgrade & Downgrade Lifecycle | v1.12 | 5/5 | Complete    | 2026-07-22 |
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 41. Self-Service Plan Management | v1.13 | 3/4 | In Progress|  |
+| 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
