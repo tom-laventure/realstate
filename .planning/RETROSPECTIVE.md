@@ -576,6 +576,48 @@
 
 ---
 
+## Milestone: v1.13 — Onboarding & Self-Service Plan Management
+
+**Shipped:** 2026-07-26
+**Phases:** 2 (40–41) | **Plans:** 8 | **Timeline:** 1 day (2026-07-22 → 2026-07-23 build; closed 2026-07-26)
+
+### What Was Built
+
+1. `GET /v1/onboarding/plan_tiers` serving `AppConstants::PLAN_TIERS` as the wizard's drift-proof data source, and removal of the retired "Growth requires custom_domain" backend validation (Phase 40)
+2. Brokerage-creation wizard rebuilt: `CreateBrokeragePlan` widened to the real 3-tier union from one source of truth, `PlanSelectionStep` rebuilt as a real 3-card fetch, and `DomainStep`'s required custom-domain field replaced with an optional Yes/No ownership toggle for every tier (Phase 40)
+3. New brokerage-scoped, owner-gated `PATCH /v1/admin/settings/plan` endpoint enqueuing the real `ApplyPlanTransitionJob` cascade — distinct from v1.12's internal `Ops::PlanController` testing tool (Phase 41)
+4. `PlanManagementSection` on `/admin/settings`: owner-editable 3-way `PlanSelector`, admin/agent read-only, and a `DowngradeConfirmDialog` gating any paid→Free transition before the mutation fires (Phase 41)
+5. Two human-UAT checkpoints (40-04, 41-04), both signed off with all scenarios passing on first attempt — no gap-closure round-trip needed this milestone
+
+### What Worked
+
+- **Splitting the milestone into two fully independent phases (onboarding-path fix vs. settings-page addition)** — zero dependency between Phase 40 and Phase 41 meant no sequencing risk; both phases reused pre-existing v1.12 infrastructure (`AppConstants::PLAN_TIERS`, `ApplyPlanTransitionJob`) rather than building anything new at the data layer.
+- **Reusing the exact `Ops::PlanController` validate/no-op/flip/enqueue sequence for the new owner-gated endpoint** — Phase 41's controller mirrors a already-proven pattern instead of re-deriving transition logic, and the milestone integration audit confirmed no double-invocation risk between the two enqueue paths.
+- **Independent verification (not just re-reading SUMMARY.md) at both phase-verify and milestone-audit stages** — both VERIFICATION.md reports re-ran the actual integration test suites live rather than trusting claimed results, and the milestone-close integration checker read `apply_plan_transition_job.rb`'s `downgrade!` method directly to confirm Phase 41's endpoint triggers the *real* cascade, not just an enqueue call.
+
+### What Was Inefficient
+
+- **Milestone was fully built and phase-verified on 2026-07-23 but not formally closed until 2026-07-26** — STATE.md sat at 100% progress with `status: completed` for 3 days without `/gsd:complete-milestone` being run, so PROJECT.md's "Current Milestone" header and MILESTONES.md both understated project state until a `/gsd:new-milestone` invocation surfaced the gap. Worth a standing habit: run complete-milestone immediately after the last phase's human-verify checkpoint, not whenever the next planning session happens to start.
+- **No milestone audit existed when close was first attempted** — `/gsd:audit-milestone` had never been run for v1.13 despite both phases individually passing verification; this is the first milestone where the audit gate caught this gap before archival rather than after.
+
+### Patterns Established
+
+- **New self-service management endpoints for existing async cascades should be new tenant-scoped, role-gated controllers — never the internal ops/testing tool** — established by Phase 41's `V1::Admin::Settings::PlanController` sitting alongside (not replacing or extending) `Ops::PlanController`. Confirmed by milestone audit: disjoint auth boundaries (DB-backed owner membership vs. HTTP Basic Auth) mean the two paths can never conflict.
+- **Frontend-only feature flags/enum widening should re-export from a single reducer-level declaration, not re-declare** — Phase 40's `createBrokerage.ts` importing `CreateBrokeragePlan` from the reducer avoided one drift path, but Phase 41 independently declared its own `PlanTier` type instead of importing Phase 40's — a **counter-example** now flagged as tech debt (see below), showing the "single source of truth" pattern doesn't automatically propagate across phases unless explicitly checked at planning time.
+
+### Key Lessons
+
+- **"Byte-identical values across two independently-declared types" is a real, if currently latent, drift risk — not just a theoretical one.** Both phases' own VERIFICATION.md reports asserted their plan-tier type was correct in isolation; only the milestone-level integration audit caught that there are now 4 separate frontend declarations of the same 3-value union with zero compiler or test enforcement linking them. Phase-level verification cannot catch this class of gap by construction — it requires the cross-phase check.
+- **A milestone can be 100% functionally complete and still need an explicit close ceremony.** STATE.md showing `status: completed` did not mean the milestone was actually archived — completion (all phases shipped) and closure (audited, archived, tagged, PROJECT.md evolved) are two different states, and only the latter unblocks a clean `/gsd:new-milestone` start.
+
+### Cost Observations
+
+- Sessions: build spanned 2026-07-22 to 2026-07-23 (2 days); milestone-close ceremony (audit + archive) ran separately on 2026-07-26
+- Model: Claude Sonnet 5 throughout (both phase execution and milestone-close audit/integration-check)
+- Notable: both human-verify checkpoints (40-04, 41-04) passed with zero defects found on first attempt — the first v1.x+ milestone in the retrospective log with a fully clean UAT pass on both phases and no post-ship code-review-triggered bugfixes (contrast with v1.12 Phase 39's post-ship critical-bug discovery)
+
+---
+
 ## Cross-Milestone Trends
 
 | Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 | v1.5 | v1.6 |
@@ -594,3 +636,5 @@
 **v1.11 update:** 3 phases, 11 plans, 2 days, 5.5 plans/day (ties v1.6's peak velocity). 6 deferred items carried forward unchanged from v1.10 (Architecture, CR-02, 2×UX, WR-01, IN-02) + 3 new (OWN-11 audit log, OWN-12 email notifications, BILL-01 billing section — all explicitly out-of-scope-by-design, not gaps). REQUIREMENTS.md checkbox sync gap did NOT recur — second consecutive clean milestone on this front. Two genuine defects caught and fixed at execution/close time rather than deferred: a wave-1 MSW mock path bug (post-merge test gate) and a Phase-33 UAT gap in `EditMemberView.tsx`'s role selector (milestone-close artifact audit) — both closed same-session, contributing to a 0-carryover-defect close.
 
 **v1.12 update:** 4 phases, 14 plans, 8 days, 1.75 plans/day (slowest since v1.1 — Phase 37's 6-plan free-tier gating sweep and Phase 38's 3-wave dependency chain both required more sequencing than recent milestones' flatter phase shapes). 1 deferred item carried forward unchanged from v1.10 (Architecture — re-acknowledged, not resolved) + 3 new v2-scoped items (BILL-01 restated, PLAN-20 higher-seat tiers, PLAN-21 DB-backed plan config — all deliberate scope boundaries from REQUIREMENTS.md, not gaps). The requirement-checkbox sync gap (clean since v1.10) did NOT recur, but a **new variant of the same failure class** appeared one layer down: the Traceability table (separate from the checkboxes) went stale for Phase 36's 6 requirements and had to be caught manually at milestone-close review — the underlying pattern ("a completion fact written in one place, not propagated to the other") is not yet fully closed. Also notable: this is the third consecutive milestone (v1.10, v1.11, v1.12) where an executor independently rediscovered the same nested-gitlink (`backend`/`frontend`) worktree setup fix — a repo-level runbook is now overdue rather than optional.
+
+**v1.13 update:** 2 phases, 8 plans, 1 day build (2026-07-22 → 2026-07-23), 8 plans/day — fastest milestone in the log, driven by two fully independent phases with zero cross-phase dependency and both reusing pre-existing v1.12 infrastructure rather than building new data-layer plumbing. 1 deferred item carried forward unchanged (Architecture — re-acknowledged a third time, still unresolved) + 1 new non-blocking item found only by the milestone-level integration audit (plan-tier value type duplicated 4x across frontend, invisible to either phase's own verification). REQUIREMENTS.md checkbox and traceability sync gap did NOT recur — third consecutive milestone clean on this front. First milestone in the log where the "milestone complete" and "milestone closed" states visibly diverged: both phases were 100% verified and STATE.md showed `completed` for 3 days before `/gsd:complete-milestone` was actually run — worth tracking whether this recurs.

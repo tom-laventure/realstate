@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.13
 milestone_name: — Onboarding & Self-Service Plan Management
-status: completed
+status: Awaiting next milestone
 stopped_at: Phase 41 Plan 03 complete — Plan section UI components
-last_updated: "2026-07-23T07:03:08.218Z"
-last_activity: 2026-07-23 -- Phase 41 marked complete
+last_updated: "2026-07-26T19:26:25.567Z"
+last_activity: 2026-07-26 — Milestone v1.13 completed and archived
 progress:
   total_phases: 2
   completed_phases: 2
@@ -18,19 +18,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-22 after v1.12 milestone close)
+See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 41 — self-service-plan-management
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 41 — COMPLETE
-Plan: 4 of 4
-Status: Phase 41 complete
-Last activity: 2026-07-23 -- Phase 41 marked complete
-
-Progress: [█████████░] 88%
+Phase: Milestone v1.13 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-07-26 — Milestone v1.13 completed and archived
 
 ## Performance Metrics
 
@@ -99,7 +97,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 
 ### Pending Todos
 
-None yet.
+None open at close — the one pending todo (`arch-brokerage-listing-access.md`) was acknowledged and deferred; see Deferred Items below.
 
 ### Blockers/Concerns
 
@@ -108,7 +106,7 @@ None yet.
 
 ## Deferred Items
 
-Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
+Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -118,7 +116,7 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.14+; re-acknowledged at v1.12 close (pre-close audit) | v1.10 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.14+; acknowledged again at v1.13 close (open todo `arch-brokerage-listing-access.md`, unrelated to v1.13 scope) | v1.10 close |
 | CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.14+ | v1.10 close |
 | UX | Brokerage switch preserving active tab position | Carry to v1.14+ | v1.10 close |
 | UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.14+ | v1.10 close |
@@ -126,9 +124,10 @@ Items carried forward from v1.11/v1.12 milestone close, still unaddressed:
 | IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.14+ | v1.10 close (32-04-REVIEW.md) |
 | OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.14+ | v1.11 close |
 | OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.14+ | v1.11 close |
-| BILL-01 | Full Billing management section on `/admin/settings` | Stubbed as TODO placeholder; deferred to v2 (v1.12 REQUIREMENTS.md) | v1.11 close |
+| BILL-01 | Full Billing management section on `/admin/settings` | Stubbed placeholder replaced by v1.13's self-service tier-change UI; payment processor integration itself still deferred to v2 | v1.11 close |
 | PLAN-20 | Higher-seat tiers above Growth | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 | PLAN-21 | Plan config: code constant → DB-backed model | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
+| — | Plan-tier string union duplicated 4x across frontend (`CreateBrokeragePlan`, `PlanTierKey`, `PlanTier`, `PLAN_CAPABILITIES`) with no shared source | Non-blocking; values agree today, no compiler/test enforcement | v1.13 close (milestone integration audit) |
 
 ## Session Continuity
 
@@ -139,5 +138,4 @@ Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
 
 ## Operator Next Steps
 
-- Review the roadmap draft (Phases 40-41) and approve, or provide feedback for revision
-- Once approved: `/gsd-plan-phase 40`
+- Start the next milestone with /gsd-new-milestone

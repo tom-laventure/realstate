@@ -1,5 +1,26 @@
 # Milestones
 
+## v1.13 Onboarding & Self-Service Plan Management (Shipped: 2026-07-26)
+
+**Phases completed:** 2 phases, 8 plans, 16 tasks
+
+**Key accomplishments:**
+
+- New `GET /v1/onboarding/plan_tiers` endpoint serving `AppConstants::PLAN_TIERS` as the frontend's drift-proof data source, plus removal of the retired "Growth requires custom_domain" backend validation.
+- Widened `CreateBrokeragePlan` to the real 3-tier union from one source of truth, fixed the wizard's `submit()` custom_domain gate off the retired `premium` literal, built a 3-way `PlanBadge`, and shipped the plan-tiers fetch stack (type/api/hook) that Plan 03's UI will consume.
+- Rebuilt the plan-selection step into a real 3-card fetch (Free/Independent/Growth, price/seat/flag-derived features, Growth recommended, loading/error states) and replaced DomainStep's isPremium-gated required custom-domain field with a plan-based Yes/No ownership toggle where a custom domain is optional for every tier.
+- Human UAT sign-off: brokerage-creation wizard verified end-to-end for all three real tiers (Free/Independent/Growth), including the previously-broken Growth-with-no-custom-domain path
+- New brokerage-scoped `PATCH /v1/admin/settings/plan` endpoint that flips `Current.brokerage.plan` and enqueues the real `ApplyPlanTransitionJob` cascade, gated by DB-backed owner-role re-validation.
+- Owner-gated `manage_plan` RBAC permission, shared `PlanTier` type, an Axios call + TanStack mutation targeting the real `PATCH /v1/admin/settings/plan` endpoint, and a `useSettingsAdminContext` extension exposing plan state and a branching `handlePlanChange` action (downgrade opens a dialog; upgrade/lateral mutates immediately).
+- Built the "Plan" section UI on `/admin/settings` — a Tabs-based 3-way segmented selector, an AlertDialog downgrade confirmation, and a Card wrapper section, all wired to the Plan 02 Brain state/actions and rendered below Ownership Management.
+- Human UAT sign-off: owner-editable Plan section on /admin/settings verified end-to-end — upgrade/lateral changes apply immediately with a toast, paid→free downgrade gates behind a confirmation dialog, admin/agent see a disabled read-only selector, and a direct non-owner API call is rejected 403
+
+**Audit:** `.planning/milestones/v1.13-MILESTONE-AUDIT.md` — 8/8 requirements satisfied, all cross-phase integration wired, one non-blocking tech-debt item found (plan-tier type duplicated 4x across frontend).
+
+**Known deferred items at close:** 1 (see STATE.md Deferred Items) — pre-existing architecture todo (`arch-brokerage-listing-access.md`), unrelated to v1.13 scope, acknowledged and re-deferred to v1.14+.
+
+---
+
 ## v1.12 Plan Tiers & Gating (Shipped: 2026-07-22)
 
 **Phases completed:** 4 phases, 14 plans, 33 tasks
