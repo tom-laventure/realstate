@@ -49,6 +49,26 @@
       status.appendChild(link)
     }
 
+    function isSafeReturnTo(value) {
+      // Only same-origin relative paths are allowed — rejects absolute URLs and
+      // protocol-relative "//evil.com" paths that would escape the tenant's domain.
+      return typeof value === 'string' && value.startsWith('/') && !value.startsWith('//')
+    }
+
+    async function isValidBrokerageDomain(domain) {
+      // Validates against the backend's routable BrokerageDomain records (active or
+      // phasing_out) instead of a hardcoded *.realtybase.ca suffix, so brokerages on
+      // fully custom domains can use Google sign-in too.
+      if (typeof domain !== 'string' || !domain) return false
+      try {
+        const res = await fetch(BACKEND_URL + '/v1/domains/lookup?domain=' + encodeURIComponent(domain))
+        return res.ok
+      } catch (err) {
+        console.error('[auth-cb] domain validation request failed:', err)
+        return false
+      }
+    }
+
     function b64url(bytes) {
       return btoa(String.fromCharCode(...bytes))
         .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
@@ -82,32 +102,35 @@
       document.getElementById('heading').textContent = 'Redirecting to Google…'
       document.getElementById('status').textContent  = 'You will be redirected to sign in with Google.'
 
-      // Security: validate brokerage domain before storing (T-04-03-01)
-      if (brokerage !== 'realtybase.ca' && !brokerage.endsWith('.realtybase.ca')) {
-        showError('Invalid sign-in request. Please return to your brokerage portal.')
-      } else {
-        ;(async () => {
-          const { verifier, challenge } = await generatePKCE()
-          const state = generateState()
+      ;(async () => {
+        // Security: validate brokerage domain against the backend before storing (T-04-03-01)
+        if (!(await isValidBrokerageDomain(brokerage))) {
+          showError('Invalid sign-in request. Please return to your brokerage portal.')
+          return
+        }
 
-          localStorage.setItem('auth_pkce_verifier',  verifier)
-          localStorage.setItem('auth_pkce_state',     state)
-          localStorage.setItem('auth_pkce_brokerage', brokerage)
-          if (returnTo) localStorage.setItem('auth_pkce_return_to', returnTo)
+        const { verifier, challenge } = await generatePKCE()
+        const state = generateState()
 
-          const qs = new URLSearchParams({
-            response_type:         'code',
-            client_id:             COGNITO_CLIENT_ID,
-            redirect_uri:          REDIRECT_URI,
-            scope:                 'email openid aws.cognito.signin.user.admin',
-            identity_provider:     'Google',
-            code_challenge:        challenge,
-            code_challenge_method: 'S256',
-            state,
-          })
-          window.location.href = `https://${COGNITO_DOMAIN}/oauth2/authorize?${qs}`
-        })()
-      }
+        localStorage.setItem('auth_pkce_verifier',  verifier)
+        localStorage.setItem('auth_pkce_state',     state)
+        localStorage.setItem('auth_pkce_brokerage', brokerage)
+        if (returnTo && isSafeReturnTo(returnTo)) {
+          localStorage.setItem('auth_pkce_return_to', returnTo)
+        }
+
+        const qs = new URLSearchParams({
+          response_type:         'code',
+          client_id:             COGNITO_CLIENT_ID,
+          redirect_uri:          REDIRECT_URI,
+          scope:                 'email openid aws.cognito.signin.user.admin',
+          identity_provider:     'Google',
+          code_challenge:        challenge,
+          code_challenge_method: 'S256',
+          state,
+        })
+        window.location.href = `https://${COGNITO_DOMAIN}/oauth2/authorize?${qs}`
+      })()
 
     } else if (code && urlState) {
       // ── Callback phase ────────────────────────────────────────────────────
@@ -162,8 +185,8 @@
             return
           }
 
-          // Security: validate brokerage domain before redirecting (T-04-03-01)
-          if (!broker || (broker !== 'realtybase.ca' && !broker.endsWith('.realtybase.ca'))) {
+          // Security: validate brokerage domain against the backend before redirecting (T-04-03-01)
+          if (!broker || !(await isValidBrokerageDomain(broker))) {
             console.error('[auth-cb] brokerage validation failed:', broker)
             showError('Invalid sign-in state. Please return to your brokerage portal.')
             return
@@ -186,7 +209,7 @@
           const { token } = await backendRes.json()
 
           // Token handoff via URL hash — hash is browser-only, not logged server-side (D-04)
-          const hash = savedReturn
+          const hash = savedReturn && isSafeReturnTo(savedReturn)
             ? `token=${token}&returnTo=${encodeURIComponent(savedReturn)}`
             : `token=${token}`
           window.location.href = 'https://' + broker + '/auth/login-success#' + hash
