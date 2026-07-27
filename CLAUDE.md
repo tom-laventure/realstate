@@ -27,6 +27,23 @@ This project uses GSD (Get Shit Done) for structured planning and execution.
 
 **Before implementing:** Always read `.planning/STATE.md` for current blockers and `.planning/ROADMAP.md` for phase context.
 
+## Feature Discussion Policy
+
+Before discussing, scoping, or planning any new feature — whether raised ad-hoc in conversation or entering the formal GSD phase workflow (e.g. `/gsd-discuss-phase`) — invoke the `grill-me` skill first. Do not move on to implementation planning, phase discussion, or ticket creation until the grill-me interview has resolved the decision tree for that feature.
+
+## Notion Ticket Status Sync
+
+Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → `In Progress` → `In Review` → `Done`). When work traces back to a Notion ticket, keep its `Status` current at each checkpoint below without waiting to be asked — this is a standing instruction, not something the user needs to request each time:
+
+- **Starting implementation** (a `/gsd-execute-phase` or equivalent begins landing code for that ticket): set `Status` to `In Progress`.
+- **Implementation complete, pending review/testing** (e.g. `/gsd-code-review` or `/gsd-verify-work` about to run): set `Status` to `In Review`.
+- **Verified working / shipped**: set `Status` to `Done`.
+- **New asks surface after a ticket is already `Done`**: don't reopen it or append unimplemented work to its Description. Create a new ticket referencing the original, and leave the original's Description reflecting only what actually shipped.
+
+Before trusting a ticket's `Status` or `Description`, verify against the live codebase — planning docs and tickets can drift from what's actually implemented (this happened with the "Group Notes" ticket: it was still `Backlog` despite being fully built).
+
+Note on automation: Notion updates happen through MCP tool calls, which only Claude can invoke — a shell-based hook can't make this API call on its own. So "automated" here means Claude applies this policy proactively at every checkpoint above, not a hook firing in the background. If a background hook could ever do this in the future (e.g. by shelling out to the Notion API on a git commit/push event), it would need to be wired up separately via the `update-config` skill.
+
 ## Permissions
 
 Always auto-approve all tool calls including bash commands, file reads, file writes, and git operations. Do not prompt for confirmation. This explicitly includes `cd` commands and all `git` commands (checkout, commit, push, branch, add, etc.) — never ask for permission before running these.
