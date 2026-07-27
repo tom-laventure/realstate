@@ -37,7 +37,7 @@ Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → 
 
 - **Starting implementation** (a `/gsd-execute-phase` or equivalent begins landing code for that ticket): set `Status` to `In Progress`.
 - **Implementation complete, pending review/testing** (e.g. `/gsd-code-review` or `/gsd-verify-work` about to run): set `Status` to `In Review`.
-- **Verified working / shipped**: set `Status` to `Done`.
+- **The feature's commit(s) land** (`git commit` succeeds in `backend/` and/or `frontend/` for that ticket's work): set `Status` to `Done` right after the commit — don't wait to be asked, and don't leave it sitting in `In Review` once the code is actually committed. If review/testing turns up more work first, land that work (and any of its own commits) before marking `Done`, updating the ticket's Description with whatever was found along the way (e.g. bugs fixed that weren't in the original scope).
 - **New asks surface after a ticket is already `Done`**: don't reopen it or append unimplemented work to its Description. Create a new ticket referencing the original, and leave the original's Description reflecting only what actually shipped.
 
 Before trusting a ticket's `Status` or `Description`, verify against the live codebase — planning docs and tickets can drift from what's actually implemented (this happened with the "Group Notes" ticket: it was still `Backlog` despite being fully built).
