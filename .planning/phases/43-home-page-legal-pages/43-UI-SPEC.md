@@ -27,6 +27,12 @@ Existing tokens already wired in `landing/src/styles/global.css` (Phase 42, Slat
 
 ---
 
+## Focal Point
+
+The hero headline + primary "Get Started" CTA is the first-glance focal point on the home page, reinforced by Display-size type and the sole accent-colored (`bg-primary`) button in the initial viewport.
+
+---
+
 ## Spacing Scale
 
 Declared values (must be multiples of 4):
@@ -39,10 +45,9 @@ Declared values (must be multiples of 4):
 | lg | 24px | Card/section internal padding, gap between feature-grid items |
 | xl | 32px | Gaps between hero elements (eyebrow → headline → subhead → CTA row) |
 | 2xl | 48px | Spacing between major on-page sections on mobile (Hero/ValueProp/FeatureGrid/ClosingCTA boundaries) |
-| 3xl | 64px | Spacing between major on-page sections on tablet+ |
-| 4xl | 96px | Hero and section vertical padding on desktop (`py-24`) — intentionally more generous than the app shell's spacing, per FEATURES.md's differentiator note that the marketing site should read as "more whitespace, larger type scale" than the in-app SPA, not pixel-identical to it |
+| 3xl | 64px | Spacing between major on-page sections on tablet+, AND hero/section vertical padding on desktop (`py-16` = 64px, `lg:` breakpoints and up) — reused rather than introducing a new step above the standard scale ceiling |
 
-Exceptions: none beyond the 96px (`4xl`) desktop section-padding addition above — it is still a multiple of 8/4, just a new named step above the app's usual ceiling (`64px`), reserved for hero/section vertical rhythm on `lg:` breakpoints and up only. Mobile sections use `2xl` (48px), not `4xl`.
+Exceptions: none. All values are within the standard 7-step scale (4, 8, 16, 24, 32, 48, 64). Mobile sections use `2xl` (48px); tablet+ section gaps and desktop hero/section vertical padding both use `3xl` (64px) — no separate token is needed since the two uses don't need to be visually distinct from one another, only from the mobile spacing below them.
 
 ---
 
