@@ -3,8 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: planning
-last_updated: "2026-07-30T18:24:08.863Z"
-last_activity: 2026-07-30
+stopped_at: Phase 42 context gathered
+last_updated: "2026-07-30T18:49:00.011Z"
+last_activity: 2026-07-30 — Roadmap created for v1.14 (Phases 42–46, 20/20 requirements mapped)
 progress:
   total_phases: 5
   completed_phases: 0
@@ -126,9 +127,9 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-30T18:24:08.863Z
-Stopped at: v1.14 ROADMAP.md created — Phases 42–46, 20/20 requirements mapped, awaiting approval
-Resume file: None
+Last session: 2026-07-30T18:48:59.992Z
+Stopped at: Phase 42 context gathered
+Resume file: .planning/phases/42-scaffold-stack-setup/42-CONTEXT.md
 Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
 
 ## Operator Next Steps
