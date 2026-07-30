@@ -193,66 +193,90 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 ## Phase Details
 
 ### Phase 42: Scaffold + Stack Setup
+
 **Goal**: A working Astro + Tailwind static site scaffold exists at `landing/`, independently buildable, with the Slate color scheme wired in ahead of any content work.
 **Depends on**: Nothing (first phase of v1.14; continues after Phase 41)
 **Requirements**: DEPLOY-01, LAND-07
 **Success Criteria** (what must be TRUE):
+
   1. Running `astro dev` in `landing/` renders a page styled with the Slate color tokens copied from `frontend/`, with a source-commit comment documenting the copy
   2. `landing/` builds independently via its own `package.json`/lockfile/`vercel.json`, without depending on `frontend/` or `backend/`
   3. `landing/` is committed as a plain-tracked directory at the monorepo root (not a submodule/gitlink), matching the `auth-callback/` precedent
   4. `BaseLayout.astro` shell exists and is used by at least a placeholder page, rendering with no console errors
+
 **Plans**: 3 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 42-01-PLAN.md — Scaffold `landing/` with create-astro (Node >=22.12.0 gate) and wire Tailwind v4 via `@tailwindcss/vite`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 42-02-PLAN.md — Merged Slate tokens + provenance comment, `vercel.json`/`.nvmrc`/favicon, `BaseLayout.astro` + proof-of-tokens page
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 42-03-PLAN.md — Verify dev-server render, clean-install independence, plain-tracking; human Slate palette check
+
 **UI hint**: yes
 
 ### Phase 43: Home Page & Legal Pages
+
 **Goal**: Visitors can view a complete, accessible marketing home page that funnels them into the app, plus two legal pages that are clearly flagged as placeholder pending review.
 **Depends on**: Phase 42
 **Requirements**: LAND-01, LAND-02, LAND-03, LAND-04, LAND-05, LAND-06, LAND-08, LEGAL-01, LEGAL-02, LEGAL-03, LEGAL-04
 **Success Criteria** (what must be TRUE):
+
   1. Visitor lands on `/` and sees, above the fold, a hero naming "real estate brokerages" and the value prop, understandable within 5 seconds
   2. Visitor sees a consistent "Get Started" CTA (linking to `app.realtybase.ca/create`) repeated at the top and bottom of the page, plus a "Log in" CTA linking to `app.realtybase.ca/auth/login`, all reachable from a minimal nav bar with no dead links
   3. Visitor sees a 3-6 item icon+text features/how-it-works section describing real shipped capabilities, and a footer with Privacy Policy/Terms links, copyright, and a contact email
   4. Visitor can navigate to `/privacy` and `/terms`, each showing placeholder legal text structured under standard SaaS section headings with a visible "pending legal review" banner
   5. The site renders correctly on mobile viewport widths and passes a basic semantic check — one `<h1>` per page, sequential `<h2>`s, alt text on images
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 44: SEO Basics + Analytics
+
 **Goal**: The site is discoverable and correctly indexed in production while non-production deploys stay out of search results, and CTA engagement is measurable.
 **Depends on**: Phase 43
 **Requirements**: SEO-01, SEO-02, SEO-03, SEO-04, ANALYTICS-01
 **Success Criteria** (what must be TRUE):
+
   1. Viewing page source shows meta title/description and Open Graph + Twitter card tags, including a static logo/wordmark OG image
   2. `/sitemap.xml` lists the site's routes with `site` hardcoded to the production apex domain (never derived from `VERCEL_URL`), and `/robots.txt` references the sitemap
   3. A non-production (preview) deployment's page source includes a `noindex` meta tag, while a production deploy's page source does not
   4. Vercel Analytics records page views and CTA click events for "Get Started"/"Log in" via the framework-native `<Analytics />` component, with no cookie-consent banner rendered anywhere on the site
+
 **Plans**: TBD
 
 ### Phase 45: Vercel Project Setup + Preview Verification
+
 **Goal**: `landing/` deploys independently to its own Vercel project, verified to be serving the correct Astro output before any domain is attached.
 **Depends on**: Phase 44
 **Requirements**: DEPLOY-02
 **Success Criteria** (what must be TRUE):
+
   1. A new Vercel project exists with Root Directory explicitly set to `landing/`, distinct from the existing `frontend`/`auth-callback` projects
   2. The project's build log shows Astro build output, confirming it built `landing/` and not another project's code
   3. The deployed `*.vercel.app` preview URL renders the actual landing page content (hero, nav, footer) when visited
   4. CTA links on the live preview deployment correctly navigate cross-origin to `app.realtybase.ca/create` and `app.realtybase.ca/auth/login`
+
 **Plans**: TBD
 
 ### Phase 46: Apex Domain Cutover Runbook
+
 **Goal**: A documented, reviewable runbook exists describing exactly how to cut the apex domain over to the new landing site — execution is deliberately deferred to a manual follow-up outside this milestone.
 **Depends on**: Phase 45
 **Requirements**: DEPLOY-03
 **Success Criteria** (what must be TRUE):
+
   1. A written runbook lists the DNS changes required to point `realtybase.ca` at the `landing/` Vercel project
   2. The runbook documents the Vercel dashboard steps for assigning the apex domain to the `landing/` project
   3. The runbook includes an explicit checklist item to audit backend `BrokerageDomain` rows and the CORS allowlist for stale bare-apex references before cutover, plus lowering DNS TTL ahead of time
   4. The runbook is committed to the repo as documentation, with no DNS/domain changes actually executed during this milestone
+
 **Plans**: TBD
 
 ---
