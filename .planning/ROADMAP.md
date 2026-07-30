@@ -184,7 +184,7 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 
 **Milestone Goal:** Give RealtyBase a standalone public marketing presence on the root domain, funneling visitors into the app.
 
-- [ ] **Phase 42: Scaffold + Stack Setup** - Astro + Tailwind `landing/` project exists, independently buildable, with Slate color tokens wired in
+- [x] **Phase 42: Scaffold + Stack Setup** - Astro + Tailwind `landing/` project exists, independently buildable, with Slate color tokens wired in (completed 2026-07-30)
 - [ ] **Phase 43: Home Page & Legal Pages** - Visitors see a complete, accessible home page and two flagged-placeholder legal pages
 - [ ] **Phase 44: SEO Basics + Analytics** - Site is indexable in production only, discoverable via sitemap/robots, and CTA engagement is tracked
 - [ ] **Phase 45: Vercel Project Setup + Preview Verification** - `landing/` deploys independently to its own verified Vercel project
@@ -217,7 +217,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 42-03-PLAN.md — Verify dev-server render, clean-install independence, plain-tracking; human Slate palette check
+- [x] 42-03-PLAN.md — Verify dev-server render, clean-install independence, plain-tracking; human Slate palette check
 
 **UI hint**: yes
 
@@ -329,7 +329,7 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 42. Scaffold + Stack Setup | v1.14 | 2/3 | In Progress|  |
+| 42. Scaffold + Stack Setup | v1.14 | 3/3 | Complete   | 2026-07-30 |
 | 43. Home Page & Legal Pages | v1.14 | 0/? | Not started | - |
 | 44. SEO Basics + Analytics | v1.14 | 0/? | Not started | - |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |
