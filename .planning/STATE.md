@@ -4,13 +4,13 @@ milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
 stopped_at: Completed 42-01-PLAN.md
-last_updated: "2026-07-30T20:20:16.832Z"
+last_updated: "2026-07-30T20:29:16.125Z"
 last_activity: 2026-07-30
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 ## Current Position
 
 Phase: 42 (Scaffold + Stack Setup) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-07-30
 
-Progress: [███░░░░░░░] 33%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -74,6 +74,7 @@ Progress: [███░░░░░░░] 33%
 | Phase 41 P02 | 12min | 3 tasks | 5 files |
 | Phase 41 P03 | 10min | 2 tasks | 4 files |
 | Phase 42 P01 | 6min | 3 tasks | 9 files |
+| Phase 42 P02 | 5min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -89,6 +90,9 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - Phase 46 is scoped as documentation-only per DEPLOY-03 and the milestone's explicit "Out of Scope" entry — no DNS/Vercel domain changes are executed in this milestone, only a written runbook.
 - [Phase 42]: Installed Node v22.23.2 via nvm (local floor was 22.9.0) to satisfy Astro 7's >=22.12.0 engine requirement before scaffolding landing/
 - [Phase 42]: astro add tailwind installed exact intended versions (tailwindcss@4.3.3, @tailwindcss/vite@4.3.3, no @astrojs/tailwind) with zero manual correction needed
+- [Phase 42]: landing/.nvmrc pinned to exact 22.12.0 rather than frontend's bare major-only 22 — Astro 7's engine floor is >=22.12.0; local machine ran 22.9.0 at scaffold time
+- [Phase 42]: Reworded global.css provenance comment to avoid literal @custom-variant string — Plan's mandated comment text collided with its own verify script's no-@custom-variant assertion
+- [Phase 42]: Installed @astrojs/check + typescript devDependencies after independent npm registry verification — Required by astro check (Task 3 verify block); both packages confirmed under official withastro/astro and microsoft/TypeScript orgs
 
 ### Pending Todos
 
@@ -130,7 +134,7 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-30T20:20:16.826Z
+Last session: 2026-07-30T20:29:16.094Z
 Stopped at: Completed 42-01-PLAN.md
 Resume file: None
 Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42

@@ -213,7 +213,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 42-02-PLAN.md — Merged Slate tokens + provenance comment, `vercel.json`/`.nvmrc`/favicon, `BaseLayout.astro` + proof-of-tokens page
+- [x] 42-02-PLAN.md — Merged Slate tokens + provenance comment, `vercel.json`/`.nvmrc`/favicon, `BaseLayout.astro` + proof-of-tokens page
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -329,7 +329,7 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 42. Scaffold + Stack Setup | v1.14 | 1/3 | In Progress|  |
+| 42. Scaffold + Stack Setup | v1.14 | 2/3 | In Progress|  |
 | 43. Home Page & Legal Pages | v1.14 | 0/? | Not started | - |
 | 44. SEO Basics + Analytics | v1.14 | 0/? | Not started | - |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |

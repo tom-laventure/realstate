@@ -15,7 +15,7 @@ Requirements for the v1.14 Marketing Landing Site milestone. Each maps to roadma
 - [ ] **LAND-04**: Visitor sees a features/how-it-works section with 3-6 icon+text pairs (lucide icons) describing real shipped capabilities (listings, groups, calendar sync, role-based access, etc.)
 - [ ] **LAND-05**: Visitor sees a minimal nav bar (logo, Log in, Get Started) with no dead or placeholder links
 - [ ] **LAND-06**: Visitor sees a footer with Privacy Policy and Terms of Service links, copyright, and a contact email
-- [ ] **LAND-07**: Page uses the "Slate" color scheme — the fully-merged base tokens (`frontend/src/index.css`) + Slate override (`frontend/src/assets/config/colorSchemes.ts`), hand-copied into `landing/` with a source-commit comment documenting the copy
+- [x] **LAND-07**: Page uses the "Slate" color scheme — the fully-merged base tokens (`frontend/src/index.css`) + Slate override (`frontend/src/assets/config/colorSchemes.ts`), hand-copied into `landing/` with a source-commit comment documenting the copy
 - [ ] **LAND-08**: Page is mobile-responsive and uses semantic HTML (one `<h1>`, sequential `<h2>`s, alt text on images)
 
 ### Legal Pages
@@ -77,7 +77,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LAND-04 | Phase 43 | Pending |
 | LAND-05 | Phase 43 | Pending |
 | LAND-06 | Phase 43 | Pending |
-| LAND-07 | Phase 42 | Pending |
+| LAND-07 | Phase 42 | Complete |
 | LAND-08 | Phase 43 | Pending |
 | LEGAL-01 | Phase 43 | Pending |
 | LEGAL-02 | Phase 43 | Pending |
