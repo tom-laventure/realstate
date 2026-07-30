@@ -71,32 +71,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| LAND-01 | TBD | Pending |
-| LAND-02 | TBD | Pending |
-| LAND-03 | TBD | Pending |
-| LAND-04 | TBD | Pending |
-| LAND-05 | TBD | Pending |
-| LAND-06 | TBD | Pending |
-| LAND-07 | TBD | Pending |
-| LAND-08 | TBD | Pending |
-| LEGAL-01 | TBD | Pending |
-| LEGAL-02 | TBD | Pending |
-| LEGAL-03 | TBD | Pending |
-| LEGAL-04 | TBD | Pending |
-| SEO-01 | TBD | Pending |
-| SEO-02 | TBD | Pending |
-| SEO-03 | TBD | Pending |
-| SEO-04 | TBD | Pending |
-| ANALYTICS-01 | TBD | Pending |
-| DEPLOY-01 | TBD | Pending |
-| DEPLOY-02 | TBD | Pending |
-| DEPLOY-03 | TBD | Pending |
+| LAND-01 | Phase 43 | Pending |
+| LAND-02 | Phase 43 | Pending |
+| LAND-03 | Phase 43 | Pending |
+| LAND-04 | Phase 43 | Pending |
+| LAND-05 | Phase 43 | Pending |
+| LAND-06 | Phase 43 | Pending |
+| LAND-07 | Phase 42 | Pending |
+| LAND-08 | Phase 43 | Pending |
+| LEGAL-01 | Phase 43 | Pending |
+| LEGAL-02 | Phase 43 | Pending |
+| LEGAL-03 | Phase 43 | Pending |
+| LEGAL-04 | Phase 43 | Pending |
+| SEO-01 | Phase 44 | Pending |
+| SEO-02 | Phase 44 | Pending |
+| SEO-03 | Phase 44 | Pending |
+| SEO-04 | Phase 44 | Pending |
+| ANALYTICS-01 | Phase 44 | Pending |
+| DEPLOY-01 | Phase 42 | Pending |
+| DEPLOY-02 | Phase 45 | Pending |
+| DEPLOY-03 | Phase 46 | Pending |
 
 **Coverage:**
 - v1 requirements: 20 total
-- Mapped to phases: 0 (pending roadmap creation)
-- Unmapped: 20 ⚠️
+- Mapped to phases: 20 (100%)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-07-30*
-*Last updated: 2026-07-30 after initial definition*
+*Last updated: 2026-07-30 after roadmap creation (Phases 42-46)*

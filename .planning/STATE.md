@@ -6,7 +6,7 @@ status: planning
 last_updated: "2026-07-30T18:24:08.863Z"
 last_activity: 2026-07-30
 progress:
-  total_phases: 0
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Planning next milestone
+**Current focus:** Phase 42 — Scaffold + Stack Setup (v1.14 Marketing Landing Site)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-07-30 — Milestone v1.14 started
+Phase: 42 of 46 (Scaffold + Stack Setup)
+Plan: — (not yet planned)
+Status: Ready to plan
+Last activity: 2026-07-30 — Roadmap created for v1.14 (Phases 42–46, 20/20 requirements mapped)
+
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -53,7 +55,7 @@ Last activity: 2026-07-30 — Milestone v1.14 started
 **Recent Trend:**
 
 - Last 5 plans: 10min, 13min, 2min, 20min, 12min (Phase 31 P03 → Phase 32 P04)
-- Trend: Stable — no v1.13 plans executed yet
+- Trend: Stable — no v1.14 plans executed yet
 
 *Updated after each plan completion*
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
@@ -75,33 +77,24 @@ Last activity: 2026-07-30 — Milestone v1.14 started
 
 ### Decisions
 
-Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.12 close). Roadmap-level phase sequencing for v1.13 (see ROADMAP.md Phase Details):
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.13 close). Roadmap-level phase sequencing for v1.14 (see ROADMAP.md Phase Details):
 
-- Phase 40 (onboarding plan alignment) and Phase 41 (self-service plan management) are independent halves of the milestone — the onboarding wizard fix touches only the signup path, while the admin/settings Plan section touches only the post-signup management path. No dependency between them; either could execute first, kept in numeric order for simplicity.
-- Phase 40 removes the backend's "Growth requires custom_domain" check entirely (custom domain is optional for both paid tiers per this milestone's requirements definition) rather than relaxing it — this is a deliberate reversal of the v1.12-era assumption.
-- Phase 41's new plan-change endpoint is a new brokerage-scoped, owner-gated surface (not the existing internal-only `Ops::PlanController`, which is a `/ops`-namespace testing tool unusable by real brokerage owners) — it enqueues the same `ApplyPlanTransitionJob` cascade already proven in v1.12 Phases 37-39.
-- Phase 41 follows the `OwnershipManagementSection`/`useSettingsAdminContext` pattern established in v1.11 for adding a new gated section to `/admin/settings`.
-- [Phase 40]: PlanTiersController#index uses a plain hash builder, not ActiveModel::Serializer, since AppConstants::PlanTier is a Struct not an AR model — Matches DomainsController#check precedent for non-AR config-as-endpoint controllers
-- [Phase 40]: Deleted only the 3-line growth-requires-custom_domain block in BrokeragesController#create — Kept AppConstants::PLAN_TIERS.key?(plan) validity guard intact per T-40-02 threat mitigation
-- [Phase 40]: createBrokerage.ts imports/re-exports CreateBrokeragePlan from the reducer instead of independently re-declaring the union — Single source of truth avoids drift (40-RESEARCH.md Pitfall 1)
-- [Phase 40]: submit() gates custom_domain on plan !== 'free' instead of the retired plan === 'premium' literal — Custom domain is now optional for both paid tiers, not required-and-gated on a single retired tier name
-- [Phase 40]: PlanCard feature rows follow the plan's literal derivation formula (seat wording, realBoards, clients, customDomain, calendarSync, always-included subdomain) instead of UI-SPEC's slightly different bullet wording — Keeps every bullet traceable to a fetched boolean per D-02's anti-hardcoding intent
-- [Phase 40]: Every isPremium occurrence in DomainStep.tsx re-scoped to showCustomDomain = state.plan !== 'free', including the error-attribution line — grep -c isPremium confirmed 0 remaining occurrences
-- [Phase 40]: Removed all required-field validation for custom domain; only format/already-registered checks run, and only when a value is present — No tier requires a custom domain to complete signup per D-04/D-05
-- [Phase 41]: New V1::Admin::Settings::PlanController mirrors Ops::PlanController's exact validate/no-op/flip/enqueue sequence, scoped to Current.brokerage (never brokerage_id param) — PLAN-24/PLAN-25 require a real, tenant-scoped, owner-gated transition endpoint distinct from the internal Ops testing tool
-- [Phase 41]: isPlanError derived exclusively from useFetchBrokerage's own isError, not the pre-existing owners-fetch isError already in useSettingsAdminContext — prevents cross-contamination between unrelated data sources sharing one Brain
-- [Phase 41]: PlanTier values kept byte-identical to CreateBrokeragePlan ('free'|'independent'|'growth') to avoid tier-name drift between onboarding and settings — single source of truth prevents string-literal divergence
-- [Phase 41]: updatePlan.ts typed to the actual PlanUpdateResponse ({status, brokerageId, oldPlan?, newPlan?, plan?}) instead of BrokerageType — the endpoint renders a status object, not a brokerage record
-- [Phase 41]: PlanManagementSection renders the identical PlanSelector for owner and non-owner views, toggling only disabled + a read-only caption (D-04) — no separate text/badge fallback
+- Phase numbering continues from v1.13's last phase (41) — v1.14 starts at Phase 42, per continuous-numbering convention.
+- Phases are sequenced linearly (42 → 43 → 44 → 45 → 46) rather than the research-suggested parallel-capable content/legal split, because `config.json` sets `granularity: coarse` — content (LAND) and legal (LEGAL) requirements were combined into a single Phase 43 rather than kept as separate phases.
+- LAND-07 (Slate color token copy) assigned to Phase 42 (Scaffold), not Phase 43 (Content) — it's infrastructure/styling setup that must exist before any component work, matching research's Phase 1 deliverable list.
+- ANALYTICS-01 grouped with SEO (Phase 44) rather than Scaffold (Phase 42) — even though research suggested wiring `<Analytics />` during scaffold, the requirement is only observably true (tracking events, dashboard data) once real pages/CTAs exist, so it's grouped with the other "discoverability/measurability" requirements.
+- Phase 45 (Vercel Project Setup) and Phase 46 (Apex Domain Cutover) kept as two fully separate phases per the strongest pitfall finding in research/PITFALLS.md — combining "does the build deploy correctly" with "is the domain live" hides failures until they're expensive to diagnose.
+- Phase 46 is scoped as documentation-only per DEPLOY-03 and the milestone's explicit "Out of Scope" entry — no DNS/Vercel domain changes are executed in this milestone, only a written runbook.
 
 ### Pending Todos
 
-None open at close — the one pending todo (`arch-brokerage-listing-access.md`) was acknowledged and deferred; see Deferred Items below.
+None open — the one pending todo (`arch-brokerage-listing-access.md`) was acknowledged and deferred; see Deferred Items below.
 
 ### Blockers/Concerns
 
 - Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
 - Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
+- v1.14-specific (from research/PITFALLS.md, to verify during Phase 46 planning): exact current state of backend `BrokerageDomain` rows / CORS allowlist / `MainDomainOnly` config referencing bare `realtybase.ca` is not yet enumerated — needs first-party investigation when Phase 46 is planned, not assumed from research alone.
 
 ## Deferred Items
 
@@ -127,14 +120,17 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 | PLAN-20 | Higher-seat tiers above Growth | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 | PLAN-21 | Plan config: code constant → DB-backed model | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 | — | Plan-tier string union duplicated 4x across frontend (`CreateBrokeragePlan`, `PlanTierKey`, `PlanTier`, `PLAN_CAPABILITIES`) with no shared source | Non-blocking; values agree today, no compiler/test enforcement | v1.13 close (milestone integration audit) |
+| LAND-09 | Real product screenshots replacing icon+text feature pairs | v2 (v1.14 REQUIREMENTS.md) | v1.14 requirements |
+| LAND-10 | Customer testimonials / logos | v2 (v1.14 REQUIREMENTS.md) | v1.14 requirements |
+| LAND-11 | UTM/conversion-tracking params on CTA links | v2 (v1.14 REQUIREMENTS.md) | v1.14 requirements |
 
 ## Session Continuity
 
-Last session: 2026-07-23T06:42:22.174Z
-Stopped at: Phase 41 Plan 03 complete — Plan section UI components
-Resume file: .planning/phases/41-self-service-plan-management/41-04-PLAN.md
-Next action: /gsd-discuss-phase 40 or /gsd-plan-phase 40
+Last session: 2026-07-30T18:24:08.863Z
+Stopped at: v1.14 ROADMAP.md created — Phases 42–46, 20/20 requirements mapped, awaiting approval
+Resume file: None
+Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd-new-milestone
+- Approve roadmap, then start Phase 42 with /gsd-discuss-phase 42 or /gsd-plan-phase 42
