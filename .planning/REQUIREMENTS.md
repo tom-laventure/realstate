@@ -38,7 +38,7 @@ Requirements for the v1.14 Marketing Landing Site milestone. Each maps to roadma
 
 ### Deploy
 
-- [ ] **DEPLOY-01**: `landing/` exists as an independently-buildable Astro + Tailwind project (own `package.json`/lockfile, own `vercel.json`) at the monorepo root, plain-tracked (not a submodule/gitlink) like `auth-callback/`
+- [x] **DEPLOY-01**: `landing/` exists as an independently-buildable Astro + Tailwind project (own `package.json`/lockfile, own `vercel.json`) at the monorepo root, plain-tracked (not a submodule/gitlink) like `auth-callback/`
 - [ ] **DEPLOY-02**: A new Vercel project exists with Root Directory set to `landing/`, verified via build log + rendered content to deploy Astro output (not another project's) to its own `*.vercel.app` preview URL
 - [ ] **DEPLOY-03**: Apex domain cutover steps (DNS, Vercel domain assignment, backend `BrokerageDomain`/CORS audit for stale bare-apex references) are written up as a documented manual follow-up — not executed in this milestone
 
@@ -88,7 +88,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEO-03 | Phase 44 | Pending |
 | SEO-04 | Phase 44 | Pending |
 | ANALYTICS-01 | Phase 44 | Pending |
-| DEPLOY-01 | Phase 42 | Pending |
+| DEPLOY-01 | Phase 42 | Complete |
 | DEPLOY-02 | Phase 45 | Pending |
 | DEPLOY-03 | Phase 46 | Pending |
 

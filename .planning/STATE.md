@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
-stopped_at: Phase 42 context gathered
-last_updated: "2026-07-30T19:14:41.383Z"
-last_activity: 2026-07-30 -- Phase 42 planning complete
+stopped_at: Completed 42-01-PLAN.md
+last_updated: "2026-07-30T20:20:16.832Z"
+last_activity: 2026-07-30
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 42 — Scaffold + Stack Setup (v1.14 Marketing Landing Site)
+**Current focus:** Phase 42 — Scaffold + Stack Setup
 
 ## Current Position
 
-Phase: 42 of 46 (Scaffold + Stack Setup)
-Plan: — (not yet planned)
+Phase: 42 (Scaffold + Stack Setup) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-07-30 -- Phase 42 planning complete
+Last activity: 2026-07-30
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
@@ -73,6 +73,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 41 P01 | 25min | 2 tasks | 3 files |
 | Phase 41 P02 | 12min | 3 tasks | 5 files |
 | Phase 41 P03 | 10min | 2 tasks | 4 files |
+| Phase 42 P01 | 6min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,8 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - ANALYTICS-01 grouped with SEO (Phase 44) rather than Scaffold (Phase 42) — even though research suggested wiring `<Analytics />` during scaffold, the requirement is only observably true (tracking events, dashboard data) once real pages/CTAs exist, so it's grouped with the other "discoverability/measurability" requirements.
 - Phase 45 (Vercel Project Setup) and Phase 46 (Apex Domain Cutover) kept as two fully separate phases per the strongest pitfall finding in research/PITFALLS.md — combining "does the build deploy correctly" with "is the domain live" hides failures until they're expensive to diagnose.
 - Phase 46 is scoped as documentation-only per DEPLOY-03 and the milestone's explicit "Out of Scope" entry — no DNS/Vercel domain changes are executed in this milestone, only a written runbook.
+- [Phase 42]: Installed Node v22.23.2 via nvm (local floor was 22.9.0) to satisfy Astro 7's >=22.12.0 engine requirement before scaffolding landing/
+- [Phase 42]: astro add tailwind installed exact intended versions (tailwindcss@4.3.3, @tailwindcss/vite@4.3.3, no @astrojs/tailwind) with zero manual correction needed
 
 ### Pending Todos
 
@@ -127,9 +130,9 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-30T18:48:59.992Z
-Stopped at: Phase 42 context gathered
-Resume file: .planning/phases/42-scaffold-stack-setup/42-CONTEXT.md
+Last session: 2026-07-30T20:20:16.826Z
+Stopped at: Completed 42-01-PLAN.md
+Resume file: None
 Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
 
 ## Operator Next Steps

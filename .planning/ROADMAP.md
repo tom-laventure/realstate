@@ -209,7 +209,7 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 Plans:
 **Wave 1**
 
-- [ ] 42-01-PLAN.md — Scaffold `landing/` with create-astro (Node >=22.12.0 gate) and wire Tailwind v4 via `@tailwindcss/vite`
+- [x] 42-01-PLAN.md — Scaffold `landing/` with create-astro (Node >=22.12.0 gate) and wire Tailwind v4 via `@tailwindcss/vite`
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -329,7 +329,7 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 42. Scaffold + Stack Setup | v1.14 | 0/3 | Planned | - |
+| 42. Scaffold + Stack Setup | v1.14 | 1/3 | In Progress|  |
 | 43. Home Page & Legal Pages | v1.14 | 0/? | Not started | - |
 | 44. SEO Basics + Analytics | v1.14 | 0/? | Not started | - |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |
