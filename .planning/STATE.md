@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.13
-milestone_name: — Onboarding & Self-Service Plan Management
-status: Awaiting next milestone
-stopped_at: Phase 41 Plan 03 complete — Plan section UI components
-last_updated: "2026-07-26T19:26:25.567Z"
-last_activity: 2026-07-26 — Milestone v1.13 completed and archived
+milestone: v1.14
+milestone_name: Marketing Landing Site
+status: planning
+last_updated: "2026-07-30T18:24:08.863Z"
+last_activity: 2026-07-30
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 8
-  completed_plans: 8
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 ## Current Position
 
-Phase: Milestone v1.13 complete
+Phase: Not started (defining requirements)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-07-26 — Milestone v1.13 completed and archived
+Status: Defining requirements
+Last activity: 2026-07-30 — Milestone v1.14 started
 
 ## Performance Metrics
 

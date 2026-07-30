@@ -2,7 +2,15 @@
 
 ## Last Shipped: v1.13 — Onboarding & Self-Service Plan Management (2026-07-26)
 
-## Current Milestone: Planning next milestone
+## Current Milestone: v1.14 Marketing Landing Site
+
+**Goal:** Give RealtyBase a standalone public marketing presence on the root domain, funneling visitors into the app.
+
+**Target features:**
+- Astro+Tailwind `landing/` site (own Vercel project, independent of `frontend/` SPA), Slate color scheme matching the `/create` funnel
+- Single scrolling home page: hero, value prop, features/how-it-works (icons+text), closing CTA
+- Separate Privacy Policy + Terms pages (placeholder legal text, flagged pending review)
+- Vercel Analytics, SEO basics (meta/OG/sitemap/robots.txt)
 
 See `.planning/PLAN-TIERS.md` for v1.12's full design rationale and Key Decisions.
 
@@ -375,4 +383,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-26 after v1.13 (Onboarding & Self-Service Plan Management) milestone close*
+*Last updated: 2026-07-30 after starting v1.14 (Marketing Landing Site) milestone*
