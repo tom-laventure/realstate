@@ -30,7 +30,18 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-(None yet — planning next milestone)
+v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07 validated below):
+- LAND-01–06, LAND-08: Home page hero/CTA/features/nav/footer/responsive structure — Phase 43
+- LEGAL-01–04: Privacy Policy + Terms pages (placeholder text, pending-review banner, noindex) — Phase 43
+- SEO-01–04: Meta/OG/sitemap/robots/preview-noindex — Phase 44
+- ANALYTICS-01: Vercel Analytics page views + CTA clicks — Phase 44
+- DEPLOY-02: Vercel project setup + preview verification — Phase 45
+- DEPLOY-03: Apex domain cutover runbook (documentation only) — Phase 46
+
+### Validated (v1.14 — Phase 42: Scaffold + Stack Setup)
+
+- ✓ DEPLOY-01: `landing/` exists as an independently-buildable Astro + Tailwind project (own package.json/lockfile/vercel.json), plain-tracked at the monorepo root like `auth-callback/` — v1.14 Phase 42
+- ✓ LAND-07: Page uses the fully-merged "Slate" color scheme (base tokens + Slate override, hand-copied from `frontend/` with a source-commit provenance comment) — v1.14 Phase 42
 
 ### Validated (v1.13 — Phases 40-41: Onboarding & Self-Service Plan Management)
 
@@ -383,4 +394,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-30 after starting v1.14 (Marketing Landing Site) milestone*
+*Last updated: 2026-07-30 after Phase 42 (Scaffold + Stack Setup) completion*
