@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
-status: ready_to_plan
-stopped_at: Phase 42 complete (3/3) — ready to discuss Phase 43
-last_updated: 2026-07-30T23:28:06.448Z
+status: planning
+stopped_at: Phase 43 context gathered
+last_updated: "2026-07-30T23:44:19.400Z"
 last_activity: 2026-07-30
 progress:
   total_phases: 5
@@ -138,9 +138,9 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-30T21:28:21.961Z
-Stopped at: Completed 42-03-PLAN.md — Phase 42 complete, all success criteria verified
-Resume file: None
+Last session: 2026-07-30T23:44:19.388Z
+Stopped at: Phase 43 context gathered
+Resume file: .planning/phases/43-home-page-legal-pages/43-CONTEXT.md
 Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
 
 ## Operator Next Steps
