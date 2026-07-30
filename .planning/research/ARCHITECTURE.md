@@ -1,531 +1,261 @@
-# Architecture Patterns
+# Architecture Research
 
-**Domain:** Multi-tenant real estate SaaS — Rails 7.1 JSON API + React 18 SPA
-**Researched:** 2026-04-29
-**Milestone scope:** Google OAuth via Cognito, per-user calendar sync, server-side RBAC, test suite
+**Domain:** Static marketing site (Astro + Tailwind) as a third independently-deployed Vercel project inside an existing polyglot monorepo
+**Researched:** 2026-07-30
+**Confidence:** HIGH
 
+## Standard Architecture
+
+### System Overview
+
+```
+┌───────────────────────────────────────────────────────────────────────────┐
+│                     realstate/ (single git repo, monorepo root)           │
+├───────────────────────────┬───────────────────────┬───────────────────────┤
+│   backend/ (gitlink)      │  frontend/ (gitlink)   │  auth-callback/       │
+│   Rails API — own repo    │  Vite/React SPA — own  │  (plain dir, tracked  │
+│   deployed to Render.com  │  repo — own Vercel     │  directly, no build)  │
+│                            │  project               │  own Vercel project   │
+├───────────────────────────┴───────────────────────┼───────────────────────┤
+│                                                     │   landing/ (NEW)      │
+│                                                     │   plain dir, tracked  │
+│                                                     │   directly — Astro +  │
+│                                                     │   Tailwind, own       │
+│                                                     │   Vercel project      │
+└─────────────────────────────────────────────────────────────────────────┘
+                         │                    │                  │
+                         ▼                    ▼                  ▼
+                 Vercel Project A     Vercel Project B    Vercel Project C
+                 Root Dir: frontend/  Root Dir: auth-     Root Dir: landing/
+                 (existing)           callback/ (existing) (NEW — this milestone)
+```
+
+Each Vercel "project" in this setup is an independent connection to the **same** GitHub repo (`tom-laventure/realstate`), scoped by a **Root Directory** setting configured in the Vercel dashboard per project — not by separate repos. `frontend/` and `backend/` are gitlinks (git submodule-style pointers, tracked as mode `160000`, no `.gitmodules` file present — the repo bumps the pointer commit via `git add frontend && git commit`, consistent with the "chore: bump backend/frontend submodule pointers" commits already in this repo's history). `auth-callback/` is a **plain tracked directory** (regular files, no gitlink) — this is the direct precedent for how `landing/` should be structured this milestone, since the milestone context already locks in "plain directory, NOT a submodule."
+
+### Component Responsibilities
+
+| Component | Responsibility | Typical Implementation |
+|-----------|----------------|------------------------|
+| `landing/` (NEW) | Public marketing site: home page, Privacy Policy, Terms | Astro static site, Tailwind v4 via `@tailwindcss/vite` |
+| `landing/vercel.json` (NEW) | Vercel build/output/redirect config scoped to this project | Minimal — Astro's zero-config static output needs little beyond defaults |
+| Vercel Project "landing" (NEW, dashboard-side) | Connects GitHub repo, Root Directory = `landing/`, builds + deploys on push | Configured in Vercel dashboard, not in repo |
+| `landing/package.json` + lockfile (NEW) | Isolated dependency graph for the Astro build | Independent of `frontend/package.json` — different framework, different repo boundary |
+| `.planning/` (existing) | Cross-cutting planning docs for all sub-projects | No changes needed for `landing/` beyond this research + roadmap phase docs |
+
+## Recommended Project Structure
+
+```
+landing/
+├── public/                      # Static, unprocessed assets — copied as-is to output root
+│   ├── favicon.svg
+│   ├── og-image.png             # Open Graph share image
+│   └── robots.txt                # Static robots.txt (simplest option — see Patterns)
+├── src/
+│   ├── pages/                   # File-based routing — Astro's one reserved directory
+│   │   ├── index.astro          # Single scrolling home page (hero, value prop, features, CTA)
+│   │   ├── privacy.astro        # Privacy Policy (placeholder legal text)
+│   │   └── terms.astro          # Terms of Service (placeholder legal text)
+│   ├── layouts/
+│   │   └── BaseLayout.astro     # <html>/<head> shell: meta tags, OG tags, favicon, Analytics component, global styles import
+│   ├── components/              # Section-level building blocks for the scrolling home page
+│   │   ├── Hero.astro
+│   │   ├── ValueProp.astro
+│   │   ├── FeatureGrid.astro    # "How it works" — icons (lucide via astro-icon or inline SVG) + text
+│   │   ├── ClosingCTA.astro
+│   │   ├── SiteHeader.astro
+│   │   └── SiteFooter.astro
+│   ├── styles/
+│   │   └── global.css           # `@import "tailwindcss";` entrypoint (Tailwind v4 CSS-first config)
+│   └── consts.ts                # Shared copy/config: site URL, nav links, brand name — avoids hardcoding across pages
+├── astro.config.mjs             # Astro config — Vite plugins array includes @tailwindcss/vite
+├── package.json                 # Independent from frontend/package.json (see rationale below)
+├── package-lock.json            # or pnpm-lock.yaml — independent lockfile
+├── tsconfig.json                # Astro's strict TS preset (astro/tsconfigs/strict)
+├── .gitignore                   # Scoped to landing/: node_modules, dist, .astro, .vercel (see Integration Points)
+└── vercel.json                  # Only if non-default behavior is needed (see Patterns)
+```
+
+### Structure Rationale
+
+- **`src/pages/`:** Astro's only reserved directory — file-based routing. Three files map directly to this milestone's three routes (home, privacy, terms). No nested routing needed for a single-page-plus-two-legal-pages site.
+- **`src/layouts/`:** One `BaseLayout.astro` is sufficient for this milestone's scope (a marketing site with legal pages, not a documentation site or blog with varied templates). Centralizes `<head>` — meta/OG tags, sitemap link, favicon, the Vercel Analytics component — in one place so SEO/analytics changes are a one-file edit.
+- **`src/components/`:** One component per home-page section keeps `index.astro` readable and each section independently reviewable, mirroring the monorepo's existing preference (in `frontend/`) for composable, single-responsibility files over monolithic page files.
+- **`public/`:** Static assets that need zero processing (favicon, OG image, `robots.txt`) live here and are copied byte-for-byte to the deployed output root — standard Astro convention, verified against current Astro docs.
+- **Independent `package.json`/lockfile:** `landing/` is a different framework (Astro, not Vite+React) with a near-fully-disjoint dependency set from `frontend/` (no Redux, TanStack Query, Amplify, Mapbox, etc.). Sharing a lockfile or hoisting to a root `package.json` would couple two unrelated build pipelines and force Vercel's `landing/` project to either set "Include source files outside of the Root Directory" (unnecessary complexity) or fail to resolve dependencies. A self-contained `package.json` is also what makes Vercel's zero-config Astro framework detection work correctly when Root Directory = `landing/`.
+
+## Architectural Patterns
+
+### Pattern 1: Vercel Root-Directory-Scoped Monorepo Project
+
+**What:** One GitHub repo, N independent Vercel projects, each with its own dashboard-configured **Root Directory** (`Settings → General → Root Directory`). Each project builds only the files under its root, using its own `package.json`, and deploys to its own default `*.vercel.app` URL and (later) its own custom domain.
+**When to use:** Exactly this repo's existing pattern — `frontend/` and `auth-callback/` are already two separate Vercel projects pointed at two separate subdirectories of the same repo. `landing/` becomes the third.
+**Trade-offs:** Simple and matches existing precedent (low learning cost, nothing new to teach the team). The cost is that every push to the repo triggers a build-check on all three projects unless "Ignored Build Step" is configured per project — worth setting later (not blocking for this milestone's definition of done) so a `backend/`-only commit doesn't waste a `landing/` build minute.
+
+**Example (Vercel dashboard setting, not a repo file):**
+```
+Project: realtybase-landing
+Root Directory: landing
+Framework Preset: Astro (auto-detected from landing/package.json + astro.config.mjs)
+Build Command: (default — astro build)
+Output Directory: (default — dist)
+Install Command: (default — npm install, scoped to landing/)
+```
+
+### Pattern 2: Tailwind v4 via Vite Plugin (not `@astrojs/tailwind`)
+
+**What:** Tailwind v4's recommended Astro integration is the official `@tailwindcss/vite` plugin registered in `astro.config.mjs`'s `vite.plugins` array, with a single `@import "tailwindcss";` line in a global CSS file. The older `@astrojs/tailwind` integration is a Tailwind v3 wrapper and should not be used with v4.
+**When to use:** Always, for this milestone — `frontend/` already runs Tailwind v4 via `@tailwindcss/vite` (confirmed in `frontend/package.json`: `"@tailwindcss/vite": "^4.1.18"`), so this keeps the same major version and mental model across both frontend surfaces, even though the two projects don't share a build.
+**Trade-offs:** None meaningful here — this is simply the current-correct setup path, not a judgment call.
+
+**Example:**
+```js
+// astro.config.mjs
+import { defineConfig } from 'astro/config'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  vite: { plugins: [tailwindcss()] },
+})
+```
+```css
+/* src/styles/global.css */
+@import "tailwindcss";
+```
+
+### Pattern 3: Static Output, No Vercel Adapter Needed
+
+**What:** Astro's default `output: 'static'` mode requires **no** `@astrojs/vercel` adapter to deploy on Vercel — plain `astro build` output (`dist/`) is served directly. The adapter is only needed for SSR output or to opt into Vercel-native Image Optimization.
+**When to use:** This milestone — the landing site is a fully static scrolling page + two static legal pages, no server rendering, no personalization, no per-request logic.
+**Trade-offs:** Skipping the adapter keeps `package.json` and `astro.config.mjs` minimal, at the cost of not getting Vercel's automatic image optimization pipeline for free (Astro's own built-in `<Image />` component still works and optimizes at build time, which is sufficient for a handful of hero/OG images at this scale).
+
+### Pattern 4: Vercel Analytics via Component, Not Adapter Option
+
+**What:** For `@vercel/analytics@1.4.0+`, Web Analytics on Astro is enabled by importing the `<Analytics />` component from `@vercel/analytics/astro` into the base layout — not by passing `webAnalytics: { enabled: true }` to the (unneeded, per Pattern 3) Vercel adapter.
+**When to use:** This milestone — "Vercel Analytics" is an explicit target feature, and this is the current supported path that doesn't require pulling in the full SSR adapter just for analytics.
+**Trade-offs:** None — this is the documented current approach; the older adapter-option path is legacy behavior for pre-1.4 versions.
+
+**Example:**
+```astro
 ---
-
-## Q1: Cognito Federated Identity — How Google OAuth Changes the Request Flow
-
-### What Actually Happens in Cognito When a User Signs In with Google
-
-Cognito always generates its own `sub` UUID for every user profile — whether native or federated. For a Google-federated user who signs in without any linking, Cognito creates a second user profile. The `cognito:username` for that profile is `Google_<google-sub>`, and the `sub` is a Cognito-generated UUID unrelated to the Google sub. The Google sub is only stored in the `identities` array claim of the ID token. (HIGH confidence — confirmed via AWS Cognito federation docs and independent implementation guide.)
-
-**The key consequence for this codebase:** `CognitoAuth` currently looks up users by `cognito_sub`. A Google-only sign-in would find no matching `User` row if the user originally registered with email/password, because the two Cognito profiles have different `sub` values.
-
-### Frontend Flow After Adding Google as a Federated Provider
-
-```
-User clicks "Sign in with Google"
-  → Amplify.signInWithRedirect({ provider: "Google" })
-  → Browser redirects to Cognito Hosted UI → then to Google OAuth
-  → Google redirects back to Cognito's /oauth2/idpresponse
-  → Cognito redirects back to the app's configured callback URL
-  → Amplify Hub fires { event: "signInWithRedirect" }
-  → Frontend calls fetchAuthSession() to get the Cognito ID token
-  → Frontend sends ID token to POST /v1/sessions (same endpoint as email/password)
-  → Backend verifies the Cognito token → issues its own HS256 JWT → returns it
-```
-
-`CognitoAuth` and `TokenService` continue to work unchanged — they receive the same Cognito ID token format and issue the same HS256 JWT in response. The only difference is the claims inside the Cognito token.
-
-### User Identity Linking — DB Changes Required
-
-The risk is account fragmentation: a user who previously registered with email/password and later signs in with Google ends up with two separate Cognito profiles. Fix this with a Cognito Pre Sign-up Lambda trigger.
-
-**Lambda trigger approach (recommended):**
-When `PreSignUp_ExternalProvider` fires (Google sign-in), the Lambda calls `AdminLinkProviderForUser` to link the incoming Google identity to the existing native Cognito user with the same email. After linking, all subsequent Google sign-ins resolve to the original Cognito profile, preserving the original `sub`.
-
-```
-# Lambda: PreSignUp_ExternalProvider trigger
-1. Extract email from trigger event
-2. Look up existing Cognito user by email using AdminGetUser
-3. If found: call AdminLinkProviderForUser(
-     destination: { ProviderName: "Cognito", ProviderAttributeValue: existingUsername },
-     source: { ProviderName: "Google", ProviderAttributeName: "Cognito_Subject", ProviderAttributeValue: googleSub }
-   )
-4. Return event — Cognito cancels the new profile creation, uses the linked one
-```
-
-After linking, the `sub` in the JWT is the original native user's `sub`. The `identities` claim in the ID token shows Google as an associated provider but does not change what `CognitoAuth` reads.
-
-**DB change for `User` model:**
-
-Add a `google_identity_linked_at` column (nullable timestamp) to record when a Google identity was connected. No new foreign key or separate table is needed — Cognito's own `identities` claim tracks the linkage.
-
-```ruby
-# migration
-add_column :users, :google_identity_linked_at, :datetime
-```
-
-For "connect Google to existing account" from the logged-in settings screen: the frontend calls `Amplify.linkWithRedirect({ provider: "Google" })` (Amplify Gen 1 calls this `federatedSignIn` with `customProvider`), which goes through the same Lambda path and links the identity. The Rails backend then sets `user.update!(google_identity_linked_at: Time.current)`.
-
-**What does NOT change:**
-- `CognitoAuth` concern — still reads `sub` from JWT, looks up `User.find_by(cognito_sub: sub)`
-- `TokenService` — still issues HS256 JWT keyed on `User#id`
-- `SessionsController` — still receives POST with the Cognito ID token body param
-
-### Component Boundary Summary
-
-| Component | Change Required |
-|-----------|----------------|
-| Cognito User Pool (AWS console) | Add Google as social IdP, configure callback URLs |
-| Pre Sign-up Lambda | New: calls AdminLinkProviderForUser for existing email matches |
-| `CognitoAuth` concern | No change — sub lookup still works |
-| `TokenService` | No change |
-| `SessionsController` | No change — same POST /v1/sessions interface |
-| `User` model | Add `google_identity_linked_at` column |
-| Frontend `Login` container | Add "Sign in with Google" button calling `signInWithRedirect` |
-| Frontend Hub listener | Listen for `signInWithRedirect` event, then call same session POST |
-| Frontend amplify config | Add `oauth` block with callback URLs and Google scope |
-
+// src/layouts/BaseLayout.astro
+import { Analytics } from '@vercel/analytics/astro'
 ---
-
-## Q2: Per-User Calendar OAuth Token Storage
-
-### What to Store and Why
-
-Each calendar provider requires a different credential type:
-- **Google Calendar**: OAuth 2.0 — access_token (short-lived, ~1h), refresh_token (long-lived), token expiry timestamp, scope
-- **Microsoft Graph**: OAuth 2.0 — same structure as Google; requires `offline_access` scope for refresh token
-- **Apple iCloud CalDAV**: No OAuth — uses app-specific password + Apple ID email; Basic Auth only (HIGH confidence — Apple has not added OAuth for CalDAV)
-
-### Recommended Model: `UserCalendarConnection`
-
-```ruby
-# One row per user per provider. A user can have at most one connection per provider.
-create_table :user_calendar_connections do |t|
-  t.references :user, null: false, foreign_key: true
-  t.string :provider, null: false      # "google" | "microsoft" | "apple"
-  t.string :provider_account_email     # which Google/Microsoft account was connected
-  t.string :encrypted_access_token
-  t.string :encrypted_access_token_iv
-  t.string :encrypted_refresh_token
-  t.string :encrypted_refresh_token_iv
-  t.datetime :token_expires_at
-  t.string :calendar_id               # which specific calendar to write to (Google: primary)
-  t.string :sync_status, default: "connected"  # "connected" | "error" | "revoked"
-  t.text :last_error_message
-  t.datetime :last_synced_at
-  t.timestamps
-  t.index [:user_id, :provider], unique: true
-end
+<html lang="en">
+  <head><!-- meta/OG tags --></head>
+  <body>
+    <slot />
+    <Analytics />
+  </body>
+</html>
 ```
 
-### Encryption
+## Data Flow
 
-Use ActiveRecord Encryption (already configured in the project at `backend/config/initializers/active_record_encryption.rb`) — the same mechanism used for `BrokerageBoardCredential`. Encrypt `access_token` and `refresh_token`:
-
-```ruby
-class UserCalendarConnection < ApplicationRecord
-  belongs_to :user
-  encrypts :access_token, :refresh_token
-  enum :provider, { google: "google", microsoft: "microsoft", apple: "apple" }
-  enum :sync_status, { connected: "connected", error: "error", revoked: "revoked" }
-end
-```
-
-**Why this over alternatives:**
-- ActiveRecord Encryption is already set up — no new key management
-- A separate table (not columns on `User`) cleanly handles multiple providers and connection status per provider
-- Unique index on `[user_id, provider]` prevents duplicate connections
-
-### Apple CalDAV Credential Storage
-
-For Apple: the `encrypted_access_token` stores the app-specific password; `encrypted_refresh_token` is null; `provider_account_email` stores the Apple ID email. No token refresh logic runs — Apple credentials do not expire (users revoke them manually via Apple ID settings).
-
-### Token Refresh Strategy
-
-**Refresh at job execution time, not at request time.** The calendar sync happens asynchronously in a SolidQueue job. The job is responsible for refreshing the access token before calling the calendar API:
-
-```ruby
-# In CalendarSyncService (called from job)
-def refresh_token_if_needed(connection)
-  return unless connection.provider.in?(%w[google microsoft])
-  return unless connection.token_expires_at < 5.minutes.from_now
-
-  response = # call provider token endpoint with refresh_token
-  connection.update!(
-    access_token: response[:access_token],
-    token_expires_at: Time.current + response[:expires_in].seconds
-  )
-rescue => e
-  connection.update!(sync_status: "error", last_error_message: e.message)
-  raise  # let the job retry
-end
-```
-
-Do not refresh tokens during the HTTP request cycle. The request that creates an `EstateDate` should never wait on a calendar API call.
-
----
-
-## Q3: Calendar Sync Background Job Pattern
-
-### Sync Architecture
-
-**Pattern: async-always.** The controller that creates/updates/deletes an `EstateDate` record enqueues a job. It never calls the calendar API synchronously. This matches the existing pattern used for notification fanout.
+### Request Flow (fully static — no runtime data flow)
 
 ```
-POST /v1/dashboard/.../estate_dates
-  → EstateDatesController#create
-  → EstateDate.create!(...)
-  → CalendarSyncJob.perform_later(estate_date_id: estate_date.id, action: "create")
-  → 200 OK (job is in queue, not yet executed)
+[Browser request to realtybase.ca/*]
+    ↓
+[Vercel Edge — serves pre-built static file from landing/'s dist/ output]
+    ↓
+[HTML/CSS/JS response — no API calls, no backend/, no auth]
 ```
 
-### Idempotency — Avoid Duplicate Calendar Events
+There is deliberately **no** runtime coupling to `backend/` or `frontend/`. The landing site's only "dynamic" behavior is client-side navigation to the app: CTAs link out to `https://app.realtybase.ca/create` (or the appropriate onboarding entry point) as a plain `<a href>`, not an API call.
 
-Store the external calendar event ID returned by each provider on the `EstateDate` model (or in a join table). This is the single most important idempotency control.
-
-```ruby
-# Add to estate_dates table (or a separate estate_date_calendar_events table)
-add_column :estate_dates, :google_calendar_event_id, :string
-add_column :estate_dates, :microsoft_calendar_event_id, :string
-# Apple CalDAV uses a UID in the .ics payload — store similarly
-add_column :estate_dates, :apple_caldav_uid, :string
-```
-
-Create logic:
-1. If `google_calendar_event_id` is already set on the `EstateDate`, skip creation (already synced)
-2. Call Google Calendar API to create the event
-3. Store the returned `event.id` on the `EstateDate`
-
-Update logic:
-1. If `google_calendar_event_id` is blank, treat as create (handles partial failures)
-2. Call PATCH on the known event ID
-
-Delete logic:
-1. If `google_calendar_event_id` is blank, nothing to delete
-2. Call DELETE on the known event ID; rescue 404 as success (already gone)
-
-### Job Structure
-
-```ruby
-class CalendarSyncJob < ApplicationJob
-  queue_as :default
-  retry_on StandardError, wait: :polynomially_longer, attempts: 5
-  discard_on ActiveRecord::RecordNotFound
-
-  def perform(estate_date_id:, action:, user_id:)
-    estate_date = EstateDate.find(estate_date_id)
-    user = User.find(user_id)
-
-    user.user_calendar_connections.connected.each do |connection|
-      CalendarSyncService.new(connection).sync(estate_date, action)
-    rescue => e
-      # log and mark this connection's error but don't fail the whole job
-      connection.update(sync_status: "error", last_error_message: e.message)
-    end
-  end
-end
-```
-
-**Why per-user, not per-brokerage:** Calendar connections are personal — the agent syncing to their Google Calendar is the user who created or is attending the event. Pass `user_id` to the job so it loads connections for that user only.
-
-**Failure handling:**
-- If one provider (e.g., Google) fails, update that connection's `sync_status` to `"error"` with the error message, and continue syncing other providers for the same user. Do not fail the whole job.
-- The job itself retries up to 5 times with polynomial back-off (same as existing jobs).
-- Surface `sync_status: "error"` connections in the UI so users can reconnect.
-
-**Who to sync for:** On `EstateDate` create/update/delete, sync for the acting user (`Current.user`) only. Do not sync for all group members — calendar sync is opt-in and personal. Each user's job is enqueued when they interact with their own calendar connection, not when a colleague creates an event.
-
-### Triggering the Job
-
-```ruby
-# EstateDatesController (create and update actions)
-after_commit -> { CalendarSyncJob.perform_later(estate_date_id: id, action: "create", user_id: Current.user.id) },
-  on: :create
-
-# Or in the controller:
-CalendarSyncJob.perform_later(
-  estate_date_id: @estate_date.id,
-  action: "create",
-  user_id: Current.user.id
-)
-```
-
-Use `after_commit` or enqueue after the `save!` succeeds to avoid jobs referencing records that didn't commit.
-
----
-
-## Q4: Rails Test Architecture for Multi-Tenant API
-
-### Test Type Decision
-
-**Use `ActionDispatch::IntegrationTest` (Rails request tests) for all controller-level tests.** Do not use `ActionController::TestCase` (functional tests) — request tests exercise the full middleware stack including `BrokerageAuth` and `CognitoAuth`, which is exactly what the highest-risk test scenarios require. Unit tests for query objects and service objects use `ActiveSupport::TestCase` directly. (HIGH confidence — this is the Rails-recommended pattern as of Rails 6+.)
-
-### File Layout
+### Build/Deploy Flow
 
 ```
-backend/
-  test/
-    test_helper.rb
-    helpers/
-      auth_helper.rb           # JWT generation, host headers
-      fixture_helper.rb        # convenience methods for loading fixtures
-    integration/
-      tenant_isolation_test.rb
-      admin_authorization_test.rb
-      filter_sets_controller_test.rb
-      invitations_controller_test.rb
-    unit/
-      queries/
-        group_estates_query_test.rb
-      services/
-        groups_create_test.rb
-    fixtures/
-      brokerages.yml
-      users.yml
-      brokerage_memberships.yml
-      groups.yml
-      estates.yml
-      group_estates.yml
+[git push to realstate repo, main branch]
+    ↓
+[Vercel webhook fires for each connected project]
+    ↓
+┌─────────────────┬──────────────────────┬──────────────────────┐
+│ frontend project │ auth-callback project│ landing project (NEW)│
+│ Root: frontend/  │ Root: auth-callback/ │ Root: landing/       │
+│ npm install+build│ static passthrough   │ npm install+astro    │
+│                  │ (no build step)      │ build                │
+└─────────────────┴──────────────────────┴──────────────────────┘
+    ↓                       ↓                       ↓
+[app.realtybase.ca]  [auth.realtybase.ca]   [*.vercel.app preview
+                                              — this milestone's DoD;
+                                              realtybase.ca apex is a
+                                              later manual DNS step]
 ```
 
-### Tenant Isolation Setup
+### Key Data Flows
 
-The multi-tenancy concern (`BrokerageAuth`) resolves `Current.brokerage` from the `Host` header. Set it directly in request tests:
+1. **Build-time only:** All content (copy, legal text, feature list) is authored directly in `.astro` files/components at build time — no CMS, no backend fetch. This matches the milestone's "placeholder legal text, flagged pending review" framing — no dynamic content pipeline needed yet.
+2. **Outbound conversion flow:** Home page CTA → static link to `app.realtybase.ca` (the brokerage-creation wizard entry point). This is the only "integration" between `landing/` and the rest of the platform, and it's a plain hyperlink, not a shared component, API, or type.
 
-```ruby
-# test/helpers/auth_helper.rb
-module AuthHelper
-  def auth_headers(user, brokerage)
-    token = TokenService.issue(user)
-    {
-      "Authorization" => "Bearer #{token}",
-      "Host" => brokerage.primary_domain   # triggers BrokerageAuth
-    }
-  end
+## Scaling Considerations
 
-  def sign_in_as(user, brokerage)
-    @auth_headers = auth_headers(user, brokerage)
-  end
-end
+| Scale | Architecture Adjustments |
+|-------|--------------------------|
+| Current (marketing site, low traffic) | Static output is already optimal — Vercel's CDN edge-caches every file; no server, no database, effectively unlimited cheap scale for this workload |
+| If content grows (blog, case studies, docs) | Add `src/content/` Astro Content Collections — no architecture change, same project, same Vercel project, just more `src/pages/` routes |
+| If personalization/A-B testing needed | Would require Vercel Edge Middleware or switching `output` to `'server'`/`'hybrid'` + adding `@astrojs/vercel` adapter — explicitly out of scope for this milestone |
 
-# In test_helper.rb
-class ActionDispatch::IntegrationTest
-  include AuthHelper
-end
-```
+### Scaling Priorities
 
-```ruby
-# test/integration/tenant_isolation_test.rb
-class TenantIsolationTest < ActionDispatch::IntegrationTest
-  fixtures :all
+1. **Not a concern at this milestone's scope.** A single scrolling page + 2 legal pages, statically built, has no realistic bottleneck at any traffic level a marketing site for this product would see.
+2. **If it ever matters:** the first real lever would be adding `@astrojs/sitemap` and structured data for SEO growth, not infrastructure scaling.
 
-  setup do
-    @brokerage_a = brokerages(:alpha)
-    @brokerage_b = brokerages(:beta)
-    @user_a = users(:alice)   # member of brokerage_a only
-    @group_b = groups(:beta_group)  # belongs to brokerage_b
-  end
+## Anti-Patterns
 
-  test "user from brokerage A cannot read brokerage B group" do
-    get v1_dashboard_group_url(@group_b),
-        headers: auth_headers(@user_a, @brokerage_a)
-    assert_response :not_found  # or 403 — depends on controller rescue
-  end
-end
-```
+### Anti-Pattern 1: Hoisting `landing/` into `frontend/`'s dependency tree or a root `package.json`
 
-**Fixture design for multi-tenancy:** Each YAML fixture file must include `brokerage_id` references pointing to distinct brokerages. At minimum: two brokerages, two users each in a different brokerage, two groups each in a different brokerage. Use labelled fixtures (`alpha:`, `beta:`) for clarity.
+**What people do:** Add a root-level `package.json` with npm/pnpm workspaces to "share" tooling between `frontend/` and `landing/`, or literally build the landing pages as routes inside the `frontend/` Vite/React SPA.
+**Why it's wrong:** Breaks the milestone's explicit decision that `landing/` is "fully independent of the `frontend/` SPA build." It would also couple two unrelated frameworks (React SPA vs. Astro static site) and reintroduce exactly the kind of shared-build fragility that led to putting `auth-callback/` in its own zero-build directory in the first place. Vercel's Root Directory model already gives clean isolation for free — don't reach for a workspace tool to solve a problem that doesn't exist yet.
+**Do this instead:** Keep `landing/package.json` fully self-contained, exactly like `auth-callback/` (no build) and `frontend/` (separate repo) are already isolated from each other.
 
-**CognitoAuth in tests:** `CognitoAuth` verifies the JWT using `TokenService.verify`. In tests, generate real JWTs via `TokenService.issue(user)` in the `auth_headers` helper. This tests the actual token verification path rather than stubbing it. No mocking is needed because `TokenService` is a pure HS256 in-process implementation with no network calls.
+### Anti-Pattern 2: Adding `landing` to the root `.gitignore`
 
-**Database strategy:** Use Rails' default transactional fixtures (wrapped in a transaction, rolled back after each test). Do not use `DatabaseCleaner` — transactional fixtures are correct and faster.
+**What people do:** By analogy with `backend`/`frontend` appearing in the root `.gitignore`, add `landing` there too.
+**Why it's wrong:** `backend`/`frontend` are gitlinks (submodule-style pointers); ignoring the directory name there is a (somewhat unusual, but intentional) convention for how this repo already handles those two gitlinked directories. `landing/` is explicitly a **plain tracked directory** (like `auth-callback/`), and adding it to the root `.gitignore` would make git ignore the entire folder's contents — nothing would ever get committed.
+**Do this instead:** Leave the root `.gitignore` untouched. Give `landing/` its own scoped `.gitignore` (`landing/.gitignore`) for build artifacts only — `node_modules/`, `dist/`, `.astro/`, `.vercel/` — the same way a fresh `npm create astro@latest` scaffold generates one by default. Nested `.gitignore` files work correctly within a single git repo; this requires no root config changes at all.
 
-### Admin Authorization Test Pattern
+## Integration Points
 
-```ruby
-# test/integration/admin_authorization_test.rb
-class AdminAuthorizationTest < ActionDispatch::IntegrationTest
-  fixtures :all
+### External Services
 
-  test "agent role is rejected from admin endpoints" do
-    agent = users(:agent_user)
-    brokerage = brokerages(:alpha)
-    assert_equal "agent", brokerage_memberships(:agent_membership).role
+| Service | Integration Pattern | Notes |
+|---------|---------------------|-------|
+| Vercel (new project) | Dashboard-configured Root Directory = `landing/`, connected to the same GitHub repo as the existing `frontend`/`auth-callback` projects | This is a **dashboard-side** setup step, not a repo file — nothing in `landing/vercel.json` sets the root directory; that's a Vercel Project Setting only. `landing/vercel.json` should stay minimal (Astro's zero-config output needs no rewrites/redirects/headers by default; add only if a specific need arises, e.g. a redirect from a legacy path) |
+| Vercel Web Analytics | `@vercel/analytics/astro` package, `<Analytics />` component in `BaseLayout.astro` | No adapter required (see Pattern 4); enabling Web Analytics for the project itself is a Vercel dashboard toggle done once the project exists |
+| GitHub (existing) | Same repo, same webhook mechanism already powering `frontend`/`auth-callback` Vercel projects | No new repo, no new remote, no CI config needed — this repo has no `.github/workflows/*.yml` (only `copilot-instructions.md`), so there is no existing CI pipeline to update for a third deployable |
 
-    get v1_admin_users_url,
-        headers: auth_headers(agent, brokerage)
-    assert_response :forbidden
-  end
+### Internal Boundaries
 
-  test "admin role is permitted on admin endpoints" do
-    admin = users(:admin_user)
-    brokerage = brokerages(:alpha)
+| Boundary | Communication | Notes |
+|----------|---------------|-------|
+| `landing/` ↔ `frontend/` (app.realtybase.ca) | Plain `<a href>` outbound links only | No shared components, no shared types, no shared API client — deliberately zero coupling, consistent with `landing/`'s "fully independent" mandate |
+| `landing/` ↔ `backend/` (Rails API) | None | Landing site makes zero API calls; all content is static/build-time |
+| `landing/` ↔ `.planning/` | Planning docs only (this research file, future ROADMAP phase docs) | No runtime coupling; `.planning/` never ships to the deployed site |
+| `landing/` ↔ Vercel dashboard config | Root Directory setting, project name, (later) custom domain (`realtybase.ca` apex) attachment | Domain attachment is explicitly out-of-band/manual per this milestone's definition of done — not a repo-level integration point |
 
-    get v1_admin_users_url,
-        headers: auth_headers(admin, brokerage)
-    assert_response :ok
-  end
-end
-```
+## Suggested Build Order
 
-### Unit Test Pattern for Query Objects
-
-```ruby
-# test/unit/queries/group_estates_query_test.rb
-class GroupEstatesQueryTest < ActiveSupport::TestCase
-  fixtures :all
-
-  setup do
-    @group = groups(:alpha_group)
-    @user = users(:alice)
-  end
-
-  test "price filter excludes estates outside range" do
-    results = GroupEstatesQuery.new(@group, price_min: "500000", price_max: "800000").call
-    assert results.all? { |ge| ge.estate.listing_detail.price_numeric.between?(500_000, 800_000) }
-  end
-end
-```
-
----
-
-## Q5: Admin::BaseController RBAC Pattern
-
-### Recommended Implementation
-
-**Create `Admin::BaseController` in the admin namespace and have all admin controllers inherit from it.** Do not use a concern for role enforcement — `before_action` in a base controller is the Rails-idiomatic approach and the most explicit. A concern implies reuse across namespaces; RBAC for admin is namespace-scoped.
-
-```ruby
-# backend/app/controllers/v1/admin/base_controller.rb
-module V1
-  module Admin
-    class BaseController < ApplicationController
-      before_action :require_admin!
-
-      private
-
-      def require_admin!
-        membership = BrokerageMembership
-          .without_deleted
-          .find_by(user_id: Current.user.id, brokerage_id: Current.brokerage.id)
-
-        return if membership&.role.in?(%w[owner admin])
-
-        render json: { error: "Forbidden" }, status: :forbidden
-      end
-    end
-  end
-end
-```
-
-All existing admin controllers then change their parent:
-
-```ruby
-# backend/app/controllers/v1/admin/users_controller.rb
-module V1
-  module Admin
-    class UsersController < BaseController   # was < ApplicationController
-      # ...
-    end
-  end
-end
-```
-
-**Why not a concern:** A concern mixed into `ApplicationController` would affect all controllers. A concern mixed explicitly into each admin controller is better than nothing, but is easy to forget on a new controller. Inheritance from `Admin::BaseController` is automatic — new admin controllers are protected by default.
-
-**Where in the `before_action` chain:** `BrokerageAuth` and `CognitoAuth` run first in `ApplicationController` (they set `Current.brokerage` and `Current.user`). `require_admin!` in `Admin::BaseController` runs after, so `Current.brokerage` and `Current.user` are guaranteed to be set. No ordering problem.
-
-**Opt-out for specific actions:** If a specific action in an admin controller is intentionally open to non-admin members (unlikely but possible), use `skip_before_action :require_admin!, only: [:that_action]`. This makes exceptions explicit rather than implicit.
-
-### Component Boundary
-
-```
-ApplicationController
-  ↳ BrokerageAuth (concern: sets Current.brokerage)
-  ↳ CognitoAuth (concern: sets Current.user)
-  ↳ V1::Admin::BaseController
-      ↳ before_action :require_admin!  ← new, checks membership.role
-      ↳ V1::Admin::UsersController
-      ↳ V1::Admin::GroupsController
-      ↳ V1::Admin::BrokeragesController
-      ↳ V1::Admin::BoardCredentialsController
-      ↳ V1::Admin::InvitationsController
-```
-
-### Avoiding Double Membership Lookup
-
-`CognitoAuth` already looks up `BrokerageMembership` to confirm the user is a member of the brokerage. To avoid a second query in `require_admin!`, set the membership on `Current`:
-
-```ruby
-# backend/app/models/current.rb
-class Current < ActiveSupport::CurrentAttributes
-  attribute :brokerage, :user, :membership  # add :membership
-end
-
-# In CognitoAuth:
-Current.membership = BrokerageMembership
-  .without_deleted
-  .find_by(user_id: Current.user.id, brokerage_id: Current.brokerage.id)
-
-# In Admin::BaseController:
-def require_admin!
-  return if Current.membership&.role.in?(%w[owner admin])
-  render json: { error: "Forbidden" }, status: :forbidden
-end
-```
-
-This makes `require_admin!` a free read from the thread-local context — zero additional DB queries.
-
-### Testing `require_admin!`
-
-Covered by the integration test pattern in Q4 above. The key assertion is:
-- `agent` and `client` memberships receive 403
-- `owner` and `admin` memberships receive 2xx
-
-Test both the base controller behavior (applies to all admin routes) and that individual controllers do not inadvertently skip it.
-
----
-
-## Component Boundaries Summary
-
-| New Component | Location | Responsibility |
-|--------------|----------|----------------|
-| Cognito Pre Sign-up Lambda | AWS console / Lambda | Links Google identity to existing Cognito user on first Google sign-in |
-| `User#google_identity_linked_at` | `backend/app/models/user.rb` | Timestamps Google identity connection |
-| `UserCalendarConnection` model | `backend/app/models/user_calendar_connection.rb` | Stores per-user OAuth tokens for calendar providers, encrypted at rest |
-| `CalendarSyncService` | `backend/app/services/calendar_sync_service.rb` | Encapsulates token refresh + calendar API write for a single connection |
-| `CalendarSyncJob` | `backend/app/jobs/calendar_sync_job.rb` | Async dispatch of `CalendarSyncService` for all user connections on `EstateDate` lifecycle events |
-| `V1::Admin::BaseController` | `backend/app/controllers/v1/admin/base_controller.rb` | Centralizes `require_admin!` before_action for all admin endpoints |
-| `Current.membership` | `backend/app/models/current.rb` | Thread-local membership to avoid duplicate queries between `CognitoAuth` and `require_admin!` |
-| `test/helpers/auth_helper.rb` | `backend/test/helpers/` | Generates JWT + Host header tuples for request tests |
-
----
-
-## Anti-Patterns to Avoid
-
-### Inline calendar sync in the request cycle
-**What goes wrong:** Calling Google Calendar API synchronously in `EstateDatesController#create` — adds 300-1500ms latency to every listing date creation, and a single API timeout fails the user's save.
-**Do this instead:** Enqueue `CalendarSyncJob` after the record commits. The user's record is saved immediately; the calendar write happens asynchronously.
-
-### Checking admin role in individual controllers
-**What goes wrong:** Each controller has its own `before_action :require_admin_or_owner!` — easy to forget on new controllers, and role logic drifts between controllers.
-**Do this instead:** Inherit from `V1::Admin::BaseController` and enforce in one place.
-
-### Storing OAuth tokens in clear text
-**What goes wrong:** Access and refresh tokens in plaintext columns are readable by anyone with DB access or in backups.
-**Do this instead:** Use ActiveRecord Encryption (`encrypts :access_token, :refresh_token`) — the infrastructure is already configured in the project.
-
-### Relying on the Cognito `sub` claim for user linking without the Pre Sign-up Lambda
-**What goes wrong:** A user signs in with Google and gets a brand new Cognito profile with a different `sub` — `CognitoAuth` calls `User.find_by(cognito_sub: sub)` and finds nothing, so the user cannot log in.
-**Do this instead:** The Pre Sign-up Lambda intercepts the Google sign-in, calls `AdminLinkProviderForUser`, and ensures all Google sign-ins resolve to the user's original Cognito sub.
-
-### Syncing all group members' calendars when one user creates an `EstateDate`
-**What goes wrong:** An event with 20 group members would enqueue 20 calendar sync jobs, most for users who have never connected a calendar — wasteful and wrong semantics.
-**Do this instead:** Sync only `Current.user`'s connections when they create or modify a date. Calendar sync is an individual opt-in, not a group broadcast.
-
----
+1. **Scaffold `landing/` locally** — `npm create astro@latest` (or manual scaffold matching the structure above) inside `landing/`, add Tailwind v4 via `@tailwindcss/vite`, verify `astro dev` renders a blank page. This produces `landing/package.json`, `landing/astro.config.mjs`, `landing/.gitignore`, and the base `src/` tree.
+2. **Build `BaseLayout.astro`** — head/meta/OG scaffolding, global Tailwind import, `SiteHeader`/`SiteFooter` — before any page content, since every page depends on it.
+3. **Build the home page sections** (`Hero`, `ValueProp`, `FeatureGrid`, `ClosingCTA`) as isolated components, then assemble in `src/pages/index.astro`.
+4. **Build `privacy.astro`/`terms.astro`** — simpler than the home page, can happen in parallel with step 3 once `BaseLayout` exists.
+5. **Add SEO basics** — meta/OG tags in `BaseLayout`, `@astrojs/sitemap` integration (auto-generates `sitemap-index.xml` at build time), static `public/robots.txt` referencing the sitemap.
+6. **Add `<Analytics />`** from `@vercel/analytics/astro` into `BaseLayout`.
+7. **Commit `landing/` to the monorepo root** (plain directory, per the milestone's locked decision) — this is the first point at which anything needs to exist in the actual git tree beyond local scaffolding.
+8. **Create the new Vercel project** in the dashboard — connect the existing GitHub repo, set Root Directory to `landing`, let Vercel auto-detect the Astro framework preset, deploy.
+9. **Verify the default `*.vercel.app` preview URL deploys successfully** — this is this milestone's definition of done. Pointing `realtybase.ca`'s apex domain at the project is an explicit out-of-band manual step, not part of this build order.
 
 ## Sources
 
-- AWS Cognito user linking: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html
-- Cognito federation implementation guide (sub claim behavior): https://hidekazu-konishi.com/entry/amazon_cognito_federation_implementation_guide.html
-- Amplify social provider sign-in: https://docs.amplify.aws/gen1/react/build-a-backend/auth/add-social-provider/
-- Apple CalDAV — no OAuth, app-specific password only: https://www.onecal.io/blog/how-to-integrate-icloud-calendar-api-into-your-app
-- SolidQueue idempotency / unique jobs: https://github.com/rails/solid_queue/issues/176
-- Rails integration test guide: https://guides.rubyonrails.org/testing.html
-- Admin BaseController RBAC pattern: https://medium.com/@er.sumitsah/implementing-role-based-access-control-rbac-in-rails-a-comprehensive-guide-752194c8bffe
+- [Vercel — Using Monorepos](https://vercel.com/docs/monorepos) — Root Directory per-project configuration, HIGH confidence
+- [Vercel — Monorepos FAQ](https://vercel.com/docs/monorepos/monorepo-faq) — multi-project-per-repo pattern confirmation, HIGH confidence
+- [Astro Docs — Project Structure](https://docs.astro.build/en/basics/project-structure/) — `src/pages`/`src/layouts`/`src/components`/`public/` conventions, HIGH confidence
+- [Astro Docs — Deploy to Vercel](https://docs.astro.build/en/guides/deploy/vercel/) — static output needs no adapter unless using Vercel-native SSR/Analytics-adapter-mode/Image Optimization, HIGH confidence
+- [Astro Docs — `@astrojs/vercel` integration guide](https://docs.astro.build/en/guides/integrations-guide/vercel/) — adapter is optional for static sites; `webAnalytics` adapter option is legacy for `@vercel/analytics` pre-1.4, HIGH confidence
+- [Tailwind CSS Docs — Astro framework guide](https://tailwindcss.com/docs/installation/framework-guides/astro) — `@tailwindcss/vite` is the current v4 integration path, replacing `@astrojs/tailwind` (a v3-only wrapper), HIGH confidence
+- Repo inspection (`git ls-files -s`, `.gitignore`, `auth-callback/vercel.json`, `frontend/package.json`) — confirmed existing gitlink structure for `backend`/`frontend`, plain-directory precedent in `auth-callback/`, existing Tailwind v4 usage in `frontend/`, and the absence of any `.github/workflows/*.yml` CI pipeline, HIGH confidence (direct observation, not inference)
+
+---
+*Architecture research for: Marketing Landing Site (`landing/`) monorepo/Vercel integration*
+*Researched: 2026-07-30*

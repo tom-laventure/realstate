@@ -1,223 +1,215 @@
-# Feature Landscape
+# Feature Research
 
-**Domain:** Multi-tenant SaaS real estate brokerage platform — Milestone 2 feature additions
-**Researched:** 2026-04-29
+**Domain:** B2B SaaS marketing landing site (single scrolling home page + legal pages) for a real estate brokerage platform
+**Researched:** 2026-07-30
+**Confidence:** MEDIUM-HIGH (conversion patterns are well-established industry consensus across multiple 2026 sources; specific benchmark numbers are MEDIUM confidence, single-vendor-sourced)
+
+> **Note:** This file replaces prior-milestone feature research (Google Social Login, calendar sync, etc.), which is no longer relevant scope. This research covers only the v1.14 Marketing Landing Site milestone.
+
+## Context Recap (from PROJECT.md — do not re-decide)
+
+Already locked for this milestone: Astro + Tailwind `landing/` site, own Vercel project, Slate color scheme matching `/create`. Single scrolling home page (hero, value prop, features/how-it-works via icon+text pairs, closing CTA). Separate Privacy Policy + Terms of Service pages, placeholder/boilerplate legal text flagged pending review. **No pricing section** — tier data stays sourced from the in-app wizard only. Primary CTA "Get Started" → `app.realtybase.ca/create`. Secondary "Log in" → `app.realtybase.ca/auth/login`. Vercel Analytics + SEO basics (meta/OG/sitemap/robots.txt).
+
+This research covers only what's needed to fill in that locked structure well — not whether to build it.
 
 ---
 
-## Capability Area 1: Google Social Login
+## Feature Landscape
 
-### Table Stakes
+### Table Stakes (Structural/Content Elements Expected on Any B2B SaaS Landing Page)
 
-Features users expect. Missing = auth feels incomplete or untrustworthy.
+Missing these makes the page feel unfinished or untrustworthy to a brokerage owner evaluating whether to trust you with their business data.
 
-| Feature | Why Expected | Complexity | Notes |
+| Element | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| "Continue with Google" button on login screen | Industry standard since 2020; users expect it alongside email/password | Low | Must appear visually equal weight to email/password, not buried below the form |
-| Automatic account linking by email | Users assume "same email = same account"; a second account is always a surprise and erodes trust | High | Cognito does NOT do this by default — requires a PreSignUp Lambda trigger; see Pitfall below |
-| Clear error on duplicate-account detection | If linking fails (first-time trigger exception), the user must not see a raw Cognito error string | Low | Catch the "Already found an entry" exception and surface a human-readable message |
-| Post-Google-login redirects to the same destination as email login | Users expect consistent post-auth destination regardless of method | Low | Amplify social flow uses hosted UI redirect; ensure callback URL resolves correctly per tenant domain |
-| Persistent "connected via Google" indicator in account settings | Users want to know which method they used; reduces "how do I log in?" support tickets | Low | Show provider badge (Google icon) next to email in profile/settings |
+| 5-second above-the-fold clarity (what it is, who it's for, one action) | Visitor must understand the offer without scrolling; confusion = bounce. Consensus across all sources reviewed. | LOW | Headline should name the audience ("real estate brokerages") not just the category ("SaaS platform"). Avoid generic "all-in-one platform" copy. |
+| Single, consistent primary CTA repeated at top and bottom | Same CTA label in nav, hero, and closing section reduces decision friction; already locked as "Get Started" | LOW | Reuse exact same copy/style every instance — do not vary ("Get Started" vs "Sign Up" vs "Try Free") across sections. |
+| Minimal top nav (logo + Log in + primary CTA, no mega-menu) | Reduces exit paths; a one-page site has nothing to link to internally besides anchors/legal pages | LOW | Nav should NOT expose multiple competing links (pricing, blog, docs) that don't exist yet — see anti-features. |
+| Value proposition stated in outcome language, not feature language | Buyers convert on "what changes for me" not "what the software does" | MEDIUM | E.g., "Give every agent one shared view of every listing" beats "Manage listings, groups, and documents." |
+| Feature/how-it-works section as scannable icon+text pairs | Already locked; matches "bento-grid" scanability pattern — B2B buyers skim, they don't read paragraphs on first visit | LOW | 3-6 items max. Each pair: short bolded label + one sentence, not a paragraph. |
+| Mobile-responsive, fast-loading layout | Real estate is a mobile-heavy vertical (agents on-site); a slow/broken mobile hero kills first impressions | LOW-MEDIUM | Astro's static output makes this close to free if images are optimized (see below). |
+| Footer with legal links (Privacy Policy, Terms of Service) | Baseline trust/compliance expectation; also required before any real user data is collected via the site (analytics counts) | LOW | Footer should also include a copyright line and, ideally, a contact/support email — B2B buyers look for "is there a real company behind this." |
+| Meta title/description + Open Graph tags + favicon | Already locked as SEO basics, but worth flagging: OG image matters specifically because brokerage decision-makers often share the link internally (email/Slack) before clicking — a broken/generic OG preview undercuts trust before the click | LOW | Use one static OG image sized 1200x630; don't skip this even though it feels cosmetic. |
+| Sitemap.xml + robots.txt | Already locked; table stakes for any indexed marketing site | LOW | Trivial in Astro via `@astrojs/sitemap`. |
+| Clear "who this is for" framing (brokerage owner/admin, not agents/consumers) | The audience for this page is explicitly a brokerage decision-maker, not an individual agent or a home-buying consumer — misaligned framing (e.g., consumer-facing "find your dream home" language) actively repels the actual buyer | LOW | This is a B2B admin/operator sell, not a real estate listings site. Copy must speak to running a brokerage, not browsing homes. |
+| Visible, obvious secondary path ("Log in") separate from primary CTA | Returning brokerage staff/owners will hit the marketing domain by mistake or via bookmark; without a visible login path they bounce or get stuck trying "Get Started" and hitting a signup flow | LOW | Already locked in nav; worth confirming it's visually secondary (not competing) to "Get Started." |
+| Accessible semantic structure (heading hierarchy, alt text, focus states) | Baseline per CLAUDE.md frontend philosophy; also affects SEO crawlability | LOW | One `<h1>` in hero, sequential `<h2>`s per section. Icon-only elements need `aria-label` or accompanying text (already true given icon+text pairs). |
 
-### Differentiators
+### Differentiators (Worth Doing Well, Not Just Present)
 
-| Feature | Value Proposition | Complexity | Notes |
+These won't make-or-break trust, but they're where a small B2B SaaS page actually moves conversion rate from "generic" to "credible."
+
+| Element | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| Connect/disconnect Google from profile settings | Lets users who initially signed up with email later add Google convenience login | High | Requires Cognito `adminLinkProviderForUser` API; cannot be done from Amplify client SDK alone |
-| "Use Google" nudge on second password-fail | Surfaces social option when password auth is struggling — reduces lockout support tickets | Low | Simple conditional in the error state of the sign-in form |
+| Concrete before/after or problem-framing copy in hero/value-prop | "Your listings live in five different tools your agents half-check" → "One shared workspace" is dramatically more persuasive than abstract feature lists — this is the single highest-leverage copywriting lever per research | LOW (copywriting effort, not engineering) | Costs nothing to build; costs real thought to write well. Worth spending disproportionate effort here relative to visual polish. |
+| Product screenshot or lightweight visual (not stock photography) of the actual dashboard/group view | Real B2B buyers trust product reality over generic illustration; even one well-cropped real screenshot outperforms abstract hero art | LOW-MEDIUM | Use an existing frontend screen (e.g., a group dashboard or listing view) styled/cropped for the hero or feature section. Avoid free stock-photo "people looking at laptop" imagery — actively signals generic/templated to a discerning buyer. |
+| Subtle scroll-triggered entrance animation / hover microinteractions on feature cards | Signals product craft and engineering quality — a proxy trust signal ("if the marketing site is this polished, the product probably is too") | LOW | Astro supports this cheaply with CSS `@media (prefers-reduced-motion)`-respecting transitions; keep it restrained, not "flashy SaaS template" energy. |
+| Multiple CTA opportunities at natural scroll-stop points (not just top+bottom) | Buyers convert where their attention peaks, not necessarily at the very top or very bottom | LOW | E.g., a CTA after the value-prop section in addition to hero and closing CTA — still only ONE CTA style/label, just repeated. |
+| Founder-market credibility framing without fabricated social proof | Since there are no real customer logos/testimonials yet (see anti-features), a short, honest framing line ("Built for independent and growing brokerages") substitutes for social proof without lying | LOW | This is a copy decision, not a feature — flag for whoever writes final copy. |
+| Distinct visual identity from the in-app SPA while still using the same Slate palette/brand | Astro site should feel like "the same company" but doesn't need to be pixel-identical to the app shell — some marketing-specific flourish (larger type scale, more whitespace, generous section padding) helps it read as a marketing page, not an app screen | LOW | Already implied by the separate-project decision; worth stating explicitly as an intentional choice, not an inconsistency. |
 
-### Anti-Features
+### Anti-Features (Would Hurt Conversion or Don't Fit This Page)
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Apple / Microsoft social login in this milestone | Out of scope per PROJECT.md; adds Cognito provider configuration and separate OAuth app registration overhead for zero current user demand | Defer to future auth milestone |
-| Custom OAuth redirect implementation bypassing Cognito | Would create a second token issuance path outside `TokenService`, breaking multi-tenancy | Route everything through Cognito federated identity → `TokenService` |
-| Showing all possible social providers on login screen | Visual clutter; three provider buttons with no clear default confuse users | One provider (Google) only; keep login form scannable |
-| Allowing Google login without account linking (silent duplicate accounts) | Users end up with two profiles and fragmented data; creates unresolvable support situations | Mandatory PreSignUp linking or explicit merge prompt |
-
-### Feature Dependencies
-
-```
-Google button on login → Cognito Google IdP configuration
-Cognito Google IdP → App registered in Google Cloud Console (OAuth client ID/secret)
-Account linking → PreSignUp Lambda trigger in Cognito user pool
-Account settings "connected via Google" → linked provider list in Cognito (adminGetUser response)
-```
+| Anti-Feature | Why It Seems Appealing | Why It's Problematic Here | Alternative |
+|--------------|------------------------|----------------------------|-------------|
+| Fake/placeholder testimonials or customer logos | "Social proof always helps conversion" | Fabricated quotes or logo walls are a trust-destroying move the moment a prospect recognizes them as fake — worse than having none at all, and this is explicitly a small/new product | Omit the section entirely for this milestone. Add real testimonials/logos as a later milestone once actual brokerage customers exist. |
+| Pricing section/table | "Buyers want to see price before clicking" | Already explicitly decided against — tier data lives only in the in-app wizard; a landing-page pricing table would drift out of sync with `AppConstants::PLAN_TIERS` the moment tiers change (exactly the kind of drift this codebase has fought before — see plan-tier string union consolidation issue in PROJECT.md) | Keep pricing entirely inside the `/create` wizard, which already fetches live tier data via `GET /v1/onboarding/plan_tiers`. |
+| Multi-page marketing site (About, Blog, Case Studies, Docs nav items) | "More content = more SEO surface, more credibility" | Explicitly locked as single scrolling page; a nav promising pages that don't exist (or thin/empty pages) reads as unfinished and adds real build scope for zero validated demand | Ship the one-pager now; add a blog/docs subdirectory only if/when there's content strategy and bandwidth to sustain it. |
+| Live chat widget / chatbot | "Reduces friction, answers objections in real time" | For a 1-page site with a single clear CTA, a chat widget is unstaffed-support theater — an unanswered chat bubble signals neglect, and it's one more third-party script hurting load performance and Vercel Analytics cleanliness | Rely on the CTA + a support/contact email in the footer. Add live chat later if support volume justifies it. |
+| Autoplay video/hero background video | "Feels modern, shows the product in motion" | Heavy asset for a static Astro site optimized for fast load; autoplay video is also a common accessibility/annoyance complaint and works against "5-second clarity" if it distracts from the headline | Use a static product screenshot or lightweight illustration instead; if video is wanted later, make it click-to-play, not autoplay. |
+| Newsletter signup / email capture form separate from the primary CTA | "Captures leads not ready to convert yet" | Adds a second conversion goal that competes with and dilutes the single "Get Started" CTA — research consensus is B2B landing pages convert best with ONE primary goal; also requires new backend/email infra out of scope for this milestone | If a lighter "not ready yet" path is wanted, it should still route to something CTA-adjacent (e.g., a mailto or a "Log in" if they're already a user) rather than a new lead-gen form/database. |
+| Interactive product demo / embedded sandbox on the landing page | "Let them try before they sign up" | High engineering cost, requires exposing a working slice of the actual multi-tenant app publicly, and contradicts the "static Astro site independent of frontend/ SPA" architecture decision already locked | The `/create` wizard IS the low-friction trial path already — "Get Started" routes straight into it. |
+| Cookie consent banner / heavy compliance tooling for this launch | "GDPR/legal compliance" | Vercel Analytics as currently used is typically cookieless/privacy-friendly by default (Vercel's own analytics doesn't use client-side cookies) — bolting on a full consent-management platform for a marketing-only static site with no forms is disproportionate scope for this milestone | Confirm Vercel Analytics' cookie-free posture (do not assume — verify at implementation time) and note any consent requirement in the Privacy Policy's cookie section rather than adding a banner now. Flag as a phase-specific research item if the team wants to double check regional (e.g. Quebec Law 25, given `.ca` domain) obligations. |
+| Duplicating full plan/tier feature lists on the landing page "features" section | "Shows everything the product does" | Already-decided no-pricing constraint implies no tier-gated feature comparison either; doing so on a static site guarantees drift against `AppConstants::PLAN_TIERS` the moment a tier's capabilities change, and turns the "how it works" section into a feature-dump instead of a scannable value pitch | Keep the features/how-it-works section to 3-6 universal value props (works for any tier), not a tier-by-tier capability matrix. |
 
 ---
 
-## Capability Area 2: Personal Calendar Sync (Google / Apple / Microsoft)
-
-### Table Stakes
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| OAuth-based connect flow per calendar provider | Users will not share calendar passwords; OAuth is the only acceptable authorization model | High | Each provider has its own OAuth app registration (Google Cloud, Microsoft Azure AD, Apple Developer) |
-| Calendar management panel (connect, disconnect, sync status) | Users need a single place to see and manage their calendar connections; without it they can't diagnose sync issues | Medium | Should live in user profile/settings, not buried in a listing detail page |
-| Sync `EstateDate` events on create | The primary user value: a listing appointment appears in their personal calendar automatically | High | Requires `UserCalendarConnection` model and a background job for the write |
-| Sync update on `EstateDate` change | If a showing time changes, the calendar event must update; stale events cause missed appointments | Medium | Use provider-specific event update APIs; requires storing the provider's event ID alongside `EstateDate` |
-| Sync delete on `EstateDate` removal | Orphaned calendar events after a cancelled showing erode trust in the feature | Medium | Soft-delete triggers must also fire the calendar delete job |
-| Disconnect flow with confirmation | Users must be able to revoke calendar access; required by Google's OAuth policy (must not be impossible to revoke) | Low | Prompt: "This will remove future sync. Existing calendar events will not be deleted." |
-| Sync failure indication | If a calendar write fails (token expired, quota exceeded), the user needs to know — otherwise they silently miss events | Medium | Store `last_sync_error` and `last_synced_at` on `UserCalendarConnection`; show in the management panel |
-
-### Differentiators
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Per-event opt-in toggle ("sync this date to my calendar") | Lets users sync only showings they're personally attending, not all listing dates in their groups | Low | Toggle on `EstateDate` creation UI; default to on for the creating user, off for others |
-| Sync status badge on individual `EstateDate` records | Shows "In your calendar / Sync failed / Not synced" per event — actionable and transparent | Low | Read from the job result stored against the event record |
-| Manual "Re-sync" button on failed events | Recovers from transient failures without requiring the user to disconnect and reconnect | Low | Queues the write job again for that specific event |
-| Token expiry graceful re-auth prompt | When stored OAuth token is expired, show an in-app banner: "Your Google Calendar connection needs to be renewed" | Medium | Detect 401 from calendar API in job, set `status: :expired` on connection, frontend polls connection status |
-
-### Anti-Features
-
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Two-way sync (reading events back from personal calendar into the platform) | Massively increases scope: requires webhooks or polling, conflict resolution, permission to read personal event titles | Out of scope; this is a write-only push sync |
-| Syncing all group members' listing dates to every member's calendar by default | Flooding a calendar with all dates across every listing in every group would cause users to immediately disconnect | Default to no sync; user must connect and per-event opt-in is safer than bulk-push |
-| Calendar provider selection on each event creation | Friction at point of event creation; users want their connected calendar to "just work" | Sync to all connected calendars automatically; provider selection belongs in settings, not per-event |
-| Blocking the HTTP request on calendar API write | Calendar APIs can fail or be slow; blocking the user-facing request on a third-party write is a reliability risk | Always push writes through a SolidQueue job; return 200 to the user immediately |
-| Apple CalDAV OAuth on day one | Apple's CalDAV implementation requires separate App-Specific Passwords or CalDAV credentials — no OAuth standard equivalent; user-hostile | Deliver Google Calendar first (highest-value, clean OAuth), then Microsoft Graph, then evaluate Apple |
-
-### Feature Dependencies
+## Feature Dependencies
 
 ```
-Any calendar sync → UserCalendarConnection model (stores provider, access_token, refresh_token, provider_event_mapping)
-Any calendar sync → SolidQueue background job
-Google Calendar sync → Google Cloud OAuth app + Calendar API scope
-Microsoft calendar sync → Azure AD OAuth app + Microsoft Graph API scope
-Apple calendar sync → iCloud CalDAV credentials (no clean OAuth path)
-Sync update/delete → Provider event ID stored at write time (mapping table or column on EstateDate)
-Disconnect flow → Provider token revocation API call + destroy UserCalendarConnection record
+Hero (value prop + primary CTA)
+    └──requires──> Clear audience framing (brokerage owner/admin copy decision)
+
+Features/How-it-works section
+    └──enhances──> Hero (reinforces claim with specifics)
+
+Closing CTA
+    └──depends on──> Same CTA copy/destination as Hero (consistency requirement, not a build dependency)
+
+Footer (legal links)
+    └──requires──> Privacy Policy page + Terms of Service page (must exist before footer links can resolve)
+
+SEO basics (meta/OG/sitemap/robots.txt)
+    └──independent of──> page content (can be built in parallel with content)
+
+Vercel Analytics
+    └──may affect──> Privacy Policy "Cookies/Analytics" section content (verify Vercel Analytics' data practices before writing that section's specifics)
+
+Pricing section ──conflicts──> Locked "no pricing" decision (explicitly excluded, not deferred — do not build)
+Testimonials/logos ──conflicts──> No real customers yet (explicitly excluded for this milestone, candidate for a later milestone)
 ```
+
+### Dependency Notes
+
+- **Footer requires Privacy Policy + ToS pages:** the footer is part of the single-page layout, but it links out to two standalone pages that must exist and be routable before the footer ships — sequence legal pages alongside or before the footer, not after.
+- **SEO basics are independent:** sitemap/robots/meta can be scaffolded on Astro's default template before final copy is locked, so this doesn't block on content decisions.
+- **Vercel Analytics affects legal copy:** confirm what data Vercel Analytics actually collects (page views, referrers, etc.) before finalizing the Privacy Policy's "Cookies and Tracking" section — don't write generic boilerplate that overstates or understates what's actually collected.
 
 ---
 
-## Capability Area 3: Onboarding Fix UX
+## MVP Definition
 
-### Table Stakes
+### Launch With (v1 — this milestone)
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Domain setup step completes end-to-end without crash | A broken setup step means a brokerage owner cannot finish creating their workspace — complete blocker | Medium | Must validate domain format, persist `BrokerageDomain`, and confirm to the user before proceeding |
-| Domain availability/format feedback in real time | Users enter subdomains with uncertain format rules; they need immediate inline validation, not a server error after submit | Low | Client-side regex for allowed characters + async availability check on blur |
-| Progress indicator on the creation wizard | Users don't know how many steps remain; a numbered step indicator ("Step 2 of 4") reduces abandonment | Low | Already partially exists in the wizard; ensure it reflects actual step count accurately |
-| Post-join redirect lands the user inside their brokerage workspace | After accepting an invitation, the user must see the brokerage dashboard — not the homepage, a blank screen, or a 404 | Medium | Store the brokerage context (via `BrokerageDomain`) in the redirect URL from the invitation link; verify it resolves on landing |
-| Welcome state on first dashboard visit | New members land on the dashboard with a clear orientation message — "You've joined Acme Realty. Here's what you can do." | Low | A simple welcome banner or empty state copy; collapses on first interaction |
-| Clear "you've been added to the following groups" on landing | Invited users are likely pre-assigned to groups; surfacing this immediately makes the product feel ready to use | Low | Show the groups they're a member of in the welcome state; link directly into each group |
+- [ ] Hero section: headline (audience + outcome in one line), subhead, primary CTA "Get Started", secondary "Log in"
+- [ ] Value proposition section: 1-3 outcome-framed statements, not feature lists
+- [ ] Features/how-it-works: 3-6 icon+text pairs covering core value (listings, groups/collaboration, multi-tenant workspace)
+- [ ] Closing CTA section: restates primary CTA, no new copy/decision points
+- [ ] Minimal top nav: logo, Log in, Get Started (no other links)
+- [ ] Footer: Privacy Policy link, Terms of Service link, copyright line, contact/support email
+- [ ] Privacy Policy page (placeholder boilerplate, flagged pending legal review)
+- [ ] Terms of Service page (placeholder boilerplate, flagged pending legal review)
+- [ ] Meta title/description, OG tags + one static OG image, favicon
+- [ ] sitemap.xml, robots.txt
+- [ ] Vercel Analytics wired in
+- [ ] Mobile-responsive layout, Slate color scheme matching `/create`
 
-### Differentiators
+### Add After Validation (v1.x — once real customers/data exist)
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Domain preview during setup ("Your brokerage URL will be: acme.yourproduct.com") | Concrete preview reduces domain mis-entry; users understand what they're committing to | Low | Render preview string reactively as the user types |
-| Email confirmation of successful brokerage creation | Gives the owner a durable record of their workspace URL and login info | Low | Simple transactional email from existing mailer infrastructure |
-| Invited user mini-profile setup on first login | Ask for display name and role description on first login for invited users; pre-fill from invitation data | Low | 1-step form, dismissible; feeds into user profile completeness |
+- [ ] Real testimonials/customer logos (only once actual brokerage customers exist and consent to being named)
+- [ ] Product screenshot refresh cadence (update hero/feature imagery as the actual app UI evolves)
+- [ ] A/B test alternate hero headlines once there's enough traffic to measure
 
-### Anti-Features
+### Future Consideration (v2+ — do not build now)
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Full wizard rewrite | The wizard exists and works for most steps; only domain validation and post-join redirect are broken — surgical fixes are faster and lower risk | Fix the two broken steps in place; no rewrites |
-| Collecting non-essential information in setup wizard | Every extra field increases abandonment; domain + company name is sufficient to create a functioning workspace | Move optional info (logo, billing, team size) to post-setup settings screens |
-| Redirect to homepage after invitation accept | Homepage has no workspace context; new users get a blank or wrong-brokerage view | Always redirect to the brokerage-specific domain URL after accept |
-| Silent failure on domain save | If the domain `BrokerageDomain` record fails to create, do not advance the wizard — show the error inline and let the user retry | Block wizard progression on any step that has unsaved state |
-
-### Feature Dependencies
-
-```
-Domain validation step → BrokerageDomain model + uniqueness check endpoint
-Post-join redirect → InvitationsController#accept_invitation must return redirect URL (must also fix current_user → Current.user bug)
-Welcome banner → First-login detection (e.g. created_at == updated_at or explicit flag on BrokerageMembership)
-```
+- [ ] Blog/content marketing section — only with a real content strategy
+- [ ] Case studies/customer stories pages
+- [ ] Pricing page — only if the product decision to expose self-serve pricing publicly changes (currently deliberately gated behind the wizard)
+- [ ] Interactive demo/sandbox
 
 ---
 
-## Capability Area 4: Admin Role Enforcement
+## Feature Prioritization Matrix
 
-### Table Stakes
+| Element | User Value | Implementation Cost | Priority |
+|---------|------------|---------------------|----------|
+| Hero clarity + consistent CTA | HIGH | LOW | P1 |
+| Outcome-framed copy (vs feature-dump) | HIGH | LOW (writing effort) | P1 |
+| Footer + legal pages | HIGH (trust/compliance) | LOW-MEDIUM | P1 |
+| SEO basics (meta/OG/sitemap/robots) | MEDIUM | LOW | P1 |
+| Real product screenshot in hero/features | MEDIUM-HIGH | LOW-MEDIUM | P2 |
+| Scroll/hover microinteractions | LOW-MEDIUM | LOW | P2 |
+| Multiple CTA touchpoints down the scroll | MEDIUM | LOW | P2 |
+| Fake social proof | NEGATIVE | — | Do not build |
+| Pricing table | NEGATIVE (drift risk) | — | Do not build |
+| Live chat widget | LOW/NEGATIVE | MEDIUM | Do not build |
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Server-side 403 for non-admin calling admin endpoints | Frontend guards are a UX nicety; backend enforcement is the actual security boundary — without it the platform has no real authorization | Low | `Admin::BaseController#require_admin!` before_action checking `BrokerageMembership#role` against `%w[owner admin]` |
-| Consistent 403 JSON response shape | API consumers (Axios interceptor, test suites) need a predictable shape: `{ error: { code: "forbidden", message: "..." } }` | Low | Centralize in `Admin::BaseController#require_admin!` or `ApplicationController#handle_forbidden` |
-| Frontend redirect to safe location on 403 | When Axios receives a 403, the user should be redirected to the dashboard (not left on a blank or errored admin page) | Low | Add 403 handling to the Axios interceptor alongside the existing 401 handler |
-| Non-admin users never see admin navigation links | Showing links that lead to a wall is confusing; existing `RequireRole` / `Can` guards cover this but must match server-side role list | Low | Ensure `RequireRole` uses the same roles (`owner`, `admin`) as the backend check |
-| Human-readable access-denied message | "You don't have permission to do that" is more trustworthy than a raw HTTP status or a redirect with no explanation | Low | Dedicated "Access Denied" page or toast message triggered by the 403 handler |
-
-### Differentiators
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| "Request admin access" prompt on access-denied page | Gives the user a path forward instead of a dead end; reduces support load | Low | Link to contact the brokerage owner; static mailto or in-app message |
-| Audit log of 403 rejections | Security visibility: owners can see who attempted to access admin functionality | High | Out of scope for this milestone; flag for future security milestone |
-
-### Anti-Features
-
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Returning 404 instead of 403 for unauthorized admin resources | "Security by obscurity" through 404 creates confusion when legitimate admins accidentally hit the wrong URL | Return 403 with a clear message; reserve 404 for genuinely absent resources |
-| Logging out the user on 403 | 403 means the user IS authenticated but lacks permission; logging them out is incorrect and adds re-auth friction | Redirect to dashboard with an access-denied toast; only log out on 401 |
-| Per-controller role lists | Duplicating `%w[owner admin]` in every controller creates drift risk (e.g. someone adds a role to one controller but not another) | Single check in `Admin::BaseController` inherited by all admin controllers |
-| Client-side-only enforcement after this milestone | Current state (frontend-only guards) must be the last milestone in this state; this milestone closes the gap | Server enforcement first; frontend guards remain as UX layer only |
-
-### Feature Dependencies
-
-```
-Server-side 403 → Admin::BaseController with require_admin! before_action
-Admin::BaseController → BrokerageMembership role check (owner or admin)
-Frontend 403 handling → Axios interceptor update (add 403 case alongside existing 401)
-Frontend access-denied page → New route (e.g. /unauthorized) rendered by ProtectedRoute logic
-Consistent 403 shape → ApplicationController rescue_from or base controller render_forbidden helper
-```
+**Priority key:** P1 = must have for launch, P2 = should have, add when possible, P3 = nice to have/future.
 
 ---
 
-## Cross-Cutting MVP Recommendation
+## Privacy Policy & Terms of Service — Structural Requirements
 
-Given the milestone scope, build in this priority order:
+The milestone explicitly wants boilerplate/placeholder legal text (flagged pending real legal review), but the page **structure** (section headings) should already match what a real SaaS Privacy Policy / ToS needs, so the later legal-review pass is a text-only edit, not a re-architecture. Confidence: MEDIUM (structure is consistent across multiple SaaS legal-template sources; exact clause wording is explicitly out of scope since it's placeholder).
 
-**Must ship (blocker or security):**
-1. Admin role enforcement (server-side 403) — closes an active security gap where any authenticated user can call admin APIs
-2. InvitationsController `current_user` bug fix — without this, the post-join experience crashes before it can be improved
-3. Google "Continue with Google" button + Cognito federation — core new user-facing feature; Cognito config must come first
-4. Account linking via PreSignUp Lambda — required to prevent duplicate accounts; non-negotiable for production use
+### Privacy Policy — recommended section headings
 
-**Ship together (onboarding coherence):**
-5. Domain setup validation fix + domain preview
-6. Post-join redirect fix (lands on brokerage dashboard)
-7. Welcome banner on first dashboard visit
+1. **Introduction / Overview** — who the policy covers (RealtyBase, its brokerage customers, and their end users), effective date, placeholder-pending-review notice at the top
+2. **Definitions** — key terms (e.g., "Personal Data," "Brokerage," "Account," "Service")
+3. **Information We Collect** — categories: account/contact info, brokerage/tenant data, usage/analytics data (tie to Vercel Analytics), cookies (if any)
+4. **How We Use Information** — service delivery, communications, analytics, security
+5. **How Information Is Shared** — sub-processors/vendors (e.g., AWS Cognito, hosting, analytics), no-sale-of-data statement
+6. **Data Retention** — how long data is kept, deletion practices (tie loosely to existing soft-delete/`acts_as_paranoid` posture if relevant, though this is app-level not marketing-site-level)
+7. **Cookies and Tracking Technologies** — specifics pending confirmation of what Vercel Analytics actually collects
+8. **Data Security** — general statement of safeguards
+9. **Your Rights and Choices** — access/correction/deletion requests; regional carve-outs placeholder (e.g., GDPR/CCPA/Quebec Law 25 given the `.ca` domain — flag as pending legal review rather than asserting specific compliance)
+10. **Children's Privacy** — standard not-directed-at-children statement
+11. **International Data Transfers** — placeholder if applicable
+12. **Changes to This Policy** — how updates will be communicated
+13. **Contact Us** — support/legal contact email
 
-**Ship together (calendar — ordered by OAuth complexity):**
-8. `UserCalendarConnection` model + calendar management panel (settings)
-9. Google Calendar sync (create/update/delete on `EstateDate` events)
-10. Sync failure indicator + manual re-sync button
-11. Microsoft Graph calendar sync
-12. (Evaluate Apple CalDAV separately — do not block Google/Microsoft delivery)
+### Terms of Service — recommended section headings
 
-**Defer:**
-- Connect/disconnect Google from profile settings (needs Cognito admin API; defer if Cognito federation ships first and users can link at sign-in time)
-- Two-way calendar sync — never in this milestone
-- Audit log of 403 rejections — future security milestone
+1. **Introduction / Acceptance of Terms** — placeholder-pending-review notice at the top
+2. **Definitions** — "Service," "Account," "Brokerage," "User," "Content"
+3. **Eligibility / Account Registration** — who can sign up (brokerage owners/admins), account accuracy obligations
+4. **Description of Service** — brief, non-binding description of what RealtyBase provides
+5. **Subscription Plans and Billing** — placeholder only; explicitly do not hardcode Free/Independent/Growth pricing here since pricing is excluded from the marketing site and lives in-app — keep this section generic ("plans and fees as described at time of purchase") to avoid drift
+6. **User Responsibilities / Acceptable Use** — prohibited conduct, data accuracy for listings, no unauthorized access
+7. **Intellectual Property** — ownership of the Service vs. customer-owned brokerage data/content
+8. **Data Ownership and Privacy** — cross-reference to the Privacy Policy
+9. **Termination** — by user, by RealtyBase, effect of termination
+10. **Disclaimers and Limitation of Liability** — standard "as is" language, placeholder pending real legal review
+11. **Indemnification** — standard boilerplate
+12. **Governing Law and Dispute Resolution** — placeholder jurisdiction (flag: confirm with real legal counsel given `.ca` domain likely implies Canadian jurisdiction preference)
+13. **Changes to Terms** — how updates will be communicated
+14. **Contact Us** — support/legal contact email
+
+### Notes for implementation
+
+- Both pages should carry a clearly visible, non-hidden banner/callout (not just a footer footnote) stating the text is placeholder/template content pending legal review — this was explicitly required by the milestone decision, not just a nice-to-have.
+- Do not let the ToS "Subscription Plans and Billing" section enumerate specific prices/seat caps — that data already has one source of truth (`AppConstants::PLAN_TIERS`, surfaced via `GET /v1/onboarding/plan_tiers`) and hardcoding a second copy in static marketing-site legal text recreates the exact "N independent declarations of the same fact" drift problem already flagged as tech debt elsewhere in this project (see PROJECT.md's plan-tier string union note).
+- Both pages are static Astro pages with no forms/interactivity — LOW complexity to build once headings/placeholder copy exist.
 
 ---
 
 ## Sources
 
-- [AWS Cognito Federated Auth — account linking](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html)
-- [Cognito PreSignUp trigger account linking (bobbyhadz)](https://bobbyhadz.com/blog/aws-cognito-link-user-accounts)
-- ["Already found an entry" duplicate account error — Amplify GitHub issue](https://github.com/aws-amplify/amplify-js/issues/11565)
-- [How to set up Cognito social sign-in with Google](https://oneuptime.com/blog/post/2026-02-12-cognito-social-sign-in-google/view)
-- [Login & signup UX best practices 2025 — Authgear](https://www.authgear.com/post/login-signup-ux-guide)
-- [Social logins Frontegg overview](https://frontegg.com/blog/social-logins)
-- [Google Calendar API — create events](https://developers.google.com/workspace/calendar/api/guides/create-events)
-- [Google Calendar API scopes](https://developers.google.com/workspace/calendar/api/auth)
-- [OneCal — calendar sync SaaS patterns](https://www.onecal.io/)
-- [Calendar Sync API for SaaS — Unipile](https://www.unipile.com/calendar-sync-api-for-saas-real-time-google-outlook-integration/)
-- [How to integrate Google Calendar API into your app](https://www.onecal.io/blog/how-to-integrate-google-calendar-api-into-your-app)
-- [SaaS onboarding UX best practices — Cieden](https://cieden.com/saas-onboarding-best-practices-and-common-mistakes-ux-upgrade-article-digest)
-- [Onboarding invited users — Userpilot](https://userpilot.com/blog/onboard-invited-users-saas/)
-- [Invitation flow handling — Auth0 community](https://community.auth0.com/t/handling-invitation-flow-for-user-signup-and-redirection/144103)
-- [Implementing RBAC in React — Permit.io](https://www.permit.io/blog/implementing-react-rbac-authorization)
-- [401 vs 403 best practices — CyberPanel](https://cyberpanel.net/blog/401-vs-403)
-- [403 Forbidden — MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/403)
+- [12 Landing Page Best Practices of 2026 You Need — Leadfeeder](https://www.leadfeeder.com/blog/conversion-optimization/landing-pages-convert/)
+- [Best Practices for Designing B2B SaaS Landing Pages – 2026 — Genesys Growth](https://genesysgrowth.com/blog/designing-b2b-saas-landing-pages)
+- [B2B SaaS Landing Pages: Strategy for More Demos (2026) — Apexure](https://www.apexure.com/blog/b2b-saas-marketing-the-right-landing-page-strategy/)
+- [B2B SaaS Landing Page Benchmarks & Conversion Guide — Growthspree](https://www.growthspreeofficial.com/blogs/b2b-saas-landing-page-best-practices-demo-conversion-2026)
+- [High-Converting SaaS Landing Pages: 2026 Best Practices — SaaS Hero](https://www.saashero.net/design/enterprise-landing-page-design-2026/)
+- [18 B2B SaaS Landing Page Best Practices That Convert — SaaS Hero](https://www.saashero.net/design/saas-landing-page-best-practices/)
+- [B2B SaaS Landing Page Checklist — Powered by Search](https://www.poweredbysearch.com/learn/b2b-saas-landing-page-checklist/)
+- [Creating B2B SaaS Landing Pages: A Breakdown with Examples — First Page Sage](https://firstpagesage.com/seo-blog/creating-b2b-saas-landing-pages/)
+- [The Ultimate B2B SaaS Landing Page Formula — Cortes Design](https://www.cortes.design/post/b2b-saas)
+- [SaaS Privacy Policy Template — TermsFeed](https://www.termsfeed.com/blog/sample-saas-privacy-policy-template/)
+- [SaaS Terms & Conditions Template — TermsFeed](https://www.termsfeed.com/blog/sample-saas-terms-conditions-template/)
+- [SaaS Privacy Policy Template — PrivacyPolicyGenerator.info](https://www.privacypolicygenerator.info/sample-saas-privacy-policy-template/)
+- [Free SaaS Privacy Policy Template — GetTerms.io](https://getterms.io/templates/saas-privacy-policy-template)
+- `.planning/PROJECT.md` — existing plan-tier drift precedent, locked milestone scope, existing stack
+
+---
+*Feature research for: B2B SaaS marketing landing site (RealtyBase v1.14)*
+*Researched: 2026-07-30*
