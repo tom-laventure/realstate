@@ -201,7 +201,12 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
   2. `landing/` builds independently via its own `package.json`/lockfile/`vercel.json`, without depending on `frontend/` or `backend/`
   3. `landing/` is committed as a plain-tracked directory at the monorepo root (not a submodule/gitlink), matching the `auth-callback/` precedent
   4. `BaseLayout.astro` shell exists and is used by at least a placeholder page, rendering with no console errors
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 42-01-PLAN.md — Scaffold `landing/` with create-astro (Node >=22.12.0 gate) and wire Tailwind v4 via `@tailwindcss/vite`
+- [ ] 42-02-PLAN.md — Merged Slate tokens + provenance comment, `vercel.json`/`.nvmrc`/favicon, `BaseLayout.astro` + proof-of-tokens page
+- [ ] 42-03-PLAN.md — Verify dev-server render, clean-install independence, plain-tracking; human Slate palette check
 **UI hint**: yes
 
 ### Phase 43: Home Page & Legal Pages
@@ -300,7 +305,7 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 39. Paid-to-Paid Plan Changes | v1.12 | 1/1 | Complete    | 2026-07-22 |
 | 40. Onboarding Plan Alignment | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
-| 42. Scaffold + Stack Setup | v1.14 | 0/? | Not started | - |
+| 42. Scaffold + Stack Setup | v1.14 | 0/3 | Planned | - |
 | 43. Home Page & Legal Pages | v1.14 | 0/? | Not started | - |
 | 44. SEO Basics + Analytics | v1.14 | 0/? | Not started | - |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |
