@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import LegalNotice from '../components/LegalNotice.astro'
+import { CONTACT_EMAIL } from '../consts'
+---
+
+<BaseLayout title="Privacy Policy — RealtyBase" noindex>
+	<SiteHeader />
+	<main class="mx-auto max-w-3xl px-4 py-16">
+		<h1 class="text-foreground mb-6 text-4xl font-semibold leading-[1.1]">Privacy Policy</h1>
+
+		<LegalNotice />
+
+		<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+			Effective date: to be confirmed upon legal review.
+		</p>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">1. Introduction / Overview</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				This Privacy Policy describes how RealtyBase Inc. ("RealtyBase," "we," "us," or "our") handles information
+				in connection with the RealtyBase platform. RealtyBase is a multi-tenant service that brokerages use to
+				manage listings, groups, and staff, and that those brokerages' agents and invited clients use to
+				collaborate. This policy covers brokerage account holders, their staff, and any clients invited into a
+				brokerage's workspace.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">2. Definitions</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				"Personal Data" means information that identifies or could reasonably be used to identify an individual.
+				"Brokerage" means a real estate brokerage that maintains an account on the Service. "Account" means the
+				credentials and profile associated with a person using the Service. "Service" means the RealtyBase
+				platform, including its associated web and application interfaces.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">3. Information We Collect</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				We collect account and contact information provided when a Brokerage or its staff creates an account,
+				brokerage and tenant data entered into the Service (such as listings, groups, and documents), and
+				general usage information generated while using the Service. We may also collect limited analytics
+				information about how this marketing site is used; the specific categories collected are pending
+				confirmation and will be described here once finalized.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">4. How We Use Information</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				We use collected information to deliver and operate the Service, to communicate with account holders
+				about their account or the Service, to understand how the Service and this site are used so we can
+				improve them, and to help maintain the security and integrity of the Service.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">5. How Information Is Shared</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				We do not sell Personal Data. We may share information with service providers who help us operate the
+				Service, such as authentication, hosting, and analytics vendors, and only to the extent needed for them
+				to perform those functions on our behalf. We may also share information where required by law.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">6. Data Retention</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				We retain information for as long as an account remains active and for a reasonable period afterward to
+				meet operational, legal, and recordkeeping needs. Specific retention periods for different categories of
+				data are pending confirmation and will be documented here once finalized.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">7. Cookies and Tracking Technologies</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				This site may use limited analytics tooling to understand aggregate visitor behavior. The specific
+				technologies used and what, if anything, they store on a visitor's device are pending confirmation and
+				will be described here once finalized, rather than assumed in advance.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">8. Data Security</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				We use reasonable administrative, technical, and organizational safeguards designed to protect
+				information against unauthorized access, alteration, disclosure, or destruction. No method of
+				transmission or storage is completely secure, and we cannot guarantee absolute security.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">9. Your Rights and Choices</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				Depending on where you are located, you may have rights to access, correct, or request deletion of your
+				Personal Data. Regional rights and obligations, including those that may arise under frameworks such as
+				GDPR, CCPA, PIPEDA, or Quebec's Law 25, are pending confirmation by legal counsel and will be detailed
+				here once that review is complete.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">10. Children's Privacy</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				The Service is intended for use by brokerages, their staff, and invited adult clients, and is not
+				directed to children. We do not knowingly collect Personal Data from children, and if we become aware
+				that we have done so, we will take steps to remove that information.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">11. International Data Transfers</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				Information may be processed or stored in a country other than the one in which you reside. Where
+				applicable, safeguards for such transfers are pending confirmation by legal counsel and will be
+				described here once finalized.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">12. Changes to This Policy</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				We may update this Privacy Policy from time to time. If we make material changes, we will update the
+				effective date above and, where appropriate, provide additional notice to account holders.
+			</p>
+		</section>
+
+		<section>
+			<h2 class="text-foreground mb-2 text-[28px] font-semibold leading-[1.2]">13. Contact Us</h2>
+			<p class="text-muted-foreground mb-8 text-base leading-[1.6]">
+				If you have questions about this Privacy Policy, contact us at
+				<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+			</p>
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
