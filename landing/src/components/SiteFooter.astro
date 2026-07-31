@@ -1,0 +1,16 @@
+---
+import { LEGAL_LINKS, CONTACT_EMAIL } from '../consts'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="bg-sidebar text-sidebar-foreground px-4 py-8">
+	<div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
+		<div class="flex items-center gap-4 text-sm font-semibold">
+			<a href={LEGAL_LINKS.privacy} class="hover:underline">Privacy Policy</a>
+			<a href={LEGAL_LINKS.terms} class="hover:underline">Terms of Service</a>
+			<a href={`mailto:${CONTACT_EMAIL}`} class="hover:underline">{CONTACT_EMAIL}</a>
+		</div>
+		<p class="text-sidebar-foreground/70 text-sm">© {year} RealtyBase. All rights reserved.</p>
+	</div>
+</footer>
