@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
-stopped_at: Phase 45 context gathered
-last_updated: "2026-07-31T23:19:24.037Z"
-last_activity: 2026-07-31 -- Phase 45 planning complete
+stopped_at: Phase 45 Plan 01 Task 2 checkpoint (human-action, awaiting Vercel dashboard runbook completion)
+last_updated: "2026-07-31T23:45:00.000Z"
+last_activity: 2026-07-31 -- Phase 45-01 Task 1 complete (landing/ pushed to origin/master at e723e3b), paused at Task 2 checkpoint
 progress:
   total_phases: 5
   completed_phases: 3
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 45 — vercel project setup + preview verification
+**Current focus:** Phase 45 — vercel-project-setup-preview-verification
 
 ## Current Position
 
-Phase: 45
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-07-31 -- Phase 45 planning complete
+Phase: 45 (vercel-project-setup-preview-verification) — EXECUTING
+Plan: 1 of 2 (45-01), Task 2 of 3 — PAUSED at checkpoint:human-action
+Status: Task 1 complete (landing/ published to origin/master at e723e3b); awaiting developer to run the Vercel dashboard runbook (Task 2) before Task 3 verification can proceed
+Last activity: 2026-07-31 -- Phase 45-01 Task 1 complete, paused at Task 2 checkpoint
 
 Progress: [██████████] 100%
 
@@ -119,6 +119,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 44]: 44-03: import.meta.env.VERCEL_ENV worked directly (no process.env fallback needed) — verified end-to-end via real VERCEL_ENV=preview/production builds toggling noindex correctly
 - [Phase 44]: 44-03: Fixed @vercel/analytics/astro import to use the default export (not the named { Analytics } form in RESEARCH.md/PATTERNS.md) — the installed package re-exports the component as a default export, astro check caught the mismatch
 - [Phase 44]: 44-04: Verified four-environment noindex matrix and full production SEO/sitemap/robots/OG/analytics sweep against real build output; human approved OG image and accepted the Vercel Hobby-tier custom-event limitation plus Phase 45 System Environment Variables carry-forward
+- [Phase 45]: 45-01 Task 1: `landing/` published to `origin/master` via `git push origin master` (fast-forward, 76 commits, no force/rebase/amend) at short SHA `e723e3b`; outbound diff guard confirmed only `.planning/`, `landing/`, and the `backend`/`frontend` gitlink pointer bumps crossed; no secret-looking file tracked under `landing/`
 
 ### Pending Todos
 
@@ -160,11 +161,11 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-31T21:50:36.604Z
-Stopped at: Phase 45 context gathered
-Resume file: .planning/phases/45-vercel-project-setup-preview-verification/45-CONTEXT.md
-Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
+Last session: 2026-07-31T23:45:00.000Z
+Stopped at: Phase 45 Plan 01 Task 2 checkpoint (human-action)
+Resume file: .planning/phases/45-vercel-project-setup-preview-verification/45-01-PLAN.md
+Next action: Developer runs the Vercel dashboard runbook presented in the Task 2 checkpoint (create project, Import `tom-laventure/realstate`, set Root Directory to `landing`, deploy, disable Deployment Protection if prompted), then reports back the project name, `*.vercel.app` URL, Root Directory value, build log, and built commit SHA so Claude can resume with Task 3 verification.
 
 ## Operator Next Steps
 
-- Approve roadmap, then start Phase 42 with /gsd-discuss-phase 42 or /gsd-plan-phase 42
+- Run the Vercel dashboard runbook for Phase 45 Plan 01 Task 2 (see checkpoint report) and report back the five requested items so execution can resume at Task 3.
