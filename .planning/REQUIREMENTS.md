@@ -20,9 +20,9 @@ Requirements for the v1.14 Marketing Landing Site milestone. Each maps to roadma
 
 ### Legal Pages
 
-- [ ] **LEGAL-01**: Visitor can view a Privacy Policy page with placeholder/boilerplate legal text, structured per standard SaaS section headings
-- [ ] **LEGAL-02**: Visitor can view a Terms of Service page with placeholder/boilerplate legal text, structured per standard SaaS section headings
-- [ ] **LEGAL-03**: Both legal pages display a visible on-page "pending legal review" banner
+- [x] **LEGAL-01**: Visitor can view a Privacy Policy page with placeholder/boilerplate legal text, structured per standard SaaS section headings
+- [x] **LEGAL-02**: Visitor can view a Terms of Service page with placeholder/boilerplate legal text, structured per standard SaaS section headings
+- [x] **LEGAL-03**: Both legal pages display a visible on-page "pending legal review" banner
 - [x] **LEGAL-04**: Both legal pages are marked `noindex` while they remain placeholder text
 
 ### SEO
@@ -79,9 +79,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LAND-06 | Phase 43 | Complete |
 | LAND-07 | Phase 42 | Complete |
 | LAND-08 | Phase 43 | Complete |
-| LEGAL-01 | Phase 43 | Pending |
-| LEGAL-02 | Phase 43 | Pending |
-| LEGAL-03 | Phase 43 | Pending |
+| LEGAL-01 | Phase 43 | Complete |
+| LEGAL-02 | Phase 43 | Complete |
+| LEGAL-03 | Phase 43 | Complete |
 | LEGAL-04 | Phase 43 | Complete |
 | SEO-01 | Phase 44 | Pending |
 | SEO-02 | Phase 44 | Pending |
