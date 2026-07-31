@@ -6,8 +6,9 @@ import { CTA_URLS, SITE_NAME } from '../consts'
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
 		<a href="/" class="text-primary text-lg font-semibold">{SITE_NAME}</a>
 		<div class="flex items-center gap-4">
-			<a href={CTA_URLS.login} class="text-foreground text-sm font-semibold">Log in</a>
+			<a id="nav-login" href={CTA_URLS.login} class="text-foreground text-sm font-semibold">Log in</a>
 			<a
+				id="nav-get-started"
 				href={CTA_URLS.getStarted}
 				class="bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-semibold"
 			>
@@ -16,3 +17,13 @@ import { CTA_URLS, SITE_NAME } from '../consts'
 		</div>
 	</nav>
 </header>
+
+<script>
+  import { track } from '@vercel/analytics'
+  document.getElementById('nav-get-started')?.addEventListener('click', () => {
+    track('get_started_click', { location: 'nav' })
+  })
+  document.getElementById('nav-login')?.addEventListener('click', () => {
+    track('login_click', { location: 'nav' })
+  })
+</script>
