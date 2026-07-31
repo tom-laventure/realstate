@@ -242,9 +242,9 @@ const features = [
   <h2 class="text-foreground mb-8 text-center text-[28px] font-semibold">
     Everything your brokerage needs, in one place
   </h2>
-  <div class="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="mx-auto flex max-w-6xl flex-wrap justify-center gap-6">
     {features.map(({ icon: Icon, title, body }) => (
-      <div class="bg-card border-border rounded-lg border p-6">
+      <div class="bg-card border-border w-full rounded-lg border p-6 sm:w-[calc(50%_-_0.75rem)] lg:w-[calc(25%_-_1.125rem)]">
         <Icon class="text-primary mb-4" size={28} aria-hidden="true" />
         <p class="text-foreground mb-2 text-sm font-semibold">{title}</p>
         <p class="text-muted-foreground text-base">{body}</p>
@@ -255,10 +255,11 @@ const features = [
 ```
 
 **Critical constraints:**
-- Source order MUST be exactly as above — items 2 ("Group collaboration") and 3 ("Multi-tenant isolation") must land adjacent in the `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` grid (row 1 = items 1-4, row 2 = items 5-7, per D-05/UI-SPEC's explicit layout guidance).
+- Source order MUST be exactly as above — items 2 ("Group collaboration") and 3 ("Multi-tenant isolation") must land adjacent at 1 / 2 / 4 cards per row (row 1 = items 1-4, row 2 = items 5-7, per D-05/UI-SPEC's explicit layout guidance).
+- The container is `flex flex-wrap justify-center` with explicit card widths — NOT `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`. A 4-track CSS grid with 7 children left-aligns row 2 in columns 1-3, which violates UI-SPEC line 110's locked "row 2 ... centered"; no integer track offset centers 3 cards in 4 tracks. `flex-wrap` + `justify-center` gives the same per-row counts and centers any incomplete final row (row 2 at `lg`, the orphan card at `sm`) for free. Widths are derived from `gap-6` (1.5rem): `sm` two-up = `50% - 0.75rem`, `lg` four-up = `25% - 1.125rem`; the underscores are Tailwind's escaped-space syntax and are required (`calc` needs whitespace around the minus).
 - Feature-pair titles are `<p class="font-semibold">` (Label role) — NOT `<h3>`. Using `<h3>` here is Pitfall 4 (heading noise) — the section has exactly one heading, the `<h2>` above.
 - `aria-hidden="true"` on every `<Icon>` — decorative, paired with adjacent visible text (Pattern 2's accessibility note).
-- The `<h2>` copy ("Everything your brokerage needs, in one place") is NOT locked in UI-SPEC (Open Question 1 in RESEARCH.md) — draft during execution per D-07's outcome-framed guidance, flag for review same as Hero copy.
+- The `<h2>` copy is now LOCKED to "Everything your brokerage needs, in one place" in `43-02-PLAN.md` Task 2 (this closed RESEARCH.md Open Question 1) — use it verbatim, do not redraft it.
 - Import `@lucide/astro` — NOT `lucide-astro` (legacy/unscoped package, Pitfall 5). Must run `cd landing && npm install @lucide/astro` first.
 
 ---

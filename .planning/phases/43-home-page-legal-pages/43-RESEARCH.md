@@ -387,17 +387,19 @@ import { TriangleAlert } from '@lucide/astro'
 
 **If this table is empty:** N/A — see entries above. All three are LOW risk; none block planning.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **FeatureGrid section `<h2>` copy**
    - What we know: UI-SPEC confirms it must exist as an `<h2>` in the Typography section, but the Copywriting Contract table doesn't provide the exact wording (unlike ValueProp/ClosingCTA headings, which are both locked).
    - What's unclear: Whether this is an oversight in UI-SPEC or deliberately left to execution-time drafting alongside the other Claude's-Discretion copy items.
    - Recommendation: Treat as part of the same "Claude's Discretion" copy-drafting bucket as the Hero headline (D-06) and feature-pair descriptions — draft during execution, grounded in D-07's outcome-framing guidance, and flag for the same pre-ship review CONTEXT.md already calls for on hero copy. Does not block planning; the planner should just make sure a task exists to draft this specific heading, not assume it's pre-written.
+   - **RESOLVED (planning):** the heading was drafted and locked during planning rather than deferred to execution. `43-02-PLAN.md` Task 2 fixes it to `Everything your brokerage needs, in one place` and instructs the executor not to redraft it; `43-PATTERNS.md`'s FeatureGrid constraint list was updated to match. It still carries the same pre-ship copy review as the hero copy.
 
 2. **Footer column structure (single row vs. multi-column)**
    - What we know: UI-SPEC's spacing scale defines "footer column item gaps" (sm token) and "footer column headings" (Label role) explicitly, implying a multi-column footer layout is anticipated.
    - What's unclear: What the actual columns are — footer content per LAND-06 is fairly minimal (Privacy/Terms links, copyright, contact email), which doesn't obviously need multiple distinct columns the way a larger SaaS footer (product/company/resources) would.
    - Recommendation: A single-row or two-column (links | contact+copyright) footer layout is sufficient given the minimal content locked for this phase; reserve the "footer column heading" Label-role typography for if/when a future phase adds more footer content. Not a blocker — just don't over-build footer structure for content that doesn't exist yet (echoes the milestone's own anti-feature guidance against a multi-page nav that promises content that isn't there).
+   - **RESOLVED (planning):** `43-01-PLAN.md` Task 3 locks the recommendation — `SiteFooter.astro` is a single-row / two-group layout (`flex flex-col ... sm:flex-row`: links + contact on one side, copyright on the other) and explicitly forbids a multi-column footer with column headings. The Label-role "footer column heading" typography goes unused this phase and is reserved for a future phase.
 
 ## Environment Availability
 
