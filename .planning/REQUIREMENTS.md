@@ -9,14 +9,14 @@ Requirements for the v1.14 Marketing Landing Site milestone. Each maps to roadma
 
 ### Landing Page
 
-- [ ] **LAND-01**: Visitor sees a hero section naming the audience (real estate brokerages) and the value prop, understandable within 5 seconds, above the fold
-- [ ] **LAND-02**: Visitor sees one consistent primary CTA ("Get Started") repeated at the top and bottom of the page, linking to `app.realtybase.ca/create`
+- [x] **LAND-01**: Visitor sees a hero section naming the audience (real estate brokerages) and the value prop, understandable within 5 seconds, above the fold
+- [x] **LAND-02**: Visitor sees one consistent primary CTA ("Get Started") repeated at the top and bottom of the page, linking to `app.realtybase.ca/create`
 - [x] **LAND-03**: Visitor sees a secondary "Log in" CTA linking to `app.realtybase.ca/auth/login`
-- [ ] **LAND-04**: Visitor sees a features/how-it-works section with 3-6 icon+text pairs (lucide icons) describing real shipped capabilities (listings, groups, calendar sync, role-based access, etc.)
+- [x] **LAND-04**: Visitor sees a features/how-it-works section with 3-6 icon+text pairs (lucide icons) describing real shipped capabilities (listings, groups, calendar sync, role-based access, etc.)
 - [x] **LAND-05**: Visitor sees a minimal nav bar (logo, Log in, Get Started) with no dead or placeholder links
 - [x] **LAND-06**: Visitor sees a footer with Privacy Policy and Terms of Service links, copyright, and a contact email
 - [x] **LAND-07**: Page uses the "Slate" color scheme — the fully-merged base tokens (`frontend/src/index.css`) + Slate override (`frontend/src/assets/config/colorSchemes.ts`), hand-copied into `landing/` with a source-commit comment documenting the copy
-- [ ] **LAND-08**: Page is mobile-responsive and uses semantic HTML (one `<h1>`, sequential `<h2>`s, alt text on images)
+- [x] **LAND-08**: Page is mobile-responsive and uses semantic HTML (one `<h1>`, sequential `<h2>`s, alt text on images)
 
 ### Legal Pages
 
@@ -71,14 +71,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| LAND-01 | Phase 43 | Pending |
-| LAND-02 | Phase 43 | Pending |
+| LAND-01 | Phase 43 | Complete |
+| LAND-02 | Phase 43 | Complete |
 | LAND-03 | Phase 43 | Complete |
-| LAND-04 | Phase 43 | Pending |
+| LAND-04 | Phase 43 | Complete |
 | LAND-05 | Phase 43 | Complete |
 | LAND-06 | Phase 43 | Complete |
 | LAND-07 | Phase 42 | Complete |
-| LAND-08 | Phase 43 | Pending |
+| LAND-08 | Phase 43 | Complete |
 | LEGAL-01 | Phase 43 | Pending |
 | LEGAL-02 | Phase 43 | Pending |
 | LEGAL-03 | Phase 43 | Pending |
