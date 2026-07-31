@@ -1,30 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+import Hero from '../components/Hero.astro'
+import ValueProp from '../components/ValueProp.astro'
+import FeatureGrid from '../components/FeatureGrid.astro'
+import ClosingCTA from '../components/ClosingCTA.astro'
+import SiteFooter from '../components/SiteFooter.astro'
 ---
 
-<BaseLayout title="RealtyBase">
-	<div class="bg-background min-h-screen p-8">
-		<div class="space-y-6">
-			<h1 class="text-foreground text-3xl font-semibold">Slate token proof-of-concept</h1>
-			<p class="text-muted-foreground">
-				This placeholder page demonstrates the Slate design tokens copied into
-				<code>landing/src/styles/global.css</code>.
-			</p>
-
-			<div class="bg-primary text-primary-foreground rounded-lg p-4">
-				<p class="font-medium">bg-primary / text-primary-foreground</p>
-				<p class="text-sm">The Slate primary color, <code>oklch(0.39 0.035 256)</code>.</p>
-			</div>
-
-			<div class="bg-card border border-border rounded-lg p-4">
-				<p class="font-medium">bg-card / border-border</p>
-				<p class="text-sm">Card background against the Slate border color.</p>
-			</div>
-
-			<div class="bg-sidebar text-sidebar-foreground rounded-lg p-4">
-				<p class="font-medium">bg-sidebar / text-sidebar-foreground</p>
-				<p class="text-sm">The Slate sidebar override layer.</p>
-			</div>
-		</div>
-	</div>
+<BaseLayout title="RealtyBase — Real Estate Brokerage Software">
+	<SiteHeader />
+	<main>
+		<Hero />
+		<ValueProp />
+		<FeatureGrid />
+		<ClosingCTA />
+	</main>
+	<SiteFooter />
 </BaseLayout>
