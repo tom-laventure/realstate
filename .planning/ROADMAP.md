@@ -294,7 +294,18 @@ Plans:
   3. The deployed `*.vercel.app` preview URL renders the actual landing page content (hero, nav, footer) when visited
   4. CTA links on the live preview deployment correctly navigate cross-origin to `app.realtybase.ca/create` and `app.realtybase.ca/auth/login`
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 45-01-PLAN.md — Publish `landing/` to `origin/master`, dashboard runbook to create the project with Root Directory `landing`, then assert build log + live `*.vercel.app` bytes are this repo's Astro output
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 45-02-PLAN.md — Project settings sweep (Ignored Build Step, System Environment Variables, Node version, no domain, no Deployment Protection), human CTA click-through, DEPLOY-02 roll-up
+
+**Note**: zero source files change this phase — both plans are dashboard runbook + live-URL verification only. Verified during planning: `landing/` was **not** on `origin/master` (local `master` was 74 commits ahead), so publishing it is a blocking precondition inside plan 45-01.
 
 ### Phase 46: Apex Domain Cutover Runbook
 
