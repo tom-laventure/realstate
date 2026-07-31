@@ -13,13 +13,17 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "3.7.3",
     "@lucide/astro": "^1.28.0",
     "@tailwindcss/vite": "^4.3.3",
+    "@vercel/analytics": "2.0.1",
     "astro": "^7.1.6",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@resvg/resvg-js": "2.6.2",
+    "satori": "0.29.0",
     "typescript": "^6.0.3"
   }
 }
