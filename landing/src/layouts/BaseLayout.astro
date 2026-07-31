@@ -1,12 +1,28 @@
 ---
 import '../styles/global.css'
+import { Analytics } from '@vercel/analytics/astro'
 
 interface Props {
   title: string
+  description: string
   noindex?: boolean
 }
 
-const { title, noindex = false } = Astro.props
+const { title, description, noindex: pageNoindex = false } = Astro.props
+
+// Environment-aware override: force noindex on any non-production Vercel deployment,
+// regardless of the per-page `noindex` prop. Read server-side in frontmatter at build
+// time — the `undefined` guard is load-bearing: during a local `npm run build` there is
+// no Vercel context, so without it every local build would emit noindex on every page.
+const isNonProduction = import.meta.env.VERCEL_ENV !== undefined && import.meta.env.VERCEL_ENV !== 'production'
+const noindex = pageNoindex || isNonProduction
+
+// Hardcoded production apex — must stay in sync with astro.config.mjs's `site` value.
+// Never derive from Astro.url, the deployment's own preview host, or any env var — a
+// preview or attacker-controlled host must not be able to redirect canonical/OG tags.
+const siteUrl = 'https://realtybase.ca'
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString()
+const ogImageUrl = new URL('/og-image.png', siteUrl).toString()
 ---
 
 <html lang="en">
@@ -15,10 +31,27 @@ const { title, noindex = false } = Astro.props
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="canonical" href={canonicalUrl} />
 		<title>{title}</title>
+		<meta name="description" content={description} />
 		{noindex && <meta name="robots" content="noindex" />}
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="RealtyBase" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
 	</head>
 	<body>
 		<slot />
+		<Analytics />
 	</body>
 </html>
