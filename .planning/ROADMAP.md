@@ -234,7 +234,22 @@ Plans:
   4. Visitor can navigate to `/privacy` and `/terms`, each showing placeholder legal text structured under standard SaaS section headings with a visible "pending legal review" banner
   5. The site renders correctly on mobile viewport widths and passes a basic semantic check — one `<h1>` per page, sequential `<h2>`s, alt text on images
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 43-01-PLAN.md — Install `@lucide/astro`, font stack, `consts.ts` CTA/legal URLs, `BaseLayout` noindex prop, `SiteHeader` + `SiteFooter`
+
+**Wave 2** *(blocked on Wave 1 completion; the two plans below run in parallel — no shared files)*
+
+- [ ] 43-02-PLAN.md — Home page: `Hero`, `ValueProp`, `FeatureGrid` (7 pairs), `ClosingCTA`, and the composed `index.astro`
+- [ ] 43-03-PLAN.md — Legal routes: shared `LegalNotice` banner, `/privacy` (13 sections), `/terms` (14 sections), both `noindex`
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 43-04-PLAN.md — Whole-site build, dead-link/zero-JS/semantic/design-contract sweeps; human mobile + CTA click-through check
+
 **UI hint**: yes
 
 ### Phase 44: SEO Basics + Analytics
