@@ -28,8 +28,8 @@ Requirements for the v1.14 Marketing Landing Site milestone. Each maps to roadma
 ### SEO
 
 - [ ] **SEO-01**: Page has meta title/description and Open Graph + Twitter card tags, including a static logo/wordmark OG image
-- [ ] **SEO-02**: Site generates a `sitemap.xml` with `site` hardcoded to the production apex domain (never derived from `VERCEL_URL`)
-- [ ] **SEO-03**: Site serves a `robots.txt` referencing the sitemap
+- [x] **SEO-02**: Site generates a `sitemap.xml` with `site` hardcoded to the production apex domain (never derived from `VERCEL_URL`)
+- [x] **SEO-03**: Site serves a `robots.txt` referencing the sitemap
 - [ ] **SEO-04**: Non-production preview deployments are marked `noindex` (environment-aware — production stays indexable)
 
 ### Analytics
@@ -84,8 +84,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LEGAL-03 | Phase 43 | Complete |
 | LEGAL-04 | Phase 43 | Complete |
 | SEO-01 | Phase 44 | Pending |
-| SEO-02 | Phase 44 | Pending |
-| SEO-03 | Phase 44 | Pending |
+| SEO-02 | Phase 44 | Complete |
+| SEO-03 | Phase 44 | Complete |
 | SEO-04 | Phase 44 | Pending |
 | ANALYTICS-01 | Phase 44 | Pending |
 | DEPLOY-01 | Phase 42 | Complete |
