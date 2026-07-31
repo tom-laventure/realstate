@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
-stopped_at: Completed 44-01-PLAN.md
-last_updated: "2026-07-31T19:52:36.515Z"
+stopped_at: Completed 44-02-PLAN.md
+last_updated: "2026-07-31T19:59:10.327Z"
 last_activity: 2026-07-31
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 11
-  completed_plans: 8
+  completed_plans: 9
   percent: 40
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 ## Current Position
 
 Phase: 44 (seo-basics-analytics) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-07-31
 
-Progress: [███████░░░] 73%
+Progress: [████████░░] 82%
 
 ## Performance Metrics
 
@@ -82,6 +82,7 @@ Progress: [███████░░░] 73%
 | Phase 43 P03 | 4min | 2 tasks | 3 files |
 | Phase 43 P04 | 12min | 2 tasks | 0 files |
 | Phase 44 P01 | 4min | 2 tasks | 4 files |
+| Phase 44 P02 | 6min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -110,6 +111,8 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 43]: No source-file fixes were required for plan 43-04 — every Task 1 automated sweep (dead-link, zero-JS, robots/noindex, heading-outline, image-alt, icon-accessibility, design-contract, accent-reservation, cross-origin CTA, dependency, feature-grid centering, legacy-asset) passed on the first run
 - [Phase 43]: Human developer completed the full 8-point plan 43-04 Task 2 verification script (five-second scan, accent discipline, mobile reflow at 375px/768px, feature-grid row-2 centering, live CTA click-through, legal-page banner/noindex, keyboard/reduced-motion, console) and approved with no issues
 - [Phase 44]: 44-01: Reworded astro.config.mjs site-hardcode comment to avoid literal VERCEL_URL substring, matching the Phase 42 @custom-variant self-collision pattern
+- [Phase 44]: 44-02: Verified Node 22.23.2 imports landing/src/consts.ts directly via native type-stripping — no regex-extraction fallback needed for SITE_NAME
+- [Phase 44]: 44-02: generate-og-image.mjs matches astro.config.mjs's 2-space+semicolons convention, not the .astro tab/no-semicolon style
 
 ### Pending Todos
 
@@ -151,8 +154,8 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-31T19:52:36.509Z
-Stopped at: Completed 44-01-PLAN.md
+Last session: 2026-07-31T19:59:10.314Z
+Stopped at: Completed 44-02-PLAN.md
 Resume file: None
 Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
 

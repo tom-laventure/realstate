@@ -273,7 +273,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 44-02-PLAN.md — Generate the 1200x630 wordmark OG image via a committed satori/resvg script + bundled OFL font
+- [x] 44-02-PLAN.md — Generate the 1200x630 wordmark OG image via a committed satori/resvg script + bundled OFL font
 - [ ] 44-03-PLAN.md — BaseLayout SEO head block, env-aware `noindex`, `<Analytics />`, per-page descriptions, six located `track()` CTA call sites
 
 **Wave 3** *(blocked on Wave 2 completion)*
@@ -362,6 +362,6 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 42. Scaffold + Stack Setup | v1.14 | 3/3 | Complete    | 2026-07-30 |
 | 43. Home Page & Legal Pages | v1.14 | 4/4 | Complete   | 2026-07-31 |
-| 44. SEO Basics + Analytics | v1.14 | 1/4 | In Progress|  |
+| 44. SEO Basics + Analytics | v1.14 | 2/4 | In Progress|  |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |
 | 46. Apex Domain Cutover Runbook | v1.14 | 0/? | Not started | - |
