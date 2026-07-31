@@ -30,13 +30,19 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07 validated below):
+v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07, SEO-01–04, ANALYTICS-01 validated below):
 - LAND-01–06, LAND-08: Home page hero/CTA/features/nav/footer/responsive structure — Phase 43
 - LEGAL-01–04: Privacy Policy + Terms pages (placeholder text, pending-review banner, noindex) — Phase 43
-- SEO-01–04: Meta/OG/sitemap/robots/preview-noindex — Phase 44
-- ANALYTICS-01: Vercel Analytics page views + CTA clicks — Phase 44
 - DEPLOY-02: Vercel project setup + preview verification — Phase 45
 - DEPLOY-03: Apex domain cutover runbook (documentation only) — Phase 46
+
+### Validated (v1.14 — Phase 44: SEO Basics + Analytics)
+
+- ✓ SEO-01: `BaseLayout.astro` emits meta description, canonical, full Open Graph + Twitter card blocks on all three pages, with a programmatically-generated 1200x630 OG share image at an absolute `https://realtybase.ca/og-image.png` URL — v1.14 Phase 44
+- ✓ SEO-02: `@astrojs/sitemap` wired with hardcoded production `site`, filtered to list only the home page (`/privacy/` and `/terms/` excluded) — v1.14 Phase 44
+- ✓ SEO-03: `public/robots.txt` served at site root, disallows legal pages, points crawlers at the sitemap index — v1.14 Phase 44
+- ✓ SEO-04: Environment-aware `noindex` verified across four build environments — indexable under production and no-`VERCEL_ENV` local builds, de-indexed under `preview`/`development`; legal pages stay `noindex` in every environment — v1.14 Phase 44
+- ✓ ANALYTICS-01: `<Analytics />` mounted cookielessly (no consent banner) on every page; all six CTA instances wired to `track()` per the locked event schema. Custom-event dashboard delivery is blocked by the team's Vercel Hobby plan tier — an accepted, developer-acknowledged limitation, not a defect — v1.14 Phase 44
 
 ### Validated (v1.14 — Phase 42: Scaffold + Stack Setup)
 
@@ -394,4 +400,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-30 after Phase 42 (Scaffold + Stack Setup) completion*
+*Last updated: 2026-07-31 after Phase 44 (SEO Basics + Analytics) completion*
