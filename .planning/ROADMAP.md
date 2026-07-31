@@ -264,7 +264,23 @@ Plans:
   3. A non-production (preview) deployment's page source includes a `noindex` meta tag, while a production deploy's page source does not
   4. Vercel Analytics records page views and CTA click events for "Get Started"/"Log in" via the framework-native `<Analytics />` component, with no cookie-consent banner rendered anywhere on the site
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 44-01-PLAN.md — Install phase deps, hardcode `site` + sitemap filter in `astro.config.mjs`, add `public/robots.txt`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 44-02-PLAN.md — Generate the 1200x630 wordmark OG image via a committed satori/resvg script + bundled OFL font
+- [ ] 44-03-PLAN.md — BaseLayout SEO head block, env-aware `noindex`, `<Analytics />`, per-page descriptions, six located `track()` CTA call sites
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 44-04-PLAN.md — Four-environment `noindex` matrix, full tag/sitemap/robots/image/analytics sweep, human OG-image + Hobby-tier checkpoint
+
+**Known limitation** (confirmed with the developer during planning): the Vercel team is on the **Hobby** plan. `<Analytics />` page views work; custom `track()` events are Pro-tier-only and will not appear in the dashboard until upgrade. The code ships correct and complete regardless — recorded as an accepted limitation, not a descope of ANALYTICS-01.
 
 ### Phase 45: Vercel Project Setup + Preview Verification
 
