@@ -1,0 +1,58 @@
+---
+import { RefreshCw, Users, ShieldCheck, KeyRound, Globe, Share2, Filter } from '@lucide/astro'
+
+const features = [
+	{
+		icon: RefreshCw,
+		title: 'MLS/board-synced listings',
+		body: 'Listings sync automatically from your connected MLS/RETS board — no manual re-entry.',
+	},
+	{
+		icon: Users,
+		title: 'Group collaboration',
+		body: 'Agents organize listings into groups with shared comments, ratings, documents, and dates.',
+	},
+	{
+		icon: ShieldCheck,
+		title: 'Multi-tenant isolation',
+		body: 'Every brokerage gets its own fully isolated, secure workspace.',
+	},
+	{
+		icon: KeyRound,
+		title: 'Role-based access',
+		body: 'Owner, admin, and agent tiers control who can manage listings, invite staff, and configure the brokerage.',
+	},
+	{
+		icon: Globe,
+		title: 'Custom domain',
+		body: 'Run RealtyBase on your own branded domain instead of a shared subdomain.',
+	},
+	{
+		icon: Share2,
+		title: 'Client sharing',
+		body: 'Invite clients into specific groups to view curated listings directly.',
+	},
+	{
+		icon: Filter,
+		title: 'Smart filter-set/client pairing',
+		body: 'Filter sets automatically pair client groups with matching listings.',
+	},
+]
+---
+
+<section class="bg-background px-4 py-16">
+	<h2 class="text-foreground mb-8 text-center text-[28px] font-semibold leading-[1.2]">
+		Everything your brokerage needs, in one place
+	</h2>
+	<div class="mx-auto flex max-w-6xl flex-wrap justify-center gap-6">
+		{
+			features.map(({ icon: Icon, title, body }) => (
+				<div class="bg-card border-border w-full rounded-lg border p-6 sm:w-[calc(50%_-_0.75rem)] lg:w-[calc(25%_-_1.125rem)]">
+					<Icon class="text-primary mb-4" size={28} aria-hidden="true" />
+					<p class="text-foreground mb-2 text-sm font-semibold">{title}</p>
+					<p class="text-muted-foreground text-base leading-[1.6]">{body}</p>
+				</div>
+			))
+		}
+	</div>
+</section>
