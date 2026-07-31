@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
-stopped_at: Phase 43 UI-SPEC approved
-last_updated: "2026-07-31T01:15:51.385Z"
-last_activity: 2026-07-31 -- Phase 43 planning complete
+stopped_at: Completed 43-01-PLAN.md
+last_updated: "2026-07-31T04:10:49.271Z"
+last_activity: 2026-07-31
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 7
-  completed_plans: 3
+  completed_plans: 4
   percent: 20
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 43 — home page & legal pages
+**Current focus:** Phase 43 — home-page-legal-pages
 
 ## Current Position
 
-Phase: 43
-Plan: Not started
+Phase: 43 (home-page-legal-pages) — EXECUTING
+Plan: 2 of 4
 Status: Ready to execute
-Last activity: 2026-07-31 -- Phase 43 planning complete
+Last activity: 2026-07-31
 
-Progress: [██████████] 100%
+Progress: [██████░░░░] 57%
 
 ## Performance Metrics
 
@@ -77,6 +77,7 @@ Progress: [██████████] 100%
 | Phase 42 P01 | 6min | 3 tasks | 9 files |
 | Phase 42 P02 | 5min | 3 tasks | 10 files |
 | Phase 42 P03 | 18min | 2 tasks | 0 files |
+| Phase 43 P01 | 2min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -97,6 +98,8 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 42]: Installed @astrojs/check + typescript devDependencies after independent npm registry verification — Required by astro check (Task 3 verify block); both packages confirmed under official withastro/astro and microsoft/TypeScript orgs
 - [Phase 42]: Phase 42 closed: all 4 ROADMAP success criteria verified true via automated dev-server/build/git-tracking assertions plus human-approved visual confirmation of the Slate palette and clean console
 - [Phase 42]: Astro 7's astro dev runs as a persistent background daemon independent of the npm wrapper process - astro dev stop (not kill on the npm PID) is required to cleanly terminate it
+- [Phase 43]: 43-01: Verified @lucide/astro@1.28.0 live against npm registry before install; matches RESEARCH.md audit exactly, no legacy lucide-astro present
+- [Phase 43]: 43-01: consts.ts uses 2-space indent (PATTERNS.md spec) while BaseLayout.astro retains its existing tab indentation in the HTML body — each file preserves its own pre-existing convention
 
 ### Pending Todos
 
@@ -138,9 +141,9 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-30T23:56:40.084Z
-Stopped at: Phase 43 UI-SPEC approved
-Resume file: .planning/phases/43-home-page-legal-pages/43-UI-SPEC.md
+Last session: 2026-07-31T04:10:49.246Z
+Stopped at: Completed 43-01-PLAN.md
+Resume file: None
 Next action: Review roadmap, then /gsd-discuss-phase 42 or /gsd-plan-phase 42
 
 ## Operator Next Steps
