@@ -186,7 +186,7 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 
 - [x] **Phase 42: Scaffold + Stack Setup** - Astro + Tailwind `landing/` project exists, independently buildable, with Slate color tokens wired in (completed 2026-07-30)
 - [x] **Phase 43: Home Page & Legal Pages** - Visitors see a complete, accessible home page and two flagged-placeholder legal pages (completed 2026-07-31)
-- [ ] **Phase 44: SEO Basics + Analytics** - Site is indexable in production only, discoverable via sitemap/robots, and CTA engagement is tracked
+- [x] **Phase 44: SEO Basics + Analytics** - Site is indexable in production only, discoverable via sitemap/robots, and CTA engagement is tracked (completed 2026-07-31)
 - [ ] **Phase 45: Vercel Project Setup + Preview Verification** - `landing/` deploys independently to its own verified Vercel project
 - [ ] **Phase 46: Apex Domain Cutover Runbook** - Manual DNS/Vercel/backend-audit cutover steps documented, not executed
 
@@ -278,7 +278,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 44-04-PLAN.md — Four-environment `noindex` matrix, full tag/sitemap/robots/image/analytics sweep, human OG-image + Hobby-tier checkpoint
+- [x] 44-04-PLAN.md — Four-environment `noindex` matrix, full tag/sitemap/robots/image/analytics sweep, human OG-image + Hobby-tier checkpoint
 
 **Known limitation** (confirmed with the developer during planning): the Vercel team is on the **Hobby** plan. `<Analytics />` page views work; custom `track()` events are Pro-tier-only and will not appear in the dashboard until upgrade. The code ships correct and complete regardless — recorded as an accepted limitation, not a descope of ANALYTICS-01.
 
@@ -362,6 +362,6 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 41. Self-Service Plan Management | v1.13 | 4/4 | Complete   | 2026-07-23 |
 | 42. Scaffold + Stack Setup | v1.14 | 3/3 | Complete    | 2026-07-30 |
 | 43. Home Page & Legal Pages | v1.14 | 4/4 | Complete   | 2026-07-31 |
-| 44. SEO Basics + Analytics | v1.14 | 3/4 | In Progress|  |
+| 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete   | 2026-07-31 |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |
 | 46. Apex Domain Cutover Runbook | v1.14 | 0/? | Not started | - |
