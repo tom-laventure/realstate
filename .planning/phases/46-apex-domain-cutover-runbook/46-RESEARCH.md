@@ -205,17 +205,19 @@ Not applicable — this is a one-time operational runbook for a specific existin
 
 **If this table is empty:** N/A — see entries above.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Exact current TTL value on `realtybase.ca`'s apex record**
    - What we know: Vercel's platform default for its managed DNS is 60 seconds; nameservers are confirmed Vercel's (D-03).
    - What's unclear: Whether this specific record was ever manually overridden to a higher TTL at some point in this project's history — cannot be checked without dashboard/`dig` access, which this research session doesn't have.
    - Recommendation: The runbook's Pre-Cutover Audit section should include "run `dig realtybase.ca A` or check the Vercel dashboard's DNS Records page for the current TTL" as its own checklist item, before deciding whether a TTL-lowering step is even necessary.
+   - RESOLVED: deferred to runbook Section 1.6 as an executor checklist item (46-RUNBOOK.md, Plan 46-01 Task 1) — the fact can only be observed at execution time, not planning time.
 
 2. **Whether a Notion ticket exists tracking DEPLOY-03 / Phase 46**
    - What we know: CLAUDE.md's Notion sync policy applies to any work tracing back to a ticket.
    - What's unclear: No ticket ID surfaced during this research (not in scope for a codebase/docs research pass).
    - Recommendation: Planner/executor should check the "RealtyBase Tasks" Notion database for a matching ticket before/after this runbook is written, and update its status per the standing policy if one exists.
+   - RESOLVED: administrative, not runbook content — tracked separately via the standing Notion sync policy at phase execution/commit checkpoints, not a planning blocker.
 
 ## Environment Availability
 
