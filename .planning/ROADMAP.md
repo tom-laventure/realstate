@@ -299,7 +299,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 45-01-PLAN.md — Publish `landing/` to `origin/master`, dashboard runbook to create the project with Root Directory `landing`, then assert build log + live `*.vercel.app` bytes are this repo's Astro output
+- [x] 45-01-PLAN.md — Publish `landing/` to `origin/master`, dashboard runbook to create the project with Root Directory `landing`, then assert build log + live `*.vercel.app` bytes are this repo's Astro output
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -374,5 +374,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 42. Scaffold + Stack Setup | v1.14 | 3/3 | Complete    | 2026-07-30 |
 | 43. Home Page & Legal Pages | v1.14 | 4/4 | Complete   | 2026-07-31 |
 | 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete    | 2026-07-31 |
-| 45. Vercel Project Setup + Preview Verification | v1.14 | 0/? | Not started | - |
+| 45. Vercel Project Setup + Preview Verification | v1.14 | 1/2 | In Progress|  |
 | 46. Apex Domain Cutover Runbook | v1.14 | 0/? | Not started | - |

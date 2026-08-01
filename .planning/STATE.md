@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
-stopped_at: Phase 45 Plan 01 Task 2 checkpoint (human-action, awaiting Vercel dashboard runbook completion)
-last_updated: "2026-07-31T23:45:00.000Z"
-last_activity: 2026-07-31 -- Phase 45-01 Task 1 complete (landing/ pushed to origin/master at e723e3b), paused at Task 2 checkpoint
+stopped_at: Completed 45-01-PLAN.md (Task 3 verification + SUMMARY)
+last_updated: "2026-08-01T01:03:47.680Z"
+last_activity: 2026-08-01
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 13
-  completed_plans: 11
+  completed_plans: 12
   percent: 60
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 ## Current Position
 
 Phase: 45 (vercel-project-setup-preview-verification) — EXECUTING
-Plan: 1 of 2 (45-01), Task 2 of 3 — PAUSED at checkpoint:human-action
-Status: Task 1 complete (landing/ published to origin/master at e723e3b); awaiting developer to run the Vercel dashboard runbook (Task 2) before Task 3 verification can proceed
-Last activity: 2026-07-31 -- Phase 45-01 Task 1 complete, paused at Task 2 checkpoint
+Plan: 2 of 2 (45-02 next), 45-01 complete (all 3 tasks)
+Status: Ready to execute
+Last activity: 2026-08-01
 
-Progress: [██████████] 100%
+Progress: [█████████░] 92%
 
 ## Performance Metrics
 
@@ -86,6 +86,7 @@ Progress: [██████████] 100%
 | Phase 44 P02 | 6min | 2 tasks | 5 files |
 | Phase 44 P3 | 8min | 3 tasks | 8 files |
 | Phase 44 P04 | 7min | 3 tasks | 0 files |
+| Phase 45 P01 | 8min | 3 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 44]: 44-03: Fixed @vercel/analytics/astro import to use the default export (not the named { Analytics } form in RESEARCH.md/PATTERNS.md) — the installed package re-exports the component as a default export, astro check caught the mismatch
 - [Phase 44]: 44-04: Verified four-environment noindex matrix and full production SEO/sitemap/robots/OG/analytics sweep against real build output; human approved OG image and accepted the Vercel Hobby-tier custom-event limitation plus Phase 45 System Environment Variables carry-forward
 - [Phase 45]: 45-01 Task 1: `landing/` published to `origin/master` via `git push origin master` (fast-forward, 76 commits, no force/rebase/amend) at short SHA `e723e3b`; outbound diff guard confirmed only `.planning/`, `landing/`, and the `backend`/`frontend` gitlink pointer bumps crossed; no secret-looking file tracked under `landing/`
+- [Phase 45]: 45-01 Task 3: Vercel project 'realstate' verified live -- build log SHA e723e3b matches origin/master exactly, Astro markers present, CRA negatives absent, CTA hrefs 4/2, all Phase 44 SEO artifacts serve correctly — Home page's missing noindex confirmed expected (VERCEL_ENV=production) and explicitly not proof System Environment Variables are enabled -- that confirmation is deferred to plan 45-02
 
 ### Pending Todos
 
@@ -130,6 +132,7 @@ None open — the one pending todo (`arch-brokerage-listing-access.md`) was ackn
 - Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
 - Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
 - v1.14-specific (from research/PITFALLS.md, to verify during Phase 46 planning): exact current state of backend `BrokerageDomain` rows / CORS allowlist / `MainDomainOnly` config referencing bare `realtybase.ca` is not yet enumerated — needs first-party investigation when Phase 46 is planned, not assumed from research alone.
+- Unconfirmed: developer mentioned site is 'deployed under https://www.realtybase.ca/' before providing the actual *.vercel.app URL for the new 'realstate' Vercel project (45-01). Not yet confirmed whether a custom domain was actually attached in Settings -> Domains (which would violate this plan's no-custom-domain requirement, deferred to Phase 46) or just a description of future intent. Must be resolved with developer before starting plan 45-02 or Phase 46.
 
 ## Deferred Items
 
@@ -161,11 +164,12 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-07-31T23:45:00.000Z
-Stopped at: Phase 45 Plan 01 Task 2 checkpoint (human-action)
-Resume file: .planning/phases/45-vercel-project-setup-preview-verification/45-01-PLAN.md
-Next action: Developer runs the Vercel dashboard runbook presented in the Task 2 checkpoint (create project, Import `tom-laventure/realstate`, set Root Directory to `landing`, deploy, disable Deployment Protection if prompted), then reports back the project name, `*.vercel.app` URL, Root Directory value, build log, and built commit SHA so Claude can resume with Task 3 verification.
+Last session: 2026-08-01T01:03:47.669Z
+Stopped at: Completed 45-01-PLAN.md (Task 3 verification + SUMMARY)
+Resume file: None
+Next action: Confirm with the developer whether a custom domain (www.realtybase.ca) was attached to the new `realstate` Vercel project (see Blockers/Concerns) — resolve before planning/executing 45-02. Then run `/gsd-plan-phase 45` (or continue with plan 45-02) to complete remaining project settings (System Environment Variables, Ignored Build Step).
 
 ## Operator Next Steps
 
-- Run the Vercel dashboard runbook for Phase 45 Plan 01 Task 2 (see checkpoint report) and report back the five requested items so execution can resume at Task 3.
+- Confirm with the developer whether `www.realtybase.ca` was attached as a custom domain on the `realstate` Vercel project, and remove it if so (Phase 46 owns domain cutover, not this phase).
+- Once confirmed, proceed to plan 45-02 to complete remaining Vercel project settings.
