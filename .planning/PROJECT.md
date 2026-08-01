@@ -30,10 +30,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07, SEO-01–04, ANALYTICS-01, DEPLOY-02 validated below):
+v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07, SEO-01–04, ANALYTICS-01, DEPLOY-02, DEPLOY-03 validated below):
 - LAND-01–06, LAND-08: Home page hero/CTA/features/nav/footer/responsive structure — Phase 43
 - LEGAL-01–04: Privacy Policy + Terms pages (placeholder text, pending-review banner, noindex) — Phase 43
-- DEPLOY-03: Apex domain cutover runbook (documentation only) — Phase 46
+
+### Validated (v1.14 — Phase 46: Apex Domain Cutover Runbook)
+
+- ✓ DEPLOY-03: Complete, human-executable apex domain cutover runbook for `realtybase.ca` at `46-RUNBOOK.md` — pre-cutover backend/DB/TTL audit, Vercel dashboard detach-`frontend`-then-attach-`realstate` sequence, DNS verification, post-cutover verification, rollback, and findings appendix. Documentation-only per scope: no live DNS/Vercel domain change executed. Independently re-verified (30/30 assertions) and human-signed-off as executable by the developer who will run the cutover — v1.14 Phase 46
 
 ### Validated (v1.14 — Phase 45: Vercel Project Setup + Preview Verification)
 
@@ -405,4 +408,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-08-01 after Phase 45 (Vercel Project Setup + Preview Verification) completion*
+*Last updated: 2026-08-01 after Phase 46 (Apex Domain Cutover Runbook) completion*
