@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
-status: milestone_complete
-stopped_at: Milestone complete (Phase 46 was final phase)
-last_updated: 2026-08-01T04:40:04.669Z
-last_activity: 2026-08-01
+status: Awaiting next milestone
+stopped_at: Completed 46-02-PLAN.md
+last_updated: "2026-08-01T05:47:55.623Z"
+last_activity: 2026-08-01 — Milestone v1.14 completed and archived
 progress:
   total_phases: 5
   completed_phases: 5
@@ -25,12 +25,10 @@ See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 ## Current Position
 
-Phase: 46
-Plan: Not started
-Status: Milestone complete
-Last activity: 2026-08-01
-
-Progress: [██████████] 100%
+Phase: Milestone v1.14 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-08-01 — Milestone v1.14 completed and archived
 
 ## Performance Metrics
 
@@ -161,7 +159,7 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry to v1.14+; acknowledged again at v1.13 close (open todo `arch-brokerage-listing-access.md`, unrelated to v1.13 scope) | v1.10 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry forward; acknowledged again at v1.14 close (open todo `arch-brokerage-listing-access.md`, unrelated to v1.14 scope — neither trigger condition (second board integration, 5,000+ listings/board) has fired) | v1.10 close, reaffirmed v1.13 + v1.14 close |
 | CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.14+ | v1.10 close |
 | UX | Brokerage switch preserving active tab position | Carry to v1.14+ | v1.10 close |
 | UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.14+ | v1.10 close |
@@ -186,7 +184,4 @@ Next action: Phase 46 is complete and DEPLOY-03 is closed. Run `/gsd-verify-work
 
 ## Operator Next Steps
 
-- Phase 46 (both plans) is complete — the developer approved `46-RUNBOOK.md` end to end against all eight review points and all four ROADMAP criteria, with no issues raised.
-- Run `/gsd-verify-work` for Phase 46 to confirm deliverables, then proceed to milestone close for v1.14.
-- The apex domain cutover itself remains a manual follow-up for whoever executes it later, per DEPLOY-03's documentation-only scope — no DNS/Vercel/database change was made during this milestone.
-- Opportunistically pick up the two deferred, non-blocking follow-ups: enable Web Analytics (D-04) and retrofit an Ignored Build Step onto `frontend`/`auth-callback` (D-02).
+- Start the next milestone with /gsd-new-milestone

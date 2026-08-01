@@ -1,5 +1,29 @@
 # Milestones
 
+## v1.14 Marketing Landing Site (Shipped: 2026-08-01)
+
+**Phases completed:** 5 phases, 15 plans, 37 tasks
+
+**Key accomplishments:**
+
+- Astro 7.1.6 + Tailwind v4.3.3 (via @tailwindcss/vite) project skeleton scaffolded at `landing/`, independently buildable from its own lockfile with zero coupling to `frontend/`/`backend/`.
+- landing/ now renders a Slate-styled placeholder page through a shared BaseLayout.astro shell, with the fully-merged Slate design tokens statically copied from frontend/ and a complete, independent Vercel deploy config.
+- All four Phase 42 ROADMAP success criteria confirmed true via automated dev-server/build/git-tracking assertions plus human-approved visual confirmation that the Slate palette (dark slate-blue primary/sidebar, off-white background) renders correctly with a clean browser console — closing Phase 42 with zero open defects.
+- Installed `@lucide/astro`, centralized all CTA/legal URLs in `consts.ts`, added an optional `noindex` prop to `BaseLayout.astro`, and built `SiteHeader`/`SiteFooter` shared chrome components — all wired to the single-source-of-truth constants.
+- Built the four home-page content sections (Hero, ValueProp, FeatureGrid, ClosingCTA) and composed them into the real `/` marketing page, replacing Phase 42's proof-of-tokens scaffold — verified 1 h1 / 3 h2 / 0 h3, zero client JS, and exactly 4 Get Started + 2 Log in absolute-HTTPS touchpoints in the built HTML.
+- Placeholder `/privacy` (13 sections) and `/terms` (14 sections) routes with a shared `LegalNotice` pending-review banner, `noindex` robots meta, and zero hardcoded pricing facts on the Terms page.
+- Zero-defect goal-backward gate: full production build, whole-site dead-link/design-contract/accessibility sweep, and human-approved live click-through — no source fixes needed, phase closed clean.
+- @astrojs/sitemap wired to a hardcoded `https://realtybase.ca` apex, filtered to exactly one home-page URL, plus a static robots.txt pointing crawlers at the generated sitemap index — with all four of this phase's npm dependencies pinned at their audited exact versions.
+- Programmatic 1200x630 Slate-on-wordmark OG share image generated via satori + resvg-js, committed as a static asset with a vendored OFL Lato font for offline reproducibility
+- BaseLayout.astro extended into the site's single SEO/analytics integration point (canonical + full OG/Twitter blocks + env-aware noindex + `<Analytics />`), with per-page descriptions and six D-03-schema `track()` call sites wired across four components
+- Positively verified SEO-01/02/03/04 and ANALYTICS-01's verifiable half against real four-environment build output, with human sign-off on the OG share image and explicit acceptance of the Vercel Hobby-tier custom-event limitation.
+- New Vercel project `realstate` (Root Directory `landing`) deployed commit `e723e3b` of `tom-laventure/realstate`; build log and live HTTP fetch of `https://realstate-flax-five.vercel.app` both independently confirm Astro output with correct CTAs, robots/sitemap/OG assets, and zero CRA/Amplify markers.
+- All six in-scope Vercel project settings confirmed correct, both live CTAs human-verified to navigate cross-origin, and DEPLOY-02 closed with a four-criteria roll-up citing named evidence from across both plans in this phase.
+- Wrote a complete 234-line, 8-section human-executable runbook for cutting `realtybase.ca` over from the `frontend` Vercel project to `realstate`, naming the one confirmed backend finding (`google_oauth_controller.rb:77`) with its exact trigger condition and fix, a status-unscoped `BrokerageDomain` production re-check, TTL guidance, a detach-then-attach Vercel sequence, DNS/post-cutover verification, rollback, and a findings-snapshot appendix — with zero DNS, Vercel, database, or source-code changes executed.
+- Task 1's automated sweep proved the plan 46-01 runbook satisfies every locked decision D-01 through D-09 and all four ROADMAP Phase 46 success criteria on the first run (zero FAIL lines, zero edits needed); Task 2's developer review confirmed the document is genuinely executable and returned the plan's "approved" resume-signal with no issues raised — closing DEPLOY-03 and Phase 46.
+
+---
+
 ## v1.13 Onboarding & Self-Service Plan Management (Shipped: 2026-07-26)
 
 **Phases completed:** 2 phases, 8 plans, 16 tasks

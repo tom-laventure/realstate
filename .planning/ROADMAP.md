@@ -16,7 +16,7 @@
 - ✅ **v1.11 — Brokerage Ownership Management** — Phases 33–35 (shipped 2026-07-13)
 - ✅ **v1.12 — Plan Tiers & Gating** — Phases 36–39 (shipped 2026-07-22)
 - ✅ **v1.13 — Onboarding & Self-Service Plan Management** — Phases 40–41 (shipped 2026-07-26)
-- 🚧 **v1.14 — Marketing Landing Site** — Phases 42–46 (in progress)
+- ✅ **v1.14 — Marketing Landing Site** — Phases 42–46 (shipped 2026-08-01)
 
 ## Phases
 
@@ -180,157 +180,22 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 
 </details>
 
-### 🚧 v1.14 — Marketing Landing Site (Phases 42–46, In Progress)
+<details>
+<summary>✅ v1.14 — Marketing Landing Site (Phases 42–46) — SHIPPED 2026-08-01</summary>
 
-**Milestone Goal:** Give RealtyBase a standalone public marketing presence on the root domain, funneling visitors into the app.
+- [x] Phase 42: Scaffold + Stack Setup (3/3 plans) — completed 2026-07-30
+- [x] Phase 43: Home Page & Legal Pages (4/4 plans) — completed 2026-07-31
+- [x] Phase 44: SEO Basics + Analytics (4/4 plans) — completed 2026-07-31
+- [x] Phase 45: Vercel Project Setup + Preview Verification (2/2 plans) — completed 2026-08-01
+- [x] Phase 46: Apex Domain Cutover Runbook (2/2 plans) — completed 2026-08-01
 
-- [x] **Phase 42: Scaffold + Stack Setup** - Astro + Tailwind `landing/` project exists, independently buildable, with Slate color tokens wired in (completed 2026-07-30)
-- [x] **Phase 43: Home Page & Legal Pages** - Visitors see a complete, accessible home page and two flagged-placeholder legal pages (completed 2026-07-31)
-- [x] **Phase 44: SEO Basics + Analytics** - Site is indexable in production only, discoverable via sitemap/robots, and CTA engagement is tracked (completed 2026-07-31)
-- [x] **Phase 45: Vercel Project Setup + Preview Verification** - `landing/` deploys independently to its own verified Vercel project (completed 2026-08-01)
-- [x] **Phase 46: Apex Domain Cutover Runbook** - Manual DNS/Vercel/backend-audit cutover steps documented, not executed (completed 2026-08-01)
+Full details: [milestones/v1.14-ROADMAP.md](milestones/v1.14-ROADMAP.md)
 
-## Phase Details
+</details>
 
-### Phase 42: Scaffold + Stack Setup
+### 📋 Next Milestone — Not yet planned
 
-**Goal**: A working Astro + Tailwind static site scaffold exists at `landing/`, independently buildable, with the Slate color scheme wired in ahead of any content work.
-**Depends on**: Nothing (first phase of v1.14; continues after Phase 41)
-**Requirements**: DEPLOY-01, LAND-07
-**Success Criteria** (what must be TRUE):
-
-  1. Running `astro dev` in `landing/` renders a page styled with the Slate color tokens copied from `frontend/`, with a source-commit comment documenting the copy
-  2. `landing/` builds independently via its own `package.json`/lockfile/`vercel.json`, without depending on `frontend/` or `backend/`
-  3. `landing/` is committed as a plain-tracked directory at the monorepo root (not a submodule/gitlink), matching the `auth-callback/` precedent
-  4. `BaseLayout.astro` shell exists and is used by at least a placeholder page, rendering with no console errors
-
-**Plans**: 3 plans
-
-Plans:
-**Wave 1**
-
-- [x] 42-01-PLAN.md — Scaffold `landing/` with create-astro (Node >=22.12.0 gate) and wire Tailwind v4 via `@tailwindcss/vite`
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 42-02-PLAN.md — Merged Slate tokens + provenance comment, `vercel.json`/`.nvmrc`/favicon, `BaseLayout.astro` + proof-of-tokens page
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 42-03-PLAN.md — Verify dev-server render, clean-install independence, plain-tracking; human Slate palette check
-
-**UI hint**: yes
-
-### Phase 43: Home Page & Legal Pages
-
-**Goal**: Visitors can view a complete, accessible marketing home page that funnels them into the app, plus two legal pages that are clearly flagged as placeholder pending review.
-**Depends on**: Phase 42
-**Requirements**: LAND-01, LAND-02, LAND-03, LAND-04, LAND-05, LAND-06, LAND-08, LEGAL-01, LEGAL-02, LEGAL-03, LEGAL-04
-**Success Criteria** (what must be TRUE):
-
-  1. Visitor lands on `/` and sees, above the fold, a hero naming "real estate brokerages" and the value prop, understandable within 5 seconds
-  2. Visitor sees a consistent "Get Started" CTA (linking to `app.realtybase.ca/create`) repeated at the top and bottom of the page, plus a "Log in" CTA linking to `app.realtybase.ca/auth/login`, all reachable from a minimal nav bar with no dead links
-  3. Visitor sees a 3-6 item icon+text features/how-it-works section describing real shipped capabilities, and a footer with Privacy Policy/Terms links, copyright, and a contact email
-  4. Visitor can navigate to `/privacy` and `/terms`, each showing placeholder legal text structured under standard SaaS section headings with a visible "pending legal review" banner
-  5. The site renders correctly on mobile viewport widths and passes a basic semantic check — one `<h1>` per page, sequential `<h2>`s, alt text on images
-
-**Plans**: 4 plans
-
-Plans:
-**Wave 1**
-
-- [x] 43-01-PLAN.md — Install `@lucide/astro`, font stack, `consts.ts` CTA/legal URLs, `BaseLayout` noindex prop, `SiteHeader` + `SiteFooter`
-
-**Wave 2** *(blocked on Wave 1 completion; the two plans below run in parallel — no shared files)*
-
-- [x] 43-02-PLAN.md — Home page: `Hero`, `ValueProp`, `FeatureGrid` (7 pairs), `ClosingCTA`, and the composed `index.astro`
-- [x] 43-03-PLAN.md — Legal routes: shared `LegalNotice` banner, `/privacy` (13 sections), `/terms` (14 sections), both `noindex`
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 43-04-PLAN.md — Whole-site build, dead-link/zero-JS/semantic/design-contract sweeps; human mobile + CTA click-through check
-
-**UI hint**: yes
-
-### Phase 44: SEO Basics + Analytics
-
-**Goal**: The site is discoverable and correctly indexed in production while non-production deploys stay out of search results, and CTA engagement is measurable.
-**Depends on**: Phase 43
-**Requirements**: SEO-01, SEO-02, SEO-03, SEO-04, ANALYTICS-01
-**Success Criteria** (what must be TRUE):
-
-  1. Viewing page source shows meta title/description and Open Graph + Twitter card tags, including a static logo/wordmark OG image
-  2. `/sitemap.xml` lists the site's routes with `site` hardcoded to the production apex domain (never derived from `VERCEL_URL`), and `/robots.txt` references the sitemap
-  3. A non-production (preview) deployment's page source includes a `noindex` meta tag, while a production deploy's page source does not
-  4. Vercel Analytics records page views and CTA click events for "Get Started"/"Log in" via the framework-native `<Analytics />` component, with no cookie-consent banner rendered anywhere on the site
-
-**Plans**: 4 plans
-
-Plans:
-**Wave 1**
-
-- [x] 44-01-PLAN.md — Install phase deps, hardcode `site` + sitemap filter in `astro.config.mjs`, add `public/robots.txt`
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 44-02-PLAN.md — Generate the 1200x630 wordmark OG image via a committed satori/resvg script + bundled OFL font
-- [x] 44-03-PLAN.md — BaseLayout SEO head block, env-aware `noindex`, `<Analytics />`, per-page descriptions, six located `track()` CTA call sites
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 44-04-PLAN.md — Four-environment `noindex` matrix, full tag/sitemap/robots/image/analytics sweep, human OG-image + Hobby-tier checkpoint
-
-**Known limitation** (confirmed with the developer during planning): the Vercel team is on the **Hobby** plan. `<Analytics />` page views work; custom `track()` events are Pro-tier-only and will not appear in the dashboard until upgrade. The code ships correct and complete regardless — recorded as an accepted limitation, not a descope of ANALYTICS-01.
-
-### Phase 45: Vercel Project Setup + Preview Verification
-
-**Goal**: `landing/` deploys independently to its own Vercel project, verified to be serving the correct Astro output before any domain is attached.
-**Depends on**: Phase 44
-**Requirements**: DEPLOY-02
-**Success Criteria** (what must be TRUE):
-
-  1. A new Vercel project exists with Root Directory explicitly set to `landing/`, distinct from the existing `frontend`/`auth-callback` projects
-  2. The project's build log shows Astro build output, confirming it built `landing/` and not another project's code
-  3. The deployed `*.vercel.app` preview URL renders the actual landing page content (hero, nav, footer) when visited
-  4. CTA links on the live preview deployment correctly navigate cross-origin to `app.realtybase.ca/create` and `app.realtybase.ca/auth/login`
-
-**Plans**: 2 plans
-
-Plans:
-**Wave 1**
-
-- [x] 45-01-PLAN.md — Publish `landing/` to `origin/master`, dashboard runbook to create the project with Root Directory `landing`, then assert build log + live `*.vercel.app` bytes are this repo's Astro output
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 45-02-PLAN.md — Project settings sweep (Ignored Build Step, System Environment Variables, Node version, no domain, no Deployment Protection), human CTA click-through, DEPLOY-02 roll-up
-
-**Note**: zero source files change this phase — both plans are dashboard runbook + live-URL verification only. Verified during planning: `landing/` was **not** on `origin/master` (local `master` was 74 commits ahead), so publishing it is a blocking precondition inside plan 45-01.
-
-### Phase 46: Apex Domain Cutover Runbook
-
-**Goal**: A documented, reviewable runbook exists describing exactly how to cut the apex domain over to the new landing site — execution is deliberately deferred to a manual follow-up outside this milestone.
-**Depends on**: Phase 45
-**Requirements**: DEPLOY-03
-**Success Criteria** (what must be TRUE):
-
-  1. A written runbook lists the DNS changes required to point `realtybase.ca` at the `landing/` Vercel project
-  2. The runbook documents the Vercel dashboard steps for assigning the apex domain to the `landing/` project
-  3. The runbook includes an explicit checklist item to audit backend `BrokerageDomain` rows and the CORS allowlist for stale bare-apex references before cutover, plus lowering DNS TTL ahead of time
-  4. The runbook is committed to the repo as documentation, with no DNS/domain changes actually executed during this milestone
-
-**Plans**: 2 plans
-
-Plans:
-**Wave 1**
-
-- [x] 46-01-PLAN.md — Write `46-RUNBOOK.md`: staleness banner + preconditions + Pre-Cutover Audit (grep disposition table, `google_oauth_controller.rb:77` finding + fix, production `BrokerageDomain` re-check, env-var confirmation, cleared-files list, TTL check) + Vercel detach-then-attach steps, then DNS Verification, Post-Cutover Verification, Rollback, and the findings Appendix
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 46-02-PLAN.md — Automated completeness/scope sweep asserting D-01..D-09 and ROADMAP criteria 1-4 (including D-09's zero-match exclusion and a "nothing was executed" git guard), plus a blocking human review of the runbook's executability
-
-**Note**: documentation-only phase — the sole deliverable is `46-RUNBOOK.md` under `.planning/`. No DNS record, Vercel domain assignment, `BrokerageDomain` row, or source file under `backend/`/`frontend/`/`landing/` is changed. The `google_oauth_controller.rb:77` `FRONTEND_URL` fallback fix is **named as an action item inside the runbook**, deliberately not applied here (per 46-CONTEXT.md `<code_context>`: "no source files are modified"); plan 46-02 asserts it is still unapplied.
+Not yet planned. Run `/gsd:new-milestone` to define the next milestone's requirements and roadmap.
 
 ---
 
