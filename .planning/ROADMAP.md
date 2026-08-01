@@ -319,7 +319,18 @@ Plans:
   3. The runbook includes an explicit checklist item to audit backend `BrokerageDomain` rows and the CORS allowlist for stale bare-apex references before cutover, plus lowering DNS TTL ahead of time
   4. The runbook is committed to the repo as documentation, with no DNS/domain changes actually executed during this milestone
 
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 46-01-PLAN.md — Write `46-RUNBOOK.md`: staleness banner + preconditions + Pre-Cutover Audit (grep disposition table, `google_oauth_controller.rb:77` finding + fix, production `BrokerageDomain` re-check, env-var confirmation, cleared-files list, TTL check) + Vercel detach-then-attach steps, then DNS Verification, Post-Cutover Verification, Rollback, and the findings Appendix
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 46-02-PLAN.md — Automated completeness/scope sweep asserting D-01..D-09 and ROADMAP criteria 1-4 (including D-09's zero-match exclusion and a "nothing was executed" git guard), plus a blocking human review of the runbook's executability
+
+**Note**: documentation-only phase — the sole deliverable is `46-RUNBOOK.md` under `.planning/`. No DNS record, Vercel domain assignment, `BrokerageDomain` row, or source file under `backend/`/`frontend/`/`landing/` is changed. The `google_oauth_controller.rb:77` `FRONTEND_URL` fallback fix is **named as an action item inside the runbook**, deliberately not applied here (per 46-CONTEXT.md `<code_context>`: "no source files are modified"); plan 46-02 asserts it is still unapplied.
 
 ---
 
