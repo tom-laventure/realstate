@@ -142,3 +142,93 @@ If the higher TTL was raised deliberately for some reason, restore it after Sect
 5. The wall-clock gap between the remove and add steps.
 
 **Warning signs:** Vercel reports **Invalid Configuration** on the new assignment; the domain still appears under `frontend` after removal; a certificate error or "domain is already in use by another project"; or the wildcard subdomain entry vanished from `frontend`.
+
+## Section 3 — DNS Verification
+
+**The single most important clarification, before any command below:** `realtybase.ca`'s nameservers already delegate to Vercel (`ns1.vercel-dns.com` / `ns2.vercel-dns.com`), which is the only method Vercel supports for the wildcard subdomains this platform depends on. **The "DNS change" this cutover requires is not a registrar-panel A-record or CNAME edit — it is entirely the Vercel dashboard reassignment already performed in Section 2**, after which Vercel updates its own managed record automatically. Do not go looking for a registrar login; it is not the relevant surface for this cutover.
+
+1. `dig +noall +answer NS realtybase.ca` — confirm the answer still lists Vercel's nameservers. If it does not, **stop**: the zone is no longer Vercel-managed and this runbook's assumptions no longer hold.
+2. `dig +noall +answer realtybase.ca A` — confirm an A record resolves and record the TTL actually observed. Compare it against the value you recorded in Section 1.6.
+3. In the Vercel dashboard: confirm `realtybase.ca` appears under the `realstate` project's Domains with **Valid Configuration**, and no longer appears under `frontend`'s Domains.
+4. **Wildcard independence spot-check:** pick an existing per-brokerage subdomain used for manual QA, resolve it, and load it in a browser — it must still serve the portal from `frontend`, unchanged. The wildcard record and the apex record are independent entries in the same Vercel-managed zone, so reassigning the apex's project target does not move the wildcard's. This step proves that held true in practice rather than assuming it.
+
+**Warning signs:** `dig` returns NXDOMAIN or no A record; Vercel shows **Invalid Configuration**; the brokerage subdomain now serves the marketing site or errors.
+
+## Section 4 — Post-Cutover Verification
+
+**Precondition:** Section 3 passed and the domain shows Valid Configuration.
+
+### 4.1 Confirm what the apex is actually serving (cache check)
+
+```bash
+curl -sI https://realtybase.ca
+```
+
+Expect HTTP 200 and Vercel-served response headers. Then inspect the actual HTML:
+
+```bash
+curl -s https://realtybase.ca | head -40
+```
+
+**Positive signals:** the Astro-built landing markup and the page title/copy shipped in Phase 43.
+
+**Warning signs (negative):** any React SPA shell from the old portal — `react-scripts`, an empty `<div id="root">`, `@aws-amplify` bundle references, or a login screen.
+
+**Why `curl` and not a browser:** it bypasses local browser cache entirely, so it shows what Vercel's edge is really returning right now.
+
+Two supporting checks:
+
+```bash
+curl -sI https://realtybase.ca/sitemap-index.xml
+```
+
+should return 200, and:
+
+```bash
+curl -s https://realtybase.ca/robots.txt
+```
+
+should contain the line `Sitemap: https://realtybase.ca/sitemap-index.xml`.
+
+### 4.2 Search index (Google Search Console)
+
+Open the `realtybase.ca` property in Search Console and confirm ownership verification still passes after the cutover. Submit the sitemap `https://realtybase.ca/sitemap-index.xml`, and use URL Inspection → **Request Indexing** for the apex root `https://realtybase.ca/`.
+
+**Deliberate exception:** do not request indexing for `/privacy` or `/terms` — `landing/public/robots.txt` disallows both by design.
+
+Old portal routes indexed under the apex will not vanish on their own timeline. If a specific stale URL is visibly embarrassing in search results, use Search Console's **Removals** tool for it rather than waiting.
+
+### 4.3 Stale apex-scoped cookie check — this is a browser check, not a grep
+
+Open a browser that has previously visited `realtybase.ca`, go to the site, then open DevTools → **Application** → **Cookies** → `https://realtybase.ca`, and look for any cookie whose Domain is `realtybase.ca` or `.realtybase.ca`.
+
+**Supporting-but-insufficient evidence:** a repo grep for cookie-setting code (`document.cookie`, `js-cookie`, `Cookies.`, Rails `cookies[`) returns zero matches, and this app's Amplify/Cognito auth uses browser storage rather than cookies — so the current code cannot set such a cookie going forward. That proves nothing about a cookie a prior deployment, a third-party script, or manual testing already planted in a real user's browser — it persists independently of deployed code.
+
+**Warning sign:** any cookie found scoped to the bare apex — it is now visible to the marketing site and to every subdomain including `app.realtybase.ca`. Note it and decide on clearing it deliberately.
+
+## Rollback
+
+Rollback is the same detach/attach mechanism reversed, as two numbered steps:
+
+1. `realstate` project → **Settings** → **Domains** → remove `realtybase.ca`.
+2. `frontend` project → **Settings** → **Domains** → add `realtybase.ca` back.
+
+The same downtime window applies in reverse. No data restore is needed: the cutover itself touches no `BrokerageDomain` row and no database state (per the Section 1.3 confirmed-empty baseline), so rollback is Vercel/DNS-only.
+
+`[ASSUMED — inferred from the documented remove/add mechanics, not verified against a real Vercel session]`
+
+**One caveat:** if the Section 1.2 OAuth fix was deployed, leave it in place on rollback — pointing `FRONTEND_URL` at `https://app.realtybase.ca` is correct under both the pre- and post-cutover topology.
+
+## Appendix — Findings Snapshot (2026-07-31)
+
+| Finding | Source | State as of 2026-07-31 | How to re-verify |
+|---------|--------|-------------------------|-------------------|
+| OAuth fallback default | `google_oauth_controller.rb:77` | Present — falls back to `"https://realtybase.ca"` when `frontend_origin` is missing from the OAuth state cache | Re-run the Section 1.1 grep |
+| `BrokerageDomain` bare-apex/`www` rows | `BrokerageDomain.where(domain: ['realtybase.ca', 'www.realtybase.ca'])` | Dev DB only — returned empty (`[]`); production not yet checked | Re-run the Section 1.3 command against production |
+| `www.realtybase.ca` attachment | `frontend` Vercel project Domains list | Not attached to `frontend` | Confirm in the `frontend` Domains list |
+| Apex attachment | `frontend` Vercel project Domains list | Attached to `frontend` | Confirm in the same list |
+| DNS management method | `realtybase.ca` nameservers | Vercel-managed nameservers (`ns1.vercel-dns.com` / `ns2.vercel-dns.com`) | Re-run the Section 3 step 1 `dig NS` |
+| Apex record TTL | `realtybase.ca` A record | Unverified — no dashboard access at authoring time | Run the Section 1.6 `dig` |
+| `landing`/`realstate` project custom domains | `realstate` Vercel project Domains list | None as of Phase 45 close | Confirm in that project's Domains list |
+
+Phase 46 executed no DNS, Vercel, database, or source-code change — this runbook is documentation only.
