@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
-status: verifying
-stopped_at: Completed 45-02-PLAN.md (Task 2 re-verification + DEPLOY-02 roll-up + SUMMARY) -- Phase 45 complete
-last_updated: "2026-08-01T03:05:45.518Z"
+status: ready_to_plan
+stopped_at: Phase 45 complete (2/2) — ready to discuss Phase 46
+last_updated: 2026-08-01T03:11:10.899Z
 last_activity: 2026-08-01
 progress:
   total_phases: 5
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 45 — vercel-project-setup-preview-verification
+**Current focus:** Phase 46 — apex domain cutover runbook
 
 ## Current Position
 
-Phase: 45 (vercel-project-setup-preview-verification) — COMPLETE
-Plan: 2 of 2 — both 45-01 and 45-02 complete
-Status: Phase complete — ready for verification
+Phase: 46
+Plan: Not started
+Status: Ready to plan
 Last activity: 2026-08-01
 
 Progress: [██████████] 100%
@@ -36,7 +36,7 @@ Progress: [██████████] 100%
 
 **Velocity (through v1.10):**
 
-- Total plans completed: 33
+- Total plans completed: 35
 - Average duration: ~19 min
 - Total execution time: ~2.9 hours
 
@@ -54,6 +54,7 @@ Progress: [██████████] 100%
 | 39 | 1 | - | - |
 | 42 | 3 | - | - |
 | 44 | 4 | - | - |
+| 45 | 2 | - | - |
 
 **Recent Trend:**
 
