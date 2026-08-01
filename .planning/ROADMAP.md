@@ -188,7 +188,7 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 - [x] **Phase 43: Home Page & Legal Pages** - Visitors see a complete, accessible home page and two flagged-placeholder legal pages (completed 2026-07-31)
 - [x] **Phase 44: SEO Basics + Analytics** - Site is indexable in production only, discoverable via sitemap/robots, and CTA engagement is tracked (completed 2026-07-31)
 - [x] **Phase 45: Vercel Project Setup + Preview Verification** - `landing/` deploys independently to its own verified Vercel project (completed 2026-08-01)
-- [ ] **Phase 46: Apex Domain Cutover Runbook** - Manual DNS/Vercel/backend-audit cutover steps documented, not executed
+- [x] **Phase 46: Apex Domain Cutover Runbook** - Manual DNS/Vercel/backend-audit cutover steps documented, not executed (completed 2026-08-01)
 
 ## Phase Details
 
@@ -328,7 +328,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 46-02-PLAN.md — Automated completeness/scope sweep asserting D-01..D-09 and ROADMAP criteria 1-4 (including D-09's zero-match exclusion and a "nothing was executed" git guard), plus a blocking human review of the runbook's executability
+- [x] 46-02-PLAN.md — Automated completeness/scope sweep asserting D-01..D-09 and ROADMAP criteria 1-4 (including D-09's zero-match exclusion and a "nothing was executed" git guard), plus a blocking human review of the runbook's executability
 
 **Note**: documentation-only phase — the sole deliverable is `46-RUNBOOK.md` under `.planning/`. No DNS record, Vercel domain assignment, `BrokerageDomain` row, or source file under `backend/`/`frontend/`/`landing/` is changed. The `google_oauth_controller.rb:77` `FRONTEND_URL` fallback fix is **named as an action item inside the runbook**, deliberately not applied here (per 46-CONTEXT.md `<code_context>`: "no source files are modified"); plan 46-02 asserts it is still unapplied.
 
@@ -386,4 +386,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 43. Home Page & Legal Pages | v1.14 | 4/4 | Complete   | 2026-07-31 |
 | 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete    | 2026-07-31 |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 2/2 | Complete    | 2026-08-01 |
-| 46. Apex Domain Cutover Runbook | v1.14 | 1/2 | In Progress|  |
+| 46. Apex Domain Cutover Runbook | v1.14 | 2/2 | Complete   | 2026-08-01 |
