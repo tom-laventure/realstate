@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
 status: executing
-stopped_at: Phase 46 context gathered
-last_updated: "2026-08-01T04:00:37.176Z"
-last_activity: 2026-08-01 -- Phase 46 planning complete
+stopped_at: Completed 46-01-PLAN.md
+last_updated: "2026-08-01T04:21:55.311Z"
+last_activity: 2026-08-01
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
   percent: 80
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Phase 46 — apex domain cutover runbook
+**Current focus:** Phase 46 — apex-domain-cutover-runbook
 
 ## Current Position
 
-Phase: 46
-Plan: Not started
+Phase: 46 (apex-domain-cutover-runbook) — EXECUTING
+Plan: 2 of 2
 Status: Ready to execute
-Last activity: 2026-08-01 -- Phase 46 planning complete
+Last activity: 2026-08-01
 
-Progress: [██████████] 100%
+Progress: [█████████░] 93%
 
 ## Performance Metrics
 
@@ -89,6 +89,7 @@ Progress: [██████████] 100%
 | Phase 44 P04 | 7min | 3 tasks | 0 files |
 | Phase 45 P01 | 8min | 3 tasks | 0 files |
 | Phase 45 P02 | 7min | 2 tasks | 0 files |
+| Phase 46 P01 | 10min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -127,6 +128,8 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 45]: 45-02: Ignored Build Step preset (folder-scoped) confirmed available on this account's plan tier, empirically closing RESEARCH.md Open Question 1
 - [Phase 45]: 45-02: System Environment Variables checkbox confirmed checked (Node 24.x), closing Phase 44's carry-forward and 45-01's www.realtybase.ca domain question
 - [Phase 45]: 45-02: DEPLOY-02 closed -- all four ROADMAP criteria proven, criterion 4 upgraded from href-present to human browser-navigated confirmation
+- [Phase 46]: 46-01: Runbook split across two atomic commits mirroring the plan's two tasks (banner/preconditions/Section 1/Section 2, then Sections 3-4/Rollback/Appendix)
+- [Phase 46]: 46-01: google_oauth_controller.rb:77 OAuth fallback fix named as a required pre-cutover action item, deliberately not applied — Phase 46 is documentation-only
 
 ### Pending Todos
 
@@ -172,9 +175,9 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-08-01T03:29:23.731Z
-Stopped at: Phase 46 context gathered
-Resume file: .planning/phases/46-apex-domain-cutover-runbook/46-CONTEXT.md
+Last session: 2026-08-01T04:21:55.258Z
+Stopped at: Completed 46-01-PLAN.md
+Resume file: None
 Next action: Phase 45 is complete and DEPLOY-02 is closed. Run `/gsd-verify-work` for Phase 45, then proceed to Phase 46 (Apex Domain Cutover Runbook) planning.
 
 ## Operator Next Steps

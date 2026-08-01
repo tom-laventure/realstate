@@ -324,7 +324,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 46-01-PLAN.md — Write `46-RUNBOOK.md`: staleness banner + preconditions + Pre-Cutover Audit (grep disposition table, `google_oauth_controller.rb:77` finding + fix, production `BrokerageDomain` re-check, env-var confirmation, cleared-files list, TTL check) + Vercel detach-then-attach steps, then DNS Verification, Post-Cutover Verification, Rollback, and the findings Appendix
+- [x] 46-01-PLAN.md — Write `46-RUNBOOK.md`: staleness banner + preconditions + Pre-Cutover Audit (grep disposition table, `google_oauth_controller.rb:77` finding + fix, production `BrokerageDomain` re-check, env-var confirmation, cleared-files list, TTL check) + Vercel detach-then-attach steps, then DNS Verification, Post-Cutover Verification, Rollback, and the findings Appendix
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -386,4 +386,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 43. Home Page & Legal Pages | v1.14 | 4/4 | Complete   | 2026-07-31 |
 | 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete    | 2026-07-31 |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 2/2 | Complete    | 2026-08-01 |
-| 46. Apex Domain Cutover Runbook | v1.14 | 0/? | Not started | - |
+| 46. Apex Domain Cutover Runbook | v1.14 | 1/2 | In Progress|  |
