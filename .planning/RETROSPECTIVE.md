@@ -618,6 +618,48 @@
 
 ---
 
+## Milestone: v1.14 — Marketing Landing Site
+
+**Shipped:** 2026-08-01
+**Phases:** 5 (42–46) | **Plans:** 15 | **Tasks:** 37 | **Timeline:** 3 days (2026-07-30 → 2026-08-01, build and close same-day)
+
+### What Was Built
+
+1. Independent Astro 7 + Tailwind v4 `landing/` project, own lockfile/`vercel.json`/`.nvmrc`, hand-copied Slate design tokens with provenance comment, zero coupling to `frontend/`/`backend/` (Phase 42)
+2. Complete marketing home page (Hero, ValueProp, 7-pair FeatureGrid, ClosingCTA) plus placeholder-flagged `/privacy` and `/terms` legal pages with a shared `LegalNotice` pending-review banner (Phase 43)
+3. Full SEO surface — hardcoded-apex sitemap, `robots.txt`, satori-generated OG image, environment-aware `noindex` — and cookieless Vercel Analytics wired to all 6 CTA sites, with an accepted Hobby-tier custom-event limitation (Phase 44)
+4. New standalone Vercel project (`realstate`, Root Directory `landing`) independently verified via build log + live fetch to be serving the correct Astro output, project settings swept clean (Phase 45)
+5. A 234-line, 8-section human-executable apex domain cutover runbook — DNS, Vercel detach/attach, backend audit, rollback — with zero live DNS/Vercel/database changes executed, closed by an automated 30/30 sweep plus a genuine blocking human sign-off checkpoint (Phase 46)
+
+### What Worked
+
+- **Documentation-only scoping for the highest-blast-radius phase.** Phase 46 explicitly separated "write the runbook" from "execute the cutover" — the milestone shipped a complete, human-verified plan for a hard-to-reverse production change without ever touching production, keeping the milestone completable within agent-reachable scope.
+- **A genuine blocking human-verify checkpoint, not a rubber stamp.** 46-02's Task 2 required the developer who will actually run the cutover to review the document end-to-end against 8 concrete questions and the 4 ROADMAP criteria — verified via commit history (real pause at `2929d8e`, real resume at `27a6c31`), not a self-approved claim.
+- **Provenance-comment pattern reused twice, and its self-collision pitfall reused (and avoided) twice.** Both `global.css`'s Slate-token copy (Phase 42) and `astro.config.mjs`'s apex-hardcode (Phase 44) needed a "this was copied/hardcoded, here's why" comment — and both times the first-draft comment text literally contained the exact string a verify script was asserting the *absence* of (`@custom-variant`, `VERCEL_URL`). Both were caught and reworded before the plan closed, establishing "don't quote the banned literal in the explanatory comment" as a repeatable rule.
+- **Independent phase verification stayed load-bearing through milestone close.** Every phase's VERIFICATION.md re-ran the actual sweep/build scripts rather than trusting SUMMARY.md claims, and the milestone-level review (this close) independently re-ran Phase 46's sweep script fresh and cross-checked every cited backend fact against the live codebase before archiving.
+
+### What Was Inefficient
+
+- **PROJECT.md's Active→Validated promotion for Phase 43's 11 requirements (LAND-01–06/08, LEGAL-01–04) did not happen at Phase 43's own close** — they sat in the "Active" bullet list through Phases 44, 45, and 46 until this milestone-level full review caught and fixed it. This is the same drift class flagged in v1.10 ("PROJECT.md's Active section lagged REQUIREMENTS.md by a full phase") and v1.12 ("Traceability table went stale") — a completion fact recorded in REQUIREMENTS.md did not propagate to PROJECT.md's mirror of it. Execute-phase's lightweight per-phase `update_project_md` step only moves requirements the *current* phase validates; it has no mechanism to catch a *prior* phase's unmoved requirements, so the gap silently persisted for three phases until the mandatory full-review checklist at milestone-close forced the check.
+
+### Patterns Established
+
+- **"Don't quote the banned literal in the explanatory comment"** — when a verify script asserts a string's *absence* from a file, a human-readable comment documenting *why* that pattern was avoided must not itself contain the literal string, or it self-triggers the same assertion. Confirmed twice this milestone (Phase 42, Phase 44); now a standing rule for any future "provenance/rationale comment near a negative-assertion verify check."
+- **Documentation-only phases for high-blast-radius, hard-to-reverse changes** — when a phase's real-world action (DNS cutover, schema migration, irreversible external-service change) is outside safe agent-reach or too risky to bundle with normal execution, scope the phase to producing a reviewed, human-signed-off runbook instead of executing the change. Confirmed as a repeatable pattern by Phase 46; the milestone's REQUIREMENTS.md explicitly carried this as an Out of Scope entry from the start, not a scope-cut discovered mid-phase.
+
+### Key Lessons
+
+- **Per-phase PROJECT.md evolution is a convenience, not a guarantee — the milestone-close full review is the actual backstop.** Three separate milestones now (v1.10, v1.12, v1.14) have shipped with a phase-level requirement validated in REQUIREMENTS.md but not mirrored into PROJECT.md until milestone close caught it. The fix isn't "try harder at phase-close" — it's treating the full review checklist as load-bearing, not ceremonial, every single milestone.
+- **Same-day milestone close is achievable and worth defaulting to.** v1.13 flagged a 3-day gap between "functionally complete" and "formally closed" as a bad pattern. v1.14 closed the same day Phase 46 finished — running `/gsd:complete-milestone` immediately after the last phase's human-verify checkpoint, rather than waiting for the next planning session, avoided that gap entirely.
+
+### Cost Observations
+
+- Sessions: build (Phases 42–46) and close ceremony both ran 2026-07-30 through 2026-08-01, no multi-day gap between completion and archival
+- Model: Claude Sonnet 5 throughout (phase execution, verification, and milestone-close review)
+- Notable: zero gap-closure round-trips across all 5 phases — every VERIFICATION.md passed on first run, and the milestone's only blocking human checkpoint (46-02) returned "approved" with no issues raised on first review
+
+---
+
 ## Cross-Milestone Trends
 
 | Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 | v1.5 | v1.6 |
@@ -638,3 +680,5 @@
 **v1.12 update:** 4 phases, 14 plans, 8 days, 1.75 plans/day (slowest since v1.1 — Phase 37's 6-plan free-tier gating sweep and Phase 38's 3-wave dependency chain both required more sequencing than recent milestones' flatter phase shapes). 1 deferred item carried forward unchanged from v1.10 (Architecture — re-acknowledged, not resolved) + 3 new v2-scoped items (BILL-01 restated, PLAN-20 higher-seat tiers, PLAN-21 DB-backed plan config — all deliberate scope boundaries from REQUIREMENTS.md, not gaps). The requirement-checkbox sync gap (clean since v1.10) did NOT recur, but a **new variant of the same failure class** appeared one layer down: the Traceability table (separate from the checkboxes) went stale for Phase 36's 6 requirements and had to be caught manually at milestone-close review — the underlying pattern ("a completion fact written in one place, not propagated to the other") is not yet fully closed. Also notable: this is the third consecutive milestone (v1.10, v1.11, v1.12) where an executor independently rediscovered the same nested-gitlink (`backend`/`frontend`) worktree setup fix — a repo-level runbook is now overdue rather than optional.
 
 **v1.13 update:** 2 phases, 8 plans, 1 day build (2026-07-22 → 2026-07-23), 8 plans/day — fastest milestone in the log, driven by two fully independent phases with zero cross-phase dependency and both reusing pre-existing v1.12 infrastructure rather than building new data-layer plumbing. 1 deferred item carried forward unchanged (Architecture — re-acknowledged a third time, still unresolved) + 1 new non-blocking item found only by the milestone-level integration audit (plan-tier value type duplicated 4x across frontend, invisible to either phase's own verification). REQUIREMENTS.md checkbox and traceability sync gap did NOT recur — third consecutive milestone clean on this front. First milestone in the log where the "milestone complete" and "milestone closed" states visibly diverged: both phases were 100% verified and STATE.md showed `completed` for 3 days before `/gsd:complete-milestone` was actually run — worth tracking whether this recurs.
+
+**v1.14 update:** 5 phases, 15 plans, 37 tasks, 3 days (2026-07-30 → 2026-08-01), 5 plans/day — first milestone building a standalone deploy target (`landing/`) rather than extending the existing `frontend`/`backend` app, and the first with a deliberately documentation-only phase (46) for a change too high-blast-radius to execute via agent. The v1.13-flagged "complete vs. closed" divergence did NOT recur — `/gsd:complete-milestone` ran the same day Phase 46's checkpoint closed, zero-day gap. REQUIREMENTS.md checkbox and traceability sync gap did NOT recur — fourth consecutive clean milestone on that specific front, but a **sibling variant surfaced instead**: PROJECT.md's Active→Validated requirement promotion (not REQUIREMENTS.md itself) lagged a full 3 phases for Phase 43's 11 requirements, only caught by this milestone's full review. 1 deferred item carried forward unchanged (Architecture — re-acknowledged a fourth time, still unresolved; neither trigger condition has fired). Zero gap-closure round-trips — every phase verified clean on first pass.
