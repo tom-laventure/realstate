@@ -30,11 +30,14 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07, SEO-01–04, ANALYTICS-01 validated below):
+v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07, SEO-01–04, ANALYTICS-01, DEPLOY-02 validated below):
 - LAND-01–06, LAND-08: Home page hero/CTA/features/nav/footer/responsive structure — Phase 43
 - LEGAL-01–04: Privacy Policy + Terms pages (placeholder text, pending-review banner, noindex) — Phase 43
-- DEPLOY-02: Vercel project setup + preview verification — Phase 45
 - DEPLOY-03: Apex domain cutover runbook (documentation only) — Phase 46
+
+### Validated (v1.14 — Phase 45: Vercel Project Setup + Preview Verification)
+
+- ✓ DEPLOY-02: New Vercel project `realstate` created with Root Directory `landing`, distinct from `frontend`/`auth-callback` — build log and live `*.vercel.app` fetch both independently re-confirmed (not just relayed) to be serving this repo's Astro output, zero CRA contamination, CTAs verified present (4/2 counts) and human-click-through-confirmed to navigate to `app.realtybase.ca/create` and `/auth/login`. Ignored Build Step scoped to `landing/` via the first-party folder preset (confirmed available on this account's Hobby tier), System Environment Variables enabled, Node 24.x, no custom domain, Deployment Protection off — v1.14 Phase 45
 
 ### Validated (v1.14 — Phase 44: SEO Basics + Analytics)
 
@@ -378,6 +381,8 @@ v1.14 Marketing Landing Site — remaining scope (DEPLOY-01, LAND-07, SEO-01–0
 | Phase 41's plan-change endpoint is a new brokerage-scoped, owner-gated surface, not the existing internal-only `Ops::PlanController` — v1.13 Phase 41 | `Ops::PlanController` is an HTTP-Basic-Auth `/ops`-namespace testing tool, unreachable and unusable by real brokerage owners; enqueues the same proven `ApplyPlanTransitionJob` cascade from v1.12 Phases 37-39 | ✓ Good — no double-invocation risk with the ops tool, confirmed by v1.13 milestone integration audit |
 | `PlanTier` values kept byte-identical to onboarding's `CreateBrokeragePlan` ('free'\|'independent'\|'growth') instead of sharing one declaration — v1.13 Phase 41 | Avoided at ship time to keep the two phases' frontend surfaces independent; the milestone audit flagged this as a real (non-blocking) drift risk — 4 separate frontend copies of the same union with no compiler/test enforcement | ⚠️ Revisit — consolidate to one shared type if/when a 4th plan tier is ever added (tracked in Deferred to v1.14+) |
 | `PlanManagementSection` renders the identical `PlanSelector` for owner and non-owner views, toggling only `disabled` + a read-only caption — v1.13 Phase 41 | No separate text/badge fallback component; matches `OwnershipManagementSection`'s established pattern from v1.11 | ✓ Good |
+| Vercel project creation done manually via dashboard, not CLI — v1.14 Phase 45 | No authenticated Vercel session in the agent's environment; a one-time dashboard task is simpler and safer than driving `vercel login`+CLI deploy, which would also switch the deploy mechanism from GitHub-integration to local file upload | ✓ Good — verified via independent build-log + live-fetch re-check rather than trusting relayed dashboard screenshots |
+| `landing/` and `auth-callback/` share the monorepo's GitHub repo (`tom-laventure/realstate`); `frontend/` is a separate repo (`tom-laventure/realstate-fe`) — confirmed v1.14 Phase 45 | Both repos are granted to the same Vercel GitHub App, so both appear in the Import Repository picker — picking the wrong one silently builds the wrong project with a green checkmark | ⚠️ Load-bearing for Phase 46 — the domain-cutover runbook must target the `realstate` project/repo, not `realstate-fe` |
 
 ---
 
@@ -400,4 +405,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-07-31 after Phase 44 (SEO Basics + Analytics) completion*
+*Last updated: 2026-08-01 after Phase 45 (Vercel Project Setup + Preview Verification) completion*
