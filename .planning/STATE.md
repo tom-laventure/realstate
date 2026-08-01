@@ -18,10 +18,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
+See: .planning/PROJECT.md (updated 2026-08-01 after v1.14 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Milestone complete
+**Current focus:** Planning next milestone
 
 ## Current Position
 
@@ -95,57 +95,20 @@ Last activity: 2026-08-01 — Milestone v1.14 completed and archived
 
 ### Decisions
 
-Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.13 close). Roadmap-level phase sequencing for v1.14 (see ROADMAP.md Phase Details):
-
-- Phase numbering continues from v1.13's last phase (41) — v1.14 starts at Phase 42, per continuous-numbering convention.
-- Phases are sequenced linearly (42 → 43 → 44 → 45 → 46) rather than the research-suggested parallel-capable content/legal split, because `config.json` sets `granularity: coarse` — content (LAND) and legal (LEGAL) requirements were combined into a single Phase 43 rather than kept as separate phases.
-- LAND-07 (Slate color token copy) assigned to Phase 42 (Scaffold), not Phase 43 (Content) — it's infrastructure/styling setup that must exist before any component work, matching research's Phase 1 deliverable list.
-- ANALYTICS-01 grouped with SEO (Phase 44) rather than Scaffold (Phase 42) — even though research suggested wiring `<Analytics />` during scaffold, the requirement is only observably true (tracking events, dashboard data) once real pages/CTAs exist, so it's grouped with the other "discoverability/measurability" requirements.
-- Phase 45 (Vercel Project Setup) and Phase 46 (Apex Domain Cutover) kept as two fully separate phases per the strongest pitfall finding in research/PITFALLS.md — combining "does the build deploy correctly" with "is the domain live" hides failures until they're expensive to diagnose.
-- Phase 46 is scoped as documentation-only per DEPLOY-03 and the milestone's explicit "Out of Scope" entry — no DNS/Vercel domain changes are executed in this milestone, only a written runbook.
-- [Phase 42]: Installed Node v22.23.2 via nvm (local floor was 22.9.0) to satisfy Astro 7's >=22.12.0 engine requirement before scaffolding landing/
-- [Phase 42]: astro add tailwind installed exact intended versions (tailwindcss@4.3.3, @tailwindcss/vite@4.3.3, no @astrojs/tailwind) with zero manual correction needed
-- [Phase 42]: landing/.nvmrc pinned to exact 22.12.0 rather than frontend's bare major-only 22 — Astro 7's engine floor is >=22.12.0; local machine ran 22.9.0 at scaffold time
-- [Phase 42]: Reworded global.css provenance comment to avoid literal @custom-variant string — Plan's mandated comment text collided with its own verify script's no-@custom-variant assertion
-- [Phase 42]: Installed @astrojs/check + typescript devDependencies after independent npm registry verification — Required by astro check (Task 3 verify block); both packages confirmed under official withastro/astro and microsoft/TypeScript orgs
-- [Phase 42]: Phase 42 closed: all 4 ROADMAP success criteria verified true via automated dev-server/build/git-tracking assertions plus human-approved visual confirmation of the Slate palette and clean console
-- [Phase 42]: Astro 7's astro dev runs as a persistent background daemon independent of the npm wrapper process - astro dev stop (not kill on the npm PID) is required to cleanly terminate it
-- [Phase 43]: 43-01: Verified @lucide/astro@1.28.0 live against npm registry before install; matches RESEARCH.md audit exactly, no legacy lucide-astro present
-- [Phase 43]: 43-01: consts.ts uses 2-space indent (PATTERNS.md spec) while BaseLayout.astro retains its existing tab indentation in the HTML body — each file preserves its own pre-existing convention
-- [Phase 43]: 43-02: FeatureGrid uses flex-wrap + justify-center with calc()-based widths instead of grid-cols-4 so the incomplete final row (items 5-7) renders centered rather than left-aligned, per UI-SPEC line 110
-- [Phase 43]: Applied design_contract spacing correction (gap-2/mb-8) over PATTERNS.md illustrative gap-3/mb-10 snippet for legal pages (43-03)
-- [Phase 43]: Used consistent 'pending confirmation by legal counsel' language across legal page sections requiring compliance/jurisdiction/liability specifics not yet reviewed (43-03)
-- [Phase 43]: No source-file fixes were required for plan 43-04 — every Task 1 automated sweep (dead-link, zero-JS, robots/noindex, heading-outline, image-alt, icon-accessibility, design-contract, accent-reservation, cross-origin CTA, dependency, feature-grid centering, legacy-asset) passed on the first run
-- [Phase 43]: Human developer completed the full 8-point plan 43-04 Task 2 verification script (five-second scan, accent discipline, mobile reflow at 375px/768px, feature-grid row-2 centering, live CTA click-through, legal-page banner/noindex, keyboard/reduced-motion, console) and approved with no issues
-- [Phase 44]: 44-01: Reworded astro.config.mjs site-hardcode comment to avoid literal VERCEL_URL substring, matching the Phase 42 @custom-variant self-collision pattern
-- [Phase 44]: 44-02: Verified Node 22.23.2 imports landing/src/consts.ts directly via native type-stripping — no regex-extraction fallback needed for SITE_NAME
-- [Phase 44]: 44-02: generate-og-image.mjs matches astro.config.mjs's 2-space+semicolons convention, not the .astro tab/no-semicolon style
-- [Phase 44]: 44-03: import.meta.env.VERCEL_ENV worked directly (no process.env fallback needed) — verified end-to-end via real VERCEL_ENV=preview/production builds toggling noindex correctly
-- [Phase 44]: 44-03: Fixed @vercel/analytics/astro import to use the default export (not the named { Analytics } form in RESEARCH.md/PATTERNS.md) — the installed package re-exports the component as a default export, astro check caught the mismatch
-- [Phase 44]: 44-04: Verified four-environment noindex matrix and full production SEO/sitemap/robots/OG/analytics sweep against real build output; human approved OG image and accepted the Vercel Hobby-tier custom-event limitation plus Phase 45 System Environment Variables carry-forward
-- [Phase 45]: 45-01 Task 1: `landing/` published to `origin/master` via `git push origin master` (fast-forward, 76 commits, no force/rebase/amend) at short SHA `e723e3b`; outbound diff guard confirmed only `.planning/`, `landing/`, and the `backend`/`frontend` gitlink pointer bumps crossed; no secret-looking file tracked under `landing/`
-- [Phase 45]: 45-01 Task 3: Vercel project 'realstate' verified live -- build log SHA e723e3b matches origin/master exactly, Astro markers present, CRA negatives absent, CTA hrefs 4/2, all Phase 44 SEO artifacts serve correctly — Home page's missing noindex confirmed expected (VERCEL_ENV=production) and explicitly not proof System Environment Variables are enabled -- that confirmation is deferred to plan 45-02
-- [Phase 45]: 45-02: Ignored Build Step preset (folder-scoped) confirmed available on this account's plan tier, empirically closing RESEARCH.md Open Question 1
-- [Phase 45]: 45-02: System Environment Variables checkbox confirmed checked (Node 24.x), closing Phase 44's carry-forward and 45-01's www.realtybase.ca domain question
-- [Phase 45]: 45-02: DEPLOY-02 closed -- all four ROADMAP criteria proven, criterion 4 upgraded from href-present to human browser-navigated confirmation
-- [Phase 46]: 46-01: Runbook split across two atomic commits mirroring the plan's two tasks (banner/preconditions/Section 1/Section 2, then Sections 3-4/Rollback/Appendix)
-- [Phase 46]: 46-01: google_oauth_controller.rb:77 OAuth fallback fix named as a required pre-cutover action item, deliberately not applied — Phase 46 is documentation-only
-- [Phase 46]: 46-02 Task 1 sweep passed 30/30 on first run against the 46-01 runbook — zero gaps, zero edits needed
-- [Phase 46]: 46-02 Task 2 developer approved 46-RUNBOOK.md end-to-end against all 8 review points and 4 ROADMAP criteria, resume-signal 'approved', no issues raised — DEPLOY-03 and Phase 46 closed
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.14 close) and `.planning/RETROSPECTIVE.md`'s v1.14 section. Per-phase implementation-detail decisions from v1.14 (Phases 42-46) are archived in `.planning/milestones/v1.14-ROADMAP.md` and the individual `*-SUMMARY.md` files — no longer duplicated here.
 
 ### Pending Todos
 
-None open — the one pending todo (`arch-brokerage-listing-access.md`) was acknowledged and deferred; see Deferred Items below.
+None open — the one pending todo (`arch-brokerage-listing-access.md`) was acknowledged and deferred again at v1.14 close; see Deferred Items below.
 
 ### Blockers/Concerns
 
 - Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
 - Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
-- v1.14-specific (from research/PITFALLS.md, to verify during Phase 46 planning): exact current state of backend `BrokerageDomain` rows / CORS allowlist / `MainDomainOnly` config referencing bare `realtybase.ca` is not yet enumerated — needs first-party investigation when Phase 46 is planned, not assumed from research alone.
-- RESOLVED (45-02): the `www.realtybase.ca` domain question from 45-01 is closed — developer confirmed it was removed prior to the 45-02 settings-sweep checkpoint, and the Domains list re-check in 45-02 shows only the auto-assigned `*.vercel.app` entry. No custom domain is attached to the `realstate` project.
-- Deferred, non-blocking (D-04, from 45-02): enable the Vercel Web Analytics toggle on the `realstate` project — a one-click follow-up so the `<Analytics />` code shipped in Phase 44 isn't inert.
-- Deferred, non-blocking (D-02, from 45-02): retrofit an Ignored Build Step onto the `frontend` and `auth-callback` Vercel projects for build-minute hygiene.
-- Known-unobserved (from 45-02): live `VERCEL_ENV=preview` `noindex` behavior has not yet been observed on a real deployment — every deployment so far has been a production build from `master`. Worth a spot-check on the first genuine preview deployment.
+- Deferred, non-blocking (D-04, from v1.14 Phase 45-02): enable the Vercel Web Analytics toggle on the `realstate` project — a one-click follow-up so the `<Analytics />` code shipped in Phase 44 isn't inert.
+- Deferred, non-blocking (D-02, from v1.14 Phase 45-02): retrofit an Ignored Build Step onto the `frontend` and `auth-callback` Vercel projects for build-minute hygiene.
+- Known-unobserved (from v1.14 Phase 45-02): live `VERCEL_ENV=preview` `noindex` behavior has not yet been observed on a real deployment — every deployment so far has been a production build from `master`. Worth a spot-check on the first genuine preview deployment.
+- Apex domain cutover for `realtybase.ca` remains unexecuted by design — the full runbook is at `.planning/phases/46-apex-domain-cutover-runbook/46-RUNBOOK.md`, human-reviewed and ready, but requires manual DNS/Vercel dashboard execution outside agent reach. Includes one required pre-cutover code fix (`google_oauth_controller.rb:77` `FRONTEND_URL` fallback) not yet applied.
 
 ## Deferred Items
 
