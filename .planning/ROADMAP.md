@@ -187,7 +187,7 @@ Full details: [milestones/v1.13-ROADMAP.md](milestones/v1.13-ROADMAP.md)
 - [x] **Phase 42: Scaffold + Stack Setup** - Astro + Tailwind `landing/` project exists, independently buildable, with Slate color tokens wired in (completed 2026-07-30)
 - [x] **Phase 43: Home Page & Legal Pages** - Visitors see a complete, accessible home page and two flagged-placeholder legal pages (completed 2026-07-31)
 - [x] **Phase 44: SEO Basics + Analytics** - Site is indexable in production only, discoverable via sitemap/robots, and CTA engagement is tracked (completed 2026-07-31)
-- [ ] **Phase 45: Vercel Project Setup + Preview Verification** - `landing/` deploys independently to its own verified Vercel project
+- [x] **Phase 45: Vercel Project Setup + Preview Verification** - `landing/` deploys independently to its own verified Vercel project (completed 2026-08-01)
 - [ ] **Phase 46: Apex Domain Cutover Runbook** - Manual DNS/Vercel/backend-audit cutover steps documented, not executed
 
 ## Phase Details
@@ -303,7 +303,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 45-02-PLAN.md — Project settings sweep (Ignored Build Step, System Environment Variables, Node version, no domain, no Deployment Protection), human CTA click-through, DEPLOY-02 roll-up
+- [x] 45-02-PLAN.md — Project settings sweep (Ignored Build Step, System Environment Variables, Node version, no domain, no Deployment Protection), human CTA click-through, DEPLOY-02 roll-up
 
 **Note**: zero source files change this phase — both plans are dashboard runbook + live-URL verification only. Verified during planning: `landing/` was **not** on `origin/master` (local `master` was 74 commits ahead), so publishing it is a blocking precondition inside plan 45-01.
 
@@ -374,5 +374,5 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 42. Scaffold + Stack Setup | v1.14 | 3/3 | Complete    | 2026-07-30 |
 | 43. Home Page & Legal Pages | v1.14 | 4/4 | Complete   | 2026-07-31 |
 | 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete    | 2026-07-31 |
-| 45. Vercel Project Setup + Preview Verification | v1.14 | 1/2 | In Progress|  |
+| 45. Vercel Project Setup + Preview Verification | v1.14 | 2/2 | Complete   | 2026-08-01 |
 | 46. Apex Domain Cutover Runbook | v1.14 | 0/? | Not started | - |

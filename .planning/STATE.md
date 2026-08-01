@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.14
 milestone_name: Marketing Landing Site
-status: executing
-stopped_at: Completed 45-01-PLAN.md (Task 3 verification + SUMMARY)
-last_updated: "2026-08-01T01:03:47.680Z"
+status: verifying
+stopped_at: Completed 45-02-PLAN.md (Task 2 re-verification + DEPLOY-02 roll-up + SUMMARY) -- Phase 45 complete
+last_updated: "2026-08-01T03:05:45.518Z"
 last_activity: 2026-08-01
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 13
-  completed_plans: 12
-  percent: 60
+  completed_plans: 13
+  percent: 80
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-07-26 after v1.13 milestone close)
 
 ## Current Position
 
-Phase: 45 (vercel-project-setup-preview-verification) — EXECUTING
-Plan: 2 of 2 (45-02 next), 45-01 complete (all 3 tasks)
-Status: Ready to execute
+Phase: 45 (vercel-project-setup-preview-verification) — COMPLETE
+Plan: 2 of 2 — both 45-01 and 45-02 complete
+Status: Phase complete — ready for verification
 Last activity: 2026-08-01
 
-Progress: [█████████░] 92%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -87,6 +87,7 @@ Progress: [█████████░] 92%
 | Phase 44 P3 | 8min | 3 tasks | 8 files |
 | Phase 44 P04 | 7min | 3 tasks | 0 files |
 | Phase 45 P01 | 8min | 3 tasks | 0 files |
+| Phase 45 P02 | 7min | 2 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -122,6 +123,9 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 - [Phase 44]: 44-04: Verified four-environment noindex matrix and full production SEO/sitemap/robots/OG/analytics sweep against real build output; human approved OG image and accepted the Vercel Hobby-tier custom-event limitation plus Phase 45 System Environment Variables carry-forward
 - [Phase 45]: 45-01 Task 1: `landing/` published to `origin/master` via `git push origin master` (fast-forward, 76 commits, no force/rebase/amend) at short SHA `e723e3b`; outbound diff guard confirmed only `.planning/`, `landing/`, and the `backend`/`frontend` gitlink pointer bumps crossed; no secret-looking file tracked under `landing/`
 - [Phase 45]: 45-01 Task 3: Vercel project 'realstate' verified live -- build log SHA e723e3b matches origin/master exactly, Astro markers present, CRA negatives absent, CTA hrefs 4/2, all Phase 44 SEO artifacts serve correctly — Home page's missing noindex confirmed expected (VERCEL_ENV=production) and explicitly not proof System Environment Variables are enabled -- that confirmation is deferred to plan 45-02
+- [Phase 45]: 45-02: Ignored Build Step preset (folder-scoped) confirmed available on this account's plan tier, empirically closing RESEARCH.md Open Question 1
+- [Phase 45]: 45-02: System Environment Variables checkbox confirmed checked (Node 24.x), closing Phase 44's carry-forward and 45-01's www.realtybase.ca domain question
+- [Phase 45]: 45-02: DEPLOY-02 closed -- all four ROADMAP criteria proven, criterion 4 upgraded from href-present to human browser-navigated confirmation
 
 ### Pending Todos
 
@@ -132,7 +136,10 @@ None open — the one pending todo (`arch-brokerage-listing-access.md`) was ackn
 - Frontend environment quirks (pre-existing, unrelated to any specific milestone): `npx tsc --noEmit` fails repo-wide because `tsconfig.json`'s `moduleResolution: "bundler"` requires TypeScript 5+, but the installed `typescript` is `^4.9.4`. Also 2 pre-existing failing tests in `GoogleSignInButton.test.tsx`.
 - Pre-existing: `RealEstateBoard(:test_board)` factory trait collides with a live seeded row in the shared test-environment Postgres DB (`DATABASE_URL` leaks into `RAILS_ENV=test`) — unrelated test errors remain in the full suite.
 - v1.14-specific (from research/PITFALLS.md, to verify during Phase 46 planning): exact current state of backend `BrokerageDomain` rows / CORS allowlist / `MainDomainOnly` config referencing bare `realtybase.ca` is not yet enumerated — needs first-party investigation when Phase 46 is planned, not assumed from research alone.
-- Unconfirmed: developer mentioned site is 'deployed under https://www.realtybase.ca/' before providing the actual *.vercel.app URL for the new 'realstate' Vercel project (45-01). Not yet confirmed whether a custom domain was actually attached in Settings -> Domains (which would violate this plan's no-custom-domain requirement, deferred to Phase 46) or just a description of future intent. Must be resolved with developer before starting plan 45-02 or Phase 46.
+- RESOLVED (45-02): the `www.realtybase.ca` domain question from 45-01 is closed — developer confirmed it was removed prior to the 45-02 settings-sweep checkpoint, and the Domains list re-check in 45-02 shows only the auto-assigned `*.vercel.app` entry. No custom domain is attached to the `realstate` project.
+- Deferred, non-blocking (D-04, from 45-02): enable the Vercel Web Analytics toggle on the `realstate` project — a one-click follow-up so the `<Analytics />` code shipped in Phase 44 isn't inert.
+- Deferred, non-blocking (D-02, from 45-02): retrofit an Ignored Build Step onto the `frontend` and `auth-callback` Vercel projects for build-minute hygiene.
+- Known-unobserved (from 45-02): live `VERCEL_ENV=preview` `noindex` behavior has not yet been observed on a real deployment — every deployment so far has been a production build from `master`. Worth a spot-check on the first genuine preview deployment.
 
 ## Deferred Items
 
@@ -164,12 +171,13 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-08-01T01:03:47.669Z
-Stopped at: Completed 45-01-PLAN.md (Task 3 verification + SUMMARY)
+Last session: 2026-08-01T03:05:45.507Z
+Stopped at: Completed 45-02-PLAN.md (Task 2 re-verification + DEPLOY-02 roll-up + SUMMARY) -- Phase 45 complete
 Resume file: None
-Next action: Confirm with the developer whether a custom domain (www.realtybase.ca) was attached to the new `realstate` Vercel project (see Blockers/Concerns) — resolve before planning/executing 45-02. Then run `/gsd-plan-phase 45` (or continue with plan 45-02) to complete remaining project settings (System Environment Variables, Ignored Build Step).
+Next action: Phase 45 is complete and DEPLOY-02 is closed. Run `/gsd-verify-work` for Phase 45, then proceed to Phase 46 (Apex Domain Cutover Runbook) planning.
 
 ## Operator Next Steps
 
-- Confirm with the developer whether `www.realtybase.ca` was attached as a custom domain on the `realstate` Vercel project, and remove it if so (Phase 46 owns domain cutover, not this phase).
-- Once confirmed, proceed to plan 45-02 to complete remaining Vercel project settings.
+- Phase 45 is complete — no further action needed on the `realstate` Vercel project's settings.
+- Proceed to Phase 46 planning (Apex Domain Cutover Runbook), which can assume the `realstate` project has no custom domain and no Deployment Protection.
+- Opportunistically pick up the two deferred, non-blocking follow-ups: enable Web Analytics (D-04) and retrofit an Ignored Build Step onto `frontend`/`auth-callback` (D-02).
