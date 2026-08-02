@@ -1,0 +1,30 @@
+{
+  "phase": "46",
+  "phase_name": "Apex Domain Cutover Runbook",
+  "timestamp": "2026-07-31T00:00:00Z",
+  "areas_completed": ["Backend audit depth", "DNS provider specifics", "Runbook location & format", "Post-cutover verification scope"],
+  "areas_remaining": [],
+  "decisions": {
+    "Backend audit depth": [
+      {"question": "Should the runbook name the concrete google_oauth_controller.rb:77 finding explicitly?", "answer": "Name it explicitly (recommended) — exact file:line, what it does, recommended fix", "options_presented": ["Name it explicitly", "Generic checklist only", "Both"]},
+      {"question": "Should I query the DB now to establish today's baseline for bare-apex BrokerageDomain rows?", "answer": "Query now, bake in result — confirmed empty (no BrokerageDomain row for 'realtybase.ca' or 'www.realtybase.ca') against local dev DB as of 2026-07-31; caveat noted that this checks dev DB only, production must be re-verified at actual cutover time", "options_presented": ["Query now, bake in result", "Checklist step only"]}
+    ],
+    "DNS provider specifics": [
+      {"question": "Which DNS provider hosts realtybase.ca?", "answer": "Vercel DNS (nameservers point at Vercel — Vercel manages DNS directly)", "options_presented": ["Cloudflare", "Vercel DNS", "Namecheap/GoDaddy/other registrar"]},
+      {"question": "Is realtybase.ca currently attached to the frontend Vercel project?", "answer": "Yes — currently on frontend project (old portal); runbook needs a detach-then-attach step, not a fresh add", "options_presented": ["Currently on frontend project", "Not currently assigned anywhere", "Not sure / check during execution"]},
+      {"question": "Is www.realtybase.ca also attached to frontend?", "answer": "No — only the bare apex is attached to frontend; www is not in play, scope stays to bare apex only", "options_presented": ["Yes, www is on frontend too", "No, only bare apex is on frontend", "Not sure / check during execution"]}
+    ],
+    "Runbook location & format": [
+      {"question": "Where should the runbook live?", "answer": "Phase directory (46-apex-domain-cutover-runbook/46-RUNBOOK.md), consistent with GSD planning artifact convention", "options_presented": ["Phase directory (recommended)", "Permanent repo docs/ folder"]},
+      {"question": "Single flat checklist or sectioned by concern?", "answer": "Sectioned — Pre-cutover audit / Vercel dashboard steps / DNS verification, each independently checkable", "options_presented": ["Sectioned (recommended)", "Single flat checklist"]}
+    ]
+  },
+  "deferred_ideas": [],
+  "canonical_refs": [
+    "backend/app/controllers/v1/account/calendar/google_oauth_controller.rb:77 (FRONTEND_URL fallback defaults to https://realtybase.ca)",
+    "backend/config/initializers/cors.rb",
+    "backend/app/middleware/domain_redirect_middleware.rb",
+    "backend/app/controllers/concerns/main_domain_only.rb",
+    "backend/app/models/brokerage_domain.rb"
+  ]
+}
