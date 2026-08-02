@@ -19,18 +19,13 @@ const chips = ['MLS/board-synced listings', 'Group collaboration', 'Role-based a
 			RealtyBase unifies MLS-synced listings, group collaboration, and role-based access — so your
 			brokerage isn't held together by spreadsheets, group texts, and five disconnected tools.
 		</p>
-		<div class="mb-8 flex flex-wrap items-center justify-center gap-4">
-			<a
-				id="hero-get-started"
-				href={CTA_URLS.getStarted}
-				class="bg-primary text-primary-foreground inline-block rounded-md px-6 py-4 text-sm font-semibold transition-opacity hover:opacity-90 motion-reduce:transition-none"
-			>
-				Get Started
-			</a>
-			<a id="hero-login" href={CTA_URLS.login} class="text-foreground text-sm font-semibold">
-				Log in
-			</a>
-		</div>
+		<a
+			id="hero-get-started"
+			href={CTA_URLS.getStarted}
+			class="bg-primary text-primary-foreground mb-8 inline-block rounded-md px-6 py-4 text-sm font-semibold transition-opacity hover:opacity-90 motion-reduce:transition-none"
+		>
+			Get Started
+		</a>
 		<div class="flex flex-wrap items-center justify-center gap-2">
 			{
 				chips.map((chip) => (
@@ -47,8 +42,5 @@ const chips = ['MLS/board-synced listings', 'Group collaboration', 'Role-based a
   import { track } from '@vercel/analytics'
   document.getElementById('hero-get-started')?.addEventListener('click', () => {
     track('get_started_click', { location: 'hero' })
-  })
-  document.getElementById('hero-login')?.addEventListener('click', () => {
-    track('login_click', { location: 'hero' })
   })
 </script>
