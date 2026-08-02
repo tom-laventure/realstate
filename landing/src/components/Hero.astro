@@ -1,8 +1,15 @@
 ---
 import { CTA_URLS } from '../consts'
+
+// Sourced from FeatureGrid.astro's real shipped features — not the mockup's
+// placeholder chip set, which included calendar sync (not yet shipped).
+const chips = ['MLS/board-synced listings', 'Group collaboration', 'Role-based access', 'Custom domain']
 ---
 
-<section class="bg-background px-4 py-16 text-center">
+<!-- min-height nets out the ~4.5rem SiteHeader so hero + nav together fill one screen, not hero alone stacked under it. dvh avoids the mobile address-bar vh jump. -->
+<section
+	class="bg-background flex min-h-[calc(70dvh-4.5rem)] flex-col justify-center px-4 py-16 text-center sm:min-h-[calc(85dvh-4.5rem)]"
+>
 	<div class="mx-auto max-w-3xl">
 		<p class="text-muted-foreground mb-4 text-sm font-semibold">Built for real estate brokerages</p>
 		<h1 class="text-foreground mb-6 text-4xl font-semibold leading-[1.1] md:text-5xl">
@@ -12,13 +19,27 @@ import { CTA_URLS } from '../consts'
 			RealtyBase unifies MLS-synced listings, group collaboration, and role-based access — so your
 			brokerage isn't held together by spreadsheets, group texts, and five disconnected tools.
 		</p>
-		<a
-			id="hero-get-started"
-			href={CTA_URLS.getStarted}
-			class="bg-primary text-primary-foreground inline-block rounded-md px-6 py-4 text-sm font-semibold transition-opacity hover:opacity-90 motion-reduce:transition-none"
-		>
-			Get Started
-		</a>
+		<div class="mb-8 flex flex-wrap items-center justify-center gap-4">
+			<a
+				id="hero-get-started"
+				href={CTA_URLS.getStarted}
+				class="bg-primary text-primary-foreground inline-block rounded-md px-6 py-4 text-sm font-semibold transition-opacity hover:opacity-90 motion-reduce:transition-none"
+			>
+				Get Started
+			</a>
+			<a id="hero-login" href={CTA_URLS.login} class="text-foreground text-sm font-semibold">
+				Log in
+			</a>
+		</div>
+		<div class="flex flex-wrap items-center justify-center gap-2">
+			{
+				chips.map((chip) => (
+					<span class="border-border text-muted-foreground rounded-full border px-3 py-1.5 text-xs font-medium">
+						{chip}
+					</span>
+				))
+			}
+		</div>
 	</div>
 </section>
 
@@ -26,5 +47,8 @@ import { CTA_URLS } from '../consts'
   import { track } from '@vercel/analytics'
   document.getElementById('hero-get-started')?.addEventListener('click', () => {
     track('get_started_click', { location: 'hero' })
+  })
+  document.getElementById('hero-login')?.addEventListener('click', () => {
+    track('login_click', { location: 'hero' })
   })
 </script>
