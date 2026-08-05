@@ -217,7 +217,7 @@ Full details: [milestones/v1.14-ROADMAP.md](milestones/v1.14-ROADMAP.md)
 Plans:
 - [x] 47-01-PLAN.md — Gate BOARD-03 bulk-insert behind is_test_board?; compute total_active_listings via Estate.accessible_by (ARCH-01, ARCH-02)
 - [x] 47-02-PLAN.md — ResyncStalePhotosJob real-board resolution via active BrokerageBoardCredential; DeletionCascadeService comment correction (ARCH-03, ARCH-04)
-- [ ] 47-03-PLAN.md — Reversible cleanup migration for redundant real-board BrokerageEstate rows, applied to dev + test DBs (ARCH-05)
+- [x] 47-03-PLAN.md — Reversible cleanup migration for redundant real-board BrokerageEstate rows, applied to dev + test DBs (ARCH-05)
 - [ ] 47-04-PLAN.md — First-ever tests for ResyncStalePhotosJob and Brokerages::DeletionCascadeService (ARCH-06)
 - [ ] 47-05-PLAN.md — Connect-path, total_active_listings, and migration round-trip regression tests (ARCH-06)
 
@@ -274,4 +274,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete    | 2026-07-31 |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 2/2 | Complete    | 2026-08-01 |
 | 46. Apex Domain Cutover Runbook | v1.14 | 2/2 | Complete    | 2026-08-01 |
-| 47. Real-board BrokerageEstate decoupling | v1.15 | 2/5 | In Progress|  |
+| 47. Real-board BrokerageEstate decoupling | v1.15 | 3/5 | In Progress|  |
