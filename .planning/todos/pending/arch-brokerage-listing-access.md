@@ -2,10 +2,14 @@
 created: 2026-05-21
 title: "Rethink listing access model — BrokerageEstate vs board credential JOIN"
 area: architecture
+resolves_phase: 47
 files:
-  - backend/app/queries/group_estates_query.rb
-  - backend/app/controllers/v1/dashboard/groups_controller.rb
+  - backend/app/controllers/v1/admin/board_credentials_controller.rb
+  - backend/app/controllers/v1/admin/groups_controller.rb
+  - backend/app/jobs/resync_stale_photos_job.rb
+  - backend/app/services/brokerages/deletion_cascade_service.rb
   - backend/app/models/brokerage_estate.rb
+  - backend/app/models/estate.rb
 ---
 
 ## Problem
