@@ -192,26 +192,17 @@
             return
           }
 
-          // Exchange Cognito id_token for app JWT
-          const backendRes = await fetch(BACKEND_URL + '/v1/sessions', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ id_token }),
-          })
-
-          console.log('[auth-cb] backend status:', backendRes.status)
-          if (!backendRes.ok) {
-            const body = await backendRes.json().catch(() => ({}))
-            showError('Sign-in failed: ' + (body.error || backendRes.statusText) + '. Please try again.')
-            return
-          }
-
-          const { token } = await backendRes.json()
-
+          // Hand off the raw Cognito id_token instead of exchanging it for an app
+          // session here. The final POST /v1/sessions must happen from the
+          // brokerage's own origin (broker), not this shared auth.realtybase.ca
+          // page — otherwise the resulting session cookie gets partitioned under
+          // the wrong top-level site and is invisible once the browser lands on
+          // the brokerage's domain. login-success on the brokerage's own origin
+          // performs that exchange itself.
           // Token handoff via URL hash — hash is browser-only, not logged server-side (D-04)
           const hash = savedReturn && isSafeReturnTo(savedReturn)
-            ? `token=${token}&returnTo=${encodeURIComponent(savedReturn)}`
-            : `token=${token}`
+            ? `id_token=${id_token}&returnTo=${encodeURIComponent(savedReturn)}`
+            : `id_token=${id_token}`
           window.location.href = 'https://' + broker + '/auth/login-success#' + hash
         } catch (err) {
           showError('Something went wrong completing your sign-in. Please try again.')

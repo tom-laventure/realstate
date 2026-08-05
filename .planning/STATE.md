@@ -118,7 +118,6 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 |----------|------|--------|-------------|
 | Auth | Apple / Microsoft social login | v2 | Requirements |
 | Calendar | Two-way calendar sync | v2 | Requirements |
-| Security | JWT → HttpOnly cookies migration | v2 | Requirements |
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
