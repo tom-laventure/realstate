@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.15
 milestone_name: Real-Board BrokerageEstate Decoupling
 status: executing
-stopped_at: Completed 47-01-PLAN.md
-last_updated: "2026-08-05T22:59:57.093Z"
+stopped_at: Completed 47-02-PLAN.md
+last_updated: "2026-08-05T23:06:00.204Z"
 last_activity: 2026-08-05
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 5
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-08-01 after v1.14 milestone close)
 ## Current Position
 
 Phase: 47 (Real-board BrokerageEstate decoupling) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 Status: Ready to execute
 Last activity: 2026-08-05
 
@@ -91,12 +91,15 @@ Last activity: 2026-08-05
 | Phase 46 P01 | 10min | 2 tasks | 1 files |
 | Phase 46 P02 | 10min | 2 tasks | 0 files |
 | Phase 47 P01 | 2min | 2 tasks | 2 files |
+| Phase 47 P02 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
 ### Decisions
 
 Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.14 close) and `.planning/RETROSPECTIVE.md`'s v1.14 section. Per-phase implementation-detail decisions from v1.14 (Phases 42-46) are archived in `.planning/milestones/v1.14-ROADMAP.md` and the individual `*-SUMMARY.md` files — no longer duplicated here.
+
+- [Phase 47]: ResyncStalePhotosJob resolves real-board estates via active BrokerageBoardCredential (D-04/D-05/D-06/D-07); DeletionCascadeService comments corrected to reflect post-ARCH-01 reality with zero behavior change (D-08)
 
 ### Pending Todos
 
@@ -140,8 +143,8 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-08-05T22:59:57.070Z
-Stopped at: Completed 47-01-PLAN.md
+Last session: 2026-08-05T23:06:00.190Z
+Stopped at: Completed 47-02-PLAN.md
 Resume file: None
 Next action: Run `/gsd:plan-phase 47` to generate the executable plan for Phase 47 (Real-board BrokerageEstate decoupling)
 
