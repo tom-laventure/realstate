@@ -6,7 +6,7 @@ status: planning
 last_updated: "2026-08-05T22:31:07.651Z"
 last_activity: 2026-08-05
 progress:
-  total_phases: 0
+  total_phases: 1
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-01 after v1.14 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Planning next milestone
+**Current focus:** Phase 47 — Real-board BrokerageEstate decoupling
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 47 (Real-board BrokerageEstate decoupling) — not started
 Plan: —
-Status: Defining requirements
-Last activity: 2026-08-05 — Milestone v1.15 started
+Status: Roadmap created, ready for phase planning
+Last activity: 2026-08-05 — ROADMAP.md written for v1.15 (Phase 47), 6/6 requirements mapped
 
 ## Performance Metrics
 
@@ -57,7 +57,7 @@ Last activity: 2026-08-05 — Milestone v1.15 started
 **Recent Trend:**
 
 - Last 5 plans: 10min, 13min, 2min, 20min, 12min (Phase 31 P03 → Phase 32 P04)
-- Trend: Stable — no v1.14 plans executed yet
+- Trend: Stable — no v1.15 plans executed yet
 
 *Updated after each plan completion*
 | Phase 33 P01 | 15min | 3 tasks | 3 files |
@@ -98,7 +98,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 
 ### Pending Todos
 
-None open — the one pending todo (`arch-brokerage-listing-access.md`) was acknowledged and deferred again at v1.14 close; see Deferred Items below.
+None open — the one pending todo (`arch-brokerage-listing-access.md`) is now being actively addressed by v1.15 Phase 47 (see Deferred Items below for its prior deferral history).
 
 ### Blockers/Concerns
 
@@ -120,14 +120,14 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | Carry forward; acknowledged again at v1.14 close (open todo `arch-brokerage-listing-access.md`, unrelated to v1.14 scope — neither trigger condition (second board integration, 5,000+ listings/board) has fired) | v1.10 close, reaffirmed v1.13 + v1.14 close |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.14+ | v1.10 close |
-| UX | Brokerage switch preserving active tab position | Carry to v1.14+ | v1.10 close |
-| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.14+ | v1.10 close |
-| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.14+ | v1.10 close (32-04-REVIEW.md) |
-| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.14+ | v1.10 close (32-04-REVIEW.md) |
-| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.14+ | v1.11 close |
-| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.14+ | v1.11 close |
+| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | In progress — being addressed by v1.15 Phase 47 (open todo `arch-brokerage-listing-access.md`, carried since v1.10, reaffirmed at v1.13/v1.14 close) | v1.10 close, reaffirmed v1.13 + v1.14 close, resolved starting v1.15 |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.15+ | v1.10 close |
+| UX | Brokerage switch preserving active tab position | Carry to v1.15+ | v1.10 close |
+| UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.15+ | v1.10 close |
+| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.15+ | v1.10 close (32-04-REVIEW.md) |
+| IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.15+ | v1.10 close (32-04-REVIEW.md) |
+| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.15+ | v1.11 close |
+| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.15+ | v1.11 close |
 | BILL-01 | Full Billing management section on `/admin/settings` | Stubbed placeholder replaced by v1.13's self-service tier-change UI; payment processor integration itself still deferred to v2 | v1.11 close |
 | PLAN-20 | Higher-seat tiers above Growth | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 | PLAN-21 | Plan config: code constant → DB-backed model | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
@@ -138,11 +138,11 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-08-01T04:35:55.169Z
-Stopped at: Completed 46-02-PLAN.md
+Last session: 2026-08-05T22:31:07.651Z
+Stopped at: ROADMAP.md and STATE.md written for v1.15 (Phase 47), REQUIREMENTS.md traceability confirmed (6/6 mapped)
 Resume file: None
-Next action: Phase 46 is complete and DEPLOY-03 is closed. Run `/gsd-verify-work` for Phase 46, then proceed to v1.14 Marketing Landing Site milestone close (`/gsd-complete-milestone`) — Phase 46 was the last phase on the active roadmap.
+Next action: Run `/gsd:plan-phase 47` to generate the executable plan for Phase 47 (Real-board BrokerageEstate decoupling)
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd-new-milestone
+- Run `/gsd:plan-phase 47` to begin planning Phase 47

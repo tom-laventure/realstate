@@ -17,6 +17,7 @@
 - ✅ **v1.12 — Plan Tiers & Gating** — Phases 36–39 (shipped 2026-07-22)
 - ✅ **v1.13 — Onboarding & Self-Service Plan Management** — Phases 40–41 (shipped 2026-07-26)
 - ✅ **v1.14 — Marketing Landing Site** — Phases 42–46 (shipped 2026-08-01)
+- 🚧 **v1.15 — Real-Board BrokerageEstate Decoupling** — Phase 47 (in progress)
 
 ## Phases
 
@@ -193,16 +194,30 @@ Full details: [milestones/v1.14-ROADMAP.md](milestones/v1.14-ROADMAP.md)
 
 </details>
 
-### 📋 Next Milestone — Not yet planned
+### 🚧 v1.15 — Real-Board BrokerageEstate Decoupling (In Progress)
 
-Not yet planned. Run `/gsd:new-milestone` to define the next milestone's requirements and roadmap.
+**Milestone Goal:** Stop `BrokerageEstate` from doing double duty as a real-board access/attribution mechanism now that `Estate.accessible_by` already grants access via a `BrokerageBoardCredential` JOIN — closing the row-duplication problem raised in the "Rethink listing access model" tech-debt ticket (`arch-brokerage-listing-access.md`).
 
----
+- [ ] **Phase 47: Real-board BrokerageEstate decoupling** - Real-board connects stop bulk-inserting `BrokerageEstate` rows; the `total_active_listings` stat, `ResyncStalePhotosJob`, and `DeletionCascadeService` comments switch onto the `BrokerageBoardCredential` JOIN pattern; a reversible migration cleans up existing redundant rows; first-ever test coverage for the job and the cascade service
+
+## Phase Details
+
+### Phase 47: Real-board BrokerageEstate decoupling
+**Goal**: `BrokerageEstate` no longer does double duty as a real-board access/attribution mechanism — real-board connects stop creating redundant rows, and every consumer that previously read real-board attribution off `BrokerageEstate` now reads it off the `BrokerageBoardCredential` JOIN that `Estate.accessible_by` already uses, with existing redundant rows cleaned up and the regression boundary locked in by tests.
+**Depends on**: Nothing (independent tech-debt cleanup, sequenced after Phase 46 which is the last shipped phase)
+**Requirements**: ARCH-01, ARCH-02, ARCH-03, ARCH-04, ARCH-05, ARCH-06
+**Success Criteria** (what must be TRUE):
+  1. Connecting a real (non-test) board creates zero `BrokerageEstate` rows
+  2. Connecting the TEST board still creates `BrokerageEstate` rows, unchanged (regression)
+  3. `total_active_listings` admin stat matches `Estate.accessible_by(brokerage)`'s count, not `Brokerage#estates` (the `BrokerageEstate` join)
+  4. `ResyncStalePhotosJob` resolves a `brokerage_id` for real-board estates via an active `BrokerageBoardCredential`, with zero `BrokerageEstate` row present for that estate
+  5. The reversible cleanup migration's `down` restores equivalent `BrokerageEstate` rows for every row its `up` deleted
+**Plans**: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 → 43 → 44 → 45 → 46
+Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 → 43 → 44 → 45 → 46 → 47
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -252,3 +267,4 @@ Phases execute in numeric order: 36 → 37 → 38 → 39 → 40 → 41 → 42 �
 | 44. SEO Basics + Analytics | v1.14 | 4/4 | Complete    | 2026-07-31 |
 | 45. Vercel Project Setup + Preview Verification | v1.14 | 2/2 | Complete    | 2026-08-01 |
 | 46. Apex Domain Cutover Runbook | v1.14 | 2/2 | Complete    | 2026-08-01 |
+| 47. Real-board BrokerageEstate decoupling | v1.15 | 0/TBD | Not started | - |
