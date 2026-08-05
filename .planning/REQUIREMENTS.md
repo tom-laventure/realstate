@@ -14,7 +14,7 @@ Requirements for this milestone. Single phase, all requirements map to it.
 - [x] **ARCH-03**: `ResyncStalePhotosJob` resolves a `brokerage_id` for real-board estates via any active `BrokerageBoardCredential` for that estate's board, instead of `BrokerageEstate`. The existing `BrokerageEstate` → `GroupEstate` fallback chain is preserved for test-board and manually-added estates.
 - [x] **ARCH-04**: `Brokerages::DeletionCascadeService#unlink_estates!`'s comments accurately describe that real-board estates are shared board data no longer touched by this cascade (the loop naturally stops iterating them once ARCH-01 ships) — no behavior change, documentation only.
 - [x] **ARCH-05**: A reversible data migration deletes existing `BrokerageEstate` rows that are now redundant — where the estate's board is real (`is_test_board: false`) and the owning brokerage holds an active `BrokerageBoardCredential` for that same board. `down` repopulates those rows by replaying the same bulk-insert logic real-board connects used to run.
-- [ ] **ARCH-06**: `ResyncStalePhotosJob` and `Brokerages::DeletionCascadeService` have test coverage for the first time, exercising real-board vs. test-board/manual-estate resolution paths. Regression coverage confirms TEST board connects still create `BrokerageEstate` rows and real board connects do not.
+- [x] **ARCH-06**: `ResyncStalePhotosJob` and `Brokerages::DeletionCascadeService` have test coverage for the first time, exercising real-board vs. test-board/manual-estate resolution paths. Regression coverage confirms TEST board connects still create `BrokerageEstate` rows and real board connects do not.
 
 ## v2 Requirements
 
@@ -37,7 +37,7 @@ None — this milestone is a fully-scoped, single-phase cleanup with no deferred
 | ARCH-03 | Phase 47 | Complete |
 | ARCH-04 | Phase 47 | Complete |
 | ARCH-05 | Phase 47 | Complete |
-| ARCH-06 | Phase 47 | Pending |
+| ARCH-06 | Phase 47 | Complete |
 
 **Coverage:**
 - v1 requirements: 6 total

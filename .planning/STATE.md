@@ -4,13 +4,13 @@ milestone: v1.15
 milestone_name: Real-Board BrokerageEstate Decoupling
 status: executing
 stopped_at: Completed 47-03-PLAN.md
-last_updated: "2026-08-05T23:15:08.801Z"
+last_updated: "2026-08-05T23:24:15.820Z"
 last_activity: 2026-08-05
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 5
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-08-01 after v1.14 milestone close)
 ## Current Position
 
 Phase: 47 (Real-board BrokerageEstate decoupling) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 Status: Ready to execute
 Last activity: 2026-08-05
 
@@ -93,6 +93,7 @@ Last activity: 2026-08-05
 | Phase 47 P01 | 2min | 2 tasks | 2 files |
 | Phase 47 P02 | 4min | 2 tasks | 2 files |
 | Phase 47 P03 | 4min | 2 tasks | 2 files |
+| Phase 47 P04 | 6min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,7 @@ Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.
 
 - [Phase 47]: ResyncStalePhotosJob resolves real-board estates via active BrokerageBoardCredential (D-04/D-05/D-06/D-07); DeletionCascadeService comments corrected to reflect post-ARCH-01 reality with zero behavior change (D-08)
 - [Phase 47]: Cleanup migration 20260805000000 for redundant real-board BrokerageEstate rows (D-09/D-10/D-11) applied to both dev and test DBs, up-down-up round trip verified
+- [Phase 47]: Phase 47 Plan 04: include ActiveJob::TestHelper explicitly in ResyncStalePhotosJobTest — assert_enqueued_with/assert_no_enqueued_jobs not resolvable from bare ActiveSupport::TestCase in this suite
 
 ### Pending Todos
 
@@ -145,7 +147,7 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-08-05T23:15:08.776Z
+Last session: 2026-08-05T23:21:47.827Z
 Stopped at: Completed 47-03-PLAN.md
 Resume file: None
 Next action: Run `/gsd:plan-phase 47` to generate the executable plan for Phase 47 (Real-board BrokerageEstate decoupling)
