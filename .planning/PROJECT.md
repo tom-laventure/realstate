@@ -1,16 +1,16 @@
 # RealState SaaS Platform
 
-## Last Shipped: v1.13 — Onboarding & Self-Service Plan Management (2026-07-26)
+## Last Shipped: v1.14 — Marketing Landing Site (2026-08-01)
 
-## Current Milestone: v1.14 Marketing Landing Site
+## Current Milestone: v1.15 Real-Board BrokerageEstate Decoupling
 
-**Goal:** Give RealtyBase a standalone public marketing presence on the root domain, funneling visitors into the app.
+**Goal:** Stop `BrokerageEstate` from doing double duty as a real-board access/attribution mechanism now that `Estate.accessible_by` already grants access via a `BrokerageBoardCredential` JOIN — closing the row-duplication problem raised in the "Rethink listing access model" tech-debt ticket.
 
 **Target features:**
-- Astro+Tailwind `landing/` site (own Vercel project, independent of `frontend/` SPA), Slate color scheme matching the `/create` funnel
-- Single scrolling home page: hero, value prop, features/how-it-works (icons+text), closing CTA
-- Separate Privacy Policy + Terms pages (placeholder legal text, flagged pending review)
-- Vercel Analytics, SEO basics (meta/OG/sitemap/robots.txt)
+- Real-board connects no longer bulk-insert `BrokerageEstate` rows (TEST board unaffected — its access still depends on that branch)
+- `total_active_listings` admin stat and `ResyncStalePhotosJob`'s brokerage-attribution both switch off `BrokerageEstate` for real-board estates, onto the same board-credential JOIN pattern `accessible_by` already uses
+- One-time data migration cleans up existing redundant `BrokerageEstate` rows for already-connected real boards (reversible)
+- First-ever test coverage for `ResyncStalePhotosJob` and `Brokerages::DeletionCascadeService`
 
 See `.planning/PLAN-TIERS.md` for v1.12's full design rationale and Key Decisions.
 
