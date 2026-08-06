@@ -18,10 +18,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-08-01 after v1.14 milestone close)
+See: .planning/PROJECT.md (updated 2026-08-06 after v1.15 milestone close)
 
 **Core value:** Brokerage agents can discover, evaluate, and coordinate on listings inside their isolated workspace — safely and reliably.
-**Current focus:** Milestone complete
+**Current focus:** Planning next milestone
 
 ## Current Position
 
@@ -101,16 +101,11 @@ Last activity: 2026-08-06 — Milestone v1.15 completed and archived
 
 ### Decisions
 
-Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.14 close) and `.planning/RETROSPECTIVE.md`'s v1.14 section. Per-phase implementation-detail decisions from v1.14 (Phases 42-46) are archived in `.planning/milestones/v1.14-ROADMAP.md` and the individual `*-SUMMARY.md` files — no longer duplicated here.
-
-- [Phase 47]: ResyncStalePhotosJob resolves real-board estates via active BrokerageBoardCredential (D-04/D-05/D-06/D-07); DeletionCascadeService comments corrected to reflect post-ARCH-01 reality with zero behavior change (D-08)
-- [Phase 47]: Cleanup migration 20260805000000 for redundant real-board BrokerageEstate rows (D-09/D-10/D-11) applied to both dev and test DBs, up-down-up round trip verified
-- [Phase 47]: Phase 47 Plan 04: include ActiveJob::TestHelper explicitly in ResyncStalePhotosJobTest — assert_enqueued_with/assert_no_enqueued_jobs not resolvable from bare ActiveSupport::TestCase in this suite
-- [Phase 47]: ARCH-06 regression coverage lands in 47-05: real-board connect proven to write zero BrokerageEstate rows (TEST-board unchanged), total_active_listings proven to track Estate.accessible_by exactly across five access-boundary cases, cleanup migration up/down round trip proven per-case with idempotent reversal
+Full decision log lives in PROJECT.md's Key Decisions table (updated through v1.15 close) and `.planning/RETROSPECTIVE.md`'s v1.15 section. Per-phase implementation-detail decisions from v1.15 (Phase 47) are archived in `.planning/milestones/v1.15-ROADMAP.md`, `.planning/milestones/v1.15-phases/47-real-board-brokerageestate-decoupling/*-SUMMARY.md`, and `47-CONTEXT.md` — no longer duplicated here.
 
 ### Pending Todos
 
-None open — the one pending todo (`arch-brokerage-listing-access.md`) is now being actively addressed by v1.15 Phase 47 (see Deferred Items below for its prior deferral history).
+None open — the one pending todo (`arch-brokerage-listing-access.md`) was resolved by v1.15 Phase 47 and moved to `.planning/todos/completed/`.
 
 ### Blockers/Concerns
 
@@ -123,7 +118,7 @@ None open — the one pending todo (`arch-brokerage-listing-access.md`) is now b
 
 ## Deferred Items
 
-Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
+Items carried forward from v1.11/v1.12/v1.13/v1.14 milestone close, still unaddressed:
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
@@ -132,14 +127,13 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 | Frontend | Redux → Context/TanStack Query migration | v2 | Requirements |
 | CAL-04 | Microsoft Calendar sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
 | CAL-05 | Apple CalDAV sync | Adapter built; activate by expanding PROVIDERS | v1.0 close |
-| Architecture | Rethink listing access model — BrokerageEstate vs board credential JOIN | In progress — being addressed by v1.15 Phase 47 (open todo `arch-brokerage-listing-access.md`, carried since v1.10, reaffirmed at v1.13/v1.14 close) | v1.10 close, reaffirmed v1.13 + v1.14 close, resolved starting v1.15 |
-| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.15+ | v1.10 close |
+| CR-02 | S3 favicon upload outside transaction | Pre-existing; carry to v1.16+ | v1.10 close |
 | UX | Brokerage switch preserving active tab position | Carry to v1.15+ | v1.10 close |
 | UX | Deep-link into admin panel with brokerage context preserved | Carry to v1.15+ | v1.10 close |
-| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.15+ | v1.10 close (32-04-REVIEW.md) |
+| WR-01 | `useUsersAdminContext.tsx`'s `useMemo` missing `groupsQuery`/`invitationsQuery`/`inviteFilter` deps | Currently safe by accident; carry to v1.16+ | v1.10 close (32-04-REVIEW.md) |
 | IN-02 | Invitations-gating hook test coverage gap: only `agent`/`admin` tested; missing `owner`, `staff`/`client`, "role not loaded" state | Carry to v1.15+ | v1.10 close (32-04-REVIEW.md) |
-| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.15+ | v1.11 close |
-| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.15+ | v1.11 close |
+| OWN-11 | Audit log of ownership changes (who promoted/demoted whom, when) | Out of scope by design; carry to v1.16+ | v1.11 close |
+| OWN-12 | Email notifications on ownership role change | Out of scope by design; carry to v1.16+ | v1.11 close |
 | BILL-01 | Full Billing management section on `/admin/settings` | Stubbed placeholder replaced by v1.13's self-service tier-change UI; payment processor integration itself still deferred to v2 | v1.11 close |
 | PLAN-20 | Higher-seat tiers above Growth | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
 | PLAN-21 | Plan config: code constant → DB-backed model | v2 (v1.12 REQUIREMENTS.md) | v1.12 requirements |
@@ -150,10 +144,10 @@ Items carried forward from v1.11/v1.12/v1.13 milestone close, still unaddressed:
 
 ## Session Continuity
 
-Last session: 2026-08-05T23:56:17.758Z
-Stopped at: Completed 47-05-PLAN.md (final plan of phase 47)
+Last session: 2026-08-06T00:31:14.462Z
+Stopped at: Milestone v1.15 completed and archived
 Resume file: None
-Next action: Run `/gsd:plan-phase 47` to generate the executable plan for Phase 47 (Real-board BrokerageEstate decoupling)
+Next action: Start the next milestone with `/gsd:new-milestone`
 
 ## Operator Next Steps
 
