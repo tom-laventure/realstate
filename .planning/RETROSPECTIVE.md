@@ -660,6 +660,50 @@
 
 ---
 
+## Milestone: v1.15 — Real-Board BrokerageEstate Decoupling
+
+**Shipped:** 2026-08-06
+**Phases:** 1 (47) | **Plans:** 5 | **Tasks:** 11 | **Timeline:** same day, ~2 hours (2026-08-05 15:31 → 17:22)
+
+### What Was Built
+
+1. `BoardCredentialsController#create` stops bulk-inserting `BrokerageEstate` rows on real-board connect (TEST board unaffected); `total_active_listings` swapped onto `Estate.accessible_by` (Phase 47)
+2. `ResyncStalePhotosJob` resolves real-board `brokerage_id` via an active `BrokerageBoardCredential` instead of `BrokerageEstate`; `Brokerages::DeletionCascadeService` comments corrected — no logic change needed, a latent estate-deletion bug self-corrected as a side effect (Phase 47)
+3. Reversible one-time data migration cleans up existing redundant `BrokerageEstate` rows for already-connected real boards, verified via up-down-up round trip on dev + test DBs (Phase 47)
+4. First-ever test coverage for `ResyncStalePhotosJob` and `Brokerages::DeletionCascadeService`, plus full regression coverage locking in the real-board/TEST-board boundary (Phase 47)
+
+### What Worked
+
+- **Investigate-before-scoping caught a stale problem statement.** The source ticket (raised 2026-05-21, deferred at v1.3) described `BrokerageEstate` as gating real-board access. Direct codebase investigation before the grill-me session found `Estate.accessible_by` had already solved the access half of the problem in the same v1.3 milestone the ticket was deferred in — nobody had connected the dots. Scoping from the stale ticket text alone would have planned a much bigger refactor than what was actually left to do.
+- **A 4-milestone-old deferred item finally closed on its own merits, not its stated trigger.** The "Rethink listing access model" item was re-acknowledged and re-deferred at v1.10, v1.11 (implicitly), v1.12, v1.13, and v1.14 close, always because its stated trigger (second real board, or 5,000+ listings) hadn't fired. It still hasn't fired. This milestone shipped anyway once investigation showed the actual remaining fix was small (4 files + 1 migration), proving "wait for the trigger" and "the fix got cheap enough to just do" are two independent reasons to act — the second one doesn't need the first to be true.
+- **Sequential single-tree execution with a per-plan regression check caught zero cross-plan integration issues.** Worktree isolation is disabled project-wide, so all 5 plans (including Wave 1's 3) ran one at a time on the main tree; the final plan's independent full-suite run (467 tests) traced every failure to pre-existing, documented, unrelated causes — high confidence of zero regression despite touching access-control-adjacent logic.
+- **Plan-checker and phase-verifier both passed clean on the first pass** — zero revision iterations, zero gap-closure round-trips.
+
+### What Was Inefficient
+
+- **A destructive milestone-setup step nearly deleted a shipped milestone's phase docs.** `/gsd:new-milestone`'s `phases.clear` step assumes the previous milestone already archived its phase directories to `milestones/vX.Y-phases/` before clearing `.planning/phases/`. v1.14 never did this (unlike v1.3, v1.7–v1.9, v1.11, v1.13 — but also unlike v1.10 and v1.12, which share the same gap). Running the documented step deleted phases 42–46 from the working tree; caught immediately via `git status` before any commit and restored with `git checkout --`, so nothing was actually lost, but the near-miss was avoidable if `phases.clear` were archive-aware instead of archive-assuming. v1.14's phase directories remain unarchived as of this close — out of scope to fix here.
+- **Orchestrator shell cwd drift produced misleading tooling errors.** Several `gsd-sdk` calls (`phase.complete`, `verify.schema-drift`, `config-get`) returned confusing "not found" errors that were actually caused by the orchestrator's own bash session cwd having drifted to `backend/` from an earlier manual `cd`, not by any real data problem. Cost several extra diagnostic round-trips before the actual cause (stale shell state, not SDK/data state) was identified.
+- **A `mv`-not-`git mv` step left an uncommitted deletion.** `close_phase_todos` moves a pending todo file to `completed/` via plain `mv`; the commit step only staged the new `completed/` path, leaving the old `pending/` path's deletion uncommitted until the next commit caught it.
+
+### Patterns Established
+
+- **Investigate the current codebase before grilling scope on an old ticket.** Any ticket idle for multiple milestones should get a direct "does this still describe reality" pass before scoping questions start — confirmed valuable here, worth doing by default for any backlog item older than ~1 milestone.
+- **Single-phase milestones remain the right ceremony for scoped, pre-resolved tech debt.** Third instance (v1.7, v1.8, now v1.15) — skip straight to `/gsd:new-milestone` → one phase → `/gsd:plan-phase` → `/gsd:execute-phase` → `/gsd:complete-milestone` rather than forcing multi-phase structure onto genuinely small work.
+- **Always `cd` to the project root explicitly before SDK calls in a long multi-command orchestrator session** — don't rely on persisted shell cwd surviving unrelated `cd`s made earlier in the same session for test/verification commands.
+
+### Key Lessons
+
+- **A deferred item's stated re-surface trigger and its actual cost can diverge — track both.** This item's trigger (second real board / 5,000+ listings) never fired across 5 milestones of re-acknowledgment, but its cost dropped from "significant query-layer refactor" (v1.3's original assessment) to "4 files + 1 migration" once `Estate.accessible_by` incidentally solved half of it during v1.3 itself. Re-deferring on the trigger check alone, without re-investigating cost, left this sitting in backlog for 2.5 months longer than it needed to.
+- **`phases.clear`-class destructive steps need an explicit precondition check, not an assumption.** The workflow trusted that archival always precedes clearing; two of the last three milestones (v1.10, v1.12, and now-confirmed v1.14) violated that assumption. `git status` before any command that could discard uncommitted work is what caught it — the safety net worked, but a proactive archive-then-clear ordering (or a hard check) would have avoided needing the net at all.
+
+### Cost Observations
+
+- Sessions: single session, same-day build (grill-me → scope → plan → execute → verify) and close ceremony
+- Model mix: Opus (planner), Sonnet 5 (plan-checker, all 5 executors, verifier)
+- Notable: zero plan-checker revision iterations, zero gap-closure round-trips, zero VERIFICATION.md gaps — full milestone from ticket investigation to archived close in one continuous session
+
+---
+
 ## Cross-Milestone Trends
 
 | Metric | v1.0 | v1.1 | v1.2 | v1.3 | v1.4 | v1.5 | v1.6 |
@@ -682,3 +726,5 @@
 **v1.13 update:** 2 phases, 8 plans, 1 day build (2026-07-22 → 2026-07-23), 8 plans/day — fastest milestone in the log, driven by two fully independent phases with zero cross-phase dependency and both reusing pre-existing v1.12 infrastructure rather than building new data-layer plumbing. 1 deferred item carried forward unchanged (Architecture — re-acknowledged a third time, still unresolved) + 1 new non-blocking item found only by the milestone-level integration audit (plan-tier value type duplicated 4x across frontend, invisible to either phase's own verification). REQUIREMENTS.md checkbox and traceability sync gap did NOT recur — third consecutive milestone clean on this front. First milestone in the log where the "milestone complete" and "milestone closed" states visibly diverged: both phases were 100% verified and STATE.md showed `completed` for 3 days before `/gsd:complete-milestone` was actually run — worth tracking whether this recurs.
 
 **v1.14 update:** 5 phases, 15 plans, 37 tasks, 3 days (2026-07-30 → 2026-08-01), 5 plans/day — first milestone building a standalone deploy target (`landing/`) rather than extending the existing `frontend`/`backend` app, and the first with a deliberately documentation-only phase (46) for a change too high-blast-radius to execute via agent. The v1.13-flagged "complete vs. closed" divergence did NOT recur — `/gsd:complete-milestone` ran the same day Phase 46's checkpoint closed, zero-day gap. REQUIREMENTS.md checkbox and traceability sync gap did NOT recur — fourth consecutive clean milestone on that specific front, but a **sibling variant surfaced instead**: PROJECT.md's Active→Validated requirement promotion (not REQUIREMENTS.md itself) lagged a full 3 phases for Phase 43's 11 requirements, only caught by this milestone's full review. 1 deferred item carried forward unchanged (Architecture — re-acknowledged a fourth time, still unresolved; neither trigger condition has fired). Zero gap-closure round-trips — every phase verified clean on first pass.
+
+**v1.15 update:** 1 phase, 5 plans, 11 tasks, same day (2026-08-05, ~2 hours build), by far the fastest milestone in the log — a single, fully pre-scoped tech-debt phase with no cross-phase dependencies. The Architecture deferred item (re-acknowledged unresolved at v1.10, v1.12, v1.13, v1.14 — 4 consecutive milestones) finally closed, not because its stated trigger fired (it never did) but because direct codebase investigation revealed its actual remaining cost had shrunk to 4 files + 1 migration since v1.3 partially solved it as a side effect. REQUIREMENTS.md checkbox and traceability sync gap did NOT recur — fifth consecutive clean milestone on that front. Zero plan-checker revision iterations and zero gap-closure round-trips, both firsts logged this explicitly. One process near-miss: `/gsd:new-milestone`'s `phases.clear` step deleted v1.14's still-unarchived phase docs from the working tree (caught pre-commit via `git status`, fully recovered) — confirms the v1.10/v1.12 phase-archival gap is still live and will keep tripping this step until fixed at the workflow level.
