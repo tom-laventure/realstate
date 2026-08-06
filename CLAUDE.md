@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## GSD Workflow
 
-This project uses GSD (Get Shit Done) for structured planning and execution.
+GSD (Get Shit Done) is available in this project for structured planning and execution, but it is **opt-in, not default**. Do not invoke GSD commands, skills, or phase ceremony (discuss-phase/plan-phase/execute-phase/new-milestone/complete-milestone, etc.) on your own initiative when asked to implement a ticket or feature — implement it directly instead. Only use GSD when the user explicitly asks for it (e.g. names a `/gsd-*` command, says "use GSD", or asks to plan/execute a "phase" or "milestone").
 
-**Planning artifacts:** `.planning/` — read these before implementing anything.
+**Planning artifacts:** `.planning/` — still worth reading for project history and context (past decisions, requirements, architecture notes) even when not running GSD commands.
 - `.planning/ROADMAP.md` — 5-phase execution plan
 - `.planning/REQUIREMENTS.md` — all v1 requirements with REQ-IDs
 - `.planning/STATE.md` — current project state and phase blockers
@@ -35,8 +35,8 @@ Before discussing, scoping, or planning any new feature — whether raised ad-ho
 
 Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → `In Progress` → `In Review` → `Done`). When work traces back to a Notion ticket, keep its `Status` current at each checkpoint below without waiting to be asked — this is a standing instruction, not something the user needs to request each time:
 
-- **Starting implementation** (a `/gsd-execute-phase` or equivalent begins landing code for that ticket): set `Status` to `In Progress`.
-- **Implementation complete, pending review/testing** (e.g. `/gsd-code-review` or `/gsd-verify-work` about to run): set `Status` to `In Review`.
+- **Starting implementation** (code changes for that ticket begin landing, whether via GSD or direct implementation): set `Status` to `In Progress`.
+- **Implementation complete, pending review/testing** (e.g. `/gsd-code-review`/`/gsd-verify-work` about to run, or `/code-review` for non-GSD work): set `Status` to `In Review`.
 - **The feature's commit(s) land** (`git commit` succeeds in `backend/` and/or `frontend/` for that ticket's work): set `Status` to `Done` right after the commit — don't wait to be asked, and don't leave it sitting in `In Review` once the code is actually committed. If review/testing turns up more work first, land that work (and any of its own commits) before marking `Done`, updating the ticket's Description with whatever was found along the way (e.g. bugs fixed that weren't in the original scope).
 - **New asks surface after a ticket is already `Done`**: don't reopen it or append unimplemented work to its Description. Create a new ticket referencing the original, and leave the original's Description reflecting only what actually shipped.
 
