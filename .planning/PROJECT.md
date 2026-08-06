@@ -1,16 +1,10 @@
 # RealState SaaS Platform
 
-## Last Shipped: v1.14 — Marketing Landing Site (2026-08-01)
+## Last Shipped: v1.15 — Real-Board BrokerageEstate Decoupling (2026-08-06)
 
-## Current Milestone: v1.15 Real-Board BrokerageEstate Decoupling
+## Current Milestone: Planning next milestone
 
-**Goal:** Stop `BrokerageEstate` from doing double duty as a real-board access/attribution mechanism now that `Estate.accessible_by` already grants access via a `BrokerageBoardCredential` JOIN — closing the row-duplication problem raised in the "Rethink listing access model" tech-debt ticket.
-
-**Target features:**
-- Real-board connects no longer bulk-insert `BrokerageEstate` rows (TEST board unaffected — its access still depends on that branch)
-- `total_active_listings` admin stat and `ResyncStalePhotosJob`'s brokerage-attribution both switch off `BrokerageEstate` for real-board estates, onto the same board-credential JOIN pattern `accessible_by` already uses
-- One-time data migration cleans up existing redundant `BrokerageEstate` rows for already-connected real boards (reversible)
-- First-ever test coverage for `ResyncStalePhotosJob` and `Brokerages::DeletionCascadeService`
+No milestone in progress. Start the next one with `/gsd:new-milestone`.
 
 See `.planning/PLAN-TIERS.md` for v1.12's full design rationale and Key Decisions.
 
@@ -30,7 +24,16 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ### Active
 
-(None — v1.14 Marketing Landing Site shipped in full; see Validated below. Next milestone's requirements land here via `/gsd:new-milestone`.)
+(None — v1.15 Real-Board BrokerageEstate Decoupling shipped in full; see Validated below. Next milestone's requirements land here via `/gsd:new-milestone`.)
+
+### Validated (v1.15 — Phase 47: Real-Board BrokerageEstate Decoupling)
+
+- ✓ ARCH-01: Connecting a real (non-test) board no longer bulk-inserts `BrokerageEstate` rows in `BoardCredentialsController#create` — access already fully granted by `Estate.accessible_by`'s `BrokerageBoardCredential` JOIN branch. TEST board connects unaffected, still auto-insert `BrokerageEstate` — v1.15 Phase 47
+- ✓ ARCH-02: `total_active_listings` admin stat computed via `Estate.accessible_by(brokerage)` instead of the `BrokerageEstate` join — v1.15 Phase 47
+- ✓ ARCH-03: `ResyncStalePhotosJob` resolves `brokerage_id` for real-board estates via any active `BrokerageBoardCredential`, preserving the `BrokerageEstate` → `GroupEstate` fallback for test-board/manual estates — v1.15 Phase 47
+- ✓ ARCH-04: `Brokerages::DeletionCascadeService` comments corrected to describe post-ARCH-01 reality (real-board estates never reach this cascade) — no logic change; a latent bug (hard-deleting shared real-board estates when the sole connecting brokerage self-deletes) self-corrected as a side effect — v1.15 Phase 47
+- ✓ ARCH-05: Reversible data migration cleaned up existing redundant `BrokerageEstate` rows for already-connected real boards; verified up-down-up round trip on dev + test DBs — v1.15 Phase 47
+- ✓ ARCH-06: First-ever test coverage for `ResyncStalePhotosJob` and `Brokerages::DeletionCascadeService`, plus regression coverage locking in the real-board/TEST-board boundary — v1.15 Phase 47
 
 ### Validated (v1.14 — Phase 43: Home Page & Legal Pages)
 
@@ -253,7 +256,6 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 
 ## Deferred to v1.14+
 
-- [ ] Rethink listing access model — BrokerageEstate vs board credential JOIN (architecture carry-over from v1.6, still unaddressed after v1.13; open todo `arch-brokerage-listing-access.md`, acknowledged and re-deferred at v1.13 close)
 - [ ] S3 favicon upload outside transaction (CR-02, pre-existing from v1.1)
 - [ ] Brokerage switch preserving active tab position (UX deferred at v1.4 close)
 - [ ] Deep-link into admin panel with brokerage context preserved (UX deferred at v1.4 close)
@@ -299,13 +301,13 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 - **Calendar sync:** `UserCalendarConnection` (encrypted credentials) + `EstateDateCalendarEvent` + `CalendarSyncJob` (SolidQueue, advisory lock). Google adapter active; Microsoft (HTTParty/Graph API) and Apple (CalDAV via calendav) adapters built but inactive — activate by expanding `PROVIDERS` constant.
 - **Map:** Mapbox GL JS (`react-map-gl/mapbox`). `VITE_MAPBOX_TOKEN` required in frontend env. `GeocodingService` calls Nominatim (`NOMINATIM_USER_AGENT` required in backend env). `geocode:backfill` rake task backfills existing listings.
 - **Background jobs:** SolidQueue (DB-backed, no Redis). Recurring jobs defined in `recurring.yml`. Migrations must be applied on Render.com via `rails db:migrate`.
-- **Board management:** TEST board (`is_test_board: true`) is the only seeded board; connecting auto-inserts `BrokerageEstate` rows; test boards bypass RETS validation.
+- **Board management:** TEST board (`is_test_board: true`) is the only seeded board; test boards bypass RETS validation and always auto-insert `BrokerageEstate` rows on connect (its access depends entirely on that branch — see `Estate.accessible_by`). As of v1.15, connecting a **real** board no longer inserts `BrokerageEstate` rows — access is granted via `accessible_by`'s `BrokerageBoardCredential` JOIN branch instead; `BrokerageEstate` is now reserved for TEST-board/manually-added estates only, not real-board attribution.
 - **Admin RBAC:** Three-tier model — `require_owner!` / `require_admin!` / `require_agent_or_above!` (backend, `Admin::BaseController` concern) and `readTierRoles` / `ownerAdminOnly` (frontend, `RequireRole` route helpers). `agent` gets full read access across all 6 admin sections + full read/write on Groups; every other write path stays `owner`/`admin` only. Permission-gated data fetches (not just JSX) must be gated via `{ enabled }` options args driven by `usePermission`, per the ACCESS-07 pattern established in v1.10 Phase 32.
 - **Ownership management:** `V1::Admin::Settings::OwnersController` (list/eligible/promote/demote) is the sole owner-role-change surface; the generic `UsersController#update`/`#destroy` reject any owner-touching transition (D-02). Frontend: `/admin/settings` Ownership Management section — `useSettingsAdminContext` Brain owns `useDemoteOwner`/`usePromoteOwner`, `currentUserId` (via unconditional `useGetCurrentUser()`), and the self-demote Redux patch. Both Add/Remove Owner dialogs are always-mounted and reset wizard state via a `useEffect` on `open` (not just on close).
 - **Plan tiers:** `AppConstants::PLAN_TIERS` (`backend/app/constants/plan_tiers.rb`, explicitly required in `constants.rb` alongside `roles.rb`) is the single source of truth for seat caps, prices, and overage rates across `free`/`independent`/`growth`; `Brokerage#plan_config` (`.fetch(plan)`, no fallback — fails loud on an unrecognized value) is the model-level accessor, mirrored on the frontend by `hasPlanCapability`. `ApplyPlanTransitionJob` dispatches all three transition branches from one async job, triggered either by the internal `Ops::PlanController#update` (HTTP-Basic-Auth testing tool) or, since v1.13, the real brokerage-scoped `V1::Admin::Settings::PlanController#update` (owner-gated, `Current.brokerage`-scoped): Free→paid purges TEST-board data via `TestBoardPurgeService`, paid→Free freezes the domain and suspends board credentials/client memberships (all scoped to a single `plan_downgraded_at`/`frozen_at` event stamp so re-upgrade restores only that event's rows, per D-06), and paid↔paid persists an append-only `PlanBillingSnapshot` via `recalculate_billing!` (config always keyed by `new_plan`, overage clamped at 0, guarded against no-op and superseded/out-of-order transitions). `Brokerage#billable_seat_count` mirrors the `member_roles = %w[agent staff owner admin]` rule from `admin_brokerages_controller.rb` (excludes `client` and soft-deleted rows).
 - **Onboarding & self-service plan management (v1.13):** `GET /v1/onboarding/plan_tiers` (`V1::Onboarding::PlanTiersController`) serves `AppConstants::PLAN_TIERS` as the wizard's drift-proof data source; the brokerage-creation wizard's `PlanSelectionStep`/`DomainStep` fetch and render all three real tiers with an optional (never required) custom-domain field. `PATCH /v1/admin/settings/plan` (`V1::Admin::Settings::PlanController`, owner-gated via `require_owner!` + DB-backed `current_membership`) is the real self-service tier-change surface for existing brokerages — a `PlanManagementSection` on `/admin/settings` renders a `PlanSelector` (owner: editable 3-way Tabs; admin/agent: disabled read-only) and gates any paid→Free downgrade behind a `DowngradeConfirmDialog` before calling the mutation. Known non-blocking debt: the plan-tier value union is independently declared 4 times across frontend code (onboarding's `CreateBrokeragePlan`/`PlanTierKey`, settings' `PlanTier`, and `PLAN_CAPABILITIES`) with no shared source — see Deferred to v1.14+.
 - **Marketing landing site (v1.14):** `landing/` is an independent Astro 7 + Tailwind v4 (`@tailwindcss/vite`) static site, own `package.json`/lockfile/`vercel.json`/`.nvmrc` (Node 22.12.0 floor), plain-tracked at the monorepo root like `auth-callback/`, zero coupling to `frontend/`. Deployed to its own Vercel project (`realstate`, Root Directory `landing`), sharing the `tom-laventure/realstate` GitHub repo with `auth-callback/` — `frontend/` lives in the separate `tom-laventure/realstate-fe` repo, and both are visible in the same Vercel Import Repository picker (a documented pitfall for future project setup). Slate color tokens hand-copied from `frontend/` with a source-commit provenance comment, not shared via a package. `astro.config.mjs`'s `site` is hardcoded to the production apex (`https://realtybase.ca`), never derived from `VERCEL_URL`, so `sitemap.xml`/canonical URLs stay stable across environments. `noindex` is environment-aware via `import.meta.env.VERCEL_ENV` (indexable on `production`/no-env local builds, `noindex` on `preview`/`development`; legal pages always `noindex`). OG share image (1200x630) generated at build time via satori + resvg-js with a vendored OFL Lato font, not a static design asset. `<Analytics />` mounted cookielessly (no consent banner); `track()` wired at all CTA sites, but custom-event dashboard delivery is blocked by the team's Vercel Hobby plan tier (accepted limitation). The apex domain cutover (pointing `realtybase.ca` DNS/Vercel assignment at `landing/`) is intentionally undone — a full runbook exists at `.planning/phases/46-apex-domain-cutover-runbook/46-RUNBOOK.md` but requires manual DNS/Vercel dashboard execution outside agent reach.
-- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10 | **Shipped v1.11:** 2026-07-13 | **Shipped v1.12:** 2026-07-22 | **Shipped v1.13:** 2026-07-26 | **Shipped v1.14:** 2026-08-01
+- **Shipped v1.3:** 2026-05-24 | **Shipped v1.4:** 2026-05-27 | **Shipped v1.5:** 2026-05-29 | **Shipped v1.6:** 2026-05-31 | **Shipped v1.7:** 2026-05-31 | **Shipped v1.8:** 2026-06-04 | **Shipped v1.9:** 2026-06-06 | **Shipped v1.10:** 2026-07-10 | **Shipped v1.11:** 2026-07-13 | **Shipped v1.12:** 2026-07-22 | **Shipped v1.13:** 2026-07-26 | **Shipped v1.14:** 2026-08-01 | **Shipped v1.15:** 2026-08-06
 
 ---
 
@@ -407,6 +409,10 @@ Brokerage agents can discover, evaluate, and coordinate on listings inside their
 | `<Analytics />` mounted cookielessly with a manual `track()` schema at 6 CTA sites, accepting that custom events are inert on the Hobby plan tier — v1.14 Phase 44 | Correct code now, unblocked by a future plan upgrade, versus blocking the whole milestone on a billing decision | ✓ Good — developer-acknowledged, not a defect |
 | Phase 46 scoped as documentation-only: a written runbook, zero live DNS/Vercel/database changes executed — v1.14 Phase 46 (per milestone's explicit Out of Scope entry) | Apex cutover is a high-blast-radius, hard-to-reverse production change requiring registrar/Vercel dashboard access outside agent reach; separating "write the runbook" from "execute the cutover" keeps the milestone completable without that access | ✓ Good — runbook independently re-verified (30/30 assertions) and human-signed-off as executable before milestone close |
 | Runbook's blocking human-verify checkpoint required the actual developer who will run the cutover to review executability, not just an automated completeness sweep — v1.14 Phase 46 (46-02-PLAN.md) | A sweep proves required strings/headings are present; it can't prove a human with no memory of the planning session could actually follow the steps unassisted | ✓ Good — genuine pause/resume in commit history (`2929d8e` → `27a6c31`), not a self-approved claim |
+| Stop auto-inserting `BrokerageEstate` on real-board connect; keep it for TEST board only — v1.15 Phase 47 (47-CONTEXT.md D-02) | TEST-board access depends entirely on the `BrokerageEstate` branch of `accessible_by`; real-board access was already fully covered by the credential-JOIN branch, making the insert pure duplication for real boards | ✓ Good — closed the exact duplication problem the source ticket raised |
+| No shared helper extracted for the new real-board resolution logic in `ResyncStalePhotosJob` — v1.15 Phase 47 (D-06) | Only one genuinely new query existed (the `total_active_listings` swap reused `accessible_by` as-is; `DeletionCascadeService` needed no new query); the job's query shape is the inverse of `accessible_by`'s, so forcing shared code would contort one of the two call sites | ✓ Good — avoided premature abstraction over a single call site |
+| Cleanup migration ships as a one-time reversible data migration (raw SQL, up/down, orphan-count guard), not a leave-as-is | Leaving existing duplicate rows in place would only half-fix the ticket's complaint — duplication for already-connected real boards would persist indefinitely | ✓ Good — mirrors the `20260714000000_migrate_brokerage_plan_tiers.rb` precedent, fully closes the loop |
+| `Brokerages::DeletionCascadeService` required a comment-only fix, not a logic change — v1.15 Phase 47 (D-08) | A latent bug (hard-deleting shared real-board estates when the sole connecting brokerage self-deletes) self-corrected once ARCH-01 shipped, since the cascade's estate loop no longer sees real-board estates for any brokerage | ✓ Good — a reminder that fixing an upstream data model can retroactively fix downstream bugs without touching their code |
 
 ---
 
@@ -429,4 +435,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-08-01 after v1.14 Marketing Landing Site milestone*
+*Last updated: 2026-08-06 after v1.15 Real-Board BrokerageEstate Decoupling milestone*

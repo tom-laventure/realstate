@@ -1,5 +1,19 @@
 # Milestones
 
+## v1.15 Real-Board BrokerageEstate Decoupling (Shipped: 2026-08-06)
+
+**Phases completed:** 1 phases, 5 plans, 11 tasks
+
+**Key accomplishments:**
+
+- Real-board board connects stop writing redundant `BrokerageEstate` rows, and the brokerage-wide `total_active_listings` admin stat now derives from `Estate.accessible_by` instead of the legacy `brokerage_estates` join.
+- ResyncStalePhotosJob now resolves brokerage_id for real-board estates via an active BrokerageBoardCredential instead of a (no-longer-written) BrokerageEstate row, and DeletionCascadeService's comments were corrected to describe the post-ARCH-01 reality with zero behavior change.
+- Reversible raw-SQL migration deletes `BrokerageEstate` rows already made redundant by `Estate.accessible_by`'s real-board credential JOIN, applied to both the development and test databases with a verified up-down-up round trip.
+- First-ever Minitest coverage lands for `ResyncStalePhotosJob`'s four-way brokerage-resolution chain and `Brokerages::DeletionCascadeService`'s real-board-estate-survival behavior, closing the D-12 regression gap this phase's ARCH-03/ARCH-04 changes opened without any prior test enforcement.
+- Three new/extended Minitest suites close out ARCH-06: real-board connect is now proven to write zero `BrokerageEstate` rows while TEST-board connect is proven unchanged, `total_active_listings` is proven to track `Estate.accessible_by` exactly across five access-boundary cases, and the ARCH-05 cleanup migration's `up`/`down` round trip is proven correct per-case with idempotent reversal.
+
+---
+
 ## v1.14 Marketing Landing Site (Shipped: 2026-08-01)
 
 **Phases completed:** 5 phases, 15 plans, 37 tasks

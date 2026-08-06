@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.15
 milestone_name: Real-Board BrokerageEstate Decoupling
-status: milestone_complete
-stopped_at: Milestone complete (Phase 47 was final phase)
-last_updated: 2026-08-06T00:21:58.047Z
-last_activity: 2026-08-05
+status: Awaiting next milestone
+stopped_at: Completed 47-05-PLAN.md (final plan of phase 47)
+last_updated: "2026-08-06T00:31:14.462Z"
+last_activity: 2026-08-06 — Milestone v1.15 completed and archived
 progress:
   total_phases: 1
   completed_phases: 1
   total_plans: 5
-  completed_plans: 20
+  completed_plans: 5
   percent: 100
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-08-01 after v1.14 milestone close)
 
 ## Current Position
 
-Phase: 47
-Plan: Not started
-Status: Milestone complete
-Last activity: 2026-08-06
+Phase: Milestone v1.15 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-08-06 — Milestone v1.15 completed and archived
 
 ## Performance Metrics
 
@@ -157,4 +157,4 @@ Next action: Run `/gsd:plan-phase 47` to generate the executable plan for Phase 
 
 ## Operator Next Steps
 
-- Run `/gsd:plan-phase 47` to begin planning Phase 47
+- Start the next milestone with /gsd-new-milestone

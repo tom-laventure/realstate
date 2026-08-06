@@ -17,7 +17,7 @@
 - ✅ **v1.12 — Plan Tiers & Gating** — Phases 36–39 (shipped 2026-07-22)
 - ✅ **v1.13 — Onboarding & Self-Service Plan Management** — Phases 40–41 (shipped 2026-07-26)
 - ✅ **v1.14 — Marketing Landing Site** — Phases 42–46 (shipped 2026-08-01)
-- 🚧 **v1.15 — Real-Board BrokerageEstate Decoupling** — Phase 47 (in progress)
+- ✅ **v1.15 — Real-Board BrokerageEstate Decoupling** — Phase 47 (shipped 2026-08-06)
 
 ## Phases
 
@@ -194,32 +194,14 @@ Full details: [milestones/v1.14-ROADMAP.md](milestones/v1.14-ROADMAP.md)
 
 </details>
 
-### 🚧 v1.15 — Real-Board BrokerageEstate Decoupling (In Progress)
+<details>
+<summary>✅ v1.15 — Real-Board BrokerageEstate Decoupling (Phase 47) — SHIPPED 2026-08-06</summary>
 
-**Milestone Goal:** Stop `BrokerageEstate` from doing double duty as a real-board access/attribution mechanism now that `Estate.accessible_by` already grants access via a `BrokerageBoardCredential` JOIN — closing the row-duplication problem raised in the "Rethink listing access model" tech-debt ticket (`arch-brokerage-listing-access.md`).
+- [x] Phase 47: Real-board BrokerageEstate decoupling (5/5 plans) — completed 2026-08-06
 
-- [x] **Phase 47: Real-board BrokerageEstate decoupling** - Real-board connects stop bulk-inserting `BrokerageEstate` rows; the `total_active_listings` stat, `ResyncStalePhotosJob`, and `DeletionCascadeService` comments switch onto the `BrokerageBoardCredential` JOIN pattern; a reversible migration cleans up existing redundant rows; first-ever test coverage for the job and the cascade service (completed 2026-08-05)
+Full details: [milestones/v1.15-ROADMAP.md](milestones/v1.15-ROADMAP.md)
 
-## Phase Details
-
-### Phase 47: Real-board BrokerageEstate decoupling
-**Goal**: `BrokerageEstate` no longer does double duty as a real-board access/attribution mechanism — real-board connects stop creating redundant rows, and every consumer that previously read real-board attribution off `BrokerageEstate` now reads it off the `BrokerageBoardCredential` JOIN that `Estate.accessible_by` already uses, with existing redundant rows cleaned up and the regression boundary locked in by tests.
-**Depends on**: Nothing (independent tech-debt cleanup, sequenced after Phase 46 which is the last shipped phase)
-**Requirements**: ARCH-01, ARCH-02, ARCH-03, ARCH-04, ARCH-05, ARCH-06
-**Success Criteria** (what must be TRUE):
-  1. Connecting a real (non-test) board creates zero `BrokerageEstate` rows
-  2. Connecting the TEST board still creates `BrokerageEstate` rows, unchanged (regression)
-  3. `total_active_listings` admin stat matches `Estate.accessible_by(brokerage)`'s count, not `Brokerage#estates` (the `BrokerageEstate` join)
-  4. `ResyncStalePhotosJob` resolves a `brokerage_id` for real-board estates via an active `BrokerageBoardCredential`, with zero `BrokerageEstate` row present for that estate
-  5. The reversible cleanup migration's `down` restores equivalent `BrokerageEstate` rows for every row its `up` deleted
-**Plans**: 5 plans
-
-Plans:
-- [x] 47-01-PLAN.md — Gate BOARD-03 bulk-insert behind is_test_board?; compute total_active_listings via Estate.accessible_by (ARCH-01, ARCH-02)
-- [x] 47-02-PLAN.md — ResyncStalePhotosJob real-board resolution via active BrokerageBoardCredential; DeletionCascadeService comment correction (ARCH-03, ARCH-04)
-- [x] 47-03-PLAN.md — Reversible cleanup migration for redundant real-board BrokerageEstate rows, applied to dev + test DBs (ARCH-05)
-- [x] 47-04-PLAN.md — First-ever tests for ResyncStalePhotosJob and Brokerages::DeletionCascadeService (ARCH-06)
-- [x] 47-05-PLAN.md — Connect-path, total_active_listings, and migration round-trip regression tests (ARCH-06)
+</details>
 
 ## Progress
 
