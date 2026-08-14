@@ -33,7 +33,9 @@ Before discussing, scoping, or planning any new feature — whether raised ad-ho
 
 ## Notion Ticket Status Sync
 
-Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → `In Progress` → `In Review` → `Done`). When work traces back to a Notion ticket, keep its `Status` current at each checkpoint below without waiting to be asked — this is a standing instruction, not something the user needs to request each time:
+Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → `In Progress` → `In Review` → `Done`). Every ticket has an `ID` property (Notion `unique_id`, prefix `RB` — e.g. `RB-42`) that auto-assigns on creation; use it to reference tickets in commits, PRs, and conversation instead of the page title. When creating a new ticket, the `ID` is assigned automatically — don't set it manually, just cite it (from the created page's properties) once the ticket exists.
+
+When work traces back to a Notion ticket, keep its `Status` current at each checkpoint below without waiting to be asked — this is a standing instruction, not something the user needs to request each time:
 
 - **Starting implementation** (code changes for that ticket begin landing, whether via GSD or direct implementation): set `Status` to `In Progress`.
 - **Implementation complete, pending review/testing** (e.g. `/gsd-code-review`/`/gsd-verify-work` about to run, or `/code-review` for non-GSD work): set `Status` to `In Review`.
