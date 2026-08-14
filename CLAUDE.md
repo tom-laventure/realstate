@@ -31,6 +31,12 @@ GSD (Get Shit Done) is available in this project for structured planning and exe
 
 Before discussing, scoping, or planning any new feature — whether raised ad-hoc in conversation or entering the formal GSD phase workflow (e.g. `/gsd-discuss-phase`) — invoke the `grill-me` skill first. Do not move on to implementation planning, phase discussion, or ticket creation until the grill-me interview has resolved the decision tree for that feature.
 
+## Uncommitted Changes Check
+
+Before starting implementation on any new feature or ticket (whether via GSD or direct implementation), run `git status` in `backend/`, `frontend/`, and the monorepo root. If any of them already have uncommitted changes, stop and flag this to the user before writing any new code — do not layer a new feature's changes on top of another feature's uncommitted work. Ask the user how they want to proceed (e.g. commit/stash the existing changes, or confirm the new work is a continuation of the same change) rather than assuming.
+
+This check only applies at the start of a new feature/ticket, not on every turn within one already in progress.
+
 ## Notion Ticket Status Sync
 
 Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → `In Progress` → `In Review` → `Done`). Every ticket has an `ID` property (Notion `unique_id`, prefix `RB` — e.g. `RB-42`) that auto-assigns on creation; use it to reference tickets in commits, PRs, and conversation instead of the page title. When creating a new ticket, the `ID` is assigned automatically — don't set it manually, just cite it (from the created page's properties) once the ticket exists.
