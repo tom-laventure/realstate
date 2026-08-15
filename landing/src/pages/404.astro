@@ -5,21 +5,23 @@ import SiteFooter from '../components/SiteFooter.astro'
 ---
 
 <BaseLayout title="Page Not Found — RealtyBase" description="The page you're looking for doesn't exist or has been moved." noindex>
-	<SiteHeader />
-	<main class="bg-background flex min-h-[calc(70dvh-4.5rem)] flex-col justify-center px-4 py-16 text-center">
-		<div class="mx-auto max-w-xl">
-			<p class="text-primary mb-4 text-sm font-semibold">404</p>
-			<h1 class="text-foreground mb-6 text-4xl font-semibold leading-[1.1] md:text-5xl">Page not found</h1>
-			<p class="text-muted-foreground mx-auto mb-8 max-w-md text-base leading-[1.6]">
-				The page you're looking for doesn't exist or has been moved.
-			</p>
-			<a
-				href="/"
-				class="bg-primary text-primary-foreground inline-block rounded-md px-6 py-4 text-sm font-semibold transition-opacity hover:opacity-90 motion-reduce:transition-none"
-			>
-				Back to home
-			</a>
-		</div>
-	</main>
-	<SiteFooter />
+	<div class="flex min-h-dvh flex-col">
+		<SiteHeader />
+		<main class="bg-background flex flex-1 flex-col justify-center px-4 py-16 text-center">
+			<div class="mx-auto max-w-xl">
+				<p class="text-primary mb-4 text-sm font-semibold">404</p>
+				<h1 class="text-foreground mb-6 text-4xl font-semibold leading-[1.1] md:text-5xl">Page not found</h1>
+				<p class="text-muted-foreground mx-auto mb-8 max-w-md text-base leading-[1.6]">
+					The page you're looking for doesn't exist or has been moved.
+				</p>
+				<a
+					href="/"
+					class="bg-primary text-primary-foreground inline-block rounded-md px-6 py-4 text-sm font-semibold transition-opacity hover:opacity-90 motion-reduce:transition-none"
+				>
+					Back to home
+				</a>
+			</div>
+		</main>
+		<SiteFooter />
+	</div>
 </BaseLayout>
