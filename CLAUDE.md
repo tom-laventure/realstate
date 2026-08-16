@@ -37,6 +37,12 @@ Before starting implementation on any new feature or ticket (whether via GSD or 
 
 This check only applies at the start of a new feature/ticket, not on every turn within one already in progress.
 
+## Notion Ticket Creation Policy
+
+Any new feature request requires a Notion ticket before implementation begins — whether the request comes through GSD or is asked for directly in conversation. If no ticket exists yet for the request, create one in the "RealtyBase Tasks" database first (see ID/Status conventions below) and cite its `ID` before writing code. Do not start implementation off a bare conversational ask with no corresponding ticket.
+
+This applies to genuinely new feature requests. It does not apply to: bug fixes, small tweaks/polish requested mid-conversation on work already in flight for an existing ticket, or exploratory discussion/planning that hasn't been confirmed as something to build yet (that's still gated by the Feature Discussion Policy's grill-me step, which should resolve *before* ticket creation, not after).
+
 ## Notion Ticket Status Sync
 
 Tickets live in the "RealtyBase Tasks" Notion database (`Status`: `Backlog` → `In Progress` → `In Review` → `Done`). Every ticket has an `ID` property (Notion `unique_id`, prefix `RB` — e.g. `RB-42`) that auto-assigns on creation; use it to reference tickets in commits, PRs, and conversation instead of the page title. When creating a new ticket, the `ID` is assigned automatically — don't set it manually, just cite it (from the created page's properties) once the ticket exists.
