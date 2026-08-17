@@ -94,6 +94,8 @@
     const urlState  = params.get('state')
     const brokerage = params.get('brokerage')
     const returnTo  = params.get('returnTo')
+    const tosAccepted = params.get('tos_accepted')
+    const tosVersion  = params.get('tos_version')
 
     if (!code && brokerage) {
       // ── Initiation phase ──────────────────────────────────────────────────
@@ -118,6 +120,10 @@
         if (returnTo && isSafeReturnTo(returnTo)) {
           localStorage.setItem('auth_pkce_return_to', returnTo)
         }
+        if (tosAccepted === '1' && tosVersion) {
+          localStorage.setItem('auth_pkce_tos_accepted', '1')
+          localStorage.setItem('auth_pkce_tos_version', tosVersion)
+        }
 
         const qs = new URLSearchParams({
           response_type:         'code',
@@ -140,7 +146,8 @@
           const storedState = localStorage.getItem('auth_pkce_state')
           const broker      = localStorage.getItem('auth_pkce_brokerage')
           const savedReturn = localStorage.getItem('auth_pkce_return_to')
-
+          const savedTosAccepted = localStorage.getItem('auth_pkce_tos_accepted')
+          const savedTosVersion  = localStorage.getItem('auth_pkce_tos_version')
 
           if (!verifier || !storedState) {
             showError('Sign-in session expired. Please return to your portal and try again.')
@@ -157,6 +164,8 @@
           localStorage.removeItem('auth_pkce_state')
           localStorage.removeItem('auth_pkce_brokerage')
           localStorage.removeItem('auth_pkce_return_to')
+          localStorage.removeItem('auth_pkce_tos_accepted')
+          localStorage.removeItem('auth_pkce_tos_version')
 
           // Exchange authorization code for tokens at the Cognito token endpoint
           const tokenRes = await fetch(`https://${COGNITO_DOMAIN}/oauth2/token`, {
@@ -200,10 +209,15 @@
           // the brokerage's domain. login-success on the brokerage's own origin
           // performs that exchange itself.
           // Token handoff via URL hash — hash is browser-only, not logged server-side (D-04)
-          const hash = savedReturn && isSafeReturnTo(savedReturn)
-            ? `id_token=${id_token}&returnTo=${encodeURIComponent(savedReturn)}`
-            : `id_token=${id_token}`
-          window.location.href = 'https://' + broker + '/auth/login-success#' + hash
+          const hashParams = new URLSearchParams({ id_token })
+          if (savedReturn && isSafeReturnTo(savedReturn)) {
+            hashParams.set('returnTo', savedReturn)
+          }
+          if (savedTosAccepted === '1' && savedTosVersion) {
+            hashParams.set('tos_accepted', '1')
+            hashParams.set('tos_version', savedTosVersion)
+          }
+          window.location.href = 'https://' + broker + '/auth/login-success#' + hashParams.toString()
         } catch (err) {
           showError('Something went wrong completing your sign-in. Please try again.')
           console.error('[auth-cb] error:', err)
