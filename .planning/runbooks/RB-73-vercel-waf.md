@@ -1,6 +1,6 @@
 # Runbook: Vercel WAF / Bot Protection for the app (RB-73)
 
-**Status:** config spec — not yet applied to the dashboard
+**Status:** ✅ DONE 2026-09-03 — F1, F3, F4, F5, A1 live and verified; V4/V5 real browser + full Google login confirmed clean (no challenge interstitial). F2 (OWASP CRS per-category action) descoped — Enterprise-gated, unavailable on Pro, see §2 F2 note.
 **Owner:** Tom (applies in Vercel dashboard)
 **Created:** 2026-08-31
 **Related:** RB-65 (robots.txt / noindex — shipped), RB-68 (origin rate limiting via rack-attack — pending), RB-67 (admin vs public/VOW route separation — pending), RB-66 (data residency — pending)
@@ -52,12 +52,18 @@ origin trips first and owns the `429` semantics the SPA already handles.
 > slightly from the names below (Vercel iterates on this UI); apply the **intent**, not the
 > literal string. Rules are evaluated top-to-bottom — order matters where noted.
 
+> **Actual Vercel project names** (the labels below are logical): `frontend` = **`realstate-fe`**
+> (`*.realtybase.ca` wildcard = `app.` + every brokerage subdomain, plus brokerage custom
+> domains); `auth-callback` = **`fronted-oauth-endpoint`** (`auth.realtybase.ca`); `landing` =
+> **`realstate`** (`realtybase.ca` / `www.realtybase.ca`). An orphan duplicate `realstate-fe-jsg5`
+> exists with no firewall and no production domains — delete it or ignore it.
+
 ### Project: `frontend`
 
 | # | Type | Condition | Action | Notes |
 |---|------|-----------|--------|-------|
 | F1 | Managed rule | **Block AI Bots** (GPTBot, CCBot, ClaudeBot, Google-Extended, PerplexityBot, Bytespider, etc.) | **Deny** | One-click managed toggle. Enforcement teeth behind RB-65's `robots.txt`; these never have a legitimate reason to hit the app. |
-| F2 | Managed ruleset | **Vercel-managed / OWASP core rules** (SQLi, XSS, path traversal, RCE patterns) — enable whatever categories the plan exposes | **Deny** | Low false-positive risk for a JSON API + static SPA. If a category looks noisy in the Firewall log, drop *that category* to Log, not the whole ruleset. |
+| F2 | Managed ruleset | **Vercel-managed / OWASP core rules** (SQLi, XSS, path traversal, RCE patterns) | ~~Deny~~ **descoped** | **2026-09-03: DESCOPED.** Per-category CRS action config (setting a category to Deny, enabling `lfi`/`rfi`) is an **Enterprise** feature — not available on Pro. On Pro the default CRS just runs in `Log` (`gen`/`rce`/`xss`/`sqli` observe-only), which is inert here since no log monitoring exists (§7). Not a blocker: this layer is a redundant outer shell (§1), the API is reachable direct-to-origin so edge injection filtering is partly moot, RB-68 + Rails parameterized queries are the real defense, and the injection surface (JSON API + static SPA) is minimal. Revisit only if the account moves to Enterprise. |
 | F3 | Managed rule | **Managed bot-protection / traffic-filtering heuristic**, *if your Pro plan exposes one* (deep bot scoring is Enterprise; Pro may only offer the AI-bots toggle) | **Challenge** | Challenge, **not Deny** — a real browser passes silently, a bot fails, so a mis-tuned heuristic degrades gracefully instead of invisibly walling out real users. If Pro has no such managed rule, F4 + F7 are the substitute. |
 | F4 | Custom rule | `request path` starts with `/v1/` **AND** `user agent` is empty **OR** contains any of: `python-requests`, `curl`, `wget`, `Scrapy`, `Go-http-client`, `libwww`, `httpx`, `aiohttp`, `Java/`, `okhttp` | **Challenge** | The only legitimate consumer of `/v1/*` is the SPA (browser UA). Defense-in-depth; rack-attack/RB-68 is the authoritative version since direct-origin traffic never reaches this rule. |
 | F5 | Custom rule — rate limit | `request path` starts with `/v1/` | **Rate limit: 300 requests / 60s per IP → Deny (429)** | Coarse flood breaker for the proxied API. **Must stay well above any rack-attack throttle** so RB-68's limits trip first. Re-check this number once RB-68 lands. |
@@ -87,7 +93,7 @@ origin trips first and owns the `429` semantics the SPA already handles.
 skipped. Apply every rule at its target action in one pass, then run the verification matrix
 (§4) immediately.
 
-1. `frontend`: apply F1, F2, F3 (if available), F4, F5. Skip F6, F7 (optional).
+1. `frontend`: apply F1, F3 (if available), F4, F5. F2 descoped (Enterprise-only — see §2). Skip F6, F7 (optional).
 2. `auth-callback`: apply A1.
 3. Confirm **no** rules exist on `realstate` / `landing`.
 4. Confirm Attack Challenge Mode is OFF on all three.
@@ -114,10 +120,15 @@ Run after applying. Replace `<brokerage-domain>` with a real brokerage subdomain
 | V4 | Load `https://app.realtybase.ca/` in a real browser; complete Google login end to end | Works, no challenge interstitial |
 | V5 | Load `https://<brokerage-domain>/` in a browser, view a listing group | Works, listing data renders |
 | V6 | `for i in $(seq 1 400); do curl -s -o /dev/null -w '%{http_code} ' "https://app.realtybase.ca/v1/health"; done` from one IP | First responses `403`/`404`, then a switch to `429` once >300/60s |
-| V7 | `for i in $(seq 1 20); do curl -s -o /dev/null -w '%{http_code} ' https://auth.realtybase.ca/; done` | `429` after ~12 |
+| V7 | `for i in $(seq 1 20); do curl -s -o /dev/null -w '%{http_code} ' https://auth.realtybase.ca/; done` | `403` after ~12 (A1's exceeded-action is Deny, so `403` not `429` — verified 2026-09-03) |
 | V8 | `curl -sI https://<landing-domain-or-*.vercel.app>/` and a `curl -A GPTBot` against it | Normal `200`, **no** block — landing is unaffected |
 | V9 | `curl -sI https://app.realtybase.ca/ | grep -i x-robots-tag` | still `noindex, nofollow` (RB-65 unbroken) |
 | V10 | Vercel dashboard → Firewall log | V1–V3, V6, V7 requests visible as rule hits with the expected rule name |
+
+**2026-09-03:** V1–V3, V6, V7 confirmed via curl (V7 returns `403`, not `429` — A1 uses Deny).
+V4 (real browser + full Google login on `app.realtybase.ca`) passed clean — no challenge
+interstitial. V8/V9 (landing unaffected, `X-Robots-Tag` intact) confirmed. V10 log review is the
+deferred check below, once real traffic exists.
 
 If V4 or V5 fail (a real browser gets challenged or blocked): set **F3** to Log, re-test; if
 still failing, F4. Do not disable F1/F2/F5 for this — they don't touch browser traffic.
@@ -177,3 +188,6 @@ Vercel.
 | Date | Change | By |
 |------|--------|----|
 | 2026-08-31 | Runbook written (RB-73). Config not yet applied. | Claude / Tom |
+| 2026-09-03 | Applied to dashboard. **`realstate-fe`**: F1 (AI bots → Deny), F3 (managed bot-protection → Challenge), F4 (`^$\|python-requests\|curl\|wget\|Scrapy\|Go-http-client\|libwww\|httpx\|aiohttp\|Java/\|okhttp` regex → Challenge), F5 (`/v1/` 300req/60s per IP → Deny) all live. **`fronted-oauth-endpoint`**: A1 (12req/60s per IP → Deny) live. **`realstate`** (landing): no firewall, confirmed. ACM off, IP bypass + block lists empty on all. Verified via `vercel firewall` CLI + `GET /v1/security/firewall/config/active`. | Claude / Tom |
+| 2026-09-03 | **F2 descoped.** Per-category OWASP CRS action config is Enterprise-only; on Pro it stays in `Log`. Not a blocker (see §2 F2 rationale). Runbook status line, §2 F2 row, and §3 step 1 updated accordingly. | Claude / Tom |
+| 2026-09-03 | **RB-73 DONE.** V4 (real browser + full Google login on `app.realtybase.ca`) passed clean, no challenge interstitial. All required rules (F1, F3, F4, F5, A1) live and verified; §4 matrix passes (V10 log review deferred to first real traffic). Notion RB-73 → Done. | Claude / Tom |
