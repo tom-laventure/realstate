@@ -133,7 +133,7 @@ No `acts_as_paranoid`. Partial unique index enforcing one live (`pending`/`confi
 | RB-81 Q2 | Which address do verification emails go to, and is a no-login click-through link acceptable? | Changes the recipient config and possibly the whole link mechanism (e.g. if GVR wants a portal instead) |
 | RB-81 Q3 | Which `MemberStatus` / `MemberType` values count as "in good standing"? | Sets the real allowlist; default `["Active"]` is a placeholder |
 | RB-81 Q4 | What to do when GVR never actions an email? | Adds a timeout transition (leave / suspend / escalate) not yet in the state machine |
-| RB-81 Q5–7 | Does the vendor agreement cover all three (four?) Lower Mainland boards; is good standing per-board or blanket; is partial (one-board) access permitted? | Blanket-standing would let one board's `confirmed` verification satisfy sibling boards — a change to the recompute logic, not the schema (board dimension stays) |
+| RB-81 Q5–6 | With per-board VOW approval (board coverage is per-application, confirmed by Tim): is good-standing confirmation required per board, or does one board's confirmation cover all approved boards; and is partial (one-board) access permitted when standing is split? | Blanket-standing would let one board's `confirmed` verification satisfy sibling boards — a change to the recompute logic, not the schema (board dimension stays) |
 | RB-81 Q8 | Maximum retention window between access revocation and mandatory destruction (REB-3 / Schedule A) | Sets the `BoardDataRetentionPurgeJob` grace-window constant |
 
 ## Phase breakdown (split into tickets after this ADR is approved)
