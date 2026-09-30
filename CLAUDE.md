@@ -68,6 +68,18 @@ Monorepo: Ruby 4.0.2 / Rails 7.1 JSON API (`backend/`) + Vite/React 18 SPA (`fro
 
 ## Commands
 
+### Database used for local dev and tests
+There is no local Postgres. `backend/.env`'s `DATABASE_URL` points at the Neon database the deployed Render app uses. **It currently holds only test/demo data, so it is safe to run the test suite against** (confirmed by the user, 2026-09-30). dotenv loads `.env` in the test env too, and Rails merges `DATABASE_URL` over `database.yml`, so `RAILS_ENV=test` resolves to this same database.
+
+Caveats:
+- **Never let Rails purge it.** `rails/test_help` runs `maintain_test_schema`: if the DB's `ar_internal_metadata.schema_sha1` doesn't match `db/schema.rb` (it usually won't — the DB is built by migrations, not schema loads) it shells out to `db:test:prepare`, which **drops and reloads the whole database** (the stored environment is `development`, so Rails' protected-environment check won't stop it). Apply new migrations with `bin/rails db:migrate` first, then run tests with the schema check disabled:
+  ```bash
+  RAILS_ENV=test ruby -Itest -e 'require_relative "config/environment"; ActiveRecord.maintain_test_schema = false; ARGV.select { |a| a.end_with?(".rb") }.each { |f| require File.expand_path(f) }; FactoryBot::Internal.inline_sequences.each { |s| 10_000.times { s.next } }' test/path/to/a_test.rb ...
+  ```
+  `-n "/pattern/"` after the files runs a subset. The sequence fast-forward skips FactoryBot names (`Brokerage 8`, …) that collide with leftover rows. Runs are slow: every SQL statement is a ~20ms round trip to Neon (Oregon) and transactional tests add SAVEPOINT/RELEASE around each save — ~1s for a light test, minutes for record-heavy ones. Scope runs to the relevant files rather than the whole suite.
+- Never run `db:seed`, `db:reset`, `db:drop`, `db:schema:load` or `db:test:prepare` against it without asking.
+- Tests are transactional, so their writes roll back, but leftover rows from past ad-hoc runs can cause FactoryBot uniqueness collisions (see RB-42, which tracks a proper isolated test DB before go-live). Once real users exist, this note no longer holds.
+
 ### Backend (run from `backend/`)
 ```bash
 rails server              # Dev server (port 8080)
