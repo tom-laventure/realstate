@@ -1,8 +1,27 @@
 # Board ↔ Brokerage Data-Access Model
 
-**Status:** Design finalized via `grill-me` session (2026-09-09); not yet implemented. This is **Phase 1 (ADR) of RB-82** — a written decision to be approved before any migration. Phases 2–3 (schema rework, good-standing gate) split into their own tickets after approval. Several points are marked **pending RB-81** — GVR answers that don't block drafting or approval of the *shape*, only final constants.
+**Status:** Design finalized via `grill-me` session (2026-09-09); **revised 2026-09-30** after GVR answers (see below); not yet implemented. This is **Phase 1 (ADR) of RB-82** — a written decision to be approved before any migration. Phases 2–3 (schema rework, good-standing gate) split into their own tickets after approval. Several points are marked **pending RB-81** — GVR answers that don't block drafting or approval of the *shape*, only final constants.
 
 Read this before touching `brokerage_board_credentials`, `Estate.accessible_by`, the Bridge sync jobs, or `BoardCredentialRevocationPurgeService`. Mirrors the reference style of `PLAN-TIERS.md` / `JWT-HTTPONLY-COOKIES.md`.
+
+## Revision 2026-09-30 — GVR answers (supersedes conflicting rows below)
+
+GVR (Timothy Yee) answered the RB-81 questions on 2026-09-25 in the "Pre-launch inquiry" email thread. A follow-up `grill-me` session (2026-09-30) revised the design. **Where this section conflicts with the tables below, this section wins.** Tickets: RB-83, RB-84, RB-85, RB-77 updated; RB-92 created.
+
+| Topic | GVR answer | Revised decision |
+|---|---|---|
+| Provisional vs hard gate (Q1) | "You must get authorization before providing service." GVR exposes custom IDX/VOW-approval fields on the `Member` resource | **Hard gate.** No MLS data until authorized. Path 1: roster match + GVR approval flag → `confirmed` instantly. Path 2: email the primary board ("Is <agent name> <agent id> from <brokerage name> approved for VOW?"); verification stays `pending`, ops records the reply via override. Entitlements go `active` on *authorization*, not a bare roster match |
+| Click-through link (Q2) | Deferred — GVR internal process changes over the next 6 months | **No tokenized landing page.** Drop `token` / `token_expires_at` / `decision_ip`. Plain email; revisit only if GVR opts in |
+| Recipients (Q2) | GVR idx@gvrealtors.ca · FVREB helpdesk@fvreb.bc.ca · CADREB cadrebmls@cadreb.com · BCNREB (VOW only) lori@bcnreb.bc.ca | New `real_estate_boards.verification_email` |
+| No response (Q4) | Usually actioned the same week; otherwise send a follow-up | Auto follow-up after 5 business days; second non-response → flag to ops. Access withheld throughout |
+| Per-board coverage (Q5) | Primary board's approval is sufficient via reciprocal agreements. BCNREB excepted (no IDX, no VOW reciprocity, own members/data only) | New `real_estate_boards.reciprocity_group` (GVR/FVREB/CADREB = `lower_mainland`, BCNREB = null). Primary-board verification covers its group (boards active + vendor credential). Memberships outside the primary's group verified separately. BCNREB data only syncs/unlocks via a BCNREB member — already implied by "dispatch only boards with ≥1 active entitlement" |
+| Partial access (Q6) | Not answered | Not pursued further for now |
+| Lapse (Q7) | No push notice; periodic checks expected with a reasonable grace period before contacting the board | Nightly roster sync sets `lapsed_at` (status off allowlist / approval flag false / roster row gone); access continues; recovers silently; **day 7** → `revoked` + recompute + board email (re-enters manual flow) |
+| Retention (Q8) | Only store data available in the feed; refresh ≥ daily; short-term backups tolerated but enforceable at any time | `BoardDataRetentionPurgeJob` grace window = **7 days**. Separately, **RB-92**: replace capped full reconcile with uncapped nightly IDs-only diff; purge listings/roster rows no longer in the feed (only after a complete scan; abort > ~20%) |
+
+**Board memberships are user-level and multi-board.** New `user_board_memberships` (`user_id`, `real_estate_board_id`, `member_mls_id`, `primary`, paranoid). Collected by a new onboarding step in both the `CreateBrokerage` flow and invitation acceptance (owner/admin/agent/staff; never clients), with an "I'm not a board member" escape hatch and editing in Account settings. The MLS Member ID is no longer entered at board connect. Board list includes inactive registered real boards (GVR sits inactive until live); verification auto-runs when a board goes live.
+
+**Group-based access for unverified staff / unlicensed owners.** A user without a covering verification may access MLS data only inside a group containing ≥1 member with a covering `confirmed` verification (lapsed-within-grace counts; `pending` doesn't): view/comment/rate/notes on existing group listings only — no MLS search/browse, no adding MLS listings. Evaluated per request. *Our interpretation, not GVR-confirmed* — before go-live, ask GVR whether unlicensed staff can adjust existing groups (what listings a group pulls in, listing additions).
 
 ## Problem
 
@@ -125,7 +144,7 @@ No `acts_as_paranoid`. Partial unique index enforcing one live (`pending`/`confi
 **Phase 3 request concern** (MLS dashboard endpoints):
 - Require the current user to hold a live (`pending`/`confirmed`) verification for the board backing the resource, on top of the brokerage entitlement `accessible_by` already checks.
 
-## Open questions (pending RB-81)
+## Open questions (pending RB-81) — resolved 2026-09-30, see "Revision 2026-09-30" above (kept for history)
 
 | # | Question | Effect if the answer differs from our assumption |
 |---|---|---|
