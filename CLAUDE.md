@@ -85,6 +85,7 @@ Caveats:
 rails server              # Dev server (port 8080)
 rails db:migrate          # Apply migrations
 rails db:seed             # Seed data (deterministic, modular under db/seeds/)
+rails seed:board_authorization  # RB-95: additive DEMO-* boards/roster/listings for testing board authorization (safe on the shared DB)
 bundle exec standardrb    # Lint Ruby (standard gem)
 RAILS_ENV=test rails db:reset
 ```
