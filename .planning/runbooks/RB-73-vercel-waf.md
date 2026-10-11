@@ -3,7 +3,7 @@
 **Status:** ✅ DONE 2026-09-03 — F1, F3, F4, F5, A1 live and verified; V4/V5 real browser + full Google login confirmed clean (no challenge interstitial). F2 (OWASP CRS per-category action) descoped — Enterprise-gated, unavailable on Pro, see §2 F2 note.
 **Owner:** Tom (applies in Vercel dashboard)
 **Created:** 2026-08-31
-**Related:** RB-65 (robots.txt / noindex — shipped), RB-68 (origin rate limiting via rack-attack — pending), RB-67 (admin vs public/VOW route separation — pending), RB-66 (data residency — pending)
+**Related:** RB-65 (robots.txt / noindex — shipped), RB-68 (origin rate limiting via rack-attack — pending), RB-67 (admin vs public/VOW route separation — shipped: ops surface is local-only, see RB-67-ops-surface-separation.md), RB-66 (data residency — pending)
 
 ---
 

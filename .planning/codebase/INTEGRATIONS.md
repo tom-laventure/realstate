@@ -51,7 +51,7 @@
   - Config: `backend/config/queue.yml`
   - Queues: `default` (3 threads, `JOB_CONCURRENCY` processes), `photos` + `background` (1 thread, 1 process)
   - Polling: default queue 0.1s, photos/background 0.5s
-  - Admin UI: MissionControl::Jobs 1.1.0 at `/jobs` (HTTP basic auth; enabled when `MISSION_CONTROL_JOBS_ENABLED=true`)
+  - Admin UI: MissionControl::Jobs 1.1.0 at `/jobs` (HTTP basic auth; only routed when `OPS_ENABLED=true` — operator machine only, RB-67)
   - Jobs: `FanoutNotificationsJob`, `SyncListingPhotosJob`, `ResyncStalePhotosJob`, `SendInvitationEmailJob` (`backend/app/jobs/`)
 
 ## Authentication & Identity
@@ -108,7 +108,7 @@
 
 **Job Admin:**
 - MissionControl::Jobs UI at `/jobs` (HTTP basic auth)
-- Enabled only when `MISSION_CONTROL_JOBS_ENABLED=true`
+- Only routed when `OPS_ENABLED=true` (operator machine only, never on Render — RB-67)
 - Production credentials enforced (cannot use default `admin/changeme` in production)
 
 ## CI/CD & Deployment
@@ -149,7 +149,7 @@
 - `RAILS_LOG_LEVEL` — log verbosity (default `"info"`)
 - `JOB_CONCURRENCY` — SolidQueue worker processes (default 1)
 - `ALLOWED_HOSTS` — comma-separated extra allowed hostnames
-- `MISSION_CONTROL_JOBS_ENABLED` — `"true"` to mount job admin UI
+- `OPS_ENABLED` — `"true"` to route `/ops` and `/jobs` (operator machine only; production refuses to boot with it unless `OPS_ALLOW_IN_PRODUCTION=true` — RB-67)
 
 **Frontend required environment variables:**
 - `VITE_BE_ENDPOINT` — backend API base URL

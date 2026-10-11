@@ -129,7 +129,7 @@
 - `RAILS_LOG_LEVEL` — log verbosity (default `"info"`)
 - `JOB_CONCURRENCY` — SolidQueue worker processes (default 1)
 - `ALLOWED_HOSTS` — comma-separated extra allowed hostnames
-- `MISSION_CONTROL_JOBS_ENABLED` — set to `"true"` to mount job admin UI
+- `OPS_ENABLED` — set to `"true"` to route `/ops` and the `/jobs` job admin UI (operator machine only — RB-67)
 - `MISSION_CONTROL_USERNAME` / `MISSION_CONTROL_PASSWORD` — job admin credentials override
 
 **Frontend Environment Variables (VITE_*):**

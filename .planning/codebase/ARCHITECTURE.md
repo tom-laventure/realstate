@@ -216,7 +216,7 @@
 
 **Backend API:**
 - Routes: `backend/config/routes.rb`
-- Namespaces: `/v1/admin/**`, `/v1/dashboard/**`, `/v1/account/**`, `/v1/onboarding/**`, `/ops/**`
+- Namespaces: `/v1/admin/**`, `/v1/dashboard/**`, `/v1/account/**`, `/v1/onboarding/**`, `/ops/**` (only when `OPS_ENABLED=true` — RB-67)
 - App server: Puma, port 8080
 
 **Frontend SPA:**
@@ -284,7 +284,7 @@ EstateDocument.without_deleted
 **Authentication:** JWT issued by `TokenService`, verified per-request by `CognitoAuth`. Frontend stores token in `localStorage`; `ProtectedRoute` checks expiry client-side.
 **Pagination:** Pagy gem; default 10 or 6/page depending on endpoint; cap at 100 via `[per_page, 100].min`; always included in `meta.pagination`. Initializer: `backend/config/initializers/pagy.rb`.
 **Serialization:** `active_model_serializers` with `:json` adapter (root key wrapping) globally configured in `backend/config/initializers/active_model_serializers.rb`. Admin serializers in `backend/app/serializers/admin/`.
-**Background jobs:** SolidQueue; `MissionControl::Jobs::Engine` mounted at `/jobs` when `MISSION_CONTROL_JOBS_ENABLED=true`.
+**Background jobs:** SolidQueue; `MissionControl::Jobs::Engine` mounted at `/jobs` only when `OPS_ENABLED=true` (RB-67).
 **Encryption:** ActiveRecord Encryption (`encrypts :field`) for RETS board credentials; configured in `backend/config/initializers/active_record_encryption.rb`.
 
 ---

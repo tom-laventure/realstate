@@ -82,7 +82,7 @@ Caveats:
 
 ### Backend (run from `backend/`)
 ```bash
-rails server              # Dev server (port 8080)
+rails server              # Dev server (port 8080); with OPS_ENABLED=true in .env it also serves the ops panel at /ops and Mission Control at /jobs (RB-67: local-only, never set on Render)
 rails db:migrate          # Apply migrations
 rails db:seed             # Seed data (deterministic, modular under db/seeds/)
 rails seed:board_authorization  # RB-95: additive DEMO-* boards/roster/listings for testing board authorization (safe on the shared DB)
