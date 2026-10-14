@@ -68,17 +68,9 @@ Monorepo: Ruby 4.0.2 / Rails 7.1 JSON API (`backend/`) + Vite/React 18 SPA (`fro
 
 ## Commands
 
-### Database used for local dev and tests
-There is no local Postgres. `backend/.env`'s `DATABASE_URL` points at the Neon database the deployed Render app uses. **It currently holds only test/demo data, so it is safe to run the test suite against** (confirmed by the user, 2026-09-30). dotenv loads `.env` in the test env too, and Rails merges `DATABASE_URL` over `database.yml`, so `RAILS_ENV=test` resolves to this same database.
-
-Caveats:
-- **Never let Rails purge it.** `rails/test_help` runs `maintain_test_schema`: if the DB's `ar_internal_metadata.schema_sha1` doesn't match `db/schema.rb` (it usually won't — the DB is built by migrations, not schema loads) it shells out to `db:test:prepare`, which **drops and reloads the whole database** (the stored environment is `development`, so Rails' protected-environment check won't stop it). Apply new migrations with `bin/rails db:migrate` first, then run tests with the schema check disabled:
-  ```bash
-  RAILS_ENV=test ruby -Itest -e 'require_relative "config/environment"; ActiveRecord.maintain_test_schema = false; ARGV.select { |a| a.end_with?(".rb") }.each { |f| require File.expand_path(f) }; FactoryBot::Internal.inline_sequences.each { |s| 10_000.times { s.next } }' test/path/to/a_test.rb ...
-  ```
-  `-n "/pattern/"` after the files runs a subset. The sequence fast-forward skips FactoryBot names (`Brokerage 8`, …) that collide with leftover rows. Runs are slow: every SQL statement is a ~20ms round trip to Neon (Oregon) and transactional tests add SAVEPOINT/RELEASE around each save — ~1s for a light test, minutes for record-heavy ones. Scope runs to the relevant files rather than the whole suite.
-- Never run `db:seed`, `db:reset`, `db:drop`, `db:schema:load` or `db:test:prepare` against it without asking.
-- Tests are transactional, so their writes roll back, but leftover rows from past ad-hoc runs can cause FactoryBot uniqueness collisions (see RB-42, which tracks a proper isolated test DB before go-live). Once real users exist, this note no longer holds.
+### Databases
+- **Tests → local Postgres** (RB-42). WSL has Postgres 17 (`sudo service postgresql start` if it isn't running after a restart). The `test:` block in `database.yml` has an explicit `url` (`TEST_DATABASE_URL`, default `postgresql:///realstate_test`), which Rails never overrides with `.env`'s `DATABASE_URL`. `config/initializers/test_database_guard.rb` refuses to boot the test env against any non-local host. Run tests normally: `bin/rails test [path] [-n /pattern/]`. Full suite takes ~2 min. `maintain_test_schema` reloads the local DB from `db/schema.rb` whenever the schema changes, which is safe. Fresh setup or clean slate: `RAILS_ENV=test bin/rails db:create db:schema:load`. Avoid `db:reset` here: it also seeds, and seed rows collide with factories.
+- **Development → shared Neon DB.** `backend/.env`'s `DATABASE_URL` points at the Neon database the deployed Render app uses. It currently holds only test/demo data. Never run `db:seed`, `db:reset`, `db:drop`, `db:schema:load` or `db:test:prepare` against it without asking. `bin/rails db:migrate` applies migrations there and regenerates `db/schema.rb`.
 
 ### Backend (run from `backend/`)
 ```bash
@@ -87,7 +79,7 @@ rails db:migrate          # Apply migrations
 rails db:seed             # Seed data (deterministic, modular under db/seeds/)
 rails seed:board_authorization  # RB-95: additive DEMO-* boards/roster/listings for testing board authorization (safe on the shared DB)
 bundle exec standardrb    # Lint Ruby (standard gem)
-RAILS_ENV=test rails db:reset
+bin/rails test            # Test suite (local Postgres, see Databases above)
 ```
 
 ### Frontend (run from `frontend/`)
