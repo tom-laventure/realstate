@@ -78,6 +78,7 @@ rails server              # Dev server (port 8080); with OPS_ENABLED=true in .en
 rails db:migrate          # Apply migrations
 rails db:seed             # Seed data (deterministic, modular under db/seeds/)
 rails seed:board_authorization  # RB-95: additive DEMO-* boards/roster/listings for testing board authorization (safe on the shared DB)
+rails stripe:sync_products      # RB-96: create/update Stripe products, prices (by lookup key) + Customer Portal config from PLAN_TIERS, in whichever mode STRIPE_SECRET_KEY is
 bundle exec standardrb    # Lint Ruby (standard gem)
 bin/rails test            # Test suite (local Postgres, see Databases above)
 ```
